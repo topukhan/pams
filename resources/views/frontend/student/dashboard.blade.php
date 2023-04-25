@@ -21,7 +21,7 @@
                     <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                         Create Your Group
                     </p>
-                    <button class="p-1 text-md font-semibold text-gray-700 dark:text-gray-200">
+                    <button class="p-1 bg-orange-400 text-md font-semibold text-gray-700 dark:text-gray-200">
                         Create
                     </button>
                 </div>

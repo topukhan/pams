@@ -24,6 +24,12 @@ Route::get('/student/dashboard', function () {
 Route::get('/student/creategroup', function () {
     return view('frontend.student.creategroup');
 })->middleware(['auth', 'verified'])->name('creategroup');
+Route::get('/student/pendinggroups', function () {
+    return view('frontend.student.pendinggroups');
+})->middleware(['auth', 'verified'])->name('pendinggroups');
+Route::get('/student/pendingdetails', function () {
+    return view('frontend.student.pendingdetails');
+})->middleware(['auth', 'verified'])->name('pendingdetails');
 
 
 Route::middleware('auth')->group(function () {

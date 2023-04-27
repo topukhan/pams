@@ -21,6 +21,10 @@ Route::get('/', function () {
 Route::get('/student/dashboard', function () {
     return view('frontend.student.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/student/creategroup', function () {
+    return view('frontend.student.creategroup');
+})->middleware(['auth', 'verified'])->name('creategroup');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

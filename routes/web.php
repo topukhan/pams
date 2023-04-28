@@ -21,12 +21,19 @@ Route::get('/', function () {
 Route::get('/student/dashboard', function () {
     return view('frontend.student.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/student/creategroup', function () {
     return view('frontend.student.creategroup');
 })->middleware(['auth', 'verified'])->name('creategroup');
+
+Route::get('/student/form', function () {
+    return view('frontend.student.form');
+})->middleware(['auth', 'verified'])->name('form');
+
 Route::get('/student/pendinggroups', function () {
     return view('frontend.student.pendinggroups');
 })->middleware(['auth', 'verified'])->name('pendinggroups');
+
 Route::get('/student/pendingdetails', function () {
     return view('frontend.student.pendingdetails');
 })->middleware(['auth', 'verified'])->name('pendingdetails');

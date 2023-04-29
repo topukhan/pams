@@ -43,24 +43,24 @@
                                     <td class="px-4 py-3">
                                         <div>
                                             <input type="text" name="name" placeholder="Enter name"
-                                                class="w-full border-gray-100 h-8 rounded focus:border-gray-500 dark:bg-gray-800 ">
+                                                class="w-full border-gray-100 h-8 rounded  dark:bg-gray-800 ">
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="id" placeholder="Enter ID"
-                                            class="w-full focus:border-gray-500 rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3 ">
                                         <input type="email" name="email" placeholder="Enter email"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="batch" placeholder="Enter batch"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="tel" name="phone" placeholder="Enter phone"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                 </tr>
                                 {{-- Member 2 --}}
@@ -71,24 +71,24 @@
                                     <td class="px-4 py-3">
                                         <div>
                                             <input type="text" name="name" placeholder="Enter name"
-                                                class="w-full border-none rounded dark:bg-gray-800 ">
+                                                class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="id" placeholder="Enter ID"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3 ">
                                         <input type="email" name="email" placeholder="Enter email"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="batch" placeholder="Enter batch"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="tel" name="phone" placeholder="Enter phone"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                 </tr>
                                 {{-- Member 3 --}}
@@ -99,24 +99,24 @@
                                     <td class="px-4 py-3">
                                         <div>
                                             <input type="text" name="name" placeholder="Enter name"
-                                                class="w-full border-none rounded dark:bg-gray-800 ">
+                                                class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="id" placeholder="Enter ID"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3 ">
                                         <input type="email" name="email" placeholder="Enter email"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="batch" placeholder="Enter batch"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="tel" name="phone" placeholder="Enter phone"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                 </tr>
                                 {{-- Member 4 --}}
@@ -127,24 +127,24 @@
                                     <td class="px-4 py-3">
                                         <div>
                                             <input type="text" name="name" placeholder="Enter name"
-                                                class="w-full border-none rounded dark:bg-gray-800 ">
+                                                class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="id" placeholder="Enter ID"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3 ">
                                         <input type="email" name="email" placeholder="Enter email"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="text" name="batch" placeholder="Enter batch"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
                                         <input type="tel" name="phone" placeholder="Enter phone"
-                                            class="w-full border-none rounded dark:bg-gray-800 ">
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                 </tr>
                             

@@ -24,7 +24,7 @@
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                             Create Your Group
                         </p>
-                        <a href="{{ route('creategroup') }}"><button
+                        <a href="{{ route('createGroup') }}"><button
                                 class="px-2 py-1 bg-orange-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-orange-500">
                                 Create
                             </button></a>
@@ -78,11 +78,11 @@
 
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            topic selection
+                            Proposal Form
                         </p>
                         <a href="{{ route('form') }}"><button
                                 class="px-3 py-1  bg-teal-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
-                                Form
+                                View
                             </button></a>
                     </div>
                 </div>

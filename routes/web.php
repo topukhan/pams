@@ -22,21 +22,23 @@ Route::get('/student/dashboard', function () {
     return view('frontend.student.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/student/creategroup', function () {
-    return view('frontend.student.creategroup');
-})->middleware(['auth', 'verified'])->name('creategroup');
+
+Route::get('/student/createGroup', function () {
+    return view('frontend.student.createGroup');
+})->middleware(['auth', 'verified'])->name('createGroup');
+
 
 Route::get('/student/form', function () {
     return view('frontend.student.form');
 })->middleware(['auth', 'verified'])->name('form');
 
-Route::get('/student/pendinggroups', function () {
-    return view('frontend.student.pendinggroups');
-})->middleware(['auth', 'verified'])->name('pendinggroups');
+Route::get('/student/pendingGroups', function () {
+    return view('frontend.student.pendingGroups');
+})->middleware(['auth', 'verified'])->name('pendingGroups');
 
-Route::get('/student/pendingdetails', function () {
-    return view('frontend.student.pendingdetails');
-})->middleware(['auth', 'verified'])->name('pendingdetails');
+Route::get('/student/pendingDetails', function () {
+    return view('frontend.student.pendingDetails');
+})->middleware(['auth', 'verified'])->name('pendingDetails');
 
 
 Route::middleware('auth')->group(function () {

@@ -960,9 +960,6 @@ select {
 .hidden {
   display: none;
 }
-.h-1\/2 {
-  height: 50%;
-}
 .h-16 {
   height: 4rem;
 }
@@ -989,6 +986,9 @@ select {
 }
 .h-9 {
   height: 2.25rem;
+}
+.h-\[60vh\] {
+  height: 60vh;
 }
 .h-full {
   height: 100%;

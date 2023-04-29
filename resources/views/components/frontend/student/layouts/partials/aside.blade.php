@@ -47,11 +47,11 @@
                                 aria-label="submenu">
                                 <li
                                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                                    <a class="w-full" href="{{ route('creategroup') }}">Create Group</a>
+                                    <a class="w-full" href="{{ route('createGroup') }}">Create Group</a>
                                 </li>
                                 <li
                                     class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                                    <a class="w-full" href="{{ route('pendinggroups') }}">
+                                    <a class="w-full" href="{{ route('pendingGroups') }}">
                                         Pending Groups
                                     </a>
                                 </li>

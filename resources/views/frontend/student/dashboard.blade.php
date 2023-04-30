@@ -80,7 +80,7 @@
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                             Proposal Form
                         </p>
-                        <a href="{{ route('form') }}"><button
+                        <a href="{{ route('proposalForm') }}"><button
                                 class="px-3 py-1  bg-teal-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
                                 View
                             </button></a>

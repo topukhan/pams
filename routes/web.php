@@ -28,9 +28,13 @@ Route::get('/student/createGroup', function () {
 })->middleware(['auth', 'verified'])->name('createGroup');
 
 
-Route::get('/student/form', function () {
-    return view('frontend.student.form');
-})->middleware(['auth', 'verified'])->name('form');
+Route::get('/student/proposalForm', function () {
+    return view('frontend.student.proposalForm');
+})->middleware(['auth', 'verified'])->name('proposalForm');
+
+Route::get('/student/proposalChangeForm', function () {
+    return view('frontend.student.proposalChangeForm');
+})->middleware(['auth', 'verified'])->name('proposalChangeForm');
 
 Route::get('/student/pendingGroups', function () {
     return view('frontend.student.pendingGroups');

@@ -1053,6 +1053,9 @@ select {
 .border-collapse {
   border-collapse: collapse;
 }
+.border-separate {
+  border-collapse: separate;
+}
 .origin-top {
   transform-origin: top;
 }
@@ -2124,10 +2127,6 @@ select {
 :is(.dark .dark\:hover\:text-white:hover) {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-:is(.dark .dark\:focus\:bg-gray-700:focus) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
 :is(.dark .dark\:focus\:placeholder-gray-600:focus)::-moz-placeholder {
   --tw-placeholder-opacity: 1;

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SupervisorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,32 +19,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::middleware(['auth', 'verified'])->group(function(){
+    // Student Routes
+    Route::get('/student/dashboard', [StudentController::class, 'dashboard'])->name('student.dashboard');
+    Route::get('/student/createGroup', [StudentController::class, 'createGroup'])->name('student.createGroup');
+    Route::get('/student/proposalForm', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
+    Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm'); 
+    Route::get('/student/pendingGroups', [StudentController::class, 'pendingGroups'])->name('student.pendingGroups');
+    Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
 
-Route::get('/student/dashboard', function () {
-    return view('frontend.student.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::get('/student/createGroup', function () {
-    return view('frontend.student.createGroup');
-})->middleware(['auth', 'verified'])->name('createGroup');
-
-
-Route::get('/student/proposalForm', function () {
-    return view('frontend.student.proposalForm');
-})->middleware(['auth', 'verified'])->name('proposalForm');
-
-Route::get('/student/proposalChangeForm', function () {
-    return view('frontend.student.proposalChangeForm');
-})->middleware(['auth', 'verified'])->name('proposalChangeForm');
-
-Route::get('/student/pendingGroups', function () {
-    return view('frontend.student.pendingGroups');
-})->middleware(['auth', 'verified'])->name('pendingGroups');
-
-Route::get('/student/pendingDetails', function () {
-    return view('frontend.student.pendingDetails');
-})->middleware(['auth', 'verified'])->name('pendingDetails');
+    //Supervisor Routes
+    Route::get('/supervisor/dashboard', [SupervisorController::class, 'dashboard'])->name('supervisor.dashboard');
+    Route::get('/supervisor/groupRequests', [SupervisorController::class, 'groupRequests'])->name('supervisor.groupRequests');
+    Route::get('/supervisor/pendingGroupDetails', [SupervisorController::class, 'pendingGroupDetails'])->name('supervisor.pendingGroupDetails');
+    Route::get('/supervisor/approvedGroups', [SupervisorController::class, 'approvedGroups'])->name('supervisor.approvedGroups');
+    
+});
 
 
 Route::middleware('auth')->group(function () {

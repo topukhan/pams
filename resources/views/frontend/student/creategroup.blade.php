@@ -8,11 +8,11 @@
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{ route('dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('createGroup') }}" class="text-gray-900 dark:text-white">Create Group</a>
+                    <a href="{{ route('student.createGroup') }}" class="text-gray-900 dark:text-white">Create Group</a>
                 </li>
             </ol>
         </div>

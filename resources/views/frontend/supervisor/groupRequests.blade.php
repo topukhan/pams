@@ -47,7 +47,7 @@
                                     Web
                                 </td>
                                 <td class="px-4 py-3 text-xs">
-                                    <a href="{{ route('student.pendingGroupDetails') }}">
+                                    <a href="{{ route('pendingdetails') }}">
                                         <button
                                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                             Details
@@ -67,7 +67,7 @@
                                     Web
                                 </td>
                                 <td class="px-4 py-3 text-xs">
-                                    <a href="{{ route('student.pendingGroupDetails') }}">
+                                    <a href="{{ route('pendingdetails') }}">
                                         <button
                                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                             Details
@@ -87,7 +87,7 @@
                                     Web
                                 </td>
                                 <td class="px-4 py-3 text-xs">
-                                    <a href="{{ route('student.pendingGroupDetails') }}">
+                                    <a href="{{ route('pendingdetails') }}">
                                         <button
                                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                             Details

@@ -8,11 +8,11 @@
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{ route('dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('proposalForm') }}" class="text-gray-900 dark:text-white">Proposal Form</a>
+                    <a href="{{ route('student.proposalForm') }}" class="text-gray-900 dark:text-white">Proposal Form</a>
                 </li>
             </ol>
         </div>
@@ -140,7 +140,7 @@
                                 Submit
                             </button>
 
-                            <a class="md:ml-5 shadow bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded" href=" {{ route('proposalChangeForm') }}">
+                            <a class="md:ml-5 shadow bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded" href=" {{ route('student.proposalChangeForm') }}">
                                 Change topic
                         </a>
                         </div>

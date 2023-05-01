@@ -26,4 +26,9 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.approvedGroups');
     }
 
+    //Supervisor Login
+    public function login(){
+        return view('frontend.supervisor.login');
+    }
+
 }

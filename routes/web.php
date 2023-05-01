@@ -35,6 +35,10 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/supervisor/approvedGroups', [SupervisorController::class, 'approvedGroups'])->name('supervisor.approvedGroups');
     
 });
+//Student
+Route::get('/student/login', [StudentController::class, 'login'])->name('student.login');
+//Supervisor
+Route::get('/supervisor/login', [SupervisorController::class, 'login'])->name('supervisor.login');
 
 
 Route::middleware('auth')->group(function () {

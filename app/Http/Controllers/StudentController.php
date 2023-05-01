@@ -34,4 +34,9 @@ class StudentController extends Controller
     public function pendingGroupDetails(){
         return view('frontend.student.pendingGroupDetails');
     }
+
+    // student login 
+    public function login(){
+        return view('frontend.student.login');
+    }
 }

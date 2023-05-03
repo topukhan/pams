@@ -27,6 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm'); 
     Route::get('/student/pendingGroups', [StudentController::class, 'pendingGroups'])->name('student.pendingGroups');
     Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
+    Route::get('/student/myGroup', [StudentController::class, 'myGroup'])->name('student.myGroup');
+    Route::get('/student/myGroupDetails', [StudentController::class, 'myGroupDetails'])->name('student.myGroupDetails');
+
 
     //Supervisor Routes
     Route::get('/supervisor/dashboard', [SupervisorController::class, 'dashboard'])->name('supervisor.dashboard');

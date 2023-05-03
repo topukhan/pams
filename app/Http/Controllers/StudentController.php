@@ -39,4 +39,14 @@ class StudentController extends Controller
     public function login(){
         return view('frontend.student.login');
     }
+
+    //My Group
+    public function myGroup(){
+        return view('frontend.student.myGroup');
+    }
+
+    //My Group Details 
+    public function myGroupDetails(){
+        return view('frontend.student.myGroupDetails');
+    }
 }

@@ -13,7 +13,7 @@
                 <li class="mr-3">/ </li>
                 <li class="flex mr-3">Groups</li>
                 <li class="mr-3">/ </li>
-                <li class="flex mr-3">Pending Groups</li>
+                <a href="{{ route('student.pendingGroups') }}"><li class="flex mr-3">Pending Groups</a> </li>
                 <li class="mr-3">/ </li>
                 <li>
                     <a href="#" class="text-gray-900 dark:text-white"> Groups Details</a>

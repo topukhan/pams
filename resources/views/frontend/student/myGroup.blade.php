@@ -2,7 +2,7 @@
 
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Pending Groups </h2>
+            My Group </h2>
 
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">

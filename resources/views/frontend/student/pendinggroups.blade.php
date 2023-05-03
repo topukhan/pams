@@ -29,10 +29,10 @@
                                 class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                 <th class="px-3 py-3">Sl</th>
                                 <th class="px-3 py-3">Group Name</th>
-                                <th class="px-3 py-3">Domain</th>
                                 <th class="px-3 py-3">Info</th>
                             </tr>
                         </thead>
+                        {{-- Table Body --}}
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                             <tr class="text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3 text-sm">
@@ -43,9 +43,6 @@
                                         <p class="font-semibold">Bangtan</p>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-sm">
-                                    Web
-                                </td>
                                 <td class="px-4 py-3 text-xs">
                                     <a href="{{ route('student.pendingGroupDetails') }}">
                                         <button
@@ -54,6 +51,7 @@
                                         </button></a>
                                 </td>
                             </tr>
+
                             <tr class="text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3 text-sm">
                                     02
@@ -63,9 +61,7 @@
                                         <p class="font-semibold">Ami</p>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-sm">
-                                    Web
-                                </td>
+                                
                                 <td class="px-4 py-3 text-xs">
                                     <a href="{{ route('student.pendingGroupDetails') }}">
                                         <button
@@ -74,6 +70,7 @@
                                         </button></a>
                                 </td>
                             </tr>
+
                             <tr class="text-gray-700 dark:text-gray-400">
                                 <td class="px-4 py-3 text-sm">
                                     03
@@ -83,9 +80,7 @@
                                         <p class="font-semibold">Sonyeondan</p>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-sm">
-                                    Web
-                                </td>
+                               
                                 <td class="px-4 py-3 text-xs">
                                     <a href="{{ route('student.pendingGroupDetails') }}">
                                         <button

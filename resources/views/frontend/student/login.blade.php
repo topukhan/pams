@@ -9,7 +9,8 @@
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form method="POST" action="{{ route('login') }}" class="space-y-6">
+
+        <form method="POST" action="{{ route('student.authenticate') }}" class="space-y-6">
             @csrf
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>

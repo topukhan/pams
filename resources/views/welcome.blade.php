@@ -33,7 +33,7 @@
                 Student Login
             </a>
 
-            <a href="{{ route('supervisor.login') }}"
+            <a href="{{ route('faculty.login') }}"
                 class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2  rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 px-10">Faculty Login</a>
             {{-- @if (Route::has('register'))
                         <a href="{{ route('register') }}"

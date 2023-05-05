@@ -101,13 +101,9 @@
             </li>
         </ul>
         {{-- Log Out --}}
-        <div class=" my-6 ">
-            <form method="POST" action="{{ route('logout') }}">
+        <div class=" my-6 px-6 py-3">
+            <form method="POST" action="{{ route('faculty.logout') }}">
                 @csrf
-
-                <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                        this.closest('form').submit();">
                     <button
                     class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
                     Log Out
@@ -118,7 +114,6 @@
                         </path>
                     </svg>
                 </button>
-                </x-responsive-nav-link>
             </form>
                 
         </div>
@@ -239,26 +234,21 @@
             </li>
         </ul>
         {{-- Log Out --}}
-        <div class=" my-6 ">
-            <form method="POST" action="{{ route('logout') }}">
+        <div class="my-6 px-6 py-3">
+            
+            <form method="POST" action="{{ route('faculty.logout') }}">
                 @csrf
-
-                <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                        this.closest('form').submit();">
                     <button
-                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
-                    Log Out
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path
-                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
-                        </path>
-                    </svg>
-                </button>
-                </x-responsive-nav-link>
+                        class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
+                        Log Out
+                        <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path
+                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                            </path>
+                        </svg>
+                    </button>
             </form>
-                
         </div>
     </div>
 </aside>

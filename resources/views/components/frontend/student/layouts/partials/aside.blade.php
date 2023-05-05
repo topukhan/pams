@@ -145,13 +145,9 @@
             </li>
         </ul>
         {{-- Log Out --}}
-        <div class="my-6 ">
-            <form method="POST" action="{{ route('logout') }}">
+        <div class="my-6 px-6 py-3">
+            <form method="POST" action="{{ route('student.logout') }}">
                 @csrf
-
-                <x-responsive-nav-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                        this.closest('form').submit();">
                     <button
                         class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                         Log Out
@@ -162,10 +158,9 @@
                             </path>
                         </svg>
                     </button>
-                </x-responsive-nav-link>
             </form>
         </div>
-
+        
         {{-- temporary link --}}
         <div class="w-1/2 flex justify-center items-center mx-auto">
             <a href="{{ route('supervisor.dashboard') }}">

@@ -15,6 +15,13 @@ return [
 
     'defaults' => [
         'guard' => 'web',
+        'provider' => 'users',
+        'hash' => false,
+        'domain' => null,
+        'secure' => env('SESSION_SECURE_COOKIE'),
+        'http_only' => true,
+        'same_site' => 'lax',
+        'cookie' => 'laravel_session',
         'passwords' => 'users',
     ],
 
@@ -40,7 +47,20 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        // Student Guard
+        'student' => [
+            'driver' => 'session',
+            'provider' => 'users',
+            'cookie' => 'student_session',
+        ],
+        // Faculty Guard
+        'faculty' => [
+            'driver' => 'session',
+            'provider' => 'users',
+            'cookie' => 'faculty_session',
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +89,20 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        // Student Provider
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
+        ],
+
+        // Faculty Provider
+        'faculties' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Faculty::class,
+        ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

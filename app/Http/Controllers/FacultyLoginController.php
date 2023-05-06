@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,14 @@ class FacultyLoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+
+        // Check if user has the role of "supervisor"
+        $user = User::where('email', $request->email)->first();
+        if (!$user || $user->role != 'supervisor') {
+            return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([
+                'email' => 'Invalid input. Please provide a valid email address.',
+            ]);
+        }
 
         $credentials = $request->only('email', 'password');
         if (Auth::guard('faculty')->attempt($credentials, $request->remember)) {

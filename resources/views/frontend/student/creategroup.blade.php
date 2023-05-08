@@ -32,7 +32,6 @@
                                     <th class="px-3 py-3">Name</th>
                                     <th class="px-3 py-3">ID</th>
                                     <th class="px-3 py-3">Batch</th>
-                                    <th class="px-3 py-3">Phone</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -60,10 +59,7 @@
                                         <input type="text" name="batch[]" placeholder="Enter batch"
                                             class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
-                                    <td class="px-3 py-3">
-                                        <input type="tel" name="phone[]" placeholder="Enter phone"
-                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
-                                    </td>
+                                    
                                 </tr>
                                 {{-- Member 2 --}}
                                 <tr class="text-gray-700 dark:text-gray-400 ">
@@ -89,10 +85,7 @@
                                         <input type="text" name="batch[]" placeholder="Enter batch"
                                             class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
-                                    <td class="px-3 py-3">
-                                        <input type="tel" name="phone[]" placeholder="Enter phone"
-                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
-                                    </td>
+                                    
                                 </tr>
                                 {{-- Member 3 --}}
                                 <tr class="text-gray-700 dark:text-gray-400 ">
@@ -118,10 +111,7 @@
                                         <input type="text" name="batch[]" placeholder="Enter batch"
                                             class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
-                                    <td class="px-3 py-3">
-                                        <input type="tel" name="phone[]" placeholder="Enter phone"
-                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
-                                    </td>
+                                    
                                 </tr>
                                 {{-- Member 4 --}}
                                 <tr class="text-gray-700 dark:text-gray-400 ">
@@ -147,10 +137,7 @@
                                         <input type="text" name="batch[]" placeholder="Enter batch"
                                             class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
-                                    <td class="px-3 py-3">
-                                        <input type="tel" name="phone[]" placeholder="Enter phone"
-                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
-                                    </td>
+                                    
                                 </tr>
 
 

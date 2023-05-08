@@ -41,7 +41,7 @@
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">{{ $group->group_name }}</p>
+                                        <p class="font-semibold">{{ $group->name }}</p>
                                     </div>
                                 </td>
 

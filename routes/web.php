@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FacultyLoginController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentLoginController;
@@ -23,16 +24,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Student Routes
-    Route::get('/student/createGroup', [StudentController::class, 'createGroup'])->name('student.createGroup');
-    Route::get('/student/proposalForm', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
-    Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm');
-    Route::get('/student/pendingGroups', [StudentController::class, 'pendingGroups'])->name('student.pendingGroups');
-    Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
-    Route::get('/student/myGroup', [StudentController::class, 'myGroup'])->name('student.myGroup');
-    Route::get('/student/myGroupDetails', [StudentController::class, 'myGroupDetails'])->name('student.myGroupDetails');
-
-
     //Supervisor Routes
     
     Route::get('/supervisor/groupRequests', [SupervisorController::class, 'groupRequests'])->name('supervisor.groupRequests');
@@ -57,6 +48,20 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['StudentAuth'])->group(function () {
     // Routes for authenticated Student users
     Route::get('/student/dashboard', [StudentLoginController::class, 'dashboard'])->name('student.dashboard');
+
+    //Group formation
+    Route::get('/student/createGroup', [GroupController::class, 'createGroup'])->name('student.createGroup');
+    Route::post('/student/createGroup', [GroupController::class, 'storeGroup'])->name('student.storeGroup');
+    Route::get('/student/myGroup', [GroupController::class, 'myGroup'])->name('student.myGroup');
+    Route::get('/student/myGroupDetails', [GroupController::class, 'myGroupDetails'])->name('student.myGroupDetails');
+
+   
+
+
+    Route::get('/student/proposalForm', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
+    Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm');
+    Route::get('/student/pendingGroups', [StudentController::class, 'pendingGroups'])->name('student.pendingGroups');
+    Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
 
     // *
     Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');

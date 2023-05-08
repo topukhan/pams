@@ -4,6 +4,12 @@
             Dashboard
         </h2>
 
+        @if (session('message'))
+                <div class="alert alert-success alert-dismissible " role="alert">
+                    {{ session('message') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
         <div class=" grid gap-10 md:grid-cols-2 xl:grid-cols-3">
 
@@ -72,7 +78,7 @@
                 <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
-                        <i class="ph ph-clipboard-text text-2xl"></i>
+                        <i class="bx bx-news text-2xl"></i>
 
                     </div>
 

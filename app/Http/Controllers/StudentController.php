@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Student;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PHPUnit\Framework\Attributes\Group;
 
 class StudentController extends Controller
 {
@@ -66,10 +69,8 @@ class StudentController extends Controller
 
     
 
-    // Create Group
-    public function createGroup(){
-        return view('frontend.student.createGroup');
-    }
+   
+
 
     //Proposal Form
     public function proposalForm(){
@@ -91,16 +92,7 @@ class StudentController extends Controller
         return view('frontend.student.pendingGroupDetails');
     }
 
-    //My Group
-    public function myGroup(){
-        return view('frontend.student.myGroup');
-    }
-
-    //My Group Details 
-    public function myGroupDetails(){
-        return view('frontend.student.myGroupDetails');
-    }
-
+    
     // Student Logout / Session destroy
     public function logout(Request $request)
     {

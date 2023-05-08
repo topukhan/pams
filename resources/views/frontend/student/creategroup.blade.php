@@ -19,7 +19,8 @@
 
         {{-- table --}}
         <div class="px-2 py-2">
-            <form action="#" method="POST">
+            <form action="{{ route('student.storeGroup') }}" method="POST">
+                @csrf
                 <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto shadow-lg">
                         <table class="w-full whitespace-no-wrap ">
@@ -38,48 +39,137 @@
                                 {{-- Member 1 --}}
                                 <tr class="text-gray-700 dark:text-gray-400 ">
                                     <td class="px-4 py-3 text-sm">
-                                       01
+                                        01
                                     </td>
                                     <td class="px-3 py-3 ">
-                                        <input type="email" name="email" placeholder="Enter email"
+                                        <input type="email" name="email[]" placeholder="Enter email"
                                             class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-4 py-3">
                                         <div>
-                                            <input type="text" name="name" placeholder="Enter name"
+                                            <input type="text" name="member[]" placeholder="Enter name"
                                                 class="w-full border-gray-100 h-8 rounded  dark:bg-gray-800 ">
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
-                                        <input type="text" name="id" placeholder="Enter ID"
+                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
                                             class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
                                     </td>
-                                    
+
                                     <td class="px-3 py-3">
-                                        <input type="text" name="batch" placeholder="Enter batch"
+                                        <input type="text" name="batch[]" placeholder="Enter batch"
                                             class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                     <td class="px-3 py-3">
-                                        <input type="tel" name="phone" placeholder="Enter phone"
+                                        <input type="tel" name="phone[]" placeholder="Enter phone"
                                             class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
                                     </td>
                                 </tr>
-                                
-                            
+                                {{-- Member 2 --}}
+                                <tr class="text-gray-700 dark:text-gray-400 ">
+                                    <td class="px-4 py-3 text-sm">
+                                        02
+                                    </td>
+                                    <td class="px-3 py-3 ">
+                                        <input type="email" name="email[]" placeholder="Enter email"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div>
+                                            <input type="text" name="member[]" placeholder="Enter name"
+                                                class="w-full border-gray-100 h-8 rounded  dark:bg-gray-800 ">
+                                        </div>
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
+                                            class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
+                                    </td>
+
+                                    <td class="px-3 py-3">
+                                        <input type="text" name="batch[]" placeholder="Enter batch"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <input type="tel" name="phone[]" placeholder="Enter phone"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                </tr>
+                                {{-- Member 3 --}}
+                                <tr class="text-gray-700 dark:text-gray-400 ">
+                                    <td class="px-4 py-3 text-sm">
+                                        03
+                                    </td>
+                                    <td class="px-3 py-3 ">
+                                        <input type="email" name="email[]" placeholder="Enter email"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div>
+                                            <input type="text" name="member[]" placeholder="Enter name"
+                                                class="w-full border-gray-100 h-8 rounded  dark:bg-gray-800 ">
+                                        </div>
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
+                                            class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
+                                    </td>
+
+                                    <td class="px-3 py-3">
+                                        <input type="text" name="batch[]" placeholder="Enter batch"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <input type="tel" name="phone[]" placeholder="Enter phone"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                </tr>
+                                {{-- Member 4 --}}
+                                <tr class="text-gray-700 dark:text-gray-400 ">
+                                    <td class="px-4 py-3 text-sm">
+                                        04
+                                    </td>
+                                    <td class="px-3 py-3 ">
+                                        <input type="email" name="email[]" placeholder="Enter email"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div>
+                                            <input type="text" name="member[]" placeholder="Enter name"
+                                                class="w-full border-gray-100 h-8 rounded  dark:bg-gray-800 ">
+                                        </div>
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
+                                            class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
+                                    </td>
+
+                                    <td class="px-3 py-3">
+                                        <input type="text" name="batch[]" placeholder="Enter batch"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                    <td class="px-3 py-3">
+                                        <input type="tel" name="phone[]" placeholder="Enter phone"
+                                            class="w-full  border-gray-100 h-8  rounded dark:bg-gray-800 ">
+                                    </td>
+                                </tr>
+
+
                             </tbody>
+                            
                         </table>
                     </div>
                 </div>
                 {{-- Group Name --}}
                 <div class="w-full mt-5">
-                    <label for="groupName" class="text-xl font-semibold text-gray-700">Group Name</label>
-                    <input id="groupName" type="text" class="w-full my-3 border-gray-100  rounded dark:bg-gray-800 shadow-md focus:ring-gray-200" placeholder="Enter group name">
+                    <label for="group_name" class="text-xl font-semibold text-gray-700">Group Name</label>
+                    <input id="group_name" type="text" name="group_name"
+                        class="w-full my-3 border-gray-100  rounded dark:bg-gray-800 shadow-md focus:ring-gray-200"
+                        placeholder="Enter group name">
                 </div>
                 <div class="flex justify-center">
-                        
-
-                        <button type="submit" class="px-4 py-2 mt-3 font-bold bg-blue-500 text-white rounded hover:bg-blue-700">
-                            Submit </button>
+                    <button type="submit"
+                        class="px-4 py-2 mt-3 font-bold bg-blue-500 text-white rounded hover:bg-blue-700">
+                        Submit </button>
                 </div>
             </form>
         </div>

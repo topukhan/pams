@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         // Custom Middleware
         'StudentAuth' => \App\Http\Middleware\StudentAuth::class,
         'FacultyAuth' => \App\Http\Middleware\FacultyAuth::class,
+        'AdminAuth' => \App\Http\Middleware\AdminAuth::class,
     ];
 }

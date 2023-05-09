@@ -59,6 +59,12 @@ return [
             'provider' => 'users',
             'cookie' => 'faculty_session',
         ],
+
+        // Admin Guard
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
     ],
 
 
@@ -100,6 +106,12 @@ return [
         'faculties' => [
             'driver' => 'eloquent',
             'model' => App\Models\Faculty::class,
+        ],
+
+        // Admin Provider
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
     ],
 

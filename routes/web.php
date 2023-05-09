@@ -78,3 +78,4 @@ Route::middleware(['FacultyAuth'])->group(function () {
 
 
 require __DIR__ . '/auth.php';
+include __DIR__ . '/admin.php';

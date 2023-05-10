@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->integer('student_ID');
-            $table->string('batch');
-            $table->string('phase');
+            $table->integer('batch');
+            $table->string('section');
+            $table->string('shift');
+            $table->string('phase')->nullable();
             $table->unsignedBigInteger('group_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

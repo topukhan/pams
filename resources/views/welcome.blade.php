@@ -44,6 +44,11 @@
                 class="inline-block bg-black hover:bg-blue-700 text-white font-semibold py-2 rounded shadow-lg  focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 px-10">
                 Register
             </a>
+
+            <a href="{{ route('admin.login') }}"
+                class="inline-block hover:bg-blue-700 text-white font-semibold py-2 rounded shadow-lg  focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 px-10">
+                Admin Login
+            </a>
     </div>
     
 </body>

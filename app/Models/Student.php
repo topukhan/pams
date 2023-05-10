@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Auth;
 class Student extends Model
 {
     use HasFactory;
-    protected $guarded =['id'];
+    protected $fillable = [
+        'student_ID',
+        'user_id',
+        'batch',
+        'section',
+        'shift',
+    ];
 
 
     // public function group(){

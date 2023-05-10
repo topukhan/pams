@@ -14,6 +14,12 @@ Route::post('/admin/login', [AdminLoginController::class, 'authenticate'])->name
 //logout
 Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-Route::get('/admin/addStudent', [AdminController::class, 'addStudent'])->name('admin.addStudent');
+
+Route::middleware(['AdminAuth'])->group(function () {
+    // Routes for authenticated Admin users
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/addStudent', [AdminController::class, 'addStudentForm'])->name('admin.addStudentForm');
+    Route::post('/admin/addStudent', [AdminController::class, 'addStudent'])->name('admin.addStudent');
+    
+});

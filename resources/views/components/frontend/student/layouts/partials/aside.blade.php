@@ -161,16 +161,7 @@
             </form>
         </div>
         
-        {{-- temporary link --}}
-        <div class="w-1/2 flex justify-center items-center mx-auto">
-            <a href="{{ route('supervisor.dashboard') }}">
-                    <button
-                        class="full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-emerald-500 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                        Switch
-                        
-                    </button>
-                </a>
-        </div>
+       
     </div>
 </aside>
 <!-- Mobile sidebar -->

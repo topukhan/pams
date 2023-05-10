@@ -52,4 +52,16 @@ class FacultyLoginController extends Controller
     {
         return view('frontend.supervisor.dashboard');
     }
+
+    // Faculty Logout / Session destroy
+    public function logout(Request $request)
+    {
+        Auth::guard('faculty')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('faculty.login');
+    }
 }

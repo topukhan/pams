@@ -55,6 +55,19 @@ function data() {
     toggleFollowUpsMenu() {
       this.isFollowUpsOpen = !this.isFollowUpsOpen
     },
+    isCoordinatorsMenuOpen: false,
+    toggleCoordinatorsMenu() {
+      this.isCoordinatorsMenuOpen = !this.isCoordinatorsMenuOpen
+    },
+    isSupervisorsMenuOpen: false,
+    toggleSupervisorsMenu() {
+      this.isSupervisorsMenuOpen = !this.isSupervisorsMenuOpen
+    },
+    isStudentsMenuOpen: false,
+    toggleStudentsMenu() {
+      this.isStudentsMenuOpen = !this.isStudentsMenuOpen
+    },
+
     // Modal
     isModalOpen: false,
     trapCleanup: null,

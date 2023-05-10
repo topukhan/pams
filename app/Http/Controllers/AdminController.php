@@ -9,4 +9,9 @@ class AdminController extends Controller
     public function dashboard(){
         return view('backend.admin.dashboard');
     }
+
+    public function addStudent(){
+        return view('backend.admin.addStudent');
+    }
+    
 }

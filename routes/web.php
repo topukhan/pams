@@ -64,7 +64,8 @@ Route::middleware(['StudentAuth'])->group(function () {
     Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
 
     // *
-    Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
+     Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
+
 });
 
 Route::middleware(['FacultyAuth'])->group(function () {

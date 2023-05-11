@@ -16,23 +16,25 @@
                 </li>
             </ol>
         </div>
-
         {{-- form --}}
         <div class="px-2 py-2">
             <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <form action="#">
+                <form action="{{ route('student.store.proposalForm')}}" method="POST">
+                    @csrf
                     {{-- Title --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
                             <label class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="my-textfield">
+                                for="title">
                                 Project/Thesis Title :
                             </label>
                         </div>
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
-                                id="my-textfield" type="text" value="" placeholder="Enter title">
+                                id="title" name="title" type="text" value="" placeholder="Enter title">
+                                <x-input-error :messages="$errors->get('title')" class="mt-2" />
+
                         </div>
                     </div>
 
@@ -47,7 +49,9 @@
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="course" type="text" value="" placeholder="e.g., PROJECT-1">
+                                id="course" name="course" type="text" value="" placeholder="e.g., PROJECT-1">
+                                <x-input-error :messages="$errors->get('course')" class="mt-2" />
+
                         </div>
                     </div>
 
@@ -59,14 +63,16 @@
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name=""
+                            <select name="supervisor"
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-500 dark:bg-gray-700 dark:text-gray-300"
-                                id="my-select">
+                                id="supervisor">
                                 <option value="Default" disabled selected>select</option>
                                 <option value="">Rezwana</option>
                                 <option value="">Karim</option>
                                 <option value="">Rezuko</option>
                             </select>
+                            <x-input-error :messages="$errors->get('supervisor')" class="mt-2" />
+
 
                         </div>
                     </div>
@@ -82,7 +88,9 @@
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="cosupervisor" type="text" value="" placeholder="Enter name"> 
+                                id="cosupervisor" type="text" name="cosupervisor" value="" placeholder="Enter name"> 
+                            <x-input-error :messages="$errors->get('cosupervisor')" class="mt-2" />
+
                         </div>
                     </div>
                     
@@ -94,9 +102,9 @@
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name=""
+                            <select name="domain"
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-500 dark:bg-gray-700 dark:text-gray-300"
-                                id="my-select">
+                                id="domain">
                                 <option value="" selected disabled>select domain</option>
                                 <option value="">Software Application</option>
                                 <option value="">Networking</option>
@@ -104,7 +112,9 @@
                                 <option value="">Robotics</option>
                                 <option value="">Electronics & Digital Logic</option>
                             </select>
+                            <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                         </div>
+                        
                     </div>
 
                     {{-- Type --}}
@@ -127,6 +137,7 @@
                                     name="type" value="" />
                                 <span class="ml-2 ">Thesis</span>
                             </label>
+                            <x-input-error :messages="$errors->get('type')" class="mt-2" />
                         </div>
                     </div>
                     
@@ -136,7 +147,7 @@
                         <div class="md:w-3/4">
                             <button
                                 class="shadow bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
-                                type="button">
+                                type="submit">
                                 Submit
                             </button>
 
@@ -146,15 +157,8 @@
                         </div>
                     </div>
                 </form>
-
             </div>
-
-
-
-
-
         </div>
-        </form>
     </div>
 
 

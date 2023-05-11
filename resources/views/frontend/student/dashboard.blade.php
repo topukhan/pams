@@ -157,11 +157,10 @@
                 </div>
 
 
-
-
-
             </div>
         </div>
     </div>
 
+    
+      
 </x-frontend.student.layouts.master>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\ProjectProposal;
 use App\Models\Student;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -76,6 +76,37 @@ class StudentController extends Controller
     public function proposalForm(){
         return view('frontend.student.proposalForm');
     }
+
+    //Proposal Form
+    public function storeproposalForm(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'course' => 'required',
+            'supervisor' => 'required',
+            'cosupervisor' => 'required',
+            'domain' => 'required',
+            'type' => 'required'
+        ]);
+        dd("k");
+        
+        try {
+            ProjectProposal::create([
+                'title'=> $request->title,
+                'course'=> $request->course,
+                'supervisor'=> $request->supervisor,
+                'cosupervisor'=> $request->cosupervisor,
+                'domain'=> $request->domain,
+                'type'=> $request->type
+            ]);
+            return redirect()->route('student.dashboard')->withMessage("Group Has Been Created!");
+        } catch (QueryException $e) {
+            return redirect()->back()->withInput()->withErrors('Something went wrong!');
+        }
+    }
+        
+    
+
 
     //Proposal Change Form
     public function proposalChangeForm(){

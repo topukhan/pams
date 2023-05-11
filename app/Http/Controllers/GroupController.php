@@ -18,11 +18,13 @@ class GroupController extends Controller
     // Store Group
     public function storeGroup(Request $request)
     {
-
+        
 
         try {
             $group = Group::create([
                 'name' => $request->group_name,
+                'topic' => $request->topic,
+                'creator_id' => auth()->user()->id
 
             ]);
         } catch (QueryException $e) {
@@ -45,6 +47,11 @@ class GroupController extends Controller
         }
         return redirect()->route('student.dashboard')->withMessage("Group Has Been Created!");
     }
+
+
+    
+
+
 
 
     //My Group

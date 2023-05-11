@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Group extends Model
 {
     use HasFactory;
-    protected $fillable =['name'];
+    protected $fillable =[
+        'name',
+        'topic',
+        'creator_id'
+    ];
 
     // public function students(){
     //     return $this->hasMany(Student::class);

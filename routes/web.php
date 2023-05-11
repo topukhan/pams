@@ -59,6 +59,8 @@ Route::middleware(['StudentAuth'])->group(function () {
 
 
     Route::get('/student/proposalForm', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
+    Route::post('/student/proposalForm', [StudentController::class, 'storeproposalForm'])->name('student.store.proposalForm');
+    
     Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm');
     Route::get('/student/pendingGroups', [StudentController::class, 'pendingGroups'])->name('student.pendingGroups');
     Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');

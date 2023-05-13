@@ -11,10 +11,9 @@ class Group extends Model
     protected $fillable =[
         'name',
         'topic',
-        'creator_id'
     ];
 
-    // public function students(){
-    //     return $this->hasMany(Student::class);
-    // }
+    public function group_members(){
+        return $this->hasMany(GroupMember::class);
+    }
 }

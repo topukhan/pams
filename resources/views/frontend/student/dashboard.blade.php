@@ -5,11 +5,11 @@
         </h2>
 
         @if (session('message'))
-                <div class="alert alert-success alert-dismissible " role="alert">
-                    {{ session('message') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            <div class="alert alert-success alert-dismissible " role="alert">
+                {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <div class=" grid gap-10 md:grid-cols-2 xl:grid-cols-3">
 
@@ -48,10 +48,11 @@
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
                             Genre and Supervisor Availability
                         </p>
-                        <button
+
+                        <a href="{{ route('student.supervisor.availability') }}"
                             class="px-4 py-1 bg-green-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-green-500">
                             Info
-                        </button>
+                        </a>
                     </div>
                 </div>
 
@@ -161,6 +162,6 @@
         </div>
     </div>
 
-    
-      
+
+
 </x-frontend.student.layouts.master>

@@ -19,12 +19,10 @@ class GroupController extends Controller
     public function storeGroup(Request $request)
     {
         
-
         try {
             $group = Group::create([
                 'name' => $request->group_name,
                 'topic' => $request->topic,
-                'creator_id' => auth()->user()->id
 
             ]);
         } catch (QueryException $e) {
@@ -37,7 +35,7 @@ class GroupController extends Controller
                 GroupMember::create([
                     'group_id' => $group->id,
                     'email' => $email,
-                    'member' => $request->member[$key],
+                    'name' => $request->name[$key],
                     'student_ID' => $request->student_ID[$key],
                     'batch' => $request->batch[$key]
                 ]);
@@ -62,8 +60,10 @@ class GroupController extends Controller
     }
 
     //My Group Details 
-    public function myGroupDetails()
+    public function myGroupDetails(Request $request)
     {
-        return view('frontend.student.myGroupDetails');
+        $id = $request->group;
+        $group_members = GroupMember::where('group_id', $id)->get();
+        return view('frontend.student.myGroupDetails',['group_members'=>$group_members]);
     }
 }

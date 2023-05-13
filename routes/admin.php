@@ -19,7 +19,13 @@ Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->name('adm
 Route::middleware(['AdminAuth'])->group(function () {
     // Routes for authenticated Admin users
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // Add student
     Route::get('/admin/addStudent', [AdminController::class, 'addStudentForm'])->name('admin.addStudentForm');
     Route::post('/admin/addStudent', [AdminController::class, 'addStudent'])->name('admin.addStudent');
+    
+    //Add supervisor
+    Route::get('/admin/addSupervisor', [AdminController::class, 'addSupervisorForm'])->name('admin.addSupervisorForm');
+    Route::post('/admin/addSupervisor', [AdminController::class, 'addSupervisor'])->name('admin.addSupervisor');
     
 });

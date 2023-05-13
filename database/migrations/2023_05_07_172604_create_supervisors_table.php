@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('supervisors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone');
-            $table->string('department');
+            $table->unsignedBigInteger('user_id');
+            $table->bigInteger('faculty_id');
+            $table->string('designation');
+            $table->boolean('availability');
+            $table->string('expertise_area')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

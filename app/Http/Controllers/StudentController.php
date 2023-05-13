@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domain;
 use App\Models\ProjectProposal;
 use App\Models\Student;
+use App\Models\Supervisor;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,39 +70,43 @@ class StudentController extends Controller
     }
 
     
-
-   
-
-
-    //Proposal Form
-    public function proposalForm(){
-        return view('frontend.student.proposalForm');
+    public function supervisorAvailability(){
+        $supervisors = Supervisor::all();
+        return view('frontend.student.supervisorAvailability', ['supervisors'=>$supervisors]);
     }
 
+
     //Proposal Form
-    public function storeproposalForm(Request $request)
+    public function proposalForm(Request $request){
+        $supervisors = Supervisor::all();
+        $domains = Domain::all();
+        $id = $request->id;
+        return view('frontend.student.proposalForm', ['supervisors'=>$supervisors, 'id'=> $id, 'domains'=>$domains]);
+    }
+
+    //Proposal Store in db
+    public function storeProposalForm(Request $request)
     {
         $request->validate([
             'title' => 'required',
             'course' => 'required',
-            'supervisor' => 'required',
+            'supervisor_id' => 'required',
             'cosupervisor' => 'required',
             'domain' => 'required',
             'type' => 'required'
         ]);
-        dd("k");
-        
         try {
             ProjectProposal::create([
                 'title'=> $request->title,
                 'course'=> $request->course,
-                'supervisor'=> $request->supervisor,
+                'supervisor_id'=> $request->supervisor_id,
                 'cosupervisor'=> $request->cosupervisor,
                 'domain'=> $request->domain,
                 'type'=> $request->type
             ]);
-            return redirect()->route('student.dashboard')->withMessage("Group Has Been Created!");
+            return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
         } catch (QueryException $e) {
+            dd($e->getMessage());
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
     }

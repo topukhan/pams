@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('course');
-            $table->string('supervisor');
+            $table->unsignedBigInteger('supervisor_id');
+            $table->foreign('supervisor_id')->references('id')->on('users');
             $table->string('cosupervisor');
             $table->string('domain');
             $table->string('type');

@@ -11,7 +11,7 @@ class ProjectProposal extends Model
     protected $fillable = [
         'title',
         'course',
-        'supervisor',
+        'supervisor_id',
         'cosupervisor',
         'domain',
         'type'

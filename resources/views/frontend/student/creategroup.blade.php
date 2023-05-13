@@ -18,7 +18,7 @@
         </div>
 
         {{-- table --}}
-        <div class="px-2 py-2">
+        <div class="px-2 py-2 mb-6">
             <form action="{{ route('student.storeGroup') }}" method="POST">
                 @csrf
                 <div class="w-full mb-8 overflow-hidden rounded-lg shadow-md">
@@ -46,7 +46,7 @@
                                     </td>
                                     <td class="px-4 py-3">
                                         <div>
-                                            <input type="text" name="member[]" placeholder="Enter name"
+                                            <input type="text" name="name[]" placeholder="Enter name"
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 h-8 rounded  dark:bg-gray-800 ">
                                         </div>
                                     </td>
@@ -72,7 +72,7 @@
                                     </td>
                                     <td class="px-4 py-3">
                                         <div>
-                                            <input type="text" name="member[]" placeholder="Enter name"
+                                            <input type="text" name="name[]" placeholder="Enter name"
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 h-8 rounded  dark:bg-gray-800 ">
                                         </div>
                                     </td>
@@ -98,7 +98,7 @@
                                     </td>
                                     <td class="px-4 py-3">
                                         <div>
-                                            <input type="text" name="member[]" placeholder="Enter name"
+                                            <input type="text" name="name[]" placeholder="Enter name"
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 h-8 rounded  dark:bg-gray-800 ">
                                         </div>
                                     </td>
@@ -124,7 +124,7 @@
                                     </td>
                                     <td class="px-4 py-3">
                                         <div>
-                                            <input type="text" name="member[]" placeholder="Enter name"
+                                            <input type="text" name="name[]" placeholder="Enter name"
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 h-8 rounded  dark:bg-gray-800 ">
                                         </div>
                                     </td>

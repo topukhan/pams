@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Project Allocation & Management System</title>
     <link rel="stylesheet" href="{{ asset('ui/frontend/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('ui/frontend/css/tailwind.output.css') }}">
     <!-- Fonts -->

@@ -20,7 +20,7 @@ class User extends Authenticatable
     // protected $guarded = ['id'];
     protected $fillable = [
         'first_name',
-        'last_name',    
+        'last_name',
         'email',
         'password',
         'role',
@@ -45,4 +45,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Relationship with supervisor model 
+    public function supervisor()
+    {
+        return $this->hasMany(Supervisor::class);
+    }
 }

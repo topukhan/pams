@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApprovedGroup;
 use App\Models\Domain;
 use App\Models\Group;
 use App\Models\ProjectProposal;
@@ -69,21 +70,27 @@ class StudentController extends Controller
         //
     }
 
-    
-    public function supervisorAvailability(){
+
+    public function supervisorAvailability()
+    {
         $supervisors = Supervisor::all();
-        return view('frontend.student.supervisorAvailability', ['supervisors'=>$supervisors]);
+        return view('frontend.student.supervisorAvailability', ['supervisors' => $supervisors]);
     }
 
 
     //Proposal Form
-    public function proposalForm(Request $request){
+    public function proposalForm(Request $request)
+    {
         $supervisors = Supervisor::all();
         $groups = Group::all();
         $domains = Domain::all();
         $id = $request->id;
         $existInProposal = ProjectProposal::pluck('group_id')->unique()->values()->toArray();
-        return view('frontend.student.proposalForm', compact('supervisors', 'id', 'domains', 'groups', 'existInProposal')); 
+        // Get the group IDs that exist in the approved groups table
+        $existInApproved = ApprovedGroup::pluck('group_id')->toArray();
+        // Merge the two arrays to get all the disabled group IDs
+        $disabledGroupIds = array_merge($existInProposal, $existInApproved);
+        return view('frontend.student.proposalForm', compact('supervisors', 'id', 'domains', 'groups', 'disabledGroupIds'));
     }
 
     //Proposal Store in db
@@ -101,36 +108,37 @@ class StudentController extends Controller
         try {
             ProjectProposal::create([
                 'group_id' => $request->group_id,
-                'title'=> $request->title,
-                'course'=> $request->course,
-                'supervisor_id'=> $request->supervisor_id,
-                'cosupervisor'=> $request->cosupervisor,
-                'domain'=> $request->domain,
-                'type'=> $request->type
+                'title' => $request->title,
+                'course' => $request->course,
+                'supervisor_id' => $request->supervisor_id,
+                'cosupervisor' => $request->cosupervisor,
+                'domain' => $request->domain,
+                'type' => $request->type
             ]);
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
     }
-        
-    
+
+
 
 
     //Proposal Change Form
-    public function proposalChangeForm(){
+    public function proposalChangeForm()
+    {
         return view('frontend.student.proposalChangeForm');
     }
 
     //Pending Groups
-    public function pendingGroups(){
+    public function pendingGroups()
+    {
         return view('frontend.student.pendingGroups');
     }
 
     //Pending Group Details 
-    public function pendingGroupDetails(){
+    public function pendingGroupDetails()
+    {
         return view('frontend.student.pendingGroupDetails');
     }
-
-    
 }

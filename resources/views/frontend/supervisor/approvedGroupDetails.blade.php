@@ -2,7 +2,7 @@
 
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Group Details</h2>
+            Approved Group Details</h2>
 
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
@@ -14,7 +14,7 @@
                 <li class="flex mr-3">Groups</li>
                 <li class="mr-3">/ </li>
                 <li class="flex mr-3"><a href="{{ route('supervisor.groupRequests') }}"
-                        class="text-gray-900 dark:text-white">Request Groups</a></li>
+                        class="text-gray-900 dark:text-white">Approved Groups</a></li>
                 <li class="mr-3">/ </li>
                 <li>
                     <a href="{{ route('supervisor.groupRequestDetails') }}" class="text-gray-900 dark:text-white"> Group
@@ -36,7 +36,7 @@
                 <label class="ml-4 mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">Domain:</label>
                 <div class=" px-4 py-2 mb-4 bg-white rounded-lg shadow-sm dark:bg-gray-800">
                     <p class="text-md text-gray-600 dark:text-gray-400">
-                        {{ $proposal->domain }}
+                        {{ $approved->domain }}
                     </p>
                 </div>
             </div>
@@ -47,7 +47,7 @@
             <label class="ml-4 mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">Topic:</label>
             <div class=" px-4 py-2 mb-4 bg-white rounded-lg shadow-sm dark:bg-gray-800">
                 <p class="text-md text-gray-600 dark:text-gray-400">
-                    {{ $proposal->title }}
+                    {{ $approved->title }}
                 </p>
             </div>
         </div>
@@ -81,19 +81,19 @@
             </div>
 
             <div class="space-x-2">
-                <a href="{{ route('supervisor.store.approveGroup', ['group_id' => $group->id, 'proposal_id' => $proposal->id]) }}">
+                {{-- <a href="#">
                     <button type="button"
                         class="px-4 py-2 font-bold text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
                         Approve
                     </button>
-                </a>
+                </a> --}}
 
-                <a href="{{ route('supervisor.rejectedGroups', ['id' => $proposal->id]) }}">
+                {{-- <a href="{{ route('supervisor.rejectedGroups', ['id' => $proposal->id]) }}">
                     <button
                         class="px-4 py-2 font-bold text-white bg-red-500 rounded-sm hover:bg-red-700 focus:outline-none focus:shadow-outline-blue active:bg-red-800">
                         Deny
                     </button>
-                </a>
+                </a> --}}
             </div>
 
 

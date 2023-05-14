@@ -2,44 +2,84 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\ProjectProposal;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class SupervisorController extends Controller
 {
     //Supervisor Dashboard
-    public function dashboard(){
+    public function dashboard()
+    {
         return view('frontend.supervisor.dashboard');
     }
 
     //Student Group Requests 
-    public function groupRequests(){
+    public function groupRequests()
+    {
         $proposals = ProjectProposal::all();
         return view('frontend.supervisor.groupRequests', compact('proposals'));
     }
 
     //Students Request Group Details 
-    public function groupRequestDetails(Request $request){
+    public function groupRequestDetails(Request $request)
+    {
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
         return view('frontend.supervisor.groupRequestDetails', compact('group', 'proposal'));
     }
 
-    
+    // Store approved group to table 
+    public function storeApproveGroup(Request $request)
+    {
+        
+        $approved = ProjectProposal::find($request->proposal_id);
+        try {
+            $store = ApprovedGroup::create([
+                'group_id' => $approved->group_id,
+                'title'=> $approved->title,
+                'course'=> $approved->course,
+                'supervisor_id'=> $approved->supervisor_id,
+                'cosupervisor'=> $approved->cosupervisor,
+                'domain'=> $approved->domain,
+                'type'=> $approved->type
+            ]);
+            if ($approved) {
+                $approved->delete();
+            }
+            return redirect()->route('supervisor.groupRequests')->withMessage("Proposal Approved!");
+        } catch (QueryException $e) {
+            return redirect()->back()->withInput()->withErrors('Something went wrong!');
+        }
+        return view('frontend.supervisor.groupRequestDetails', compact('group', 'proposal'));
+    }
+
+
 
     //Supervisor Approved Groups
-    public function approvedGroups(){
-        return view('frontend.supervisor.approvedGroups');
+    public function approvedGroups()
+    {
+        $approved_groups = ApprovedGroup::all();
+        return view('frontend.supervisor.approvedGroups', compact('approved_groups'));
+    }
+
+    //Supervisor Approved Group Details 
+    public function approvedGroupDetails(Request $request)
+    {
+        $group = Group::find($request->group_id);
+        $approved = ApprovedGroup::find($request->approved_id);
+        return view('frontend.supervisor.approvedGroupDetails', compact('group', 'approved'));
     }
 
     //Supervisor Rejected Groups
-    public function rejectedGroups(Request $request){
-        // dd('hrer');
+    public function rejectedGroups(Request $request)
+    {
         $id = ($request->id);
         $proposal = ProjectProposal::find($id);
         try {
-            if($proposal){
+            if ($proposal) {
                 $proposal->delete();
                 return redirect()->intended('/supervisor/groupRequests')->withMessage('Proposal Deleted Successfully');
             }
@@ -48,11 +88,15 @@ class SupervisorController extends Controller
         }
     }
 
-    
-
-    //Supervisor Login
-    public function login(){
-        return view('frontend.supervisor.login');
+    // assign task
+    public function assignTask(){
+        $groups = Group::all();
+        return view('frontend.supervisor.assignTask', ['groups' => $groups]);
     }
 
+    //Supervisor Login
+    public function login()
+    {
+        return view('frontend.supervisor.login');
+    }
 }

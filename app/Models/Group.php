@@ -20,4 +20,8 @@ class Group extends Model
     public function project_proposal(){
         return $this->hasOne(ProjectProposal::class);
     }
+
+    public function approved_group(){
+        return $this->hasOne(ApprovedGroup::class);
+    }
 }

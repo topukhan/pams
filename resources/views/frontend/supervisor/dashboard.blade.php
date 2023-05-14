@@ -100,23 +100,27 @@
                     Notices
                 </h2>
                 {{-- Notice Card 1 --}}
-                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
+                <div
+                    class="mb-4 p-4 hover:bg-gray-100 bg-gray-100 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Attention: Change in Project Deadline
+                            <span class="font-bold">Attention:</span> You have new proposal request
                         </p>
-                        <button
-                            class="px-2 py-1 text-sm bg-cyan-300 hover:bg-cyan-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200 dark:bg-blue-500 mx-auto transition duration-200 ease-in-out">
-                            Details
-                        </button>
+                        <a href=" {{ route('supervisor.groupRequests') }}">
+                            <button
+                                class="px-2 py-1 text-sm bg-cyan-300 hover:bg-cyan-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200 dark:bg-blue-500 mx-auto transition duration-200 ease-in-out">
+                                Details
+                            </button>
+                        </a>
                     </div>
                 </div>
 
                 {{-- Notice Card 2 --}}
-                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
+                <div
+                    class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Important: Project Topic Update
+                            <span class="font-bold">Important:</span> Project Topic Update
                         </p>
                         <button
                             class="px-2 py-1 text-sm bg-cyan-300 hover:bg-cyan-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200 dark:bg-blue-500 flex transition duration-200 ease-in-out">
@@ -126,10 +130,11 @@
                 </div>
 
                 {{-- Notice Card 3 --}}
-                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
+                <div
+                    class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Announcement: Project Allocation Confirmation
+                            <span class="font-bold">Announcement</span> Project Allocation Confirmation
                         </p>
                         <button
                             class="px-2 py-1 text-sm bg-cyan-300 hover:bg-cyan-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200 dark:bg-blue-500 flex transition duration-200 ease-in-out">
@@ -139,10 +144,11 @@
                 </div>
 
                 {{-- Notice Card 4 --}}
-                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
+                <div
+                    class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Reminder: Supervisor Feedback Due
+                            <span class="font-bold">Reminder:</span> Supervisor Feedback Due
                         </p>
                         <button
                             class="px-2 py-1 text-sm bg-cyan-300 hover:bg-cyan-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200 dark:bg-blue-500 flex transition duration-200 ease-in-out">

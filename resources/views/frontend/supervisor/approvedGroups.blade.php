@@ -14,8 +14,7 @@
                 <li class="flex mr-3">Groups</li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('supervisor.groupRequests') }}" class="text-gray-900 dark:text-white">Group
-                        Requests</a>
+                    <a href="{{ route('supervisor.groupRequests') }}" class="text-gray-900 dark:text-white">Approved Groups</a>
                 </li>
             </ol>
         </div>
@@ -41,22 +40,24 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            @foreach ($proposals as $proposal)
+                            @foreach ($approved_groups as $approved)
                                 <tr class="text-gray-700 dark:text-gray-400">
                                     <td class="px-4 py-3 text-sm">
                                         {{ $loop->iteration }}
                                     </td>
                                     <td class="px-4 py-3">
                                         <div class="flex items-center text-sm">
-                                            <p class="font-semibold"> {{ $proposal->group->name }}</p>
+                                            <p class="font-semibold">
+                                                 {{ $approved->group->name }}
+                                                </p>
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 text-sm">
-                                        {{ $proposal->domain }}
+                                        {{ $approved->domain }}
                                     </td>
                                     <td class="px-4 py-3 text-xs">
                                         <a
-                                            href="{{ route('supervisor.groupRequestDetails', ['group_id' => $proposal->group->id, 'proposal_id' => $proposal->id]) }}">
+                                            href="{{ route('supervisor.approvedGroupDetails', ['group_id' => $approved->group->id, 'approved_id' => $approved->id]) }}">
                                             <button
                                                 class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                                 Details

@@ -36,7 +36,7 @@
                                 id="group">
                                 <option value="" disabled selected>select group</option>
                                 @foreach ($groups as $group)
-                                    <option value="{{ $group->id }}" {{in_array($group->id, $existInProposal) ? 'disabled' : '' }}>
+                                    <option value="{{ $group->id }}" {{in_array($group->id, $disabledGroupIds) ? 'disabled' : '' }}>
                                         {{ $group->name }}
                                     </option>
                                 @endforeach

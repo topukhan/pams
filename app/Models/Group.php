@@ -16,4 +16,8 @@ class Group extends Model
     public function group_members(){
         return $this->hasMany(GroupMember::class);
     }
+
+    public function project_proposal(){
+        return $this->hasOne(ProjectProposal::class);
+    }
 }

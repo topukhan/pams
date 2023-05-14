@@ -21,6 +21,33 @@
             <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <form action="{{ route('student.store.proposalForm') }}" method="POST">
                     @csrf
+                    {{-- Temporary Group select option, will change in next phase --}}
+                    <div class="md:flex mb-6">
+                        <div class="md:w-1/4">
+                            <label
+                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
+                                for="group">
+                                Group
+                            </label>
+                        </div>
+                        <div class="md:w-3/4">
+                            <select name="group_id"
+                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-800 dark:bg-gray-700 dark:text-gray-300"
+                                id="group">
+                                <option value="" disabled selected>select group</option>
+                                @foreach ($groups as $group)
+                                    <option value="{{ $group->id }}" {{in_array($group->id, $existInProposal) ? 'disabled' : '' }}>
+                                        {{ $group->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <x-input-error :messages="$errors->get('supervisor')" class="mt-2" />
+
+
+                        </div>
+                    </div>
+
                     {{-- Title --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
@@ -118,17 +145,27 @@
                             <select name="domain"
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300"
                                 id="domain">
-                                {{-- Find specific supervisor with passed $id --}}
+                                {{-- Find specific supervisor with passed $id & auto select domain--}}
                                 @php
                                     $supervisor = \App\Models\Supervisor::find($id);
                                 @endphp
                                 <option value="0" selected disabled>select domain</option>
-                                @foreach ($domains as $domain)
-                                    <option value="{{ $domain->name }}"
-                                        {{ $domain->name == $supervisor->expertise_area ? 'selected' : '' }}>
-                                        {{ $domain->name }}
-                                    </option>
-                                @endforeach
+                                @if ($supervisor != null)
+                                    @foreach ($domains as $domain)
+                                        <option value="{{ $domain->name }}"
+                                            {{ $domain->name == $supervisor->expertise_area ? 'selected' : '' }}>
+                                            {{ $domain->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                                {{-- if not passed from supervisor availability --}}
+                                @if ($supervisor == null)
+                                    @foreach ($domains as $domain)
+                                        <option value="{{ $domain->name }}">
+                                            {{ $domain->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
 
                             </select>
                             <x-input-error :messages="$errors->get('domain')" class="mt-2" />

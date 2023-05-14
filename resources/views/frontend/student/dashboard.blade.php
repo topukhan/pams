@@ -16,7 +16,7 @@
             <!-- Cards -->
             <div class="grid gap-6 mb-8 xl:col-span-2  text-center md:grid-cols-1 xl:grid-cols-2">
                 <!--Create Group Card -->
-                <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
+                <div class="p-4 hover:bg-orange-50 bg-white rounded-lg shadow transition duration-200 ease-in-out dark:bg-gray-800">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -27,30 +27,30 @@
                     </div>
 
                     <div class="">
-                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                        <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Create Your Group
                         </p>
                         <a href="{{ route('student.createGroup') }}"><button
-                                class="px-2 py-1 bg-orange-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-orange-500">
+                                class="px-2 py-1 bg-orange-300 hover:bg-orange-500 hover:text-white transition-all rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-orange-500">
                                 Create
                             </button></a>
                     </div>
                 </div>
 
                 <!-- Genre and Supervisor Availability card -->
-                <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+                <div class="p-4 hover:bg-green-50 bg-white rounded-lg shadow dark:bg-gray-800 transition duration-200 ease-in-out">
                     <div
                         class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
                         <i class='bx bxs-file text-2xl'></i>
                     </div>
 
                     <div>
-                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                        <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Genre and Supervisor Availability
                         </p>
 
                         <a href="{{ route('student.supervisor.availability') }}"
-                            class="px-4 py-1 bg-green-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-green-500">
+                            class="px-4 py-1 bg-green-300 rounded hover:bg-green-500 hover:text-white transition-all shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-green-500">
                             Info
                         </a>
                     </div>
@@ -58,25 +58,25 @@
 
 
                 <!-- Card -->
-                <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
+                <div class="p-4 hover:bg-blue-50 bg-white rounded-lg shadow  dark:bg-gray-800 transition duration-200 ease-in-out">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
                         <i class='bx bxs-folder-open text-2xl'></i>
                     </div>
 
                     <div>
-                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                        <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Previous works
                         </p>
                         <button
-                            class="px-4 py-1  bg-blue-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500">
+                            class="px-4 py-1  bg-blue-300 hover:bg-blue-500 hover:text-white transition-all rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500">
                             Info
                         </button>
                     </div>
                 </div>
 
-                <!-- Card -->
-                <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
+                <!--Proposal form  -->
+                <div class="p-4 hover:bg-teal-50 bg-white rounded-lg shadow  dark:bg-gray-800 transition duration-200 ease-in-out">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
                         <i class="bx bx-news text-2xl"></i>
@@ -84,11 +84,11 @@
                     </div>
 
                     <div>
-                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                        <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Proposal Form
                         </p>
                         <a href="{{ route('student.proposalForm') }}"><button
-                                class="px-3 py-1  bg-teal-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
+                                class="px-3 py-1  bg-teal-200 hover:bg-teal-500 hover:text-white transition-all rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
                                 View
                             </button></a>
                     </div>
@@ -97,67 +97,63 @@
 
 
 
+            
             {{-- Notice --}}
             <div class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow float-right dark:bg-gray-800">
-                <h2 class="mb-2  font-medium text-gray-700 dark:text-gray-400">
+                <h2 class="mb-2 font-medium text-gray-700 dark:text-gray-400">
                     Notice
                 </h2>
-                {{-- Notice Card --}}
-                <div class="mb-4 p-4 bg-gray-50 rounded shadow  dark:bg-gray-900">
-
+                {{-- Notice Card 1 --}}
+                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            notice notice notice notice notice notice notice notice .......
+                            Attention: Final Project Submission Deadline Extension
                         </p>
                         <button
-                            class="px-2 py-1 bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500 flex ml-auto">
-                            view
-                        </button>
-                    </div>
-                </div>
-                {{-- Notice Card --}}
-                <div class="mb-4 p-4 bg-gray-50 rounded shadow  dark:bg-gray-900">
-
-                    <div>
-                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            notice notice notice notice notice notice notice notice .......
-                        </p>
-                        <button
-                            class="px-2 py-1 bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500 flex ml-auto">
-                            view
+                            class="px-2 py-1 text-sm bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                            View
                         </button>
                     </div>
                 </div>
 
-                {{-- Notice Card --}}
-                <div class="mb-4 p-4 bg-gray-50 rounded shadow  dark:bg-gray-900">
-
+                {{-- Notice Card 2 --}}
+                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            notice notice notice notice notice notice notice notice .......
+                            Important: Change in Project Evaluation Criteria
                         </p>
                         <button
-                            class="px-2 py-1 bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500 flex ml-auto">
-                            view
+                            class="px-2 py-1 text-sm bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex">
+                            View
                         </button>
                     </div>
                 </div>
 
-                {{-- Notice Card --}}
-                <div class="mb-4 p-4 bg-gray-50 rounded shadow  dark:bg-gray-900">
-
+                {{-- Notice Card 3 --}}
+                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
                     <div>
                         <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            notice notice notice notice notice notice notice notice .......
+                            Announcement: Project Presentation Schedule Released
                         </p>
                         <button
-                            class="px-2 py-1 bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500 flex ml-auto">
-                            view
+                            class="px-2 py-1 text-sm bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                            View
                         </button>
                     </div>
                 </div>
 
-
+                {{-- Notice Card 4 --}}
+                <div class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
+                    <div>
+                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                            Reminder: Final Project Demo Tomorrow
+                        </p>
+                        <button
+                            class="px-2 py-1 text-sm bg-blue-200 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                            View
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

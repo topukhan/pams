@@ -12,6 +12,7 @@ Route::middleware(['StudentAuth'])->group(function () {
     //Group formation
     Route::get('/student/createGroup', [GroupController::class, 'createGroup'])->name('student.createGroup');
     Route::post('/student/createGroup', [GroupController::class, 'storeGroup'])->name('student.storeGroup');
+    
     //My group
     Route::get('/student/myGroup', [GroupController::class, 'myGroup'])->name('student.myGroup');
     Route::get('/student/myGroupDetails', [GroupController::class, 'myGroupDetails'])->name('student.myGroupDetails');

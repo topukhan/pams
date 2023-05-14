@@ -13,10 +13,12 @@
                 <li class="mr-3">/ </li>
                 <li class="flex mr-3">Groups</li>
                 <li class="mr-3">/ </li>
-                <li class="flex mr-3"><a href="{{ route('student.myGroup') }}" class="hover:text-gray-900">My Group</a></li>
+                <li class="flex mr-3"><a href="{{ route('student.myGroup') }}" class="hover:text-gray-900">My Group</a>
+                </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('student.myGroupDetails') }}" class="text-gray-900 dark:text-white">Group Details</a>
+                    <a href="{{ route('student.myGroupDetails') }}" class="text-gray-900 dark:text-white">Group
+                        Details</a>
                 </li>
             </ol>
         </div>
@@ -50,8 +52,13 @@
             </div>
             <label for=""></label>
         </div>
-        <h1 class="bg-white text-2xl font-semibold  dark:divide-gray-700 dark:bg-gray-800 p-2">Topic:</h1>
-        <h1 class="text-xl font-semibold bg-green-50 dark:divide-gray-700 dark:bg-gray-800 p-2"> {{ $group_member->group->topic }} </h1>
+        <h1 class="ml-4 mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">Topic:</h1>
+
+        <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-sm dark:bg-gray-800">
+            <p class="text-xl text-gray-600 dark:text-gray-400">
+                {{ $group_member->group->topic }}
+            </p>
+        </div>
 
     </div>
 

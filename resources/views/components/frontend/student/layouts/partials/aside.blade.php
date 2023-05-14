@@ -48,12 +48,7 @@
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                             <a class="w-full" href="{{ route('student.createGroup') }}">Create Group</a>
                         </li>
-                        <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('student.pendingGroups') }}">
-                                Pending Groups
-                            </a>
-                        </li>
+                       
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                             <a class="w-full" href="{{route('student.myGroup')}}">
@@ -67,7 +62,7 @@
             {{-- Supervisor --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href=" {{ route('student.supervisor.availability') }} ">
                     <i class='bx bx-id-card text-2xl'></i>
                     <span class="ml-4">Supervisor</span>
                 </a>
@@ -149,7 +144,7 @@
             <form method="POST" action="{{ route('student.logout') }}">
                 @csrf
                     <button
-                        class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple">
                         Log Out
                         <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                             stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">

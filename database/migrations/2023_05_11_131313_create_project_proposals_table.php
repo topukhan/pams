@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('project_proposals', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups');
             $table->string('title');
             $table->string('course');
             $table->unsignedBigInteger('supervisor_id');

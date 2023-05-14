@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\GroupMember;
+use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class GroupController extends Controller
     // Store Group
     public function storeGroup(Request $request)
     {
-        
+
         try {
             $group = Group::create([
                 'name' => $request->group_name,
@@ -47,7 +48,7 @@ class GroupController extends Controller
     }
 
 
-    
+
 
 
 
@@ -64,6 +65,6 @@ class GroupController extends Controller
     {
         $id = $request->group;
         $group_members = GroupMember::where('group_id', $id)->get();
-        return view('frontend.student.myGroupDetails',['group_members'=>$group_members]);
+        return view('frontend.student.myGroupDetails', ['group_members' => $group_members]);
     }
 }

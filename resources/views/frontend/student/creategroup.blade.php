@@ -40,6 +40,7 @@
                                     <td class="px-4 py-3 text-sm">
                                         01
                                     </td>
+                                    
                                     <td class="px-3 py-3 ">
                                         <input type="email" name="email[]" placeholder="Enter email"
                                             class="w-full  focus:bg-white bg-gray-100 border-gray-100 h-8  rounded dark:bg-gray-800 ">

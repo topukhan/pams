@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 
 //register
-Route::get('/admin/register', [AdminLoginController::class, 'showRegisterForm'])->name('admin.register');
-Route::post('/admin/register', [AdminLoginController::class, 'registration'])->name('admin.register');
+Route::get('/admin/register', [AdminLoginController::class, 'showRegisterForm'])->name('admin.registerForm');
+Route::post('/admin/register', [AdminLoginController::class, 'registration'])->name('admin.register'); 
 // login
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'authenticate'])->name('admin.authenticate');

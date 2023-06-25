@@ -5,7 +5,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentLoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['StudentAuth'])->group(function () {
+Route::middleware(['StudentAuth'])->group(function () { 
     // Routes for authenticated Student users
     Route::get('/student/dashboard', [StudentLoginController::class, 'dashboard'])->name('student.dashboard');
 

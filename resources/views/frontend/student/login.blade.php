@@ -5,7 +5,7 @@
         <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"> Project Allocation &
             Management System (PAMS)</h2>
         <h3 class="mt-4 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">Student Account
-            Information</h3>
+            Information</h3> 
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

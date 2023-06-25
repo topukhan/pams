@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class FacultyLoginController extends Controller
 {
@@ -50,6 +51,8 @@ class FacultyLoginController extends Controller
     //Supervisor Dashboard View
     public function dashboard()
     {
+        $user = Auth::guard('faculty')->user();
+        View::share('user', $user);
         return view('frontend.supervisor.dashboard');
     }
 

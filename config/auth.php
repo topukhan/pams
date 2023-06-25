@@ -64,6 +64,7 @@ return [
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
+            'cookie' => 'admin_session',
         ],
     ],
 

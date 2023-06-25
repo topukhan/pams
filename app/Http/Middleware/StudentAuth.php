@@ -19,7 +19,12 @@ class StudentAuth
         if (!Auth::guard('student')->check()) {
             return redirect(route('student.login'));
         }
-
+    
+        // $user = Auth::guard('student')->user();
+    
+        // Pass the $user object to the view
+        // $request->attributes->add(['user' => $user]);
+    
         return $next($request);
     }
 }

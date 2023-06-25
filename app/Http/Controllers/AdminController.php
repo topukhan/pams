@@ -8,13 +8,18 @@ use App\Models\Supervisor;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\View;
 
 class AdminController extends Controller
 {
     // Admin Dashboard
     public function dashboard()
     {
+        $user = Auth::guard('admin')->user();
+        // dd($user);
+        View::share('user', $user);
         return view('backend.admin.dashboard');
     }
 

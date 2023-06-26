@@ -17,40 +17,40 @@
 
 <body class="antialiased">
     {{--  --}}
+
+
+
+    <div class="flex flex-col items-center justify-center min-h-screen bg-center bg-indigo-200 space-y-12">
+        <p class="text-3xl font-semibold text-center">
+            Project Allocation &amp; Management System (PAMS)
+        </p>
     
-      
-
-    <div class="relative flex sm:justify-center flex-col sm:items-center min-h-screen  bg-center bg-indigo-200 space-y-12 ">
-        <div class="flex justify-center items-center ">
-            <p class="text-3xl font-semibold">
-                Project Allocation & Management System (PAMS)
-            </p>
-        </div>
-
-        <div class="flex justify-center items-center  space-x-6">
+        <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-6">
             <a href="{{ route('student.login') }}"
-                class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 rounded shadow-lg  focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 px-10">
+                class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
                 Student Login
             </a>
-
+    
             <a href="{{ route('faculty.login') }}"
-                class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2  rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 px-10">Faculty Login</a>
-            {{-- @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                    @endif --}}
-        </div>
-        <a href="{{ route('register') }}"
-                class="inline-block bg-black hover:bg-blue-700 text-white font-semibold py-2 rounded shadow-lg  focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 px-10">
-                Register
+                class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                Faculty Login
             </a>
-
+        </div>
+    
+        <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-6">
             <a href="{{ route('admin.login') }}"
-                class="inline-block hover:bg-blue-700 bg-blue-500 text-white font-semibold py-2 rounded shadow-lg  focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 px-10">
+                class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
                 Admin Login
             </a>
+    
+            <a href="{{ route('register') }}"
+                class="inline-block bg-black hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 text-center">
+                Register
+            </a>
+        </div>
     </div>
     
+
 </body>
 
 </html>

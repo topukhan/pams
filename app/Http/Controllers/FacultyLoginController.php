@@ -52,7 +52,10 @@ class FacultyLoginController extends Controller
     public function dashboard()
     {
         $user = Auth::guard('faculty')->user();
-        View::share('user', $user);
+        // View::share('user', $user);
+        // dd($user);
+        session()->put('facultyUser', $user);
+        // dd(session());
         return view('frontend.supervisor.dashboard');
     }
 
@@ -60,6 +63,8 @@ class FacultyLoginController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('faculty')->logout();
+
+        session()->forget('facultyUser');
 
         $request->session()->invalidate();
 

@@ -49,8 +49,9 @@ class StudentLoginController extends Controller
     public function dashboard()
     {
         $user = Auth::guard('student')->user();
-        // dd($user);
-        View::share('user', $user);
+        // View::share('user', $user); (it only work for current request)
+        session()->put('studentUser', $user);
+        // dd(session()->get('user'));
         return view('frontend.student.dashboard');
     }
 
@@ -58,6 +59,8 @@ class StudentLoginController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('student')->logout();
+
+        session()->forget('studentUser');
 
         $request->session()->invalidate();
 

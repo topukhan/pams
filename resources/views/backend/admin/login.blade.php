@@ -1,7 +1,9 @@
 <x-backend.layouts.partials.head />
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        
+        <a href="/">
+            <img class="mx-auto h-28 w-auto" src="{{ asset('ui/frontend/images/uu-logo.png') }}" alt="uttara university logo">
+        </a>
         <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"> Admin Login (PAMS)</h2>
     
     </div>

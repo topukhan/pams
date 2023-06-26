@@ -106,7 +106,7 @@
                     <div class="p-3">
                         <p class="font-semibold">Admin</p>
                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                            {{ $user->first_name . ' ' . $user->last_name }} 
+                            {{ session('adminUser')->first_name . ' ' . session('adminUser')->last_name }} 
                         </p>
                     </div>
                 </div>

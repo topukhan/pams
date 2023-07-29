@@ -3,6 +3,7 @@
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentLoginController;
+use App\Http\Controllers\StudentProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['StudentAuth'])->group(function () { 
@@ -28,6 +29,8 @@ Route::middleware(['StudentAuth'])->group(function () {
     Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm');
     Route::get('/student/pendingGroups', [StudentController::class, 'pendingGroups'])->name('student.pendingGroups');
     Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
+
+    Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
 
     // *
      Route::post('/student/logout', [StudentLoginController::class, 'logout'])->name('student.logout');

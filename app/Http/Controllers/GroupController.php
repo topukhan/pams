@@ -2,23 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domain;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use validator;
 
 class GroupController extends Controller
 {
     // Create Group
     public function createGroup()
     {
-        return view('frontend.student.createGroup');
+        $domains = Domain::all();
+        $users = User::all();
+        return view('frontend.student.createGroup', compact('domains', 'users'));
     }
 
     // Store Group
     public function storeGroup(Request $request)
     {
+        dd('here');
+        $validator = Validator::make($request->all(),[
+            'project_type' => 'required',
+            'domain' => 'required',
+            'group_name' => 'min:4', 
+            'email' => 'required',
+            'name' => 'required',
+            'student_ID' => 'required',
+            'batch' => 'required',
+        ]);
+        if ($validator->passes()) {
+            return response()->json(['success'=>'Group Created']);
+        }
+        return response()->json(['error' => $validator->errors()]);
 
         try {
             $group = Group::create([
@@ -46,11 +64,6 @@ class GroupController extends Controller
         }
         return redirect()->route('student.dashboard')->withMessage("Group Has Been Created!");
     }
-
-
-
-
-
 
 
     //My Group

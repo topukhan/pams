@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +50,14 @@ class StudentLoginController extends Controller
     public function dashboard()
     {
         $user = Auth::guard('student')->user();
-        // View::share('user', $user); (it only work for current request)
+        // Retrieve the additional student data from the 'students' table using the authenticated user's ID
+        $studentData = Student::where('user_id', $user->id)->first();
+        // Check if the student data exists
+        if ($studentData) {
+            // Store the $studentData in the session as 'studentData'
+            session()->put('studentData', $studentData);
+        }
+        
         session()->put('studentUser', $user);
         // dd(session()->get('user'));
         return view('frontend.student.dashboard');

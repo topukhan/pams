@@ -46,7 +46,7 @@
                             <x-input-error :messages="$errors->get('project_type')" class="mt-2" />
                         </div>
                     </div>
-                    
+
                     {{-- Domain --}}
                     <div class="md:flex mb-4 px-4">
                         <div class="md:w-2/12">
@@ -66,6 +66,7 @@
                                         {{ $domain->name }}
                                     </option>
                                 @endforeach
+                            </select>
                                 {{-- Find specific supervisor with passed $id & auto select domain --}}
                                 {{-- @php
                         $supervisor = \App\Models\Supervisor::find($id);
@@ -81,7 +82,6 @@
                         @endforeach
                     @endif --}}
 
-                            </select>
                             <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                         </div>
 
@@ -136,8 +136,8 @@
                                             </div>
                                         </td>
                                         <td class="px-3 py-3">
-                                            <input type="number" name="student_ID[]" placeholder="Enter ID"
-                                                value="{{ session('studentData')->student_ID }}" disabled
+                                            <input type="number" name="student_id[]" placeholder="Enter ID"
+                                                value="{{ session('studentData')->student_id }}" disabled
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
                                         </td>
 
@@ -148,6 +148,7 @@
                                         </td>
 
                                     </tr>
+
                                     {{-- Member 2 --}}
                                     <tr class="text-gray-700 dark:text-gray-400 ">
                                         <td class="px-4 py-3 text-sm">
@@ -155,10 +156,13 @@
                                         </td>
                                         <td class="px-3 py-3 ">
                                             <select type="email" name="email[]"
-                                                class="w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
+                                                class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
                                                 <option value="0">select email</option>
-                                                @foreach ($users as $user)
-                                                    <option value="{{ $user->email }}"> {{ $user->email }}</option>
+                                                @foreach ($students as $student)
+                                                    @if ($student->email !== $loggedInStudentEmail)
+                                                        <option value="{{ $student->email }}"> {{ $student->email }}
+                                                        </option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </td>
@@ -169,7 +173,7 @@
                                             </div>
                                         </td>
                                         <td class="px-3 py-3">
-                                            <input type="number" name="student_ID[]" placeholder=" ID" disabled
+                                            <input type="number" name="student_id[]" placeholder=" ID" disabled
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
                                         </td>
 
@@ -179,14 +183,23 @@
                                         </td>
 
                                     </tr>
+
                                     {{-- Member 3 --}}
                                     <tr class="text-gray-700 dark:text-gray-400 ">
                                         <td class="px-4 py-3 text-sm">
                                             03
                                         </td>
                                         <td class="px-3 py-3 ">
-                                            <input type="email" name="email[]" placeholder="Enter email"
-                                                class="w-full  focus:bg-white bg-gray-100 border-gray-100 max-height  rounded dark:bg-gray-800 ">
+                                            <select type="email" name="email[]"
+                                                class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
+                                                <option value="0">select email</option>
+                                                @foreach ($students as $student)
+                                                    @if ($student->email !== $loggedInStudentEmail)
+                                                        <option value="{{ $student->email }}"> {{ $student->email }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
                                         </td>
                                         <td class="px-4 py-3">
                                             <div>
@@ -195,7 +208,7 @@
                                             </div>
                                         </td>
                                         <td class="px-3 py-3">
-                                            <input type="number" name="student_ID[]" placeholder=" ID" disabled
+                                            <input type="number" name="student_id[]" placeholder=" ID" disabled
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
                                         </td>
 
@@ -211,8 +224,16 @@
                                             04
                                         </td>
                                         <td class="px-3 py-3 ">
-                                            <input type="email" name="email[]" placeholder="Enter email"
-                                                class="w-full  focus:bg-white bg-gray-100 border-gray-100 max-height  rounded dark:bg-gray-800 ">
+                                            <select type="email" name="email[]"
+                                                class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
+                                                <option value="0">select email</option>
+                                                @foreach ($students as $student)
+                                                    @if ($student->email !== $loggedInStudentEmail)
+                                                        <option value="{{ $student->email }}"> {{ $student->email }}
+                                                        </option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
                                         </td>
                                         <td class="px-4 py-3">
                                             <div>
@@ -221,7 +242,7 @@
                                             </div>
                                         </td>
                                         <td class="px-3 py-3">
-                                            <input type="number" name="student_ID[]" placeholder=" ID" disabled
+                                            <input type="number" name="student_id[]" placeholder=" ID" disabled
                                                 class="w-full  focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
                                         </td>
 
@@ -249,61 +270,49 @@
             </div>
             <script>
                 $(document).ready(function() {
-                    $("#createGroup").submit(function(e) {
-                        e.preventDefault();
-                        var _token = $("input[name='_token']").val();
-                        var project_type = $(".project_type").val();
-                        var domain = $("#domain").val();
-                        console.log(domain)
+                    $('.email-select').change(function() {
+                        var selectedEmail = $(this).val();
+                        var selectedElement = $(this);
 
-                        // var emails = [];
-                        // var names = [];
-                        // var student_IDs = [];
-                        // var batches = [];
+                        var prevValue = selectedElement.data('prev-value');
 
-                        // Iterate over each email input field
-                        // $(".email").each(function() {
-                        //     var email = $(this).val();
-                        //     emails.push(email);
-                        // });
+                        // Show the previously selected email option in other select elements
+                        if (prevValue && prevValue !== selectedEmail) {
+                            $('.email-select').not(this).find('option[value="' + prevValue + '"]').show();
+                        }
 
-                        // // Iterate over each name input field
-                        // $(".input-name").each(function() {
-                        //     var name = $(this).val();
-                        //     names.push(name);
-                        // });
-
-                        // // Iterate over each student ID input field
-                        // $(".input-studentID").each(function() {
-                        //     var student_ID = $(this).val();
-                        //     student_IDs.push(student_ID);
-                        // });
-
-                        // // Iterate over each batch input field
-                        // $(".input-batch").each(function() {
-                        //     var batch = $(this).val();
-                        //     batches.push(batch);
-                        // });
-
-                        $.ajax({
-                            url: "{{ route('student.storeGroup') }}",
-                            type: "POST",
-                            data: {
-                                _token: _token,
-                                project_type: project_type,
-                                domain: domain,
-
-                            },
-                            success: function(data) {
-                                console.log(data);
-                            }
+                        var selectedStudent = <?php echo json_encode($students); ?>.find(function(student) {
+                            return student.email === selectedEmail;
                         });
+
+                        if (selectedStudent) {
+                            // Combine first_name and last_name
+                            var fullName = selectedStudent.first_name + ' ' + selectedStudent.last_name;
+
+                            // Set the full name value in the input field
+                            $('input[name="name[]"]', selectedElement.closest('tr')).val(fullName);
+
+                            if (selectedStudent.student) {
+                                $('input[name="student_id[]"]', selectedElement.closest('tr')).val(selectedStudent
+                                    .student.student_id);
+                                $('input[name="batch[]"]', selectedElement.closest('tr')).val(selectedStudent
+                                    .student.batch);
+                            } else {
+                                // Clear the student_id and batch inputs if no student data is available
+                                $('input[name="student_id[]"]', selectedElement.closest('tr')).val('');
+                                $('input[name="batch[]"]', selectedElement.closest('tr')).val('');
+                            }
+
+                            // Hide the selected option in other select elements
+                            $('.email-select').not(this).find('option[value="' + selectedEmail + '"]').hide();
+
+                            // Store the current value as the previous value
+                            selectedElement.data('prev-value', selectedEmail);
+                        }
                     });
                 });
             </script>
         </div>
-
-
     </div>
 
 

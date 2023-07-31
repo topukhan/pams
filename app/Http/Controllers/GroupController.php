@@ -8,6 +8,7 @@ use App\Models\GroupMember;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use validator;
 
 class GroupController extends Controller
@@ -16,8 +17,9 @@ class GroupController extends Controller
     public function createGroup()
     {
         $domains = Domain::all();
-        $users = User::all();
-        return view('frontend.student.createGroup', compact('domains', 'users'));
+        $students = User::with('student')->where('role','student')->get();
+        $loggedInStudentEmail = Auth::guard('student')->user()->email;
+        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudentEmail'));
     }
 
     // Store Group
@@ -30,7 +32,7 @@ class GroupController extends Controller
             'group_name' => 'min:4', 
             'email' => 'required',
             'name' => 'required',
-            'student_ID' => 'required',
+            'student_id' => 'required',
             'batch' => 'required',
         ]);
         if ($validator->passes()) {
@@ -55,7 +57,7 @@ class GroupController extends Controller
                     'group_id' => $group->id,
                     'email' => $email,
                     'name' => $request->name[$key],
-                    'student_ID' => $request->student_ID[$key],
+                    'student_id' => $request->student_id[$key],
                     'batch' => $request->batch[$key]
                 ]);
             } catch (QueryException $e) {

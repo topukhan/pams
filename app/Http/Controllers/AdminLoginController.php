@@ -54,29 +54,30 @@ class AdminLoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        
+
         $credentials = $request->only('email', 'password');
         if (Auth::guard('admin')->attempt($credentials, $request->remember)) {
-            
+
             return redirect()->intended(route('admin.dashboard'));
         }
+        
 
         return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([
             'email' => 'These credentials do not match our records.',
         ]);
     }
 
-     // Admin Logout 
-     public function logout(Request $request)
-     {
-         Auth::guard('admin')->logout();
+    // Admin Logout 
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
 
-         session()->forget('adminUser');
- 
-         $request->session()->invalidate();
- 
-         $request->session()->regenerateToken();
- 
-         return redirect()->route('admin.login');
-     }
+        session()->forget('adminUser');
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
+    }
 }

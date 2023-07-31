@@ -9,14 +9,15 @@ use Illuminate\Support\Facades\Auth;
 class Student extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'student_ID',
-        'user_id',
-        'batch',
-        'section',
-        'shift',
-    ];
-
+    // protected $fillable = [
+    //     'student_id',
+    //     'user_id',
+    //     'batch',
+    //     'section',
+    //     'shift',
+    // ];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+    // protected $fillable = ['project_type'];
 
     // public function group(){
     //     return $this->belongsTo(Group::class);

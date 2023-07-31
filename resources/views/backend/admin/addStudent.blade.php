@@ -81,7 +81,7 @@
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
-                                id="first_name" type="text" name="first_name" value=""
+                                id="first_name" type="text" name="first_name" value="{{ old('first_name') }}"
                                 placeholder="Enter first name">
                             <x-input-error :messages="$errors->get('first_name')" class="mt-2" />
                         </div>
@@ -99,7 +99,7 @@
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="last_name" type="text" name="last_name" value=""
+                                id="last_name" type="text" name="last_name" value="{{ old('last_name') }}"
                                 placeholder="Enter last name">
                             <x-input-error :messages="$errors->get('last_name')" class="mt-2" />
                         </div>
@@ -115,7 +115,7 @@
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name="department"
+                            <select name="department" 
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-500 dark:bg-gray-700 dark:text-gray-300"
                                 id="department">
                                 <option value="0" selected disabled>select department</option>
@@ -144,14 +144,14 @@
                             <div class="md:w-2/4">
                                 <input
                                     class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                    id="batch" type="number" name="batch" value=""
+                                    id="batch" type="number" name="batch" value="{{ old('batch') }}"
                                     placeholder="Enter Batch">
                                 <x-input-error :messages="$errors->get('batch')" class="mt-2" />
                             </div>
                             <div class="md:w-2/4">
                                 <input
                                     class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                    id="section" type="text" name="section" value=""
+                                    id="section" type="text" name="section" value="{{ old('section') }}"
                                     placeholder="Enter Section">
                                 <x-input-error :messages="$errors->get('section')" class="mt-2" />
                             </div>
@@ -195,7 +195,7 @@
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="phone_number" type="tel" name="phone_number" value=""
+                                id="phone_number" type="tel" name="phone_number" value="{{ old('phone_number') }}"
                                 placeholder="Enter Contact Number">
                             <x-input-error :messages="$errors->get('phone_number')" class="mt-2" />
                         </div>
@@ -206,14 +206,14 @@
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="student_ID">
+                                for="student_id">
                                 Student ID
                             </label>
                         </div>
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="student_ID" type="number" name="student_id" value=""
+                                id="student_id" type="number" name="student_id" value="{{ old('student_id') }}"
                                 placeholder="Enter student ID">
                             <x-input-error :messages="$errors->get('student_id')" class="mt-2" />
                         </div>
@@ -231,7 +231,7 @@
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="email" type="email" name="email" value=""
+                                id="email" type="email" name="email" value="{{ old('email') }}"
                                 placeholder="Enter email ">
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>

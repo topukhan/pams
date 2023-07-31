@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->string('email');
             $table->string('name');
-            $table->string('student_ID');
+            $table->string('student_id');
             $table->string('batch');
             $table->timestamps();
         });

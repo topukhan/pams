@@ -31,6 +31,8 @@ Route::middleware(['StudentAuth'])->group(function () {
     Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
 
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
+    Route::get('/student/profile/edit', [StudentProfileController::class, 'edit'])->name('student.profileEdit');
+    Route::patch('/student/profile/update', [StudentProfileController::class, 'update'])->name('student.profileUpdate');
 
     // *
      Route::post('/student/logout', [StudentLoginController::class, 'logout'])->name('student.logout');

@@ -49,12 +49,12 @@ class User extends Authenticatable
     // Relationship with supervisor model 
     public function supervisor()
     {
-        return $this->hasMany(Supervisor::class);
+        return $this->hasOne(Supervisor::class);
     }
 
     // Relationship with student model 
     public function student()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasOne(Student::class);
     }
 }

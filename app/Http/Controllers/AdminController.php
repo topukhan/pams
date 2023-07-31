@@ -70,7 +70,7 @@ class AdminController extends Controller
         try {
             Student::create([
                 'user_id' => $user->id,
-                'student_ID' => $request->student_id,
+                'student_id' => $request->student_id,
                 'batch' => $request->batch,
                 'section' => $request->section,
                 'shift' => $request->shift,

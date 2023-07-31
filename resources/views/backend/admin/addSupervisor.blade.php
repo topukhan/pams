@@ -18,15 +18,15 @@
             </ol>
         </div>
 
-        {{-- form --}}
         <div class="px-2 py-2">
             @if (session('message'))
-                <div class="alert alert-success alert-dismissible " role="alert">
-                    {{ session('message') }} 
-                    <button type="button" class="bg-green-400" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div class="alert alert-success alert-dismissible " role="alert">
+                {{ session('message') }} 
+                <button type="button" class="bg-green-400" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             @endif
             <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                {{-- form --}}
                 <form method="POST" action="{{ route('admin.addSupervisor') }}">
                     @csrf
                     {{-- role --}}

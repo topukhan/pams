@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('topic');
             $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->foreign('supervisor_id')->references('id')->on('supervisors')->onDelete('cascade');
+            $table->string('domain');
+            $table->string('project_type');
             $table->timestamps();
         });
     }

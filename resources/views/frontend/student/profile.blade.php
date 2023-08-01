@@ -77,7 +77,7 @@
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Shift:</span>
                     <span class="col-span-2">{{ $user->student->shift }}</span>
                 </div>
-                
+
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Type:</span>
                     @if ($user->student->project_type_status === 0)
@@ -85,18 +85,22 @@
                     @else
                         @php
                             $projectType = json_decode($user->student->project_type, true);
+                            
+                            foreach ($projectType as $key => $value) {
+                                $projectType[$key] = ucfirst($value);
+                            }
                         @endphp
                         <span class="col-span-2">
                             @foreach ($projectType as $type)
                                 {{ $type }}
                                 @if (!$loop->last)
-                                    &
+                                    ,
                                 @endif
                             @endforeach
                         </span>
                     @endif
                 </div>
-                
+
 
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Domain:</span>
@@ -116,7 +120,7 @@
                         </span>
                     @endif
                 </div>
-                
+
 
 
 

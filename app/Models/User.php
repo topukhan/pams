@@ -57,4 +57,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Student::class);
     }
+
+    public function pendingGroup()
+    {
+        return $this->hasOne(PendingGroup::class);
+    }
+    
 }

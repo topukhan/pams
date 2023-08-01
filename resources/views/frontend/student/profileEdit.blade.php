@@ -60,11 +60,11 @@
                         </label>
                         <div class="col-span-2 space-y-2 space-x-4">
                             <label class="inline-flex items-center">
-                                <input type="checkbox" name="project_type[]" value="Project" class="form-checkbox">
+                                <input type="checkbox" name="project_type[]" value="project" class="form-checkbox">
                                 <span class="ml-2">Project</span>
                             </label>
                             <label class="inline-flex items-center">
-                                <input type="checkbox" name="project_type[]" value="Thesis" class="form-checkbox">
+                                <input type="checkbox" name="project_type[]" value="thesis" class="form-checkbox">
                                 <span class="ml-2">Thesis</span>
                             </label>
                             <!-- Add more project types as needed -->

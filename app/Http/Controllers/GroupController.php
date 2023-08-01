@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Domain;
 use App\Models\Group;
 use App\Models\GroupMember;
+use App\Models\PendingGroup;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use validator;
 
 class GroupController extends Controller
@@ -17,29 +20,49 @@ class GroupController extends Controller
     public function createGroup()
     {
         $domains = Domain::all();
-        $students = User::with('student')->where('role','student')->get();
-        $loggedInStudentEmail = Auth::guard('student')->user()->email;
-        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudentEmail'));
+        $id = Auth::guard('student')->user()->id;
+        $loggedInStudent = User::where('id', $id)->with('student')->first();
+
+        $students = Student::whereJsonContains('project_type', 'project')
+            ->orWhereJsonContains('project_type', 'thesis')
+            ->orWhereNull('project_type')
+            ->get();
+
+
+        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent'));
     }
 
     // Store Group
     public function storeGroup(Request $request)
     {
-        dd('here');
-        $validator = Validator::make($request->all(),[
+        $request->validate([
             'project_type' => 'required',
             'domain' => 'required',
-            'group_name' => 'min:4', 
+            'group_name' => 'min:6',
             'email' => 'required',
             'name' => 'required',
             'student_id' => 'required',
             'batch' => 'required',
         ]);
-        if ($validator->passes()) {
-            return response()->json(['success'=>'Group Created']);
-        }
-        return response()->json(['error' => $validator->errors()]);
+        // before entry to groups, first store it in pending groups. 
+        // After confirm or getting feedbacks then store to main-> (groups) table 
+        try{
+            $members = json_encode($request->ids);
+            $pending_group = PendingGroup::create([
+                'project_type' => $request->project_type,
+                'domain' => $request->domain,
+                'name' => $request->group_name,
+                'members' => $members,
+                'positive_status' => 1, // acceptance count minimum 2 required to create a group
+                'member_feedback' => 1, // Initial feedback status is 1
+            ]);
+            dd($request);
 
+        }catch (QueryException $e) {
+
+            return redirect()->back()->withInput()->withErrors('Something went wrong!');
+        }
+        // create group
         try {
             $group = Group::create([
                 'name' => $request->group_name,
@@ -65,6 +88,18 @@ class GroupController extends Controller
             }
         }
         return redirect()->route('student.dashboard')->withMessage("Group Has Been Created!");
+    }
+
+    // Group Request
+    public function groupRequest(){
+
+        $id = Auth::guard('student')->user()->id;
+        $idJson = json_encode($id);
+        $pending_group = PendingGroup::whereJsonContains('members', $idJson)->first();
+        $memberIds = json_decode($pending_group->members, true);
+        $users = User::whereIn('id', $memberIds)->get();
+        // dd($pending_group->members);
+        return view('frontend.student.groupRequest', compact('pending_group', 'users'));
     }
 
 

@@ -51,7 +51,7 @@
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
-                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
+                                        <input type="number" name="student_id[]" placeholder="Enter ID"
                                             class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
                                     </td>
 
@@ -77,7 +77,7 @@
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
-                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
+                                        <input type="number" name="student_id[]" placeholder="Enter ID"
                                             class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
                                     </td>
 
@@ -103,7 +103,7 @@
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
-                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
+                                        <input type="number" name="student_id[]" placeholder="Enter ID"
                                             class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
                                     </td>
 
@@ -129,7 +129,7 @@
                                         </div>
                                     </td>
                                     <td class="px-3 py-3">
-                                        <input type="number" name="student_ID[]" placeholder="Enter ID"
+                                        <input type="number" name="student_id[]" placeholder="Enter ID"
                                             class="w-full  border-gray-100 h-8 rounded dark:bg-gray-800 ">
                                     </td>
 

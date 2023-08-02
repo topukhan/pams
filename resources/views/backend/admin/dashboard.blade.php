@@ -5,11 +5,11 @@
         </h2>
 
         @if (session('message'))
-                <div class="alert alert-success alert-dismissible " role="alert">
-                    {{ session('message') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            <div class="alert alert-success alert-dismissible " role="alert">
+                {{ session('message') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
 
         <div class=" grid gap-10 md:grid-cols-2 xl:grid-cols-2">
 
@@ -30,7 +30,7 @@
                         <p class="mb-2 text-md font-semibold text-gray-600 dark:text-gray-400">
                             Add Student
                         </p>
-                        <a href="{{ route('student.createGroup') }}"><button
+                        <a href="{{ route('admin.addStudent') }}"><button
                                 class="px-6 py-1 bg-orange-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-orange-500">
                                 Add
                             </button></a>
@@ -52,10 +52,11 @@
                         <p class="mb-2 text-md font-semibold text-gray-600 dark:text-gray-400">
                             Add Supervisor
                         </p>
-                        <button
-                            class="px-6 py-1 bg-green-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-green-500">
-                            Add
-                        </button>
+
+                        <a href="{{ route('admin.addSupervisor') }}"><button
+                                class="px-6 py-1 bg-green-300 rounded shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-green-500">
+                                Add
+                            </button></a>
                     </div>
                 </div>
 
@@ -82,7 +83,7 @@
                 <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
-                        <i class='bx bxs-help-circle text-2xl' ></i>
+                        <i class='bx bxs-help-circle text-2xl'></i>
 
                     </div>
 
@@ -101,7 +102,7 @@
 
 
             {{-- Notice --}}
-            
+
         </div>
     </div>
 

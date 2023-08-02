@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('groups', function (Blueprint $table) {
+        Schema::create('pending_groups', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('supervisor_id')->nullable();
-            $table->foreign('supervisor_id')->references('id')->on('supervisors')->onDelete('cascade');
-            $table->string('domain');
+            $table->string('name')->nullable();
+            $table->json('members');
             $table->string('project_type');
+            $table->string('domain');
+            $table->integer('positive_status');
+            $table->integer('member_feedback');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('pending_groups');
     }
 };

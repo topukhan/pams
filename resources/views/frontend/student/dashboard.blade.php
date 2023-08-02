@@ -10,7 +10,20 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if (session('studentData') && session('studentData')->project_type_status == 0)
+            <div class="relative top-1/4  w-full bg-red-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
+                Add Project Type in Your Profile
+                <button type="button" class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
+                    onclick="dismissAlert()">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div><br>
+        @endif
 
+        
         <div class=" grid gap-10 md:grid-cols-2 xl:grid-cols-3">
 
             <!-- Cards -->
@@ -166,6 +179,11 @@
         </div>
     </div>
 
-
+    <script>
+        function dismissAlert() {
+            var alert = document.getElementById('alert');
+            alert.style.display = 'none';
+        }
+    </script>
 
 </x-frontend.student.layouts.master>

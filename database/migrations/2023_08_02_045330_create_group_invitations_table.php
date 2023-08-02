@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('group_members', function (Blueprint $table) {
+        Schema::create('group_invitations', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('group_id');
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-            $table->string('email')->nullable();
-            $table->string('name')->nullable();
-            $table->string('user_id');
-            $table->string('batch')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->tinyInteger('status')->default(0); // 0: pending, 1: accepted, 2: rejected
             $table->timestamps();
+
+            $table->foreign('group_id')->references('id')->on('pending_groups')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('group_members');
+        Schema::dropIfExists('group_invitations');
     }
 };

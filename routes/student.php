@@ -16,6 +16,7 @@ Route::middleware(['StudentAuth'])->group(function () {
 
     //Group Request
     Route::get('/student/groupRequests', [GroupController::class, 'groupRequest'])->name(('student.groupRequest'));
+    Route::post('/student/groupRequestResponse/{invitation}', [GroupController::class, 'groupRequestResponse'])->name(('student.groupRequestResponse'));
 
     
     //My group

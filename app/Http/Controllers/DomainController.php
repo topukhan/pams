@@ -14,7 +14,6 @@ class DomainController extends Controller
     public function index()
     {
         $domains = Domain::paginate(4);
-        // dd($domains);
         return view('backend.admin.domain.index', compact('domains'));
     }
 

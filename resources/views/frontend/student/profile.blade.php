@@ -104,7 +104,7 @@
 
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Domain:</span>
-                    @if ($user->student->domain === 'null')
+                    @if ($user->student->domain === 'null' || $user->student->domain === null)
                         <span class="col-span-2 text-green-600">Not set yet</span>
                     @else
                         @php

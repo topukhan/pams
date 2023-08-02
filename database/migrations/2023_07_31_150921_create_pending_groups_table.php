@@ -19,7 +19,10 @@ return new class extends Migration
             $table->string('domain');
             $table->integer('positive_status');
             $table->integer('member_feedback');
+            $table->unsignedBigInteger('created_by');
             $table->timestamps();
+
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

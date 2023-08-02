@@ -141,4 +141,54 @@ class StudentController extends Controller
     {
         return view('frontend.student.pendingGroupDetails');
     }
+
+    // Profile
+
+    public function profile()
+    {
+        return view('frontend.student.profile');
+    }
+
+
+    // Tasklist
+    public function taskList()
+    {
+        return view('frontend.student.taskList');
+    }
+
+    // Task Details
+    public function taskDetails()
+    {
+        return view('frontend.student.taskDetails');
+    }
+
+     // Upcoming Events
+     public function upcomingEvents()
+     {
+         return view('frontend.student.upcomingEvents');
+     }
+
+       // Upcoming Event Details
+       public function upcomingEventDetails()
+       {
+           return view('frontend.student.upcomingEventDetails');
+       }
+
+        // Assistance
+        public function assistance()
+        {
+            return view('frontend.student.assistance');
+        }
+
+        // Change Password
+        public function changePassword()
+        {
+           return view('frontend.student.changePassword');
+        }
+
+        // previous Projects
+        public function previousProjects()
+        {
+           return view('frontend.student.previousProjects');
+        }
 }

@@ -46,13 +46,14 @@
                         aria-label="submenu">
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('student.createGroup') }}">Create Group</a>
+                            <a class="w-full" href="{{ route('student.createGroup') }}">
+                                <span class="ml-4" >Create Group</span></a>
                         </li>
                        
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                             <a class="w-full" href="{{route('student.myGroup')}}">
-                                My Group
+                                <span class="ml-4" >My Group</span>
                             </a>
                         </li>
 
@@ -104,20 +105,19 @@
                         aria-label="submenu">
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="pages/login.html">Create Groups</a>
+                            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" 
+                            href="{{route('student.taskList')}}">
+                                {{-- <i class='bx bx-task text-2xl'></i>                                 --}}
+                                <span class="ml-4" >Tasks</span></a>
                         </li>
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="pages/create-account.html">
-                                Pending Groups
-                            </a>
+                            <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" 
+                            href="{{route('student.upcomingEvents')}}">
+                                {{-- <i class='bx bx-list-ul text-2xl'></i> --}}
+                                <span class="ml-4" >Upcoming Events</span></a>
                         </li>
-                        <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="pages/forgot-password.html">
-                                Approved Groups
-                            </a>
-                        </li>
+                       
 
                     </ul>
                 </template>
@@ -125,7 +125,7 @@
             {{-- Assistance --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{route('student.assistance')}}">
                     <i class='bx bx-support text-2xl'></i>
                     <span class="ml-4">Assistance</span>
                 </a>
@@ -133,7 +133,7 @@
             {{-- Change Password --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{route('student.changePassword')}}">
                     <i class='bx bx-lock-open text-2xl'></i>
                     <span class="ml-4">Change Password</span>
                 </a>
@@ -282,20 +282,13 @@
                         aria-label="submenu">
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="pages/login.html">Create Groups</a>
+                            <a class="w-full" href="#">Tasks</a>
                         </li>
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="pages/create-account.html">
-                                Pending Groups
-                            </a>
+                            <a class="w-full" href="#">Upcoming Events</a>
                         </li>
-                        <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="pages/forgot-password.html">
-                                Approved Groups
-                            </a>
-                        </li>
+                       
 
                     </ul>
                 </template>

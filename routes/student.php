@@ -31,5 +31,16 @@ Route::middleware(['StudentAuth'])->group(function () {
 
     // *
      Route::post('/student/logout', [StudentLoginController::class, 'logout'])->name('student.logout');
+     
+     //  
+     Route::get('/student/profile', [StudentController::class, 'profile'])->name('student.profile');
+     Route::get('/student/taskList', [StudentController::class, 'taskList'])->name('student.taskList');
+     Route::get('/student/taskDetails', [StudentController::class, 'taskDetails'])->name('student.taskDetails');
+     Route::get('/student/upcomingEvents', [StudentController::class, 'upcomingEvents'])->name('student.upcomingEvents');
+     Route::get('/student/upcomingEventDetails', [StudentController::class, 'upcomingEventDetails'])->name('student.upcomingEventDetails');
+     Route::get('/student/assistance', [StudentController::class, 'assistance'])->name('student.assistance');
+     Route::get('/student/changePassword', [StudentController::class, 'changePassword'])->name('student.changePassword');
+     Route::get('/student/previousProjects', [StudentController::class, 'previousProjects'])->name('student.previousProjects');
+
 
 });

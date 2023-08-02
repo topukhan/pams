@@ -51,4 +51,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Supervisor::class);
     }
+
+    //Relationship with student model
+    public function student()
+    {
+        return $this->hasOne(Student::class);
+    }
 }

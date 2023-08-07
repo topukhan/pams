@@ -192,6 +192,7 @@
 
                                                 </select>
                                             </td>
+                                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                             <td class="px-4 py-3">
                                                 <div>
                                                     <input type="hidden" name="ids[]" >

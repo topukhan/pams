@@ -26,13 +26,20 @@ class StudentProfileController extends Controller
         $request->validate([
             'project_type' => 'required',
         ]);
+        
         try {
             $user = User::findOrFail($request->id);
-            $user->student->update([
+            $studentData = [
                 'project_type' => json_encode($request->project_type),
-                'domain' => json_encode($request->domain),
-                'project_type_status' => true
-             ]);
+                'project_type_status' => true,
+            ];
+        
+            // Check if $request->domain has a value, then include it in the update data.
+            if (!is_null($request->domain)) {
+                $studentData['domain'] = json_encode($request->domain);
+            }
+        
+            $user->student->update($studentData);
             return redirect()->route('student.profile')->withMessage('Edited Successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', $th->getMessage());

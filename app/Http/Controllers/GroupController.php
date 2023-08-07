@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use validator;
 
 class GroupController extends Controller
 {
@@ -24,13 +23,17 @@ class GroupController extends Controller
         $domains = Domain::all();
         $id = Auth::guard('student')->user()->id;
         $loggedInStudent = User::where('id', $id)->with('student')->first();
+        $groupsMembers = Group::pluck('members')->flatten()->unique();
+        $pendingGroupsMembers = PendingGroup::pluck('members')->flatten()->unique();
 
-        $students = Student::whereJsonContains('project_type', 'project')
-            ->orWhereJsonContains('project_type', 'thesis')
-            ->orWhereNull('project_type')
+        // Decode JSON data to get arrays of integers
+        $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+        $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+
+        $students = Student::whereNotIn('user_id', $groupsMembersArray)
+            ->whereNotIn('user_id', $pendingGroupsMembersArray)
             ->get();
-//test try 
-            $this->transferPendingGroups();
+        // dd($students);
         return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent'));
     }
 
@@ -40,7 +43,7 @@ class GroupController extends Controller
         $request->validate([
             'project_type' => 'required',
             'domain' => 'required',
-            'email' => 'required',
+            'email.*' => 'required|email',
             'name' => 'required',
             'student_id' => 'required',
             'batch' => 'required',
@@ -131,6 +134,8 @@ class GroupController extends Controller
             // dd($group_id);
             // $invitations = GroupInvitation::where('group_id', $group_id)->get();
         }
+        //for delete if all rejected
+        $this->deletePendingGroups();
 
         return view('frontend.student.groupRequest', compact('pending_group', 'users', 'invitation', 'loggedInStudent'));
     }
@@ -144,8 +149,6 @@ class GroupController extends Controller
             $invitation->update([
                 'status' => $request->response,
             ]);
-            // Call the method to check and transfer pending groups
-            $this->transferPendingGroups();
 
             $id = $request->id;
             $isPositive = $request->response == 1 ? 1 : 0;
@@ -157,6 +160,11 @@ class GroupController extends Controller
             $pending_group->member_feedback = $pending_group->member_feedback + 1;
             $pending_group->update();
 
+            // Call the method to check and transfer pending groups
+            $this->transferPendingGroups();
+            //for delete if all rejected
+            $this->deletePendingGroups();
+
             DB::commit();
         } catch (QueryException $e) {
             DB::rollBack();
@@ -167,59 +175,90 @@ class GroupController extends Controller
 
     // Add a new method for transferring pending groups to groups table
     public function transferPendingGroups()
-{
-    $pendingGroups = PendingGroup::where('positive_status', '>=', 2)->where('member_feedback', 4)->get();
+    {
+        $pendingGroups = PendingGroup::where('positive_status', '>=', 2)->where('member_feedback', '>=', 4)->get();
 
-    foreach ($pendingGroups as $pendingGroup) {
-        try {
-            DB::beginTransaction();
+        foreach ($pendingGroups as $pendingGroup) {
+            try {
+                DB::beginTransaction();
+                // Create a new group entry
+                $group = Group::create([
+                    'name' => $pendingGroup->name,
+                    'project_type' => $pendingGroup->project_type,
+                    'domain' => $pendingGroup->domain,
+                    // Add any other required fields for the group here
+                ]);
 
-            // Create a new group entry
-            $group = Group::create([
-                'name' => $pendingGroup->name,
-                'project_type' => $pendingGroup->project_type,
-                'domain' => $pendingGroup->domain,
-                // Add any other required fields for the group here
-            ]);
+                // Get the members with status 1 from group_invitations
+                $membersArray = json_decode($pendingGroup->members);
+                $acceptedMembers = GroupInvitation::whereIn('user_id', $membersArray)
+                    ->where('status', 1)
+                    ->pluck('user_id')
+                    ->toArray();
 
-            // Get the members with status 1 from group_invitations
-            $membersArray = json_decode($pendingGroup->members);
-            $acceptedMembers = GroupInvitation::whereIn('user_id', $membersArray)
-                ->where('status', 1)
-                ->pluck('user_id')
-                ->toArray();
-
-            // Transfer group members from pending_group to group_members table
-            foreach ($acceptedMembers as $member) {
-                $groupMember = GroupMember::where('user_id', $member)->first();
-                if ($groupMember) {
-                    $groupMember->update(['group_id' => $group->id]);
-                } else {
-                    GroupMember::create([
-                        'group_id' => $group->id,
-                        'user_id' => $member,
-                        // Add any other required fields for group members here
-                    ]);
+                // Transfer group members from pending_group to group_members table
+                foreach ($acceptedMembers as $member) {
+                    $groupMember = GroupMember::where('user_id', $member)->first();
+                    if ($groupMember) {
+                        $groupMember->update(['group_id' => $group->id]);
+                    } else {
+                        GroupMember::create([
+                            'group_id' => $group->id,
+                            'user_id' => $member,
+                            // Add any other required fields for group members here
+                        ]);
+                    }
                 }
+                // Update the members column in the group table with accepted member user_ids
+                $group->update(['members' => json_encode($acceptedMembers)]);
+
+                // Delete the pending group entry after transferring data
+                $pendingGroup->delete();
+
+                DB::commit();
+            } catch (QueryException $e) {
+                DB::rollBack();
+                // Handle any errors during the transfer process
+                // You can log the error or redirect to an error page if needed
             }
-
-            // Delete the pending group entry after transferring data
-            $pendingGroup->delete();
-
-            DB::commit();
-        } catch (QueryException $e) {
-            DB::rollBack();
-            // Handle any errors during the transfer process
-            // You can log the error or redirect to an error page if needed
         }
     }
-}
+
+
+    public function deletePendingGroups()
+    {
+        $pendingGroups = PendingGroup::where('positive_status', '=', 1)->where('member_feedback', '>=', 4)->get();
+
+        foreach ($pendingGroups as $pendingGroup) {
+            try {
+                DB::beginTransaction();
+
+
+                // Delete the pending group
+                $pendingGroup->delete();
+
+                DB::commit();
+            } catch (QueryException $e) {
+                DB::rollBack();
+                // Handle any errors during the transfer process
+                // You can log the error or redirect to an error page if needed
+            }
+        }
+    }
 
     //My Group
     public function myGroup()
     {
-        $groups = Group::all();
-        return view('frontend.student.myGroup', ['groups' => $groups]);
+        $id = Auth::guard('student')->user()->id;
+        $group = Group::whereJsonContains('members', $id)->first();
+        $members = null;
+        if ($group) {
+            $memberIds = json_decode($group->members, true);
+            $members = User::whereIn('id', $memberIds)->get();
+        }
+
+
+        return view('frontend.student.myGroup', compact('group', 'members'));
     }
 
     //My Group Details 

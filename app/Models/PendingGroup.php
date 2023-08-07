@@ -13,4 +13,9 @@ class PendingGroup extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function groupInvitation()
+    {
+        return $this->hasMany(GroupInvitation::class);
+    }
 }

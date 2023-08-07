@@ -36,6 +36,7 @@
                         </button>
                     </div><br>
                 @endif
+                
                 <div class="flex justify-end">
                     <button class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-2 px-4 rounded">
                         <a href="{{ route('student.profileEdit') }}">Edit</a>
@@ -104,7 +105,7 @@
 
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Domain:</span>
-                    @if ($user->student->domain === 'null' || $user->student->domain === null)
+                    @if ($user->student->domain === null)
                         <span class="col-span-2 text-green-600">Not set yet</span>
                     @else
                         @php

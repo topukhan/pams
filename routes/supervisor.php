@@ -1,15 +1,13 @@
 <?php
 
-use App\Http\Controllers\Coordinator;
 use App\Http\Controllers\CoordinatorController;
-use App\Http\Controllers\FacultyLoginController;
+use App\Http\Controllers\SupervisorLoginController;
 use App\Http\Controllers\SupervisorController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['FacultyAuth'])->group(function () {
-    // Routes for authenticated Faculty users
-    // Supervisor
-    Route::get('/supervisor/dashboard', [FacultyLoginController::class, 'dashboard'])->name('supervisor.dashboard');
+Route::middleware(['SupervisorAuth'])->group(function () {
+    
+    Route::get('/supervisor/dashboard', [SupervisorLoginController::class, 'dashboard'])->name('supervisor.dashboard');
     //request
     Route::get('/supervisor/groupRequests', [SupervisorController::class, 'groupRequests'])->name('supervisor.groupRequests');
     Route::get('/supervisor/groupRequestDetails', [SupervisorController::class, 'groupRequestDetails'])->name('supervisor.groupRequestDetails');
@@ -23,15 +21,7 @@ Route::middleware(['FacultyAuth'])->group(function () {
     Route::get('/supervisor/assignTask', [SupervisorController::class, 'assignTask'])->name('supervisor.assignTask');
     
     // *
-    Route::post('/faculty/logout', [FacultyLoginController::class, 'logout'])->name('faculty.logout');
-
-
-
-
-    //  /////Coordinator
-    Route::get('/coordinator/dashboard', [CoordinatorController::class, 'dashboard'])->name('coordinator.dashboard');
-
-    Route::get('/coordinator/formedGroupsLists', [CoordinatorController::class, 'formedGroupsLists'])->name('coordinator.formedGroupsLists');
+    Route::post('/supervisor/logout', [SupervisorLoginController::class, 'logout'])->name('supervisor.logout');
 
 
 });

@@ -2,7 +2,7 @@
 
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Add New Student </h2>
+            Add New Coordinator </h2>
 
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
@@ -12,7 +12,8 @@
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('admin.addCoordinatorForm') }}" class="text-gray-900 dark:text-white">Add Coordinator</a>
+                    <a href="{{ route('admin.addCoordinatorForm') }}" class="text-gray-900 dark:text-white">Add
+                        Coordinator</a>
                 </li>
             </ol>
         </div>
@@ -58,14 +59,14 @@
 
 
             <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <form method="POST" action="{{ route('admin.addStudent') }}">
+                <form method="POST" action="{{ route('admin.addCoordinator') }}">
                     @csrf
                     {{-- role --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
-                                id="role" type="hidden" name="role" value="student">
+                                id="role" type="hidden" name="role" value="coordinator">
                         </div>
                     </div>
 
@@ -115,7 +116,7 @@
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name="department" 
+                            <select name="department"
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-500 dark:bg-gray-700 dark:text-gray-300"
                                 id="department">
                                 <option value="0" selected disabled>select department</option>
@@ -126,63 +127,6 @@
                             <x-input-error :messages="$errors->get('department')" class="mt-2" />
                         </div>
                     </div>
-
-                    {{-- batch/section --}}
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/4">
-                            <label class=" text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 "
-                                for="batch">
-                                Batch /
-                            </label>
-                            <label
-                                class=" text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="section">
-                                Section
-                            </label>
-                        </div>
-                        <div class="md:w-3/4 md:flex space-x-2">
-                            <div class="md:w-2/4">
-                                <input
-                                    class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                    id="batch" type="number" name="batch" value="{{ old('batch') }}"
-                                    placeholder="Enter Batch">
-                                <x-input-error :messages="$errors->get('batch')" class="mt-2" />
-                            </div>
-                            <div class="md:w-2/4">
-                                <input
-                                    class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                    id="section" type="text" name="section" value="{{ old('section') }}"
-                                    placeholder="Enter Section">
-                                <x-input-error :messages="$errors->get('section')" class="mt-2" />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {{-- Shift --}}
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/4">
-                            <span class="text-gray-700 font-semibold dark:text-gray-300">
-                                Shift :
-                            </span>
-                        </div>
-                        <div class="md:w-3/4 pl-5">
-                            <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-                                <input type="radio"
-                                    class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray dark:bg-gray-700 border-separate"
-                                    name="shift" value="day" />
-                                <span class="ml-2 ">Day</span>
-                            </label>
-                            <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                                <input type="radio"
-                                    class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray dark:bg-gray-700 border-separate"
-                                    name="shift" value="evening" />
-                                <span class="ml-2 ">Evening</span>
-                            </label>
-                            <x-input-error :messages="$errors->get('shift')" class="mt-2" />
-                        </div>
-                    </div>
-
                     {{-- Phone Number --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
@@ -201,21 +145,39 @@
                         </div>
                     </div>
 
-                    {{-- Student ID --}}
+                    {{-- Faculty ID --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="student_id">
-                                Student ID
+                                for="faculty_id">
+                                Faculty ID
                             </label>
                         </div>
                         <div class="md:w-3/4">
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="student_id" type="number" name="student_id" value="{{ old('student_id') }}"
-                                placeholder="Enter student ID">
-                            <x-input-error :messages="$errors->get('student_id')" class="mt-2" />
+                                id="faculty_id" type="number" name="faculty_id" value="{{ old('faculty_id') }}"
+                                placeholder="Enter Faculty ID">
+                            <x-input-error :messages="$errors->get('faculty_id')" class="mt-2" />
+                        </div>
+                    </div>
+
+                    {{-- Designation --}}
+                    <div class="md:flex mb-6">
+                        <div class="md:w-1/4">
+                            <label
+                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
+                                for="designation">
+                                Designation
+                            </label>
+                        </div>
+                        <div class="md:w-3/4">
+                            <input
+                                class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
+                                id="designation" type="text" name="designation" value=""
+                                placeholder="Enter designation">
+                            <x-input-error :messages="$errors->get('designation')" class="mt-2" />
                         </div>
                     </div>
 

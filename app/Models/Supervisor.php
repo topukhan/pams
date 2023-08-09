@@ -8,12 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Supervisor extends Model
 {
     use HasFactory;
-    protected $fillable =[
-        'user_id',
-        'faculty_id',
-        'designation',
-        'availability',
-        'expertise_area',
+    protected $guarded =[
+        'id',
+        'created_at',
+        'updated_at',
     ];
 
     // Relationship with Users table

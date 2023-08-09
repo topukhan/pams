@@ -6,12 +6,12 @@
         </a>
         <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"> Project Allocation &
             Management System (PAMS)</h2>
-        <h3 class="mt-4 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">Faculty Account
+        <h3 class="mt-4 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">Supervisor Account
             Information</h3>
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form method="POST" action="{{ route('faculty.authenticate') }}" class="space-y-6">
+        <form method="POST" action="{{ route('supervisor.authenticate') }}" class="space-y-6">
             @csrf
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>

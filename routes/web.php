@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\FacultyLoginController;
+use App\Http\Controllers\CoordinatorLoginController;
+use App\Http\Controllers\SupervisorLoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentLoginController;
 use Illuminate\Support\Facades\Route;
@@ -22,11 +23,15 @@ Route::get('/', function () {
 
 //Student login
 Route::get('/student/login', [StudentLoginController::class, 'showLoginForm'])->name('student.login');
-Route::post('/student/login', [StudentLoginController::class, 'authenticate'])->name('student.authenticate');
+Route::post('/student/auth', [StudentLoginController::class, 'authenticate'])->name('student.authenticate');
 
-//Supervisor/ Faculty Login
-Route::get('/faculty/login', [FacultyLoginController::class, 'showLoginForm'])->name('faculty.login');
-Route::post('/faculty/login', [FacultyLoginController::class, 'authenticate'])->name('faculty.authenticate');
+//Supervisor Login
+Route::get('/supervisor/login', [SupervisorLoginController::class, 'showLoginForm'])->name('supervisor.login');
+Route::post('/supervisor/auth', [SupervisorLoginController::class, 'authenticate'])->name('supervisor.authenticate');
+
+//Coordinator Login
+Route::get('/coordinator/login', [CoordinatorLoginController::class, 'showLoginForm'])->name('coordinator.login');
+Route::post('/coordinator/auth', [CoordinatorLoginController::class, 'authenticate'])->name('coordinator.authenticate');
 
 
 Route::middleware('auth')->group(function () {
@@ -40,4 +45,5 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 include __DIR__ . '/admin.php';
 include __DIR__ . '/student.php';
-include __DIR__ . '/faculty.php';
+include __DIR__ . '/coordinator.php';
+include __DIR__ . '/supervisor.php';

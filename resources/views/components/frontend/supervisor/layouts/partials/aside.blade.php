@@ -103,7 +103,7 @@
         </ul>
         {{-- Log Out --}}
         <div class=" my-6 px-6 py-3">
-            <form method="POST" action="{{ route('faculty.logout') }}">
+            <form method="POST" action="{{ route('supervisor.logout') }}">
                 @csrf
                     <button
                     class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple" type="submit">
@@ -236,7 +236,7 @@
         {{-- Log Out --}}
         <div class="my-6 px-6 py-3">
             
-            <form method="POST" action="{{ route('faculty.logout') }}">
+            <form method="POST" action="{{ route('supervisor.logout') }}">
                 @csrf
                     <button
                         class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">

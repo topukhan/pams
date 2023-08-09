@@ -37,6 +37,13 @@ class AdminController extends Controller
         return view('backend.admin.addSupervisor', compact('domains'));
     }
 
+    // Add Coordinator form view
+    public function addCoordinatorForm()
+    {
+        
+        return view('backend.admin.addCoordinator');
+    }
+
     // Add Student to Database table
     public function addStudent(Request $request)
     {

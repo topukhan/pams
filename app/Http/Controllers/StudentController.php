@@ -191,4 +191,12 @@ class StudentController extends Controller
         {
            return view('frontend.student.previousProjects');
         }
+
+        // group member Request
+        public function groupMemberRequest()
+        {
+           return view('frontend.student.groupMemberRequest');
+        }
+
+
 }

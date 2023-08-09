@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Coordinator;
+use App\Http\Controllers\CoordinatorController;
 use App\Http\Controllers\FacultyLoginController;
 use App\Http\Controllers\SupervisorController;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +24,14 @@ Route::middleware(['FacultyAuth'])->group(function () {
     
     // *
     Route::post('/faculty/logout', [FacultyLoginController::class, 'logout'])->name('faculty.logout');
+
+
+
+
+    //  /////Coordinator
+    Route::get('/coordinator/dashboard', [CoordinatorController::class, 'dashboard'])->name('coordinator.dashboard');
+
+    Route::get('/coordinator/formedGroupsLists', [CoordinatorController::class, 'formedGroupsLists'])->name('coordinator.formedGroupsLists');
+
+
 });

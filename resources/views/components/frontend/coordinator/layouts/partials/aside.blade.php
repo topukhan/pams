@@ -22,14 +22,15 @@
             </li>
         </ul>
         <ul>
-            {{-- Groups  --}}
+
+            {{-- Groups  COORDINATOR --}}
             <li class="relative px-6 py-3">
                 <button
                     class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     @click="toggleGroupsMenu" aria-haspopup="true">
                     <span class="inline-flex items-center">
                         <i class='bx bx-group text-2xl'></i>
-                        <span class="ml-4">Groups</span>
+                        <span class="ml-4">Requests</span>
                     </span>
                     <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd"
@@ -47,21 +48,20 @@
 
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('supervisor.groupRequests') }}">
-                                Requests
+                            <a class="w-full" href="{{ route('coordinator.formedGroupsLists') }}">
+                                Groups
                             </a>
                         </li>
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                             <a class="w-full" href="{{ route('supervisor.approvedGroups') }}">
-                                Approved Groups
+                                Supervisor
                             </a>
                         </li>
 
                     </ul>
                 </template>
             </li>
-
             {{-- Assign Task --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -105,18 +105,19 @@
         <div class=" my-6 px-6 py-3">
             <form method="POST" action="{{ route('faculty.logout') }}">
                 @csrf
-                    <button
-                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple" type="submit">
+                <button
+                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple"
+                    type="submit">
                     Log Out
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
                         </path>
                     </svg>
                 </button>
             </form>
-                
+
         </div>
     </div>
 </aside>
@@ -138,8 +139,8 @@
         <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
             PAMS
         </a>
-         {{-- Dashboard --}}
-         <ul class="mt-6">
+        {{-- Dashboard --}}
+        <ul class="mt-6">
             <li class="relative px-6 py-3">
                 <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                     aria-hidden="true"></span>
@@ -235,19 +236,20 @@
         </ul>
         {{-- Log Out --}}
         <div class="my-6 px-6 py-3">
-            
+
             <form method="POST" action="{{ route('faculty.logout') }}">
                 @csrf
-                    <button
-                        class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
-                        Log Out
-                        <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
-                            </path>
-                        </svg>
-                    </button>
+                <button
+                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    type="submit">
+                    Log Out
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                </button>
             </form>
         </div>
     </div>

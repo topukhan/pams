@@ -6,17 +6,17 @@
         </a>
         <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900"> Project Allocation &
             Management System (PAMS)</h2>
-        <h3 class="mt-4 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">Supervisor Account
+        <h3 class="mt-4 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">Coordinator Account
             Information</h3>
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form method="POST" action="{{ route('supervisor.authenticate') }}" class="space-y-6">
+        <form method="POST" action="{{ route('coordinator.authenticate') }}" class="space-y-6">
             @csrf
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                 <div class="mt-2">
-                    <input id="email" name="email" type="email" :value="old('email')" autofocus autocomplete="email" required
+                    <input id="email" name="email" type="email" value="{{old('email')}}" autofocus autocomplete="email" required
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>

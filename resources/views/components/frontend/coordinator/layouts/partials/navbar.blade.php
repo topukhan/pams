@@ -76,8 +76,8 @@
                         </li>
                         <li class="flex">
                             <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                href="#">
-                                <span>Sales</span>
+                                href="{{ route('coordinator.requests')}}">
+                                <span>Requests</span>
                                 <span
                                     class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
                                     2
@@ -104,9 +104,9 @@
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" ><path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z" class=""></path></svg>
                     </button>
                     <div class="p-3">
-                        <p class="font-semibold">{{ ucfirst(session('supervisorUser')->role) }} </p>
+                        <p class="font-semibold">{{ ucfirst(session('coordinatorUser')->role) }} </p>
                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                            {{ session('supervisorUser')->first_name . ' ' . session('supervisorUser')->last_name }} 
+                            {{ session('coordinatorUser')->first_name . ' ' . session('coordinatorUser')->last_name }} 
                         </p>
                     </div>
                 </div>

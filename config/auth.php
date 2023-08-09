@@ -53,11 +53,17 @@ return [
             'provider' => 'users',
             'cookie' => 'student_session',
         ],
-        // Faculty Guard
-        'faculty' => [
+        // supervisor Guard
+        'supervisor' => [
             'driver' => 'session',
             'provider' => 'users',
-            'cookie' => 'faculty_session',
+            'cookie' => 'supervisor_session',
+        ],
+        // coordinator guard
+        'coordinator' => [
+            'driver' => 'session',
+            'provider' => 'users',
+            'cookie' => 'coordinator_session',
         ],
 
         // Admin Guard
@@ -103,10 +109,15 @@ return [
             'model' => App\Models\Student::class,
         ],
 
-        // Faculty Provider
-        'faculties' => [
+        // supervisor Provider
+        'supervisors' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Faculty::class,
+            'model' => App\Models\Supervisor::class,
+        ],
+        // Coordinator Provider
+        'coordinators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Coordinator::class,
         ],
 
         // Admin Provider

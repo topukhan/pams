@@ -31,9 +31,13 @@
                 Student Login
             </a>
     
-            <a href="{{ route('faculty.login') }}"
+            <a href="{{ route('supervisor.login') }}"
                 class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-6 rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-                Faculty Login
+                Supervisor Login
+            </a>
+            <a href="{{ route('coordinator.login') }}"
+                class="inline-block bg-sky-600 hover:bg-sky-700 text-white font-semibold py-2 px-6 rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                Coordinator Login
             </a>
         </div>
     

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class FacultyAuth
+class CoordinatorAuth
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class FacultyAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::guard('faculty')->check()) {
-            return redirect(route('faculty.login'));
+        if (!Auth::guard('coordinator')->check()) {
+            return redirect(route('coordinator.login'));
         }
         return $next($request);
     }

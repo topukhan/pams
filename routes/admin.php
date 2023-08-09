@@ -29,6 +29,10 @@ Route::middleware(['AdminAuth'])->group(function () {
     Route::get('/admin/addSupervisor', [AdminController::class, 'addSupervisorForm'])->name('admin.addSupervisorForm');
     Route::post('/admin/addSupervisor', [AdminController::class, 'addSupervisor'])->name('admin.addSupervisor');
 
+    //Add Coordinator
+    Route::get('/admin/addCoordinator', [AdminController::class, 'addCoordinatorForm'])->name('admin.addCoordinatorForm');
+    Route::post('/admin/addCoordinator', [AdminController::class, 'addCoordinator'])->name('admin.addCoordinator');
+
     //Add domain
     Route::resource('admin/domains', DomainController::class);
 });

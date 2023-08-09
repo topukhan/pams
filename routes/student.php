@@ -52,4 +52,7 @@ Route::middleware(['StudentAuth'])->group(function () {
      Route::get('/student/previousProjects', [StudentController::class, 'previousProjects'])->name('student.previousProjects');
 
 
+     Route::get('/student/groupMemberRequest', [StudentController::class, 'groupMemberRequest'])->name('student.groupMemberRequest');
+
+    
 });

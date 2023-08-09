@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coordinator;
 use App\Models\Domain;
 use App\Models\Student;
 use App\Models\Supervisor;
@@ -10,6 +11,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class AdminController extends Controller
@@ -37,6 +39,13 @@ class AdminController extends Controller
         return view('backend.admin.addSupervisor', compact('domains'));
     }
 
+    // Add Coordinator form view
+    public function addCoordinatorForm()
+    {
+
+        return view('backend.admin.addCoordinator');
+    }
+
     // Add Student to Database table
     public function addStudent(Request $request)
     {
@@ -52,9 +61,10 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ]);
-        
+
         try {
-                $user = User::create([
+            DB::beginTransaction();
+            $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'department' => $request->department,
@@ -63,11 +73,7 @@ class AdminController extends Controller
                 'phone_number' => $request->phone_number,
                 'password' => Hash::make($request->password)
             ]);
-        } catch (QueryException $e) {
-            return redirect()->back()->withInput()->withErrors('Something went wrong!');
-        }
-        // Additional info stored in students table
-        try {
+
             Student::create([
                 'user_id' => $user->id,
                 'student_id' => $request->student_id,
@@ -75,9 +81,12 @@ class AdminController extends Controller
                 'section' => $request->section,
                 'shift' => $request->shift,
             ]);
+            DB::commit();
         } catch (QueryException $e) {
+            DB::rollBack();
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
+
 
         return redirect()->route('admin.addStudentForm')->withMessage("Student Added!");
     }
@@ -92,14 +101,14 @@ class AdminController extends Controller
             'phone_number' => 'required',
             'faculty_id' => 'required',
             'designation' => 'required',
-            'expertise_area' => 'required',
             'availability' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ]);
-        
+
         try {
-                $user = User::create([
+            DB::beginTransaction();
+            $user = User::create([
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'department' => $request->department,
@@ -108,22 +117,60 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
-        } catch (QueryException $e) {
-            return redirect()->back()->withInput()->withErrors('Something went wrong!');
-        }
-        // Additional info stored in Supervisor table
-        try {
+
             Supervisor::create([
                 'user_id' => $user->id,
                 'faculty_id' => $request->faculty_id,
                 'designation' => $request->designation,
                 'availability' => $request->availability,
-                'expertise_area' => $request->expertise_area,
+                // 'expertise_area' => $request->expertise_area,
             ]);
+            DB::commit();
         } catch (QueryException $e) {
+            DB::rollBack();
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
 
+
         return redirect()->route('admin.addSupervisorForm')->withMessage("Supervisor Added!");
+    }
+    public function addCoordinator(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'department' => 'required',
+            'phone_number' => 'required',
+            'faculty_id' => 'required',
+            'designation' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'department' => $request->department,
+                'phone_number' => $request->phone_number,
+                'role' => $request->role,
+                'email' => $request->email,
+                'password' => Hash::make($request->password)
+            ]);
+
+            Coordinator::create([
+                'user_id' => $user->id,
+                'faculty_id' => $request->faculty_id,
+                'designation' => $request->designation,
+            ]);
+            DB::commit();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors('Something went wrong!');
+        }
+
+
+        return redirect()->route('admin.addCoordinatorForm')->withMessage("Coordinator Added!");
     }
 }

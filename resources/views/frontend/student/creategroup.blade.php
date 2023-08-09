@@ -216,10 +216,13 @@
                         </div>
                     </div>
                     {{-- end table  --}}
-                    <div class="flex justify-center">
+                    <div class="flex justify-center space-x-4">
                         <input type="submit"
                             class="px-4 py-2 mt-3 font-bold bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700"
                             value="Submit">
+                        <a href="{{route('student.groupMemberRequest')}}" class="px-4 py-2 mt-3 font-bold bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700">
+                            <span>Request Members</span></a>
+                              
                     </div>
                 </form>
             </div>

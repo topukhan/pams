@@ -51,6 +51,10 @@ function data() {
     toggleGroupsMenu() {
       this.isGroupsMenuOpen = !this.isGroupsMenuOpen
     },
+    isGroupsCOORMenuOpen: false,
+    toggleGroupsCOORMenu() {
+      this.isGroupsCOORMenuOpen = !this.isGroupsCOORMenuOpen
+    },
     isFollowUpsOpen: false,
     toggleFollowUpsMenu() {
       this.isFollowUpsOpen = !this.isFollowUpsOpen

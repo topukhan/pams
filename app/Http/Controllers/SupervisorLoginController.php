@@ -34,7 +34,7 @@ class SupervisorLoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::guard('supervisor')->attempt($credentials, $request->remember)) {
             
-            return redirect()->intended(route('supervisor.login'));
+            return redirect()->intended(route('supervisor.dashboard'));
         }
 
         return redirect()->back()->withInput($request->only('email', 'remember'))->withErrors([

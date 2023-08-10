@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ApprovedGroup;
 use App\Models\Domain;
 use App\Models\Group;
+use App\Models\GroupJoinRequest;
 use App\Models\ProjectProposal;
 use App\Models\Student;
 use App\Models\Supervisor;
@@ -162,41 +163,61 @@ class StudentController extends Controller
         return view('frontend.student.taskDetails');
     }
 
-     // Upcoming Events
-     public function upcomingEvents()
-     {
-         return view('frontend.student.upcomingEvents');
-     }
+    // Upcoming Events
+    public function upcomingEvents()
+    {
+        return view('frontend.student.upcomingEvents');
+    }
 
-       // Upcoming Event Details
-       public function upcomingEventDetails()
-       {
-           return view('frontend.student.upcomingEventDetails');
-       }
+    // Upcoming Event Details
+    public function upcomingEventDetails()
+    {
+        return view('frontend.student.upcomingEventDetails');
+    }
 
-        // Assistance
-        public function assistance()
-        {
-            return view('frontend.student.assistance');
+    // Assistance
+    public function assistance()
+    {
+        return view('frontend.student.assistance');
+    }
+
+    // Change Password
+    public function changePassword()
+    {
+        return view('frontend.student.changePassword');
+    }
+
+    // previous Projects
+    public function previousProjects()
+    {
+        return view('frontend.student.previousProjects');
+    }
+
+    // group member Request
+    public function groupMemberRequest()
+    {
+        $id = Auth::guard('student')->user()->id;
+        return view('frontend.student.groupMemberRequest', compact('id'));
+    }
+
+    // Request for join a group 
+    public function groupJoinRequest(Request $request)
+    {
+        try {
+            $request->validate([
+                'reason' => 'required'
+            ]);
+
+            GroupJoinRequest::create([
+                'user_id' => $request->id,
+                'reason' => $request->reason,
+                'note' => $request->note
+            ]);
+
+            return redirect()->route('student.groupMemberRequest')->withMessage( 'Request Sent! Check back later');
+        } catch (\Exception $e) {
+            
+            return redirect()->route('student.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
         }
-
-        // Change Password
-        public function changePassword()
-        {
-           return view('frontend.student.changePassword');
-        }
-
-        // previous Projects
-        public function previousProjects()
-        {
-           return view('frontend.student.previousProjects');
-        }
-
-        // group member Request
-        public function groupMemberRequest()
-        {
-           return view('frontend.student.groupMemberRequest');
-        }
-
-
+    }
 }

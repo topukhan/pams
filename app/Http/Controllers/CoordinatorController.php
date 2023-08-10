@@ -8,7 +8,5 @@ class CoordinatorController extends Controller
 {
     
     //formed group list
-    public function formedGroupsLists(){
-        return view('frontend.coordinator.formedGroupsList');
-    }
+    
 }

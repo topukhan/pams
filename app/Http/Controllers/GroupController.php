@@ -29,12 +29,20 @@ class GroupController extends Controller
         // Decode JSON data to get arrays of integers
         $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
         $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
-
+        
         $students = Student::whereNotIn('user_id', $groupsMembersArray)
-            ->whereNotIn('user_id', $pendingGroupsMembersArray)
-            ->get();
-        // dd($students);
-        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent'));
+        ->whereNotIn('user_id', $pendingGroupsMembersArray)
+        ->get();
+        
+        $authorizedToCreateGroup = !in_array($loggedInStudent->id, $pendingGroupsMembersArray) && !in_array($loggedInStudent->id, $groupsMembersArray);
+
+        $authorizedToAccessMyGroup = in_array($loggedInStudent->id, $groupsMembersArray);
+        
+        $authorizedToAccessRequest = in_array($loggedInStudent->id, $pendingGroupsMembersArray);
+        // dd($authorizedToAccessRequest);
+        
+
+        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent', 'authorizedToCreateGroup', 'authorizedToAccessMyGroup', 'authorizedToAccessRequest'));
     }
 
     // Store Group
@@ -90,32 +98,6 @@ class GroupController extends Controller
             return redirect()->back()->withInput()->withErrors([$e->getMessage()]);
         }
 
-        // create group
-        // try {
-        //     $group = Group::create([
-        //         'name' => $request->group_name,
-        //         'topic' => $request->topic,
-
-        //     ]);
-        // } catch (QueryException $e) {
-
-        //     return redirect()->back()->withInput()->withErrors('Something went wrong!');
-        // }
-        // Create entry in group_members table for each member
-        // foreach ($request->email as $key => $email) {
-        //     try {
-        //         GroupMember::create([
-        //             'group_id' => $group->id,
-        //             'email' => $email,
-        //             'name' => $request->name[$key],
-        //             'student_id' => $request->student_id[$key],
-        //             'batch' => $request->batch[$key]
-        //         ]);
-        //     } catch (QueryException $e) {
-        //         return redirect()->back()->withInput()->withErrors('Something went wrong!');
-        //     }
-        // }
-        // return redirect()->route('student.dashboard')->withMessage("Group Has Been Created!");
     }
 
     // Group Request

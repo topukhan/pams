@@ -1,5 +1,20 @@
 <x-frontend.student.layouts.master>
 
+    <x-slot:isAuthorizedCreateGroup>
+        {{ $authorizedToCreateGroup }}
+    </x-slot:isAuthorizedCreateGroup>
+
+    <x-slot:isAuthorizedAccessMyGroup>
+        {{ $authorizedToAccessMyGroup }}
+    </x-slot:isAuthorizedAccessMyGroup>
+
+    <x-slot:isAuthorizedAccessRequest>
+        {{ $authorizedToAccessRequest }}
+    </x-slot:isAuthorizedAccessRequest>
+
+    {{-- <x-slot:testProp>
+        Hello, world!
+    </x-slot:testProp> --}}
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Create Group </h2>
@@ -13,25 +28,45 @@
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('student.createGroup') }}" class="text-gray-900 dark:text-white">Create Group</a>
+                    <a href="{{ route('student.createGroup') }}" class="text-gray-900 dark:text-white">Create
+                        Group</a>
                 </li>
             </ol>
         </div>
 
-        {{-- @php
-            $projectTypess = 'project';
-            echo $projectTypess;
-        @endphp --}}
+
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @php
+            $memberCount = count($students);
+            
+        @endphp
+        @if ($memberCount < 4)
+            
+                <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow"
+                    id="alert">
+                    Sufficient members are not available
+                    <button type="button"
+                        class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
+                        onclick="this.parentElement.style.display ='none'">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div><br>
+            
+
+        @endif
+
+
 
         @if (session('message'))
             <div class="bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
@@ -183,11 +218,10 @@
                                                     <option value="0">select email</option>
 
                                                     @foreach ($students as $student)
-                                                        @if ($student->user->email !== $loggedInStudent->email)
-                                                            <option value="{{ $student->user->email }}">
-                                                                {{ $student->user->email }}
-                                                            </option>
-                                                        @endif
+                                                        @continue ($student->user->email === $loggedInStudent->email)
+                                                        <option value="{{ $student->user->email }}">
+                                                            {{ $student->user->email }}
+                                                        </option>
                                                     @endforeach
 
                                                 </select>
@@ -195,7 +229,7 @@
                                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                             <td class="px-4 py-3">
                                                 <div>
-                                                    <input type="hidden" name="ids[]" >
+                                                    <input type="hidden" name="ids[]">
                                                     <input type="text" name="name[]" placeholder=" name" readonly
                                                         class="w-full  focus:bg-white bg-gray-100 border-gray-100 max-height rounded  dark:bg-gray-800 ">
                                                 </div>
@@ -217,12 +251,15 @@
                     </div>
                     {{-- end table  --}}
                     <div class="flex justify-center space-x-4">
-                        <input type="submit"
-                            class="px-4 py-2 mt-3 font-bold bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700"
-                            value="Submit">
-                        <a href="{{route('student.groupMemberRequest')}}" class="px-4 py-2 mt-3 font-bold bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700">
-                            <span>Request Members</span></a>
-                              
+                        @if ($memberCount <= 3)
+                            <a href="{{ route('student.groupMemberRequest') }}"
+                                class="px-4 py-2 mt-3 font-bold bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700">
+                                <span>Request Members</span></a>
+                        @else
+                            <input type="submit"
+                                class="px-4 py-2 mt-3 font-bold bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700"
+                                value="Submit">
+                        @endif
                     </div>
                 </form>
             </div>
@@ -262,7 +299,8 @@
                             $('input[name="batch[]"]', selectedElement.closest('tr')).val(selectedStudent
                                 .batch);
                             // Set the selected user's id in the hidden input field named "ids"
-                            $('input[name="ids[]"]', selectedElement.closest('tr')).val(selectedStudent.user.id);
+                            $('input[name="ids[]"]', selectedElement.closest('tr')).val(selectedStudent.user
+                                .id);
                         } else {
                             // Clear the student_id and batch inputs if no student data is available
                             $('input[name="student_id[]"]', selectedElement.closest('tr')).val('');

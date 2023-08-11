@@ -91,9 +91,15 @@
 
                 </div>
                 <div class=" flex justify-end">
-                    <button class="bg-purple-500 hover:bg-purple-600 text-white font-semibold mt-4 py-1 px-3 rounded">
-                        <a href="{{ route('student.requestToCoordinator') }}">Request</a>
-                    </button>
+                    <form action="{{ route('student.requestToCoordinatorForm') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="group_id" value="{{ $group->id }}">
+                        <button type="submit"
+                            class="bg-purple-500 hover:bg-purple-600 text-white font-semibold mt-4 py-1 px-3 rounded">
+                            Request
+                        </button>
+                    </form>
+
                 </div>
 
             </div>

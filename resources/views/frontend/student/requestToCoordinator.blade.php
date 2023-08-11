@@ -13,7 +13,7 @@
                 </li>
                 <li class="mr-3">/</li>
                 <li>
-                    <a href="{{ route('student.requestToCoordinator') }}" class="text-gray-900 dark:text-white">
+                    <a href="#" class="text-gray-900 dark:text-white">
                         Group Member Request
                     </a>
                 </li>
@@ -43,9 +43,10 @@
                 </div>
             @endif
             <div class="max-w-3xl mx-auto mt-4 p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <form action="" method="">
-    
-                    <input type="hidden" name="id" value="">
+                <form action="{{ route('student.requestToCoordinator')}}" method="post">
+                    @csrf
+
+                    <input type="hidden" name="group_id" value="{{$group_id}}">
                     <div class="mb-6">
                         <label for="reason" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Reason:
@@ -55,15 +56,6 @@
                             placeholder="Click to select the reason..." onclick="toggleReason()" />
                         <div id="selectedReasonsContainer" class="flex flex-wrap mt-2"></div>
                         <x-input-error :messages="$errors->get('reason')" class="mt-2" />
-                    </div>
-
-                    <div class="mb-6 hidden" id="numberOfMembersContainer">
-                        <label for="numberOfMembers"
-                            class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
-                            Number of Members:
-                        </label>
-                        <input id="numberOfMembers" type="number" name="numberOfMembers"
-                            class="w-full py-2 px-4 border rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200" />
                     </div>
 
                     <div class="mb-6">
@@ -80,56 +72,46 @@
                         </button>
                     </div>
                 </form>
-
-                <script>
-                    const reason = document.getElementById('reason');
-                    const selectedReasonsContainer = document.getElementById('selectedReasonsContainer');
-                    let selectedReason = null;
-
-                    const availableOptions = [
-                        'Need more members',
-                        'Want to propose for project'
-                    ];
-
-                    function toggleReason() {
-                        selectedReasonsContainer.innerHTML = selectedReasonsContainer.innerHTML ? '' : availableOptions.map(option => `
-                <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
-                onclick="selectReason('${option}')">${option}</div>
-                `).join('');
-
-                        if (selectedReason === 'Need more members') {
-                            const numberOfMembersContainer = document.getElementById('numberOfMembersContainer');
-                            numberOfMembersContainer.classList.toggle('hidden', selectedReason !== 'Need more members');
-                        }
-
-                    }
-
-                    function selectReason(reason) {
-                        if (selectedReason === reason) {
-                            return;
-                        }
-
-                        selectedReason = reason;
-                        updatedSelectedReason();
-                        updateReason();
-
-                        const numberOfMembersContainer = document.getElementById('numberOfMembersContainer');
-                        numberOfMembersContainer.classList.toggle('hidden', reason !== 'Need more members');
-                    }
-
-                    function updatedSelectedReason() {
-                        selectedReasonsContainer.innerHTML = availableOptions.map(option => `
-            <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
-                onclick="selectReason('${option}')">${option}</div>
-        `).join('');
-                    }
-
-                    function updateReason() {
-                        reason.value = selectedReason;
-                    }
-                </script>
-
             </div>
         </div>
     </div>
+    <script>
+        const reason = document.getElementById('reason');
+        const selectedReasonsContainer = document.getElementById('selectedReasonsContainer');
+        let selectedReason = null;
+
+        const availableOptions = [
+            'Need more members',
+            'Want to propose for project'
+        ];
+
+        function toggleReason() {
+            selectedReasonsContainer.innerHTML = selectedReasonsContainer.innerHTML ? '' : availableOptions.map(option => `
+                <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
+                onclick="selectReason('${option}')">${option}</div>
+                `).join('');
+        }
+
+        function selectReason(reason) {
+            if (selectedReason === reason) {
+                return;
+            }
+
+            selectedReason = reason;
+            updatedSelectedReason();
+            updateReason();
+
+        }
+
+        function updatedSelectedReason() {
+            selectedReasonsContainer.innerHTML = availableOptions.map(option => `
+            <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
+                onclick="selectReason('${option}')">${option}</div>
+        `).join('');
+        }
+
+        function updateReason() {
+            reason.value = selectedReason;
+        }
+    </script>
 </x-frontend.student.layouts.master>

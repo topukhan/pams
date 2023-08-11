@@ -26,7 +26,7 @@
                             <label class="text-md font-bold text-gray-700 dark:text-white">Domain: </label>
                         </div>
                         <div class="w-2/6">
-                            <span class="text-sm font-semibold dark:text-white">web</span>
+                            <span class="text-sm font-semibold dark:text-white"> {{ $group->domain }} </span>
                         </div>
                     </div>
 
@@ -35,9 +35,28 @@
                             <label class="text-md font-bold text-gray-700 dark:text-white">Project Type: </label>
                         </div>
                         <div class="w-2/6">
-                            <span class="text-sm font-semibold dark:text-white">project</span>
+                            <span class="text-sm font-semibold dark:text-white"> {{ $group->project_type }} </span>
                         </div>
                     </div>
+
+                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                        <div class="flex-shrink-0 w-1/6">
+                            <label class="text-md font-bold text-gray-700 dark:text-white">Reason: </label>
+                        </div>
+                        <div class="w-2/6">
+                            <span class="text-sm bg-blue-100 py-1 px-1 rounded-md font-semibold dark:text-white"> {{ $request->reason }} </span>
+                        </div>
+                    </div>
+                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                        <div class="flex-shrink-0 w-1/6">
+                            <label class="text-md font-bold text-gray-700 dark:text-white">Description: </label>
+                        </div>
+                        <div class="w-2/6">
+                            <span class="text-sm font-semibold dark:text-white"> {{ $request->note }} </span>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
 
 
@@ -49,35 +68,36 @@
                                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                     <th class="px-3 py-3">Sl</th>
                                     <th class="px-3 py-3">Student ID</th>
-                                    <th class="px-3 py-3">Member</th>
+                                    <th class="px-3 py-3">Name</th>
                                     <th class="px-3 py-3">Email</th>
                                   
                                 </tr>
                             </thead>
-
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                               
-                                    <tr class="text-gray-700 dark:text-gray-400">
+                               @foreach ($groupMembers as $groupMember)
+                                   <tr class="text-gray-700 dark:text-gray-400">
                                         <td class="px-4 py-3 text-sm">
                                           1
                                         </td>
                                         <td class="px-4 py-3">
                                             <div class="flex items-center text-sm">
-                                                <p class="font-semibold">21345567</p>
+                                                <p class="font-semibold">{{ $groupMember->student_id }}</p>
                                             </div>
                                         </td>
                                         <td class="px-4 py-3">
                                             <div class="flex items-center text-sm">
-                                                <p class="font-semibold">ofh</p>
+                                                <p class="font-semibold">{{ $groupMember->user->first_name . ' ' . $groupMember->user->last_name }}
                                             </div>
                                         </td>
                                         <td class="px-4 py-3">
                                             <div class="flex items-center text-sm">
-                                                <p class="font-semibold">mail</p>
+                                                <p class="font-semibold">{{ $groupMember->user->email }}</p>
                                             </div>
                                         </td>
 
                                     </tr>
+                               @endforeach
+                                    
                               
                             </tbody>
                         </table>

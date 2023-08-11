@@ -14,7 +14,7 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
     Route::get('/coordinator/requests', [CoordinatorRequestController::class, 'requests'])->name('coordinator.requests');
     Route::get('/coordinator/requestDetails/{request}', [CoordinatorRequestController::class, 'requestDetails'])->name('coordinator.requestDetails');
     Route::get('/coordinator/requestGroupDetails', [CoordinatorRequestController::class, 'requestGroupDetails'])->name('coordinator.requestGroupDetails');
-    Route::get('/coordinator/requestGroupMembersDetails', [CoordinatorRequestController::class, 'requestGroupMembersDetails'])->name('coordinator.requestGroupMembersDetails');
+    Route::get('/coordinator/requestGroupMembersDetails/{group}/{request}', [CoordinatorRequestController::class, 'requestGroupMembersDetails'])->name('coordinator.requestGroupMembersDetails');
     Route::get('/coordinator/requestToPropose', [CoordinatorRequestController::class, 'requestToPropose'])->name('coordinator.requestToPropose');
 
     Route::get('/coordinator/requests/group/{request}', [CoordinatorRequestController::class, 'formedGroupsLists'])->name('coordinator.formedGroupsLists');

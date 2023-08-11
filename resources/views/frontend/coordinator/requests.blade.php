@@ -88,12 +88,23 @@
                                     </td>
                                     
                                     <td class="px-4 py-3 text-xs ">
-                                        <a href="{{ route('coordinator.requestDetails', $request->id) }}">
+                                        @if ($request->user_id != null)
+                                            <a href="{{ route('coordinator.requestDetails', $request->id) }}">
+                                            <button
+                                                class="px-2 py-1 font-semibold text-base align-middle leading-tight text-yellow-600 bg-yellow-100 rounded-md dark:bg-yellow-700 dark:text-yellow-100">
+                                                details
+                                            </button>
+                                        </a>
+                                        @endif
+                                        @if ($request->group_id != null)
+                                            <a href="{{ route('coordinator.requestGroupMembersDetails', ['group'=>$request->group_id, 'request' => $request->id]) }}">
                                             <button
                                                 class="px-2 py-1 font-semibold text-base align-middle leading-tight text-violet-600 bg-violet-100 rounded-md dark:bg-violet-700 dark:text-violet-100">
                                                 details
                                             </button>
                                         </a>
+                                        @endif
+                                        
                                     </td>
                                 </tr> 
                             @endforeach

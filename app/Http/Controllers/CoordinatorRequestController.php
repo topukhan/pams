@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
-use App\Models\GroupJoinRequest;
+use App\Models\RequestToCoordinator;
 use App\Models\GroupMember;
+use App\Models\PendingGroup;
+use App\Models\Student;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +16,7 @@ class CoordinatorRequestController extends Controller
     //Request
     public function requests()
     {
-        $requests = GroupJoinRequest::paginate(6);
+        $requests = RequestToCoordinator::paginate(6);
         foreach ($requests as $request) {
             $request->shortNote = Str::limit($request->note, 25, '...');
         }
@@ -22,7 +24,7 @@ class CoordinatorRequestController extends Controller
         return view('frontend.coordinator.requests', compact('requests', 'serialOffset'));
     }
 
-    public function formedGroupsLists(GroupJoinRequest $request)
+    public function formedGroupsLists(RequestToCoordinator $request)
     {
         //here $request is request from student to coordinator
         $id = $request->user_id;
@@ -33,7 +35,7 @@ class CoordinatorRequestController extends Controller
     }
 
     //Request Details
-    public function requestDetails(GroupJoinRequest $request)
+    public function requestDetails(RequestToCoordinator $request)
     {
 
         return view('frontend.coordinator.requestDetails', compact('request'));
@@ -66,14 +68,14 @@ class CoordinatorRequestController extends Controller
                 ]);
 
                 // Delete the group join request
-                GroupJoinRequest::where('id', $request_id)->delete();
+                RequestToCoordinator::where('id', $request_id)->delete();
 
                 DB::commit();
 
                 return redirect()->route('coordinator.requests')->with('message', 'Student added to the group successfully.');
             } else {
                 DB::rollback();
-                GroupJoinRequest::where('id', $request_id)->delete();
+                RequestToCoordinator::where('id', $request_id)->delete();
                 return redirect()->route('coordinator.requests')->with('error', 'Student is already in a group.');
             }
         } catch (\Exception $e) {
@@ -82,21 +84,37 @@ class CoordinatorRequestController extends Controller
         }
     }
 
-     //Request Group Details
-     public function requestGroupDetails()
-     {
-         return view('frontend.coordinator.requestGroupDetails');
-     }
+    //Request Group Details
+    public function requestGroupDetails()
+    {
+        return view('frontend.coordinator.requestGroupDetails');
+    }
 
-     //Request Group Members Details
-     public function requestGroupMembersDetails()
-     {
-         return view('frontend.coordinator.requestGroupMembersDetails');
-     }
+    //Request Group Members Details
+    public function requestGroupMembersDetails(Group $group, RequestToCoordinator $request)
+    {
+        
+        
+        $members = json_decode($group->members);
+        $groupMembers = Student::whereIn('user_id',$members)->get();
+        // Available students
+        $groupsMembers = Group::pluck('members')->flatten()->unique();
+        $pendingGroupsMembers = PendingGroup::pluck('members')->flatten()->unique();
 
-     //Request Group Members Details
-     public function requestToPropose()
-     {
-         return view('frontend.coordinator.requestToPropose');
-     }
+        // Decode JSON data to get arrays of integers
+        $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+        $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+        
+        $students = Student::whereNotIn('user_id', $groupsMembersArray)
+        ->whereNotIn('user_id', $pendingGroupsMembersArray)
+        ->get();
+        
+        return view('frontend.coordinator.requestGroupMembersDetails', compact('group', 'groupMembers', 'request', 'students'));
+    }
+
+    //Request Group Members Details
+    public function requestToPropose()
+    {
+        return view('frontend.coordinator.requestToPropose');
+    }
 }

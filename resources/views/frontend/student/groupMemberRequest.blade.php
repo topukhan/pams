@@ -43,8 +43,9 @@
                 </div>
             @endif
             <div class="max-w-3xl mx-auto mt-4 p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <form action="{{ route('student.groupJoinRequest') }}" method="post">
+                <form action="{{ route('student.requestToCoordinator') }}" method="post">
                     @csrf
+
                     <input type="hidden" name="id" value="{{ $id }}">
                     <div class="mb-6">
                         <label for="reason" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">

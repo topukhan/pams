@@ -81,4 +81,22 @@ class CoordinatorRequestController extends Controller
             return redirect()->back()->with('error', 'An error occurred while adding the student to the group.');
         }
     }
+
+     //Request Group Details
+     public function requestGroupDetails()
+     {
+         return view('frontend.coordinator.requestGroupDetails');
+     }
+
+     //Request Group Members Details
+     public function requestGroupMembersDetails()
+     {
+         return view('frontend.coordinator.requestGroupMembersDetails');
+     }
+
+     //Request Group Members Details
+     public function requestToPropose()
+     {
+         return view('frontend.coordinator.requestToPropose');
+     }
 }

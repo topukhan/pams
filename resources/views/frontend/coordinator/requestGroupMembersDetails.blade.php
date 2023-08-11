@@ -8,45 +8,34 @@
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
-                <li class="flex mr-3">Groups</li>
-                <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('student.myGroup') }}" class="text-gray-900 dark:text-white">My Group</a>
+                    <a href="" class="text-gray-900 dark:text-white">Group Members Details</a>
                 </li>
             </ol>
         </div>
 
         {{-- table --}}
-        @if ($members && $group)
+       
             <div class="px-2 py-2 ">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-3">
-                    <div class="flex flex-row items-center mb-2 space-x-4"> <!-- Adjusted the mb-4 to mb-2 -->
-                        <div class="flex-shrink-0 w-1/6">
-                            <label class="text-md font-bold text-gray-700 dark:text-white">Group Name: </label>
-                        </div>
-                        <div class="w-2/6">
-                            <span class="text-sm font-semibold dark:text-white">{{ $group->name }}</span>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-row items-center mb-2 space-x-4"> <!-- Adjusted the mb-4 to mb-2 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-3">             
+                    <div class="flex flex-row items-center mb-2 space-x-4"> 
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Domain: </label>
                         </div>
                         <div class="w-2/6">
-                            <span class="text-sm font-semibold dark:text-white">{{ $group->domain }}</span>
+                            <span class="text-sm font-semibold dark:text-white">web</span>
                         </div>
                     </div>
 
-                    <div class="flex flex-row items-center mb-2 space-x-4"> <!-- Adjusted the mb-4 to mb-2 -->
+                    <div class="flex flex-row items-center mb-2 space-x-4"> 
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Project Type: </label>
                         </div>
                         <div class="w-2/6">
-                            <span class="text-sm font-semibold dark:text-white">{{ $group->project_type }}</span>
+                            <span class="text-sm font-semibold dark:text-white">project</span>
                         </div>
                     </div>
                 </div>
@@ -59,53 +48,53 @@
                                 <tr
                                     class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                     <th class="px-3 py-3">Sl</th>
+                                    <th class="px-3 py-3">Student ID</th>
                                     <th class="px-3 py-3">Member</th>
                                     <th class="px-3 py-3">Email</th>
-                                    {{-- <th class="px-3 py-3">Info</th> --}}
+                                  
                                 </tr>
                             </thead>
 
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                @foreach ($members as $member)
+                               
                                     <tr class="text-gray-700 dark:text-gray-400">
                                         <td class="px-4 py-3 text-sm">
-                                            {{ $loop->iteration }}
+                                          1
                                         </td>
                                         <td class="px-4 py-3">
                                             <div class="flex items-center text-sm">
-                                                <p class="font-semibold">
-                                                    {{ $member->first_name . ' ' . $member->last_name }}</p>
+                                                <p class="font-semibold">21345567</p>
                                             </div>
                                         </td>
                                         <td class="px-4 py-3">
                                             <div class="flex items-center text-sm">
-                                                <p class="font-semibold">{{ $member->email }}</p>
+                                                <p class="font-semibold">ofh</p>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center text-sm">
+                                                <p class="font-semibold">mail</p>
                                             </div>
                                         </td>
 
                                     </tr>
-                                @endforeach
+                              
                             </tbody>
                         </table>
                     </div>
 
                 </div>
-                <div class=" flex justify-end">
-                    <button class="bg-purple-500 hover:bg-purple-600 text-white font-semibold mt-4 py-1 px-3 rounded">
-                        <a href="{{ route('student.requestToCoordinator') }}">Request</a>
+                <div class=" flex justify-center">
+                    <button class="bg-purple-500 hover:bg-purple-600 text-lg text-white font-bold mt-4 py-1 px-3 rounded">
+                        <a href="">+</a>
                     </button>
                 </div>
 
             </div>
-        @else
-            <div class="flex justify-center h-screen ">
-                <div class="text-center">
-                    <h3 class="my-6">You don't have a group</h3>
-                </div>
-            </div>
-
-        @endif
+        
     </div>
+
+   
 
 
 </x-frontend.student.layouts.master>

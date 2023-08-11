@@ -220,4 +220,10 @@ class StudentController extends Controller
             return redirect()->route('student.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
         }
     }
+
+     // requestToCoordinator
+     public function requestToCoordinator()
+     {
+         return view('frontend.student.requestToCoordinator');
+     }
 }

@@ -60,5 +60,7 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
      Route::get('/student/groupMemberRequest', [StudentController::class, 'groupMemberRequest'])->name('student.groupMemberRequest');
      Route::post('/student/groupJoinRequest', [StudentController::class, 'groupJoinRequest'])->name('student.groupJoinRequest');
 
+     Route::get('/student/requestToCoordinator', [StudentController::class, 'requestToCoordinator'])->name('student.requestToCoordinator');
+
     
 });

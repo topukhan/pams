@@ -4,6 +4,7 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,18 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+        
+        Gate::define('create-group', function ($user){
+            return session('authorizedToCreateGroup', false);
+        });
+
+        Gate::define('access-request', function ($user) {
+            return session('authorizedToAccessRequest', false);
+        });
+
+        Gate::define('access-my-group', function ($user) {
+            return session('authorizedToAccessRequest', false);
+        });
     }
 }

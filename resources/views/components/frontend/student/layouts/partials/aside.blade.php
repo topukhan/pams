@@ -8,12 +8,13 @@
 
 
 {{-- @php
-    $createGroupAuthorized = $isAuthorizedCreateGroup ?? false;
+    $createGroupAuthorized = $isAuthorizedCreateGroup ?? true;
     $accessMyGroupAuthorized = $isAuthorizedAccessMyGroup ?? false;
     $accessRequestAuthorized = $isAuthorizedAccessRequest ?? false;
 @endphp --}}
+{{-- <p>{{ some }}</p> --}}
 
-
+{{-- @dd($authorizedToAccessMyGroup); --}}
 
 <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
     <div class="py-4  text-gray-500 dark:text-gray-400">
@@ -60,31 +61,31 @@
                         x-transition:leave-start="opacity-100 max-h-xl" x-transition:leave-end="opacity-0 max-h-0"
                         class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
                         aria-label="submenu">
-                        
-                        {{-- @if ($authorizedToCreateGroup == true) --}}
+
+                        @if (session('authorizedToCreateGroup') ?? false)
                             <li
                                 class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                                 <a class="w-full" href="{{ route('student.createGroup') }}">
                                     <span class="ml-4">Create Group</span></a>
                             </li>
-                        {{-- @endif --}}
+                        @endif
 
-                        {{-- @if ($authorizedToAccessRequest == true) --}}
+                        @if (session('authorizedToAccessRequest') ?? false)
                             <li
                                 class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                                 <a class="w-full" href="{{ route('student.groupRequest') }}">
                                     <span class="ml-4">Group Request</span></a>
                             </li>
-                        {{-- @endif --}}
+                        @endif
 
-                        {{-- @if ($authorizedToAccessMyGroup == true) --}}
+                        @if (session('authorizedToAccessMyGroup') ?? false)
                             <li
                                 class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                                 <a class="w-full" href="{{ route('student.myGroup') }}">
                                     <span class="ml-4">My Group</span>
                                 </a>
                             </li>
-                        {{-- @endif --}}
+                        @endif
 
                     </ul>
                 </template>

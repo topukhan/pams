@@ -6,22 +6,27 @@ use App\Http\Controllers\StudentLoginController;
 use App\Http\Controllers\StudentProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['StudentAuth'])->group(function () { 
+Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () { 
     // Routes for authenticated Student users
     Route::get('/student/dashboard', [StudentLoginController::class, 'dashboard'])->name('student.dashboard');
 
     //Group formation
-    Route::get('/student/createGroup', [GroupController::class, 'createGroup'])->name('student.createGroup');
-    Route::post('/student/storeGroup', [GroupController::class, 'storeGroup'])->name('student.storeGroup');
+    // Route::middleware(['can:create-group'])->group(function () {
+        Route::get('/student/createGroup', [GroupController::class, 'createGroup'])->name('student.createGroup');
+        Route::post('/student/storeGroup', [GroupController::class, 'storeGroup'])->name('student.storeGroup');
+    // });
 
     //Group Request
-    Route::get('/student/groupRequests', [GroupController::class, 'groupRequest'])->name(('student.groupRequest'));
-    Route::post('/student/groupRequestResponse/{invitation}', [GroupController::class, 'groupRequestResponse'])->name(('student.groupRequestResponse'));
+    // Route::middleware(['can:access-request'])->group(function (){
+        Route::get('/student/groupRequests', [GroupController::class, 'groupRequest'])->name(('student.groupRequest'));
+        Route::post('/student/groupRequestResponse/{invitation}', [GroupController::class, 'groupRequestResponse'])->name(('student.groupRequestResponse'));
+    // });
 
-    
     //My group
-    Route::get('/student/myGroup', [GroupController::class, 'myGroup'])->name('student.myGroup');
-    Route::get('/student/myGroupDetails', [GroupController::class, 'myGroupDetails'])->name('student.myGroupDetails');
+    // Route::middleware(['can:access-my-group'])->group(function () {
+        Route::get('/student/myGroup', [GroupController::class, 'myGroup'])->name('student.myGroup');
+        Route::get('/student/myGroupDetails', [GroupController::class, 'myGroupDetails'])->name('student.myGroupDetails');
+    // });
 
    //supervisorAvailability
    Route::get('/student/supervisorAvailability', [StudentController::class, 'supervisorAvailability'])->name('student.supervisor.availability');

@@ -46,15 +46,14 @@
                             <label class="text-md font-bold text-gray-700 dark:text-white">Project Type: </label>
                         </div>
                         <div class="w-2/6">
-                            <span
-                                class="text-sm font-semibold dark:text-white">{{ $group->project_type }}</span>
+                            <span class="text-sm font-semibold dark:text-white">{{ $group->project_type }}</span>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto shadow-lg">
+                <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto shadow-md">
                         <table class="w-full whitespace-no-wrap ">
                             <thead>
                                 <tr
@@ -84,16 +83,23 @@
                                             </div>
                                         </td>
 
-                                        {{-- <td class="px-4 py-3 text-xs">
-
-                                            
-                                        </td> --}}
-
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+
+                </div>
+                <div class=" flex justify-end">
+                    <form action="{{ route('student.requestToCoordinatorForm') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="group_id" value="{{ $group->id }}">
+                        <button type="submit"
+                            class="bg-purple-500 hover:bg-purple-600 text-white font-semibold mt-4 py-1 px-3 rounded">
+                            Request
+                        </button>
+                    </form>
+
                 </div>
 
             </div>

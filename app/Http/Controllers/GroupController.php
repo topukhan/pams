@@ -34,15 +34,18 @@ class GroupController extends Controller
         ->whereNotIn('user_id', $pendingGroupsMembersArray)
         ->get();
         
-        $authorizedToCreateGroup = !in_array($loggedInStudent->id, $pendingGroupsMembersArray) && !in_array($loggedInStudent->id, $groupsMembersArray);
+        // $authorizedToCreateGroup = !in_array($loggedInStudent->id, $pendingGroupsMembersArray) && !in_array($loggedInStudent->id, $groupsMembersArray);
 
-        $authorizedToAccessMyGroup = in_array($loggedInStudent->id, $groupsMembersArray);
+        // $authorizedToAccessMyGroup = in_array($loggedInStudent->id, $groupsMembersArray);
         
-        $authorizedToAccessRequest = in_array($loggedInStudent->id, $pendingGroupsMembersArray);
-        // dd($authorizedToAccessRequest);
+        // $authorizedToAccessRequest = in_array($loggedInStudent->id, $pendingGroupsMembersArray);
+        // // dd($authorizedToCreateGroup);
+        // session()->put('authorizedToCreateGroup', $authorizedToCreateGroup);
+        // session()->put('authorizedToAccessRequest', $authorizedToAccessRequest);
+        // session()->put('authorizedToAccessMyGroup', $authorizedToAccessMyGroup);
         
 
-        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent', 'authorizedToCreateGroup', 'authorizedToAccessMyGroup', 'authorizedToAccessRequest'));
+        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent'));
     }
 
     // Store Group

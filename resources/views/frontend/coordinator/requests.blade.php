@@ -60,51 +60,85 @@
             </div>
         @endif
         {{-- table --}}
-        <div class="px-2 py-2">
-            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
-                <div class="w-full overflow-x-auto shadow-lg">
-                    <table class="w-full whitespace-no-wrap">
-                        <thead>
-                            <tr
-                                class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-3 py-3">Sl</th>
-                                <th class="px-3 py-3">Request For</th>
-                                <th class="px-3 py-3">Description</th>
-                                <th class="px-3 py-3">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            @foreach ($requests as $request)
-                                <tr class="text-gray-700 dark:text-gray-400">
-                                    <td class="px-4 py-3">{{ $serialOffset + $loop->index + 1 }}</td>
-                                    <td class="px-4 py-3">
-                                        <span class="px-2 py-1 text-sm font-semibold leading-tight text-sky-700 bg-sky-100 rounded-full dark:bg-blue-700 dark:text-gray-800-200">
-                                            {{ $request->reason }}
-                                        </span>
-                                        
-                                    </td>
-                                    <td class="px-4 py-3 text-sm">
-                                        {{ $request->shortNote }}
-                                    </td>
-                                    
-                                    <td class="px-4 py-3 text-xs ">
-                                        <a href="{{ route('coordinator.requestDetails', $request->id) }}">
-                                            <button
-                                                class="px-2 py-1 font-semibold text-base align-middle leading-tight text-violet-600 bg-violet-100 rounded-md dark:bg-violet-700 dark:text-violet-100">
-                                                details
-                                            </button>
-                                        </a>
-                                    </td>
-                                </tr> 
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="mx-4 my-2">
-                        {{ $requests->links() }}
+        @if (count($requests) != 0)
+            <div class="px-2 py-2">
+                <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+                    <div class="w-full overflow-x-auto shadow-lg">
+                        <table class="w-full whitespace-no-wrap">
+                            <thead>
+                                <tr
+                                    class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                    <th class="px-3 py-3">Sl</th>
+                                    <th class="px-3 py-3">Type</th>
+                                    <th class="px-3 py-3">Request For</th>
+                                    <th class="px-3 py-3">Description</th>
+                                    <th class="px-3 py-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                @foreach ($requests as $request)
+                                    <tr class="text-gray-700 dark:text-gray-400">
+                                        <td class="px-4 py-3">{{ $serialOffset + $loop->index + 1 }}</td>
+                                        @if ($request->group_id != null)
+                                            <td class="px-4 py-3">
+                                                <span
+                                                    class="px-2 py-1 text-sm font-semibold leading-tight text-violet-600 bg-violet-100 rounded-sm dark:bg-violet-700 dark:text-violet-100">
+                                                    Group Request
+                                                </span>
+                                            </td>
+                                        @elseif ($request->user_id != null)
+                                            <td class="px-4 py-3">
+                                                <span
+                                                    class="px-2 py-1 text-sm font-semibold leading-tight text-yellow-600 bg-yellow-100 rounded-sm dark:bg-yellow-700 dark:text-yellow-100">
+                                                    Individual Request
+                                                </span>
+                                            </td>
+                                        @else
+                                        @endif
+                                        <td class="px-4 py-3">
+                                            <span
+                                                class="px-2 py-1 text-sm font-semibold leading-tight text-sky-700 bg-sky-100 rounded-full dark:bg-blue-700 dark:text-gray-200">
+                                                {{ $request->reason }}
+                                            </span>
+
+                                        </td>
+                                        <td class="px-4 py-3 text-sm">
+                                            {{ $request->shortNote }}
+                                        </td>
+
+                                        <td class="px-4 py-3 text-xs ">
+                                            @if ($request->user_id != null)
+                                                <a href="{{ route('coordinator.requestDetails', $request->id) }}">
+                                                    <button
+                                                        class="px-2 py-1 font-semibold text-base align-middle leading-tight text-yellow-600 bg-yellow-100 rounded-md dark:bg-yellow-700 dark:text-yellow-100">
+                                                        details
+                                                    </button>
+                                                </a>
+                                            @endif
+                                            @if ($request->group_id != null)
+                                                <a
+                                                    href="{{ route('coordinator.requestGroupMembersDetails', ['group' => $request->group_id, 'request' => $request->id]) }}">
+                                                    <button
+                                                        class="px-2 py-1 font-semibold text-base align-middle leading-tight text-violet-600 bg-violet-100 rounded-md dark:bg-violet-700 dark:text-violet-100">
+                                                        details
+                                                    </button>
+                                                </a>
+                                            @endif
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="mx-4 my-2">
+                            {{ $requests->links() }}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
+        @else
+            <h1 style='text-align:center'>No Requests Yet!</h1>
+        @endif
     </div>
 </x-frontend.coordinator.layouts.master>

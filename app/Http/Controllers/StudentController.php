@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ApprovedGroup;
 use App\Models\Domain;
 use App\Models\Group;
-use App\Models\GroupJoinRequest;
 use App\Models\ProjectProposal;
+use App\Models\RequestToCoordinator;
 use App\Models\Student;
 use App\Models\Supervisor;
 use Illuminate\Database\QueryException;
@@ -201,23 +201,40 @@ class StudentController extends Controller
     }
 
     // Request for join a group 
-    public function groupJoinRequest(Request $request)
+    public function requestToCoordinator(Request $request)
     {
+        
         try {
             $request->validate([
                 'reason' => 'required'
             ]);
 
-            GroupJoinRequest::create([
-                'user_id' => $request->id,
-                'reason' => $request->reason,
-                'note' => $request->note
-            ]);
+            if ($request->id) {
+                RequestToCoordinator::create([
+                    'user_id' => $request->id,
+                    'reason' => $request->reason,
+                    'note' => $request->note
+                ]);
+            } else {
+                RequestToCoordinator::create([
+                    'group_id' => $request->group_id,
+                    'reason' => $request->reason,
+                    'note' => $request->note
+                ]);
+            }
 
-            return redirect()->route('student.groupMemberRequest')->withMessage( 'Request Sent! Check back later');
+
+            return redirect()->route('student.groupMemberRequest')->withMessage('Request Sent! Check back later');
         } catch (\Exception $e) {
-            
+
             return redirect()->route('student.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
         }
+    }
+
+    // requestToCoordinator
+    public function requestToCoordinatorForm(Request $request)
+    {
+        $group_id = $request->group_id;
+        return view('frontend.student.requestToCoordinator', compact('group_id'));
     }
 }

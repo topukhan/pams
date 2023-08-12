@@ -13,7 +13,7 @@
                 </li>
                 <li class="mr-3">/</li>
                 <li>
-                    <a href="{{ route('student.groupMemberRequest') }}" class="text-gray-900 dark:text-white">
+                    <a href="#" class="text-gray-900 dark:text-white">
                         Group Member Request
                     </a>
                 </li>
@@ -43,10 +43,10 @@
                 </div>
             @endif
             <div class="max-w-3xl mx-auto mt-4 p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <form action="{{ route('student.requestToCoordinator') }}" method="post">
+                <form action="{{ route('student.requestToCoordinator')}}" method="post">
                     @csrf
 
-                    <input type="hidden" name="id" value="{{ $id }}">
+                    <input type="hidden" name="group_id" value="{{$group_id}}">
                     <div class="mb-6">
                         <label for="reason" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Reason:
@@ -72,47 +72,46 @@
                         </button>
                     </div>
                 </form>
-
-                <script>
-                    const reason = document.getElementById('reason');
-                    const selectedReasonsContainer = document.getElementById('selectedReasonsContainer');
-                    let selectedReason = null;
-
-                    const availableOptions = [
-                        'No members available',
-                        'A few members short'
-                    ];
-
-                    function toggleReason() {
-                        selectedReasonsContainer.innerHTML = selectedReasonsContainer.innerHTML ? '' : availableOptions.map(option => `
-                <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
-                onclick="selectReason('${option}')">${option}</div>
-                `).join('');
-                    }
-
-                    function selectReason(reason) {
-                        if (selectedReason === reason) {
-                            return;
-                        }
-
-                        selectedReason = reason;
-                        updatedSelectedReason();
-                        updateReason();
-                    }
-
-                    function updatedSelectedReason() {
-                        selectedReasonsContainer.innerHTML = availableOptions.map(option => `
-            <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
-                onclick="selectReason('${option}')">${option}</div>
-        `).join('');
-                    }
-
-                    function updateReason() {
-                        reason.value = selectedReason;
-                    }
-                </script>
-
             </div>
         </div>
     </div>
+    <script>
+        const reason = document.getElementById('reason');
+        const selectedReasonsContainer = document.getElementById('selectedReasonsContainer');
+        let selectedReason = null;
+
+        const availableOptions = [
+            'Need more members',
+            'Want to propose for project'
+        ];
+
+        function toggleReason() {
+            selectedReasonsContainer.innerHTML = selectedReasonsContainer.innerHTML ? '' : availableOptions.map(option => `
+                <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
+                onclick="selectReason('${option}')">${option}</div>
+                `).join('');
+        }
+
+        function selectReason(reason) {
+            if (selectedReason === reason) {
+                return;
+            }
+
+            selectedReason = reason;
+            updatedSelectedReason();
+            updateReason();
+
+        }
+
+        function updatedSelectedReason() {
+            selectedReasonsContainer.innerHTML = availableOptions.map(option => `
+            <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
+                onclick="selectReason('${option}')">${option}</div>
+        `).join('');
+        }
+
+        function updateReason() {
+            reason.value = selectedReason;
+        }
+    </script>
 </x-frontend.student.layouts.master>

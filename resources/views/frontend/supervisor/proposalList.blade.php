@@ -2,17 +2,17 @@
 
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Assigned Tasks </h2>
+            Proposal List</h2>
 
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{route('student.dashboard')}}" class="hover:text-gray-900">Dashboard</a>
+                    <a href="" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="#" class="text-gray-900 dark:text-white">Tasks</a>
+                    <a href="#" class="text-gray-900 dark:text-white">Proposal List</a>
                 </li>
             </ol>
         </div>
@@ -26,8 +26,9 @@
                             <tr
                                 class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                 <th class="px-3 py-3">Sl</th>
-                                <th class="px-3 py-3">Task</th>
-                                <th class="px-3 py-3">Deadline</th>
+                                <th class="px-3 py-3">Group</th>
+                                <th class="px-3 py-3">Project Type</th>
+                                <th class="px-3 py-3">Domain</th>
                                 <th class="px-3 py-3">Details</th>
                             </tr>
                         </thead>
@@ -39,17 +40,22 @@
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">clean </p>
+                                        <p class="font-semibold">lala </p>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">03 August 2033</p>
+                                        <p class="font-semibold">project</p>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center text-sm">
+                                        <p class="font-semibold">web</p>
                                     </div>
                                 </td>
 
                                 <td class="px-4 py-3 text-xs">
-                                    <a href="{{route('student.taskDetails')}}">
+                                    <a href="{{route('supervisor.proposalDetails')}}">
                                         <button
                                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                             view
@@ -62,17 +68,22 @@
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">cook </p>
+                                        <p class="font-semibold">kbs </p>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">05 August 2033</p>
+                                        <p class="font-semibold">thesis</p>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center text-sm">
+                                        <p class="font-semibold">jdkdi</p>
                                     </div>
                                 </td>
 
                                 <td class="px-4 py-3 text-xs">
-                                    <a href="#">
+                                    <a href="{{route('supervisor.proposalDetails')}}">
                                         <button
                                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                             view

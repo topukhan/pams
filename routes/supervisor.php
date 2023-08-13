@@ -20,6 +20,13 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     //assign task
     Route::get('/supervisor/assignTask', [SupervisorController::class, 'assignTask'])->name('supervisor.assignTask');
     
+    //Project proposals
+    Route::get('/supervisor/proposalList', [SupervisorController::class, 'proposalList'])->name('supervisor.proposalList');
+    Route::get('/supervisor/proposalDetails', [SupervisorController::class, 'proposalDetails'])->name('supervisor.proposalDetails');
+
+
+
+
     // *
     Route::post('/supervisor/logout', [SupervisorLoginController::class, 'logout'])->name('supervisor.logout');
 

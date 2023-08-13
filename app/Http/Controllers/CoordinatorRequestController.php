@@ -94,7 +94,6 @@ class CoordinatorRequestController extends Controller
     public function requestGroupMembersDetails(Group $group, RequestToCoordinator $request)
     {
         
-        
         $members = json_decode($group->members);
         $groupMembers = Student::whereIn('user_id',$members)->get();
         // Available students
@@ -108,7 +107,7 @@ class CoordinatorRequestController extends Controller
         $students = Student::whereNotIn('user_id', $groupsMembersArray)
         ->whereNotIn('user_id', $pendingGroupsMembersArray)
         ->get();
-        
+       
         return view('frontend.coordinator.requestGroupMembersDetails', compact('group', 'groupMembers', 'request', 'students'));
     }
 

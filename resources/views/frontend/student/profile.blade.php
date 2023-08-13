@@ -81,7 +81,7 @@
 
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Type:</span>
-                    @if ($user->student->project_type_status === 0)
+                    @if ($user->student->project_type_status == 0)
                         <span class="col-span-2 text-red-600">Set your project type</span>
                     @else
                         @php

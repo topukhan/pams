@@ -28,10 +28,11 @@
                 </ul>
             </div>
         @endif
+        
         @php
             $memberCount = count($students);
-            
         @endphp
+        
         @if ($memberCount < 4)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
                 Sufficient members are not available

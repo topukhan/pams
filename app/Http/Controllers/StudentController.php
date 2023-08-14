@@ -79,20 +79,62 @@ class StudentController extends Controller
     }
 
 
-    //Proposal Form
+    // //Proposal Form
+    // public function proposalForm(Request $request)
+    // {
+    //     $supervisors = Supervisor::all();
+    //     $groups = Group::all();
+    //     $domains = Domain::all();
+    //     $id = $request->id;
+    //     $existInProposal = ProjectProposal::pluck('group_id')->unique()->values()->toArray();
+    //     // Get the group IDs that exist in the approved groups table
+    //     $existInApproved = ApprovedGroup::pluck('group_id')->toArray();
+    //     // Merge the two arrays to get all the disabled group IDs
+    //     $disabledGroupIds = array_merge($existInProposal, $existInApproved);
+    //     return view('frontend.student.proposalForm', compact('supervisors', 'id', 'domains', 'groups', 'disabledGroupIds'));
+    // }
+
     public function proposalForm(Request $request)
-    {
-        $supervisors = Supervisor::all();
-        $groups = Group::all();
-        $domains = Domain::all();
-        $id = $request->id;
-        $existInProposal = ProjectProposal::pluck('group_id')->unique()->values()->toArray();
-        // Get the group IDs that exist in the approved groups table
-        $existInApproved = ApprovedGroup::pluck('group_id')->toArray();
-        // Merge the two arrays to get all the disabled group IDs
-        $disabledGroupIds = array_merge($existInProposal, $existInApproved);
-        return view('frontend.student.proposalForm', compact('supervisors', 'id', 'domains', 'groups', 'disabledGroupIds'));
+{
+    $supervisors = Supervisor::all();
+    $groups = Group::all();
+    $domains = Domain::all();
+    $id = $request->id;
+    $existInProposal = ProjectProposal::pluck('group_id')->unique()->values()->toArray();
+    $existInApproved = ApprovedGroup::pluck('group_id')->toArray();
+    $disabledGroupIds = array_merge($existInProposal, $existInApproved);
+    
+    $selectedDomain = $request->input('domain');
+    $filteredSupervisors = [];
+
+    if ($request->ajax()) {
+        // If it's an AJAX request, filter supervisors based on the selected domain
+        $filteredSupervisors = Supervisor::where('expertise_area', $selectedDomain)->get();
+        
+        // Prepare data to send back as JSON
+        $supervisorOptions = [];
+        foreach ($filteredSupervisors as $supervisor) {
+            $supervisorOptions[] = [
+                'id' => $supervisor->id,
+                'full_name' => $supervisor->user->first_name . ' ' . $supervisor->user->last_name,
+            ];
+        }
+
+        return response()->json(['supervisors' => $supervisorOptions]);
     }
+
+    // If not an AJAX request, return the regular view
+    return view('frontend.student.proposalForm', compact('supervisors', 'filteredSupervisors', 'id', 'domains', 'groups', 'disabledGroupIds'));
+}
+
+    
+
+
+
+
+
+
+
 
     //Proposal Store in db
     public function storeProposalForm(Request $request)

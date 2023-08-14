@@ -32,7 +32,9 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
    Route::get('/student/supervisorAvailability', [StudentController::class, 'supervisorAvailability'])->name('student.supervisor.availability');
 
     // Proposal 
-    Route::get('/student/proposalForm/', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
+    Route::get('/student/proposalForm', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
+    // Route::get('/student/proposalForm/get-supervisors', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
+
     Route::post('/student/proposalForm', [StudentController::class, 'storeProposalForm'])->name('student.store.proposalForm');
     
     //Change Topic

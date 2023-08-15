@@ -111,4 +111,10 @@ class SupervisorController extends Controller
     {
         return view('frontend.supervisor.proposalDetails');
     }
+
+    //project Proposal list
+    public function proposalSuggest()
+    {
+        return view('frontend.supervisor.proposalSuggest');
+    }
 }

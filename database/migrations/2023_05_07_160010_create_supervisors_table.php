@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('faculty_id');
             $table->string('designation');
             $table->boolean('availability');
-            $table->string('expertise_area')->nullable();
+            $table->string('domain')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

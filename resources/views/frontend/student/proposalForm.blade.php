@@ -46,7 +46,7 @@
                                 @if ($supervisor != null)
                                     @foreach ($domains as $domain)
                                         <option value="{{ $domain->name }}"
-                                            {{ $domain->name == $supervisor->expertise_area ? 'selected' : '' }}>
+                                            {{ $domain->name == $supervisor->domain ? 'selected' : '' }}>
                                             {{ $domain->name }}
                                         </option>
                                     @endforeach
@@ -166,6 +166,23 @@
                             </label>
                         </div>
                     </div>
+                    <div class="md:flex mb-6">
+                        <div class="md:w-1/4">
+                            <label
+                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
+                                for="description">
+                                Description:
+                            </label>
+                        </div>
+                        <div class="md:w-3/4">
+                            <textarea
+                                class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
+                                id="description" name="description"  row="2" value="" placeholder="Describe your project..."></textarea>
+                        </div>
+                    </div> 
+
+                    
+                </div>
                    
                     {{-- submit button --}}
                     <div class="md:flex md:items-center">
@@ -181,6 +198,7 @@
                 </form>
             </div>
         </div>
+        
         <script>
             $(document).ready(function () {
                 // Get references to the relevant elements

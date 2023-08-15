@@ -12,6 +12,8 @@ use App\Models\Supervisor;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 
 class StudentController extends Controller
 {
@@ -72,11 +74,67 @@ class StudentController extends Controller
     }
 
 
-    public function supervisorAvailability()
-    {
-        $supervisors = Supervisor::all();
-        return view('frontend.student.supervisorAvailability', ['supervisors' => $supervisors]);
+    // public function supervisorAvailability()
+    // {
+    //     $supervisors = Supervisor::all();
+    //     $domains = Domain::all();
+    //     return view('frontend.student.supervisorAvailability', compact('supervisors','domains'));
+    // }
+
+    
+    // public function supervisorAvailability(Request $request)
+    // {
+    //     $query = Supervisor::query();
+    //     $domains = Domain::all();
+    //     if ($request->ajax()) {
+    //         $selectedDomain = $request->input('domain');
+    //         $supervisors = $query->where('domain', $selectedDomain)->get();         
+    //         return response()->json(['supervisors' => $supervisors]);
+    //     }    
+    //     $supervisors = $query->get();    
+    //     return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+    // }
+
+
+    public function supervisorAvailability(Request $request)
+{
+    try {
+        $domains = Domain::all();
+        $query = Supervisor::query();
+        if ($request->ajax()) {
+            $selectedDomain = $request->input('domain');
+            if ($selectedDomain) {
+                $supervisors = $query->where('domain', $selectedDomain)->get();
+            }
+            return response()->json(['supervisors' => $supervisors]);
+        }
+        $supervisors = $query->get();
+        return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+    } catch (\Exception $e) {
+        Log::error('Error retrieving supervisors: ' . $e->getMessage());
+        return response()->json(['error' => 'An error occurred while loading data.'], 500);
     }
+}
+
+
+
+// public function supervisorAvailability(Request $request)
+//     {
+//         $query = Supervisor::query();
+//         $domains = Domain::all();
+//         if ($request->ajax()) {
+//             $supervisors = $query->where(['domain'=>$request->domain])->get();
+//             return response()->json(['supervisors' => $supervisors]);
+//         }     
+//         $supervisors = $query->get();     
+//         return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+//     }
+
+
+    
+   
+    
+
 
 
     // //Proposal Form
@@ -109,7 +167,7 @@ class StudentController extends Controller
 
     if ($request->ajax()) {
         // If it's an AJAX request, filter supervisors based on the selected domain
-        $filteredSupervisors = Supervisor::where('expertise_area', $selectedDomain)->get();
+        $filteredSupervisors = Supervisor::where('domain', $selectedDomain)->get();
         
         // Prepare data to send back as JSON
         $supervisorOptions = [];

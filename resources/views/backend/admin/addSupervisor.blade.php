@@ -211,21 +211,21 @@
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="expertise_area">
+                                for="domain">
                                 Expertise Area
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name="expertise_area"
+                            <select name="domain"
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-500 dark:bg-gray-700 dark:text-gray-600"
-                                id="expertise_area">
+                                id="domain">
                                 <option value="0" selected disabled>select Area</option>
                                 @foreach ($domains as $domain)
                                     <option value="{{ $domain->name }}">{{ $domain->name }}</option>
                                 @endforeach
 
                             </select>
-                            <x-input-error :messages="$errors->get('expertise_area')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                         </div>
                     </div>
 

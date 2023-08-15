@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('supervisor_id')->references('id')->on('users');
             $table->string('cosupervisor');
             $table->string('domain');
-            $table->string('type');
+            $table->string('project_type');
             $table->timestamps();
         });
     }

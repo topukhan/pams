@@ -123,7 +123,7 @@ class AdminController extends Controller
                 'faculty_id' => $request->faculty_id,
                 'designation' => $request->designation,
                 'availability' => $request->availability,
-                // 'expertise_area' => $request->expertise_area,
+                // 'domain' => $request->domain,
             ]);
             DB::commit();
         } catch (QueryException $e) {

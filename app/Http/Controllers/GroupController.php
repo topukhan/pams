@@ -23,27 +23,17 @@ class GroupController extends Controller
         $domains = Domain::all();
         $id = Auth::guard('student')->user()->id;
         $loggedInStudent = User::where('id', $id)->with('student')->first();
-        $groupsMembers = Group::pluck('members')->flatten()->unique();
-        $pendingGroupsMembers = PendingGroup::pluck('members')->flatten()->unique();
+        $groupsMembers = GroupMember::pluck('user_id')->unique();
+        $pendingGroupsMembers = GroupInvitation::pluck('user_id')->unique();
+
 
         // Decode JSON data to get arrays of integers
-        $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
-        $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
-        
-        $students = Student::whereNotIn('user_id', $groupsMembersArray)
-        ->whereNotIn('user_id', $pendingGroupsMembersArray)
-        ->get();
-        
-        // $authorizedToCreateGroup = !in_array($loggedInStudent->id, $pendingGroupsMembersArray) && !in_array($loggedInStudent->id, $groupsMembersArray);
+        // $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+        // $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
 
-        // $authorizedToAccessMyGroup = in_array($loggedInStudent->id, $groupsMembersArray);
-        
-        // $authorizedToAccessRequest = in_array($loggedInStudent->id, $pendingGroupsMembersArray);
-        // // dd($authorizedToCreateGroup);
-        // session()->put('authorizedToCreateGroup', $authorizedToCreateGroup);
-        // session()->put('authorizedToAccessRequest', $authorizedToAccessRequest);
-        // session()->put('authorizedToAccessMyGroup', $authorizedToAccessMyGroup);
-        
+        $students = Student::whereNotIn('user_id', $groupsMembers)
+            ->whereNotIn('user_id', $pendingGroupsMembers)
+            ->get();
 
         return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent'));
     }
@@ -65,21 +55,19 @@ class GroupController extends Controller
         try {
             DB::beginTransaction();
 
-            $members = json_encode($request->ids);
-
+            $members = $request->ids;
             $pending_group = PendingGroup::create([
                 'project_type' => $request->project_type,
                 'domain' => $request->domain,
                 'name' => $request->group_name,
-                'members' => $members,
                 'positive_status' => 1, // acceptance count minimum 2 required to create a group
                 'member_feedback' => 1, // Initial feedback status is 1
                 'created_by' => $request->creator_id,
             ]);
 
             // pending Group info insert into group invitation table
-            $membersArray = json_decode($members);
-            foreach ($membersArray as $member) {
+
+            foreach ($members as $member) {
                 if ($member == $request->creator_id) {
                     $status = 1;
                 } else {
@@ -100,7 +88,6 @@ class GroupController extends Controller
             DB::rollBack();
             return redirect()->back()->withInput()->withErrors([$e->getMessage()]);
         }
-
     }
 
     // Group Request
@@ -108,16 +95,21 @@ class GroupController extends Controller
     {
         $id = Auth::guard('student')->user()->id;
         $loggedInStudent = User::where('id', $id)->first();
-        $idJson = json_encode($id);
-        $pending_group = PendingGroup::whereJsonContains('members', $idJson)->first();
+
+        $group_id = GroupInvitation::where('user_id', $id)->value('group_id');
+        $user_ids = GroupInvitation::where('group_id', $group_id)->pluck('user_id')->toArray();
+        $pending_group = PendingGroup::where('id', $group_id)->first();
+
+
         $users = null;
         $invitation = null;
-        if ($pending_group) {
-            $memberIds = json_decode($pending_group->members, true);
-            $users = User::whereIn('id', $memberIds)->get();
+        if ($user_ids) {
+
+
+            $users = User::whereIn('id', $user_ids)->get();
             $invitation = GroupInvitation::where('user_id', $id)->first()->id;
-            // dd($group_id);
-            // $invitations = GroupInvitation::where('group_id', $group_id)->get();
+            // dd($users);
+            $invitations = GroupInvitation::where('group_id', $group_id)->get();
         }
         //for delete if all rejected
         $this->deletePendingGroups();
@@ -135,13 +127,15 @@ class GroupController extends Controller
                 'status' => $request->response,
             ]);
 
-            $id = $request->id;
+            // $id = $request->user_id;
             $isPositive = $request->response == 1 ? 1 : 0;
+            // dd($request->pending_group_id);
+            $pending_group = PendingGroup::where('id', $request->pending_group_id)->first();
 
-            $pending_group = PendingGroup::whereJsonContains('members', $id)->first();
+            // $pending_group = PendingGroup::whereJsonContains('members', $id)->first();
 
             // Update positive_status column based on current value
-            $pending_group->positive_status = $isPositive === 1 ? $pending_group->positive_status + 1 : $pending_group->positive_status;
+            $pending_group->positive_status = $isPositive == 1 ? $pending_group->positive_status + 1 : $pending_group->positive_status;
             $pending_group->member_feedback = $pending_group->member_feedback + 1;
             $pending_group->update();
 
@@ -153,7 +147,7 @@ class GroupController extends Controller
             DB::commit();
         } catch (QueryException $e) {
             DB::rollBack();
-            return redirect()->back()->withInput()->withErrors('Something went wrong!');
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
         return redirect()->route('student.groupRequest')->withMessage('Response Recorded');
     }
@@ -175,7 +169,10 @@ class GroupController extends Controller
                 ]);
 
                 // Get the members with status 1 from group_invitations
-                $membersArray = json_decode($pendingGroup->members);
+                $membersArray = GroupInvitation::where('group_id', $pendingGroup->id)->pluck('user_id')->unique()->toArray();
+
+                // dd($membersArray);
+                // $membersArray = json_decode($pendingGroup->members);
                 $acceptedMembers = GroupInvitation::whereIn('user_id', $membersArray)
                     ->where('status', 1)
                     ->pluck('user_id')
@@ -195,7 +192,7 @@ class GroupController extends Controller
                     }
                 }
                 // Update the members column in the group table with accepted member user_ids
-                $group->update(['members' => json_encode($acceptedMembers)]);
+                // $group->update(['members' => json_encode($acceptedMembers)]);
 
                 // Delete the pending group entry after transferring data
                 $pendingGroup->delete();
@@ -203,6 +200,7 @@ class GroupController extends Controller
                 DB::commit();
             } catch (QueryException $e) {
                 DB::rollBack();
+                return redirect()->back()->withInput()->with('error', $e->getMessage());
                 // Handle any errors during the transfer process
                 // You can log the error or redirect to an error page if needed
             }
@@ -235,10 +233,15 @@ class GroupController extends Controller
     public function myGroup()
     {
         $id = Auth::guard('student')->user()->id;
-        $group = Group::whereJsonContains('members', $id)->first();
+        $group = Group::where('id', function ($query) use ($id) {
+            $query->select('group_id')
+                ->from('group_members')
+                ->where('user_id', $id)
+                ->first();
+        })->first();
         $members = null;
         if ($group) {
-            $memberIds = json_decode($group->members, true);
+            $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
         }
 

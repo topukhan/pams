@@ -36,7 +36,7 @@
                         </button>
                     </div><br>
                 @endif
-                
+
                 <div class="flex justify-end">
                     <button class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-2 px-4 rounded">
                         <a href="{{ route('student.profileEdit') }}">Edit</a>
@@ -79,7 +79,7 @@
                     <span class="col-span-2">{{ $user->student->shift }}</span>
                 </div>
 
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                {{-- <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Type:</span>
                     @if ($user->student->project_type_status === 0)
                         <span class="col-span-2 text-red-600">Set your project type</span>
@@ -100,10 +100,10 @@
                             @endforeach
                         </span>
                     @endif
-                </div>
+                </div> --}}
 
 
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                {{-- <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Domain:</span>
                     @if ($user->student->domain === null)
                         <span class="col-span-2 text-green-600">Not set yet</span>
@@ -120,7 +120,43 @@
                             @endforeach
                         </span>
                     @endif
+                </div> --}}
+
+
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <span class="text-gray-700 font-bold mb-2 col-span-1">Project Types:</span>
+                    @if ($user->student->project_type_status === 0)
+                        <span class="col-span-2 text-red-600">Set your project type</span>
+                    @else
+                        <span class="col-span-2">
+                            @foreach ($projectTypes as $projectType)
+                                {{ ucfirst($projectType->name) }}
+
+                                @unless ($loop->last)
+                                    ,
+                                @endunless
+                            @endforeach
+                        </span>
+                    @endif
                 </div>
+
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <span class="text-gray-700 font-bold mb-2 col-span-1">Domains:</span>
+                    @if (count($domains) == 0)
+                        <span class="col-span-2 text-green-600">Not set yet</span>
+                    @else
+                        <span class="col-span-2">
+                            @foreach ($domains as $domain)
+                                {{ $domain->name }}
+                                @unless ($loop->last)
+                                    ,
+                                @endunless
+                            @endforeach
+                        </span>
+                    @endif
+
+                </div>
+
 
 
 

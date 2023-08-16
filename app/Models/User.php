@@ -67,4 +67,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(GroupInvitation::class);
     }
+
+    public function domains()
+    {
+        return $this->belongsToMany(Domain::class);
+    }
+
+    public function projectTypes()
+    {
+        return $this->belongsToMany(ProjectType::class);
+    }
 }

@@ -59,51 +59,47 @@
                             Preferred Project Type:
                         </label>
                         <div class="col-span-2 space-y-2 space-x-4">
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" name="project_type[]" value="project" class="form-checkbox">
-                                <span class="ml-2">Project</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" name="project_type[]" value="thesis" class="form-checkbox">
-                                <span class="ml-2">Thesis</span>
-                            </label>
-                            <!-- Add more project types as needed -->
+                            @foreach ($projectTypes as $type)
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="project_type[]" value="{{ $type->id }}" class="form-checkbox"
+                                        @if (in_array($type->name, $selectedProjectTypes->toArray())) checked @endif>
+                                    <span class="ml-2">{{ ucfirst($type->name) }}</span>
+                                </label>
+                            @endforeach
                             <x-input-error :messages="$errors->get('project_type')" class="mt-2" />
                         </div>
                     </div>
+                    
+                    
+                    
+
+
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <label class="text-gray-700 font-bold mb-2 col-span-1 self-center">Domain:</label>
                         <div class="col-span-2">
-                            @php
-                                $selectedDomains = session('selectedDomains') ?? [];
-                            @endphp
                             @foreach ($domains as $domain)
                                 <label class="inline-flex items-center">
-                                    <input type="checkbox" name="domain[]" value="{{ $domain->name }}"
-                                        class="form-checkbox domain-checkbox"
-                                        @if (in_array($domain->name, $selectedDomains)) checked @endif>
-                                    <span
-                                        class="ml-2 @if (in_array($domain->name, $selectedDomains)) font-semibold @else opacity-70 @endif">{{ $domain->name }}</span>
+                                    <input type="checkbox" name="domain[]" value="{{ $domain->id }}" class="form-checkbox domain-checkbox"
+                                        @if (in_array($domain->name, $selectedDomains->toArray())) checked @endif>
+                                    <span class="ml-2 @if (in_array($domain->name, $selectedDomains->toArray())) font-semibold @else opacity-70 @endif">{{ $domain->name }}</span>
                                 </label>
                                 <br>
                             @endforeach
-                            <div class="text-sm mb-4 text-red-600 " style="display: none" id="maxDomainMessage">You can
-                                select up
+                            <div class="text-sm mb-4 text-red-600 " style="display: none" id="maxDomainMessage">You can select up
                                 to 3 domains.</div>
                             <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                         </div>
-
                     </div>
+                    
                     <div class="flex justify-center space-x-4">
                         <button type="submit"
                             class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-4 py-2 px-4 rounded">Update
                         </button>
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 py-2 px-4 rounded">
-                            <a href="{{ route('student.profile') }}">Cancel</a>
-                        </button>
+                        <a href="{{ route('student.profile') }}"
+                            class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 py-2 px-4 rounded">Cancel</a>
                     </div>
                 </form>
+
             </div>
         </div>
 

@@ -22,9 +22,7 @@ return new class extends Migration
             $table->string('phase')->nullable();
             $table->unsignedBigInteger('group_id')->nullable();
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-            $table->json('project_type')->nullable();
             $table->boolean('project_type_status')->nullable()->default(false);
-            $table->json('domain')->nullable();
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\DomainController;
+use App\Http\Controllers\ProjectTypeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,4 +36,5 @@ Route::middleware(['AdminAuth'])->group(function () {
 
     //Add domain
     Route::resource('admin/domains', DomainController::class);
+    Route::resource('admin/projectTypes', ProjectTypeController::class);
 });

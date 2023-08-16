@@ -10,17 +10,17 @@ class Group extends Model
     use HasFactory;
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function group_members()
+    public function groupMembers()
     {
         return $this->hasMany(GroupMember::class);
     }
 
-    public function project_proposal()
+    public function projectProposal()
     {
         return $this->hasOne(ProjectProposal::class);
     }
 
-    public function approved_group()
+    public function approvedGroup()
     {
         return $this->hasOne(ApprovedGroup::class);
     }

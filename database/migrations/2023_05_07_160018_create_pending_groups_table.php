@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('pending_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->json('members');
             $table->string('project_type');
             $table->string('domain');
             $table->integer('positive_status');

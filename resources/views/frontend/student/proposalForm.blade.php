@@ -19,8 +19,61 @@
         {{-- form --}}
         <div class="px-2 py-2">
             <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <form action="{{ route('student.store.proposalForm') }}" method="POST">
+                <div id="filterFormWrapper">
+                    <form id="filterForm" action="{{ route('student.proposalForm') }}" method="POST">
+                
                     @csrf
+
+
+                    {{-- Domain --}}
+                    <div class="md:flex mb-2">
+                        <div class="md:w-1/4">
+                            <label
+                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
+                                for="my-select">
+                                Domain
+                            </label>
+                        </div>
+                        <div class="md:w-3/4">
+                            <select name="domain"
+                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                id="domain">
+                                {{-- Find specific supervisor with passed $id & auto select domain --}}
+                                @php
+                                    $supervisor = \App\Models\Supervisor::find($id);
+                                @endphp
+                                <option value="0" selected disabled>select domain</option>
+                                @if ($supervisor != null)
+                                    @foreach ($domains as $domain)
+                                        <option value="{{ $domain->name }}"
+                                            {{ $domain->name == $supervisor->domain ? 'selected' : '' }}>
+                                            {{ $domain->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                                {{-- if not passed from supervisor availability --}}
+                                @if ($supervisor == null)
+                                    @foreach ($domains as $domain)
+                                        <option value="{{ $domain->name }}">
+                                            {{ $domain->name }}
+                                        </option>
+                                    @endforeach
+                                @endif
+
+                            </select>
+                            <x-input-error :messages="$errors->get('domain')" class="mt-2" />
+                        </div>
+                    </div>
+                  
+                    {{-- Filter button --}}
+                    <div class="md:flex md:items-center mb-6">
+                        <div class="md:w-1/4"></div>
+                        <div class="md:w-3/4">
+                            <button id="filterButton" class="shadow bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded" type="button">
+                                Filter
+                            </button>
+                        </div>
+                    </div>
                     {{-- Temporary Group select option, will change in next phase --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
@@ -31,24 +84,12 @@
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name="group_id"
-                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-800 dark:bg-gray-700 dark:text-gray-300"
-                                id="group">
-                                <option value="" disabled selected>select group</option>
-                                @foreach ($groups as $group)
-                                    <option value="{{ $group->id }}" {{in_array($group->id, $disabledGroupIds) ? 'disabled' : '' }}>
-                                        {{ $group->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-
-                            <x-input-error :messages="$errors->get('supervisor')" class="mt-2" />
-
-
+                            <input
+                                class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
+                                id="" name="" type="text" value="" >
                         </div>
                     </div>
 
-                    {{-- Title --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
                             <label
@@ -61,31 +102,9 @@
                             <input
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
                                 id="title" name="title" type="text" value="" placeholder="Enter title">
-                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
-
                         </div>
                     </div>
 
-                    {{-- Course/Subject --}}
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/4">
-                            <label
-                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="course">
-                                Course/Subject :
-                            </label>
-                        </div>
-                        <div class="md:w-3/4">
-                            <input
-                                class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input"
-                                id="course" name="course" type="text" value=""
-                                placeholder="e.g., PROJECT-1">
-                            <x-input-error :messages="$errors->get('course')" class="mt-2" />
-
-                        </div>
-                    </div>
-
-                    {{-- Supervisor --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
                             <label
@@ -95,24 +114,18 @@
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name="supervisor_id"
-                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                                id="supervisor">
+                            <select name="supervisor_id" class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300" id="supervisor">
                                 <option value="Default" disabled selected>select</option>
-                                @foreach ($supervisors as $supervisor)
+                                @foreach ($filteredSupervisors as $supervisor) 
                                     <option value="{{ $supervisor->id }}"
                                         {{ $supervisor->id == $id ? 'selected' : '' }}>
                                         {{ $supervisor->user->first_name . ' ' . $supervisor->user->last_name }}
                                     </option>
                                 @endforeach
                             </select>
-
-                            <x-input-error :messages="$errors->get('supervisor')" class="mt-2" />
-
-
                         </div>
+                        
                     </div>
-
                     {{-- Co-Supervisor --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
@@ -131,48 +144,6 @@
 
                         </div>
                     </div>
-
-                    {{-- Domain --}}
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/4">
-                            <label
-                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="my-select">
-                                Domain
-                            </label>
-                        </div>
-                        <div class="md:w-3/4">
-                            <select name="domain"
-                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                                id="domain">
-                                {{-- Find specific supervisor with passed $id & auto select domain--}}
-                                @php
-                                    $supervisor = \App\Models\Supervisor::find($id);
-                                @endphp
-                                <option value="0" selected disabled>select domain</option>
-                                @if ($supervisor != null)
-                                    @foreach ($domains as $domain)
-                                        <option value="{{ $domain->name }}"
-                                            {{ $domain->name == $supervisor->expertise_area ? 'selected' : '' }}>
-                                            {{ $domain->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
-                                {{-- if not passed from supervisor availability --}}
-                                @if ($supervisor == null)
-                                    @foreach ($domains as $domain)
-                                        <option value="{{ $domain->name }}">
-                                            {{ $domain->name }}
-                                        </option>
-                                    @endforeach
-                                @endif
-
-                            </select>
-                            <x-input-error :messages="$errors->get('domain')" class="mt-2" />
-                        </div>
-
-                    </div>
-
                     {{-- Type --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
@@ -193,10 +164,26 @@
                                     name="type" value="thesis" />
                                 <span class="ml-2 ">Thesis</span>
                             </label>
-                            <x-input-error :messages="$errors->get('type')" class="mt-2" />
                         </div>
                     </div>
+                    <div class="md:flex mb-6">
+                        <div class="md:w-1/4">
+                            <label
+                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
+                                for="description">
+                                Description:
+                            </label>
+                        </div>
+                        <div class="md:w-3/4">
+                            <textarea
+                                class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
+                                id="description" name="description"  row="2" value="" placeholder="Describe your project..."></textarea>
+                        </div>
+                    </div> 
 
+                    
+                </div>
+                   
                     {{-- submit button --}}
                     <div class="md:flex md:items-center">
                         <div class="md:w-1/4"></div>
@@ -206,18 +193,45 @@
                                 type="submit">
                                 Submit
                             </button>
-
-                            <a class="md:ml-5 shadow bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
-                                href=" {{ route('student.proposalChangeForm') }}">
-                                Change topic
-                            </a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-
-
-
+        
+        <script>
+            $(document).ready(function () {
+                // Get references to the relevant elements
+                var domainSelect = $('#domain');
+                var supervisorSelect = $('#supervisor');
+    
+                // Attach event listener to the filter button
+                $('#filterButton').on('click', function () {
+                    var selectedDomain = domainSelect.val();
+    
+                    // Make an AJAX request to fetch filtered supervisors
+                    $.ajax({
+                        url: '{{ route('student.proposalForm') }}',
+                        type: 'GET',
+                        data: { domain: selectedDomain },
+                        success: function (response) {
+                            console.log(response); // Add this line to see the response in the browser console
+    
+                            // Clear the previous options and add new options
+                            supervisorSelect.empty();
+                            supervisorSelect.append('<option value="" disabled selected>Select</option>');
+    
+                            // Populate the supervisors dropdown with the new options
+                            $.each(response.supervisors, function (index, supervisor) {
+                                supervisorSelect.append('<option value="' + supervisor.id + '">' + supervisor.full_name + '</option>');
+                            });
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        </script>
+        
 </x-frontend.student.layouts.master>

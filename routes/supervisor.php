@@ -3,6 +3,7 @@
 use App\Http\Controllers\CoordinatorController;
 use App\Http\Controllers\SupervisorLoginController;
 use App\Http\Controllers\SupervisorController;
+use App\Http\Controllers\SupervisorProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['SupervisorAuth'])->group(function () {
@@ -19,6 +20,15 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     Route::get('/supervisor/rejectedGroups', [SupervisorController::class, 'rejectedGroups'])->name('supervisor.rejectedGroups');
     //assign task
     Route::get('/supervisor/assignTask', [SupervisorController::class, 'assignTask'])->name('supervisor.assignTask');
+    
+    //Project proposals
+    Route::get('/supervisor/proposalList', [SupervisorController::class, 'proposalList'])->name('supervisor.proposalList');
+    Route::get('/supervisor/proposalDetails', [SupervisorController::class, 'proposalDetails'])->name('supervisor.proposalDetails');
+    Route::get('/supervisor/proposalSuggest', [SupervisorController::class, 'proposalSuggest'])->name('supervisor.proposalSuggest');
+
+
+    Route::get('/supervisor/profile', [SupervisorProfileController::class, 'index'])->name('supervisor.profile');
+    Route::get('/supervisor/profile/edit', [SupervisorProfileController::class, 'edit'])->name('supervisor.profileEdit');
     
     // *
     Route::post('/supervisor/logout', [SupervisorLoginController::class, 'logout'])->name('supervisor.logout');

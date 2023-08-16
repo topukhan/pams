@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Models\Group;
+use App\Models\GroupInvitation;
+use App\Models\GroupMember;
 use App\Models\User;
 use App\Models\PendingGroup;
 use Closure;
@@ -20,26 +22,27 @@ class SetStudentSessionData
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::guard('student')->check()) {
-            
+
             $id = Auth::guard('student')->user()->id;
             $loggedInStudent = User::where('id', $id)->with('student')->first();
-            $groupsMembers = Group::pluck('members')->flatten()->unique();
-            $pendingGroupsMembers = PendingGroup::pluck('members')->flatten()->unique();
+            $groupsMembers = GroupMember::pluck('user_id')->unique()->toArray();
+            $pendingGroupsMembers = GroupInvitation::pluck('user_id')->unique()->toArray();
 
-            $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
-            $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+            // $domainIds = $loggedInStudent->domains->pluck('id')->toArray();
+            // $projectTypeIds = $loggedInStudent->projectTypes->pluck('id')->toArray();
 
-            $authorizedToCreateGroup = !in_array($loggedInStudent->id, $pendingGroupsMembersArray) && !in_array($loggedInStudent->id, $groupsMembersArray);
-            $authorizedToAccessRequest = in_array($loggedInStudent->id, $pendingGroupsMembersArray);
-            $authorizedToAccessMyGroup = in_array($loggedInStudent->id, $groupsMembersArray);
+            $authorizedToCreateGroup = !in_array($loggedInStudent->id, $pendingGroupsMembers) && !in_array($loggedInStudent->id, $groupsMembers);
+            $authorizedToAccessRequest = in_array($loggedInStudent->id, $pendingGroupsMembers);
+            $authorizedToAccessMyGroup = in_array($loggedInStudent->id, $groupsMembers);
 
             // Create an array with the data needed for session
             $sessionData = [
                 'authorizedToCreateGroup' => $authorizedToCreateGroup,
                 'authorizedToAccessRequest' => $authorizedToAccessRequest,
                 'authorizedToAccessMyGroup' => $authorizedToAccessMyGroup,
+                // 'loggedInStudentDomainIds' => $domainIds,
+                // 'loggedInStudentProjectTypeIds' => $projectTypeIds,
             ];
-
             // Store the session data
             session()->put($sessionData);
         }

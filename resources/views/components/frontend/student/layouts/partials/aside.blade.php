@@ -18,7 +18,7 @@
 
 <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
     <div class="py-4  text-gray-500 dark:text-gray-400">
-        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="{{ route('student.dashboard') }}">
             PAMS
         </a>
         {{-- Dashboard --}}
@@ -204,7 +204,7 @@
     x-transition:leave-end="opacity-0 transform -translate-x-20" @click.away="closeSideMenu"
     @keydown.escape="closeSideMenu">
     <div class="py-4 text-gray-500 dark:text-gray-400">
-        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+        <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="{{ route('student.dashboard') }}">
             PAMS
         </a>
         {{-- Dashboard --}}
@@ -247,22 +247,30 @@
                         x-transition:leave-start="opacity-100 max-h-xl" x-transition:leave-end="opacity-0 max-h-0"
                         class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
                         aria-label="submenu">
-                        <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('student.createGroup') }}">Create Group</a>
-                        </li>
-                        <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('student.pendingGroups') }}">
-                                Pending Groups
-                            </a>
-                        </li>
-                        <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('student.myGroup') }}">
-                                My Group
-                            </a>
-                        </li>
+                        @if (session('authorizedToCreateGroup') ?? false)
+                            <li
+                                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                <a class="w-full" href="{{ route('student.createGroup') }}">
+                                    <span class="ml-4">Create Group</span></a>
+                            </li>
+                        @endif
+
+                        @if (session('authorizedToAccessRequest') ?? false)
+                            <li
+                                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                <a class="w-full" href="{{ route('student.groupRequest') }}">
+                                    <span class="ml-4">Group Request</span></a>
+                            </li>
+                        @endif
+
+                        @if (session('authorizedToAccessMyGroup') ?? false)
+                            <li
+                                class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                                <a class="w-full" href="{{ route('student.myGroup') }}">
+                                    <span class="ml-4">My Group</span>
+                                </a>
+                            </li>
+                        @endif
 
                     </ul>
                 </template>
@@ -270,7 +278,7 @@
             {{-- Supervisor --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{ route('student.supervisor.availability') }} ">
                     <i class='bx bx-id-card text-2xl'></i>
                     <span class="ml-4">Supervisor</span>
                 </a>
@@ -312,11 +320,11 @@
                         aria-label="submenu">
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="#">Tasks</a>
+                            <a class="w-full" href="{{ route('student.taskList') }}">Tasks</a>
                         </li>
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="#">Upcoming Events</a>
+                            <a class="w-full" href="{{ route('student.upcomingEvents') }}">Upcoming Events</a>
                         </li>
 
 
@@ -326,7 +334,7 @@
             {{-- Assistance --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{ route('student.assistance') }}">
                     <i class='bx bx-support text-2xl'></i>
                     <span class="ml-4">Assistance</span>
                 </a>
@@ -334,7 +342,7 @@
             {{-- Change Password --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{ route('student.changePassword') }}">
                     <i class='bx bx-lock-open text-2xl'></i>
                     <span class="ml-4">Change Password</span>
                 </a>

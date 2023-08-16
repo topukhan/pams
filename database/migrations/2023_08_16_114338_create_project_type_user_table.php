@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supervisors', function (Blueprint $table) {
-            $table->id();
+        Schema::create('project_type_user', function (Blueprint $table) {
+
             $table->unsignedBigInteger('user_id');
-            $table->bigInteger('faculty_id');
-            $table->string('designation');
-            $table->boolean('availability');
-            $table->string('domain')->nullable();
-            $table->timestamps();
+            $table->unsignedBigInteger('project_type_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('project_type_id')->references('id')->on('project_types')->onDelete('cascade');
         });
     }
 
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('supervisors');
+        Schema::dropIfExists('project_type_user');
     }
 };

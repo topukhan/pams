@@ -20,10 +20,39 @@
 
         <div class="px-2 py-2">
             @if (session('message'))
-            <div class="alert alert-success alert-dismissible " role="alert">
-                {{ session('message') }} 
-                <button type="button" class="bg-green-400" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+                <div class="bg-purple-100 border-t-4 border-purple-500 rounded-b text-purple-900 px-4 py-3 shadow-md my-4 "
+                    id="sessionMessage">
+                    <div class="flex items-center">
+                        <div class="w-6 h-6 mr-4 bg-purple-500 rounded-full flex-shrink-0">
+                            <svg class="w-4 h-4 fill-current text-white mx-auto my-1" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 011-1h2a1 1 0 010 2h-2a1 1 0 01-1-1zm0 4a1 1 0 011-1h2a1 1 0 010 2h-2a1 1 0 01-1-1z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            {{ session('message') }}
+                        </div>
+                        <button type="button"
+                            class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                            data-dismiss="alert" aria-label="Close" onclick="dismissAlert()">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <script>
+                    function dismissAlert() {
+                        document.getElementById('sessionMessage').style.display = 'none';
+                    }
+                    // Automatically dismiss the alert after 3 seconds
+                    setTimeout(dismissAlert, 3000);
+                </script>
             @endif
             <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 {{-- form --}}
@@ -211,21 +240,21 @@
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="expertise_area">
+                                for="domain">
                                 Expertise Area
                             </label>
                         </div>
                         <div class="md:w-3/4">
-                            <select name="expertise_area"
+                            <select name="domain"
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-500 dark:bg-gray-700 dark:text-gray-600"
-                                id="expertise_area">
+                                id="domain">
                                 <option value="0" selected disabled>select Area</option>
                                 @foreach ($domains as $domain)
                                     <option value="{{ $domain->name }}">{{ $domain->name }}</option>
                                 @endforeach
 
                             </select>
-                            <x-input-error :messages="$errors->get('expertise_area')" class="mt-2" />
+                            <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                         </div>
                     </div>
 

@@ -14,9 +14,13 @@ class Supervisor extends Model
         'updated_at',
     ];
 
-    // Relationship with Users table
+    // // Relationship with Users table
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

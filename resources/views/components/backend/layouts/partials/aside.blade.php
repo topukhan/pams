@@ -129,6 +129,14 @@
                     <span class="ml-4">Domain</span>
                 </a>
             </li>
+            {{-- Project type --}}
+            <li class="relative px-6 py-3">
+                <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    href="{{ route('projectTypes.index') }}">
+                    <i class='bx bx-spreadsheet text-2xl'></i>
+                    <span class="ml-4">Project Type</span>
+                </a>
+            </li>
             {{-- analytics --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"

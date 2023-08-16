@@ -53,7 +53,7 @@
                         </label>
                         <input id="reason" type="text" name="reason"
                             class="w-full py-2 px-4 border rounded focus:outline-none focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
-                            placeholder="Click to select the reason..." onclick="toggleReason()" />
+                            placeholder="Click to select the reason..." readonly onclick="toggleReason()" />
                         <div id="selectedReasonsContainer" class="flex flex-wrap mt-2"></div>
                         <x-input-error :messages="$errors->get('reason')" class="mt-2" />
                     </div>
@@ -73,46 +73,48 @@
                     </div>
                 </form>
 
-                <script>
-                    const reason = document.getElementById('reason');
-                    const selectedReasonsContainer = document.getElementById('selectedReasonsContainer');
-                    let selectedReason = null;
-
-                    const availableOptions = [
-                        'No members available',
-                        'A few members short'
-                    ];
-
-                    function toggleReason() {
-                        selectedReasonsContainer.innerHTML = selectedReasonsContainer.innerHTML ? '' : availableOptions.map(option => `
-                <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
-                onclick="selectReason('${option}')">${option}</div>
-                `).join('');
-                    }
-
-                    function selectReason(reason) {
-                        if (selectedReason === reason) {
-                            return;
-                        }
-
-                        selectedReason = reason;
-                        updatedSelectedReason();
-                        updateReason();
-                    }
-
-                    function updatedSelectedReason() {
-                        selectedReasonsContainer.innerHTML = availableOptions.map(option => `
-            <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
-                onclick="selectReason('${option}')">${option}</div>
-        `).join('');
-                    }
-
-                    function updateReason() {
-                        reason.value = selectedReason;
-                    }
-                </script>
+               
 
             </div>
         </div>
     </div>
+
+    <script>
+        const reason = document.getElementById('reason');
+        const selectedReasonsContainer = document.getElementById('selectedReasonsContainer');
+        let selectedReason = null;
+    
+        const availableOptions = [
+            'No members available',
+            'A few members short'
+        ];
+    
+        function toggleReason() {
+            selectedReasonsContainer.innerHTML = selectedReasonsContainer.innerHTML ? '' : availableOptions.map(option => `
+                <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
+                onclick="selectReason('${option}')">${option}</div>
+            `).join('');
+        }
+    
+        function selectReason(reason) {
+            if (selectedReason === reason) {
+                return;
+            }
+    
+            selectedReason = reason;
+            updatedSelectedReason();
+            updateReason();
+        }
+    
+        function updatedSelectedReason() {
+            selectedReasonsContainer.innerHTML = availableOptions.map(option => `
+                <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
+                onclick="selectReason('${option}')">${option}</div>
+            `).join('');
+        }
+    
+        function updateReason() {
+            reason.value = selectedReason;
+        }
+    </script>
 </x-frontend.student.layouts.master>

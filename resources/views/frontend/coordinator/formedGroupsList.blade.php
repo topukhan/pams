@@ -47,35 +47,39 @@
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 text-sm">{{ $group->project_type }}</td>
-                                    <td class="px-4 py-3 text-sm">{{ count(json_decode($group->members)) }}</td>
+                                    <td class="px-4 py-3 text-sm">{{ $group->groupMembers->count() }}</td>
                                     <td class="px-4 py-3 text-xs">
                                         @if ($requestedGroupId !== null)
-                                        <a href="#">
-                                            <form action="{{ route('coordinator.transferGroupMembers')}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="request_id" value="{{ $request_id}}">
-                                                <input type="hidden" name="requested_group_id" value="{{ $requestedGroupId}}">
-                                                <input type="hidden" name="receiver_group_id" value="{{ $group->id}}">
-                                                <button type="submit" onclick="return confirm('Please Check For Domain and Project Type')"
-                                                    class="py-2 px-3 font-bold text-md align-middle leading-tight text-violet-700 bg-violet-100  dark:bg-violet-700 dark:text-violet-100 rounded-md">
-                                                    Merge
-                                                </button>
-                                            </form>
-                                        </a>
+                                            <a href="#">
+                                                <form action="{{ route('coordinator.transferGroupMembers') }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="request_id" value="{{ $request_id }}">
+                                                    <input type="hidden" name="requested_group_id"
+                                                        value="{{ $requestedGroupId }}">
+                                                    <input type="hidden" name="receiver_group_id"
+                                                        value="{{ $group->id }}">
+                                                    <button type="submit"
+                                                        onclick="return confirm('Please Check For Domain and Project Type')"
+                                                        class="py-2 px-3 font-bold text-md align-middle leading-tight text-violet-700 bg-violet-100  dark:bg-violet-700 dark:text-violet-100 rounded-md">
+                                                        Merge
+                                                    </button>
+                                                </form>
+                                            </a>
                                         @elseif ($id !== null)
-                                        <a href="#">
-                                            <form action="{{ route('coordinator.requestedStudentAddToGroup')}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="request_id" value="{{ $request_id}}">
-                                                <input type="hidden" name="user_id" value="{{ $id}}">
-                                                <input type="hidden" name="group_id" value="{{ $group->id}}">
-                                                <button type="submit" onclick="return confirm('Are you sure?')"
-                                                    class="py-2 px-3 font-bold text-xl align-middle leading-tight text-violet-700 bg-violet-100  dark:bg-violet-700 dark:text-violet-100">
-                                                    +
-                                                </button>
-                                            </form>
-                                        </a>
-                                            
+                                            <a href="#">
+                                                <form action="{{ route('coordinator.requestedStudentAddToGroup') }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="request_id" value="{{ $request_id }}">
+                                                    <input type="hidden" name="user_id" value="{{ $id }}">
+                                                    <input type="hidden" name="group_id" value="{{ $group->id }}">
+                                                    <button type="submit" onclick="return confirm('Are you sure?')"
+                                                        class="py-2 px-3 font-bold text-xl align-middle leading-tight text-violet-700 bg-violet-100  dark:bg-violet-700 dark:text-violet-100">
+                                                        +
+                                                    </button>
+                                                </form>
+                                            </a>
                                         @endif
                                     </td>
 

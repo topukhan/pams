@@ -26,11 +26,6 @@ class GroupController extends Controller
         $groupsMembers = GroupMember::pluck('user_id')->unique();
         $pendingGroupsMembers = GroupInvitation::pluck('user_id')->unique();
 
-
-        // Decode JSON data to get arrays of integers
-        // $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
-        // $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
-
         $students = Student::whereNotIn('user_id', $groupsMembers)
             ->whereNotIn('user_id', $pendingGroupsMembers)
             ->get();
@@ -104,12 +99,10 @@ class GroupController extends Controller
         $users = null;
         $invitation = null;
         if ($user_ids) {
-
-
             $users = User::whereIn('id', $user_ids)->get();
+            //accept reject option 
             $invitation = GroupInvitation::where('user_id', $id)->first()->id;
-            // dd($users);
-            $invitations = GroupInvitation::where('group_id', $group_id)->get();
+            // $invitations = GroupInvitation::where('group_id', $group_id)->get();
         }
         //for delete if all rejected
         $this->deletePendingGroups();
@@ -244,7 +237,6 @@ class GroupController extends Controller
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
         }
-
 
         return view('frontend.student.myGroup', compact('group', 'members'));
     }

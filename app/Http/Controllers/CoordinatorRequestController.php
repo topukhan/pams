@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\GroupInvitation;
 use App\Models\RequestToCoordinator;
 use App\Models\GroupMember;
-use App\Models\PendingGroup;
 use App\Models\Student;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ class CoordinatorRequestController extends Controller
         $request_id = $request->id;
         $groups = Group::paginate(7);
         $serialOffset = ($groups->currentPage() - 1) * $groups->perPage();
-        return view('frontend.coordinator.formedGroupsList', compact('groups','requestedGroupId', 'id', 'request_id', 'serialOffset'));
+        return view('frontend.coordinator.formedGroupsList', compact('groups', 'requestedGroupId', 'id', 'request_id', 'serialOffset'));
     }
 
     //Request Details
@@ -52,25 +52,17 @@ class CoordinatorRequestController extends Controller
         if (!is_array($selectedUserIds)) {
             $selectedUserIds = [$selectedUserIds];
         }
-    
+
         DB::beginTransaction();
-    
+
         try {
             // Check if any of the selected users are already in a group
             $userInGroup = GroupMember::whereIn('user_id', $selectedUserIds)->exists();
-    
+
             if (!$userInGroup) {
                 $group = Group::find($group_id);
-    
+
                 if ($group) {
-                    $currentMembers = json_decode($group->members, true);
-                    $selectedUserIds = array_map('intval', $selectedUserIds);
-                    $updatedMembers = array_merge($currentMembers, $selectedUserIds);
-    
-                    $group->update([
-                        'members' => json_encode($updatedMembers),
-                    ]);
-    
                     // Insert into the group_members table for each selected user
                     foreach ($selectedUserIds as $user_id) {
                         GroupMember::create([
@@ -78,12 +70,12 @@ class CoordinatorRequestController extends Controller
                             'user_id' => $user_id,
                         ]);
                     }
-    
+
                     // Delete the group join request
                     RequestToCoordinator::where('id', $request_id)->delete();
-    
+
                     DB::commit();
-    
+
                     return redirect()->route('coordinator.requests')->with('message', 'Students added to the group successfully.');
                 } else {
                     DB::rollback();
@@ -101,54 +93,42 @@ class CoordinatorRequestController extends Controller
     }
 
     public function transferGroupMembers(Request $request)
-{
-    $requestedGroupId = $request->input('requested_group_id');
-    $receiverGroupId = $request->input('receiver_group_id');
+    {
+        $requestedGroupId = $request->input('requested_group_id');
+        $receiverGroupId = $request->input('receiver_group_id');
 
-    DB::beginTransaction();
+        DB::beginTransaction();
 
-    try {
-        $requestedGroup = Group::find($requestedGroupId);
-        $receiverGroup = Group::find($receiverGroupId);
+        try {
+            $requestedGroup = Group::find($requestedGroupId);
+            $receiverGroup = Group::find($receiverGroupId);
 
-        if (!$requestedGroup || !$receiverGroup) {
+            if (!$requestedGroup || !$receiverGroup) {
+                DB::rollback();
+                return redirect()->back()->with('error', 'One or more groups not found.');
+            }
+
+            $requestedMembers = GroupMember::where('group_id', $requestedGroup->id)->pluck('user_id')->unique()->toArray();
+
+            // Insert transferred members into the group_members table of the receiver group
+            foreach ($requestedMembers as $user_id) {
+                GroupMember::create([
+                    'group_id' => $receiverGroupId,
+                    'user_id' => $user_id,
+                ]);
+            }
+            // Delete the requested group and its join request
+            $requestedGroup->delete();
+            RequestToCoordinator::where('group_id', $requestedGroupId)->delete();
+
+            DB::commit();
+
+            return redirect()->route('coordinator.requests')->with('message', 'Group members transferred successfully.');
+        } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'One or more groups not found.');
+            return redirect()->back()->with('error', 'An error occurred while transferring group members.');
         }
-
-        $requestedMembers = json_decode($requestedGroup->members, true);
-        $receiverMembers = json_decode($receiverGroup->members, true);
-
-        // Merge the members and remove duplicates
-        $updatedMembers = array_unique(array_merge($receiverMembers, $requestedMembers));
-
-        // Update the receiver group's members column
-        $receiverGroup->update([
-            'members' => json_encode($updatedMembers),
-        ]);
-
-        // Insert transferred members into the group_members table of the receiver group
-        foreach ($requestedMembers as $user_id) {
-            GroupMember::create([
-                'group_id' => $receiverGroupId,
-                'user_id' => $user_id,
-            ]);
-        }
-
-        // Delete the requested group and its join request
-        $requestedGroup->delete();
-        RequestToCoordinator::where('group_id', $requestedGroupId)->delete();
-
-        DB::commit();
-
-        return redirect()->route('coordinator.requests')->with('message', 'Group members transferred successfully.');
-    } catch (\Exception $e) {
-        DB::rollback();
-        return redirect()->back()->with('error', 'An error occurred while transferring group members.');
     }
-}
-
-    
 
     //Request Group Details
     public function requestGroupDetails()
@@ -159,22 +139,23 @@ class CoordinatorRequestController extends Controller
     //Request Group Members Details
     public function requestGroupMembersDetails(Group $group, RequestToCoordinator $request)
     {
-        
-        
-        $members = json_decode($group->members);
+
+        $members = GroupMember::where('group_id', $group->id)->pluck('user_id')->unique()->toArray();
+        // $members = json_decode($group->members);
         $groupMembers = Student::whereIn('user_id', $members)->get();
         // Available students
-        $groupsMembers = Group::pluck('members')->flatten()->unique();
-        $pendingGroupsMembers = PendingGroup::pluck('members')->flatten()->unique();
+        $groupsMembers = GroupMember::pluck('user_id')->flatten()->unique();
+        $pendingGroupsMembers = GroupInvitation::pluck('user_id')->flatten()->unique();
 
         // Decode JSON data to get arrays of integers
-        $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
-        $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+        // $groupsMembersArray = $groupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
+        // $pendingGroupsMembersArray = $pendingGroupsMembers->map(fn ($item) => json_decode($item, true))->flatten()->unique()->toArray();
 
-        $students = Student::whereNotIn('user_id', $groupsMembersArray)
-        ->whereNotIn('user_id', $pendingGroupsMembersArray)
-        ->get();
-        
+        $students = Student::whereNotIn('user_id', $groupsMembers)
+            ->whereNotIn('user_id', $pendingGroupsMembers)
+            ->get();
+        // dd($students);
+
         return view('frontend.coordinator.requestGroupMembersDetails', compact('group', 'groupMembers', 'request', 'students'));
     }
 

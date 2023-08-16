@@ -127,21 +127,21 @@
                                         <td class="px-4 py-3 text-xs">
 
                                             @if ($member->groupInvitation->status == 0 && $loggedInStudent->id != $member->id)
-                                                <a href="#">
+                                                <a href="">
                                                     <button
                                                         class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
                                                         Pending
                                                     </button>
                                                 </a>
                                             @elseif ($member->groupInvitation->status == 1 && $loggedInStudent->id != $member->id)
-                                                <a href="#">
+                                                <a href="">
                                                     <button
                                                         class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                                         Accepted
                                                     </button>
                                                 </a>
                                             @elseif ($member->groupInvitation->status == 2 && $loggedInStudent->id != $member->id)
-                                                <a href="#">
+                                                <a href="">
                                                     <button
                                                         class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
                                                         Rejected
@@ -149,14 +149,14 @@
                                                 </a>
                                             @elseif ($loggedInStudent->id === $member->id)
                                                 @if ($member->groupInvitation->status == 1)
-                                                    <a href="#">
+                                                    <a href="">
                                                         <button
                                                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                                             Accepted
                                                         </button>
                                                     </a>
                                                 @elseif ($member->groupInvitation->status == 2)
-                                                    <a href="#">
+                                                    <a href="">
                                                         <button
                                                             class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
                                                             Rejected
@@ -171,13 +171,13 @@
                                                             value="{{ $member->id }}"> --}}
                                                         <input type="hidden" name="pending_group_id"
                                                             value="{{ $pending_group->id }}">
-                                                        <a href="#">
+                                                        <a href="">
                                                             <button type="submit" name="response" value="1"
                                                                 class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                                                 Accept
                                                             </button>
                                                         </a>
-                                                        <a href="#">
+                                                        <a href="">
                                                             <button type="submit" name="response" value="2"
                                                                 class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
                                                                 Reject

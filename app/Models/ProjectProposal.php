@@ -8,14 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectProposal extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'group_id',
-        'title',
-        'course',
-        'supervisor_id',
-        'cosupervisor',
-        'domain',
-        'type'
+    protected $guarded =[
+        'id',
+        'created_at',
+        'updated_at',
     ];
 
     public function group(){

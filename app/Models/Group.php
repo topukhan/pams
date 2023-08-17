@@ -15,6 +15,11 @@ class Group extends Model
         return $this->hasMany(GroupMember::class);
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function projectProposal()
     {
         return $this->hasOne(ProjectProposal::class);
@@ -24,4 +29,6 @@ class Group extends Model
     {
         return $this->hasOne(ApprovedGroup::class);
     }
+
+
 }

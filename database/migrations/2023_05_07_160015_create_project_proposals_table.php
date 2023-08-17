@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('cosupervisor');
             $table->string('domain');
             $table->string('project_type');
+            $table->text('description');
             $table->timestamps();
         });
     }

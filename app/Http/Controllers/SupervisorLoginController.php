@@ -51,20 +51,16 @@ class SupervisorLoginController extends Controller
         // dd($user);
         session()->put('supervisorUser', $user);
         // dd(session());
-        return view('frontend.supervisor.dashboard');
+        return view('frontend.supervisor.dashboard.dashboard');
     }
 
     // Supervisor Logout / Session destroy
     public function logout(Request $request)
     {
         Auth::guard('supervisor')->logout();
-
         session()->forget('supervisorUser');
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect()->route('supervisor.login');
     }
 }

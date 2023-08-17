@@ -60,23 +60,16 @@ class StudentLoginController extends Controller
         
         session()->put('studentUser', $user);
         // dd(session()->get('user'));
-        return view('frontend.student.dashboard');
+        return view('frontend.student.dashboard.dashboard');
     }
 
     // Student Logout / Session destroy
     public function logout(Request $request)
     {
         Auth::guard('student')->logout();
-
         session()->forget('studentUser');
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect()->route('student.login');
     }
-
-   
-
 }

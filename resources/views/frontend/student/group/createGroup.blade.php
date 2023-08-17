@@ -3,6 +3,7 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Create Group </h2>
 
+
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
@@ -27,11 +28,10 @@
                 </ul>
             </div>
         @endif
-        
         @php
             $memberCount = count($students);
+            
         @endphp
-
         @if ($memberCount < 4)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
                 Sufficient members are not available

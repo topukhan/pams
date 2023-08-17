@@ -15,14 +15,14 @@ class SupervisorProfileController extends Controller
     {
         $user_id = Auth::guard('supervisor')->user()->id;
         $user = User::with('supervisor')->find($user_id);
-        return view('frontend.supervisor.profile', compact('user'));
+        return view('frontend.supervisor.profile.profile', compact('user'));
         
 
     }
 
     public function edit(){
         $domains = Domain::all();
-        return view('frontend.supervisor.profileEdit', compact('domains'));
+        return view('frontend.supervisor.profile.profileEdit', compact('domains'));
     }
 
     

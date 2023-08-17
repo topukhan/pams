@@ -15,7 +15,6 @@
             </ol>
         </div>
         {{-- table --}}
-
         <div class="px-2 py-2 ">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-3">
                 <div class="flex flex-row items-center mb-2 space-x-4">
@@ -26,7 +25,6 @@
                         <span class="text-sm font-semibold dark:text-white"> {{ $group->domain }} </span>
                     </div>
                 </div>
-
                 <div class="flex flex-row items-center mb-2 space-x-4">
                     <div class="flex-shrink-0 w-1/6">
                         <label class="text-md font-bold text-gray-700 dark:text-white">Project Type: </label>
@@ -35,7 +33,6 @@
                         <span class="text-sm font-semibold dark:text-white"> {{ $group->project_type }} </span>
                     </div>
                 </div>
-
                 <div class="flex flex-row items-center mb-2 space-x-4">
                     <div class="flex-shrink-0 w-1/6">
                         <label class="text-md font-bold text-gray-700 dark:text-white">Reason: </label>
@@ -53,8 +50,6 @@
                         <span class="text-sm font-semibold dark:text-white"> {{ $request->note }} </span>
                     </div>
                 </div>
-
-
             </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs">
                 <div class="w-full overflow-x-auto shadow-md">
@@ -66,7 +61,6 @@
                                 <th class="px-3 py-3">Student ID</th>
                                 <th class="px-3 py-3">Name</th>
                                 <th class="px-3 py-3">Email</th>
-
                             </tr>
                         </thead>
                         <tbody id="groupMembersTableBody"
@@ -92,16 +86,12 @@
                                             <p class="font-semibold">{{ $groupMember->user->email }}</p>
                                         </div>
                                     </td>
-
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
-
-
-
             @if (count($students) > 0)
                 <div class="flex justify-start h-4 items-center bg-gray-200 dark:bg-gray-800 mt-4">
                     <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Available Students</h3>
@@ -165,7 +155,6 @@
                             </table>
                         </div>
                     </div>
-
                     <div class="flex justify-end space-x-2">
                         <button type="submit"
                             class="bg-blue-500 hover:bg-blue-600 text-lg text-white font-bold mt-4 py-1 px-3 rounded">
@@ -183,10 +172,5 @@
                 </div>
             @endif
         </div>
-
     </div>
-
-   
-
-
 </x-frontend.coordinator.layouts.master>

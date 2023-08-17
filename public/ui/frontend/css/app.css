@@ -874,10 +874,6 @@ select {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
-.my-3 {
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -1009,9 +1005,6 @@ select {
 .h-6 {
   height: 1.5rem;
 }
-.h-8 {
-  height: 2rem;
-}
 .h-9 {
   height: 2.25rem;
 }
@@ -1101,6 +1094,11 @@ select {
 }
 .border-separate {
   border-collapse: separate;
+}
+.border-spacing-1 {
+  --tw-border-spacing-x: 0.25rem;
+  --tw-border-spacing-y: 0.25rem;
+  border-spacing: var(--tw-border-spacing-x) var(--tw-border-spacing-y);
 }
 .origin-top {
   transform-origin: top;
@@ -1352,6 +1350,10 @@ select {
 .border-white {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+.border-gray-800 {
+  --tw-border-opacity: 1;
+  border-color: rgb(31 41 55 / var(--tw-border-opacity));
 }
 .bg-black {
   --tw-bg-opacity: 1;
@@ -2222,10 +2224,6 @@ select {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(96 165 250 / var(--tw-ring-opacity));
 }
-.focus\:ring-gray-200:focus {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: rgb(229 231 235 / var(--tw-ring-opacity));
-}
 .focus\:ring-indigo-200:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(199 210 254 / var(--tw-ring-opacity));
@@ -2327,6 +2325,10 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(21 128 61 / var(--tw-bg-opacity));
 }
+:is(.dark .dark\:bg-neutral-900) {
+  --tw-bg-opacity: 1;
+  background-color: rgb(23 23 23 / var(--tw-bg-opacity));
+}
 :is(.dark .dark\:bg-orange-500) {
   --tw-bg-opacity: 1;
   background-color: rgb(249 115 22 / var(--tw-bg-opacity));
@@ -2426,6 +2428,14 @@ select {
 :is(.dark .dark\:hover\:text-gray-200:hover) {
   --tw-text-opacity: 1;
   color: rgb(229 231 235 / var(--tw-text-opacity));
+}
+:is(.dark .focus\:dark\:bg-gray-700):focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+}
+:is(.dark .focus\:dark\:bg-gray-800):focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
 }
 :is(.dark .dark\:focus\:placeholder-gray-600:focus)::-moz-placeholder {
   --tw-placeholder-opacity: 1;

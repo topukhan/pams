@@ -59,7 +59,7 @@
                 </div>
             </div>
         @endif
-        <div class="px-2 py-4 mb-6 bg-slate-100 rounded-md">
+        <div class="px-2 py-4 mb-6 bg-slate-100 dark:bg-gray-900  border border-gray-800 rounded-md">
             <div class="px-2 py-2 mb-6">
                 <form action="{{ route('student.storeGroup') }}" method="POST">
                     @csrf
@@ -98,7 +98,7 @@
                         </div>
                         <div class="md:w-3/12">
                             <select name="domain" id="domain"
-                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 focus:dark:bg-gray-800 dark:text-gray-300"
                                 id="domain">
                                 <option value="0" selected disabled>select domain</option>
                                 @foreach ($domains as $domain)
@@ -140,7 +140,7 @@
                                         <th class="px-3 py-3">Batch</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 ">
                                     {{-- Member 1 --}}
                                     <tr class="text-gray-700 dark:text-gray-400 ">
                                         <td class="px-4 py-3 text-sm">

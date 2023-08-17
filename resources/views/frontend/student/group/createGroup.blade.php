@@ -2,10 +2,6 @@
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Create Group </h2>
-<<<<<<<<< Temporary merge branch 1:resources/views/frontend/student/creategroup.blade.php
-
-=========
->>>>>>>>> Temporary merge branch 2:resources/views/frontend/student/group/createGroup.blade.php
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">

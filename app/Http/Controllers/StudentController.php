@@ -19,68 +19,11 @@ use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Student $student)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Student $student)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Student $student)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Student $student)
-    {
-        //
-    }
-
-
     // public function supervisorAvailability()
     // {
     //     $supervisors = Supervisor::all();
     //     $domains = Domain::all();
-    //     return view('frontend.student.supervisorAvailability', compact('supervisors','domains'));
+    //     return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors','domains'));
     // }
 
 
@@ -94,7 +37,7 @@ class StudentController extends Controller
     //         return response()->json(['supervisors' => $supervisors]);
     //     }    
     //     $supervisors = $query->get();    
-    //     return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+    //     return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors', 'domains'));
     // }
 
     public function supervisorAvailability(Request $request)
@@ -110,7 +53,7 @@ class StudentController extends Controller
                 return response()->json(['supervisors' => $supervisors]);
             }
             $supervisors = $query->get();
-            return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+            return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors', 'domains'));
         } catch (\Exception $e) {
             Log::error('Error retrieving supervisors: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred while loading data.'], 500);
@@ -126,7 +69,7 @@ class StudentController extends Controller
     //             return response()->json(['supervisors' => $supervisors]);
     //         }     
     //         $supervisors = $query->get();     
-    //         return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+    //         return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors', 'domains'));
     //     }
 
 
@@ -140,7 +83,6 @@ class StudentController extends Controller
                 ->where('user_id', $id)
                 ->first();
         })->first();
-
         $members = null;
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
@@ -148,13 +90,10 @@ class StudentController extends Controller
         }
         $supervisors = Supervisor::all();
         $domains = Domain::all();
-
-        
     // Check if a proposal from the group already exists
     $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
     $proposalSubmitted = $existingProposal !== null;
-
-        return view('frontend.student.proposalForm', compact('supervisors', 'domains', 'id', 'group', 'members', 'proposalSubmitted'));
+        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'domains', 'id', 'group', 'members', 'proposalSubmitted'));
     }
 
 
@@ -188,81 +127,72 @@ class StudentController extends Controller
         }
     }
 
-
-
     //Proposal Change Form
     public function proposalChangeForm()
     {
-        return view('frontend.student.proposalChangeForm');
+        return view('frontend.student.proposal.proposalChangeForm');
     }
 
     //Pending Groups
     public function pendingGroups()
     {
-        return view('frontend.student.pendingGroups');
+        return view('frontend.student.group.pendingGroups');
     }
 
     //Pending Group Details 
     public function pendingGroupDetails()
     {
-        return view('frontend.student.pendingGroupDetails');
+        return view('frontend.student.group.pendingGroupDetails');
     }
-
-    // Profile
-
-    public function profile()
-    {
-        return view('frontend.student.profile');
-    }
-
 
     // Tasklist
     public function taskList()
     {
-        return view('frontend.student.taskList');
+        return view('frontend.student.task.taskList');
     }
 
     // Task Details
     public function taskDetails()
     {
-        return view('frontend.student.taskDetails');
+        return view('frontend.student.task.taskDetails');
     }
 
     // Upcoming Events
     public function upcomingEvents()
     {
-        return view('frontend.student.upcomingEvents');
+        return view('frontend.student.event.upcomingEvents');
     }
 
     // Upcoming Event Details
     public function upcomingEventDetails()
     {
-        return view('frontend.student.upcomingEventDetails');
+        return view('frontend.student.event.upcomingEventDetails');
     }
 
     // Assistance
     public function assistance()
     {
-        return view('frontend.student.assistance');
+        return view('frontend.student.aside.assistance');
     }
 
     // Change Password
     public function changePassword()
     {
-        return view('frontend.student.changePassword');
+        return view('frontend.student.aside.changePassword');
+        
     }
 
     // previous Projects
     public function previousProjects()
     {
-        return view('frontend.student.previousProjects');
+        return view('frontend.student.dashboard.previousProjects');
     }
 
     // group member Request
     public function groupMemberRequest()
     {
         $id = Auth::guard('student')->user()->id;
-        return view('frontend.student.groupMemberRequest', compact('id'));
+        return view('frontend.student.request.groupMemberRequest', compact('id'));
     }
 
     // Request for join a group 
@@ -289,10 +219,10 @@ class StudentController extends Controller
             }
 
 
-            return redirect()->route('student.groupMemberRequest')->withMessage('Request Sent! Check back later');
+            return redirect()->route('student.request.groupMemberRequest')->withMessage('Request Sent! Check back later');
         } catch (\Exception $e) {
 
-            return redirect()->route('student.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
+            return redirect()->route('student.request.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
         }
     }
 
@@ -300,6 +230,6 @@ class StudentController extends Controller
     public function requestToCoordinatorForm(Request $request)
     {
         $group_id = $request->group_id;
-        return view('frontend.student.requestToCoordinator', compact('group_id'));
+        return view('frontend.student.request.requestToCoordinator', compact('group_id'));
     }
 }

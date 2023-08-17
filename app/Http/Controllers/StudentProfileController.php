@@ -17,10 +17,8 @@ class StudentProfileController extends Controller
         $user = User::with('student')->find($user_id);
         $projectTypes = $user->projectTypes;
         $domains = $user->domains;
-        // dd($domains);
-
-
-        return view('frontend.student.profile', compact('user', 'projectTypes', 'domains'));
+        
+        return view('frontend.student.profile.profile', compact('user', 'projectTypes', 'domains'));
     }
 
     public function edit()
@@ -32,8 +30,7 @@ class StudentProfileController extends Controller
         $selectedDomains = collect($user->domains->pluck('name'));
         $selectedProjectTypes = collect($user->projectTypes->pluck('name'));
 
-
-        return view('frontend.student.profileEdit', compact('domains', 'projectTypes', 'domains', 'selectedDomains', 'selectedProjectTypes'));
+        return view('frontend.student.profile.profileEdit', compact('domains', 'projectTypes', 'domains', 'selectedDomains', 'selectedProjectTypes'));
     }
 
 
@@ -53,13 +50,10 @@ class StudentProfileController extends Controller
             // Update domains
             $domains = $request->input('domain');
             $user->domains()->sync($domains);
-
-
+            
             $studentData = [
                 'project_type_status' => true,
             ];
-
-
             $user->student->update($studentData);
 
             return redirect()->route('student.profile')->withMessage('Edited Successfully');

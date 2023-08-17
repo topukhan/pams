@@ -59,9 +59,9 @@ function data() {
     toggleFollowUpsMenu() {
       this.isFollowUpsOpen = !this.isFollowUpsOpen
     },
-    isCoordinatorsMenuOpen: false,
-    toggleCoordinatorsMenu() {
-      this.isCoordinatorsMenuOpen = !this.isCoordinatorsMenuOpen
+    isUserManagementMenuOpen: false,
+    toggleUserManagementMenu() {
+      this.isUserManagementMenuOpen = !this.isUserManagementMenuOpen
     },
     isSupervisorsMenuOpen: false,
     toggleSupervisorsMenu() {

@@ -30,7 +30,7 @@ class GroupController extends Controller
             ->whereNotIn('user_id', $pendingGroupsMembers)
             ->get();
 
-        return view('frontend.student.createGroup', compact('domains', 'students', 'loggedInStudent'));
+        return view('frontend.student.group.createGroup', compact('domains', 'students', 'loggedInStudent'));
     }
 
     // Store Group
@@ -238,7 +238,7 @@ class GroupController extends Controller
             $members = User::whereIn('id', $memberIds)->get();
         }
 
-        return view('frontend.student.myGroup', compact('group', 'members'));
+        return view('frontend.student.group.myGroup', compact('group', 'members'));
     }
 
     //My Group Details 
@@ -246,6 +246,6 @@ class GroupController extends Controller
     {
         $id = $request->group;
         $group_members = GroupMember::where('group_id', $id)->get();
-        return view('frontend.student.myGroupDetails', ['group_members' => $group_members]);
+        return view('frontend.student.group.myGroupDetails', ['group_members' => $group_members]);
     }
 }

@@ -12,17 +12,11 @@ use Illuminate\Http\Request;
 
 class SupervisorController extends Controller
 {
-    //Supervisor Dashboard
-    public function dashboard()
-    {
-        return view('frontend.supervisor.dashboard');
-    }
-
     //Student Group Requests 
     public function groupRequests()
     {
         $proposals = ProjectProposal::all();
-        return view('frontend.supervisor.groupRequests', compact('proposals'));
+        return view('frontend.supervisor.group.groupRequests', compact('proposals'));
     }
 
     //Students Request Group Details 
@@ -30,7 +24,7 @@ class SupervisorController extends Controller
     {
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
-        return view('frontend.supervisor.groupRequestDetails', compact('group', 'proposal'));
+        return view('frontend.supervisor.group.groupRequestDetails', compact('group', 'proposal'));
     }
 
     // Store approved group to table 
@@ -55,7 +49,7 @@ class SupervisorController extends Controller
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
-        return view('frontend.supervisor.groupRequestDetails', compact('group', 'proposal'));
+        return view('frontend.supervisor.group.groupRequestDetails', compact('group', 'proposal'));
     }
 
 
@@ -64,7 +58,7 @@ class SupervisorController extends Controller
     public function approvedGroups()
     {
         $approved_groups = ApprovedGroup::all();
-        return view('frontend.supervisor.approvedGroups', compact('approved_groups'));
+        return view('frontend.supervisor.group.approvedGroups', compact('approved_groups'));
     }
 
     //Supervisor Approved Group Details 
@@ -72,7 +66,7 @@ class SupervisorController extends Controller
     {
         $group = Group::find($request->group_id);
         $approved = ApprovedGroup::find($request->approved_id);
-        return view('frontend.supervisor.approvedGroupDetails', compact('group', 'approved'));
+        return view('frontend.supervisor.group.approvedGroupDetails', compact('group', 'approved'));
     }
 
     //Supervisor Rejected Groups
@@ -93,7 +87,7 @@ class SupervisorController extends Controller
     // assign task
     public function assignTask(){
         $groups = Group::all();
-        return view('frontend.supervisor.assignTask', ['groups' => $groups]);
+        return view('frontend.supervisor.task.assignTask', ['groups' => $groups]);
     }
 
     //Supervisor Login
@@ -107,7 +101,7 @@ class SupervisorController extends Controller
     public function proposalList()
     {
         $proposals = ProjectProposal::all();
-        return view('frontend.supervisor.proposalList', compact('proposals'));
+        return view('frontend.supervisor.proposal.proposalList', compact('proposals'));
     }
 
     //project Proposal list
@@ -120,12 +114,12 @@ class SupervisorController extends Controller
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
         } 
-        return view('frontend.supervisor.proposalDetails', compact('group', 'proposal', 'members'));
+        return view('frontend.supervisor.proposal.proposalDetails', compact('group', 'proposal', 'members'));
     }
 
     //project Proposal list
     public function proposalSuggest()
     {
-        return view('frontend.supervisor.proposalSuggest');
+        return view('frontend.supervisor.proposal.proposalSuggest');
     }
 }

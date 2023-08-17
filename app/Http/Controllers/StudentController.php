@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\ApprovedGroup;
 use App\Models\Domain;
 use App\Models\Group;
+use App\Models\GroupMember;
 use App\Models\ProjectProposal;
 use App\Models\RequestToCoordinator;
 use App\Models\Student;
 use App\Models\Supervisor;
+use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +83,7 @@ class StudentController extends Controller
     //     return view('frontend.student.supervisorAvailability', compact('supervisors','domains'));
     // }
 
-    
+
     // public function supervisorAvailability(Request $request)
     // {
     //     $query = Supervisor::query();
@@ -95,116 +97,79 @@ class StudentController extends Controller
     //     return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
     // }
 
-
     public function supervisorAvailability(Request $request)
-{
-    try {
-        $domains = Domain::all();
-        $query = Supervisor::query();
-        if ($request->ajax()) {
-            $selectedDomain = $request->input('domain');
-            if ($selectedDomain) {
-                $supervisors = $query->where('domain', $selectedDomain)->get();
+    {
+        try {
+            $domains = Domain::all();
+            $query = Supervisor::query();
+            if ($request->ajax()) {
+                $selectedDomain = $request->input('domain');
+                if ($selectedDomain) {
+                    $supervisors = $query->where('domain', $selectedDomain)->get();
+                }
+                return response()->json(['supervisors' => $supervisors]);
             }
-            return response()->json(['supervisors' => $supervisors]);
+            $supervisors = $query->get();
+            return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+        } catch (\Exception $e) {
+            Log::error('Error retrieving supervisors: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while loading data.'], 500);
         }
-        $supervisors = $query->get();
-        return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
-    } catch (\Exception $e) {
-        Log::error('Error retrieving supervisors: ' . $e->getMessage());
-        return response()->json(['error' => 'An error occurred while loading data.'], 500);
     }
-}
+
+    // public function supervisorAvailability(Request $request)
+    //     {
+    //         $query = Supervisor::query();
+    //         $domains = Domain::all();
+    //         if ($request->ajax()) {
+    //             $supervisors = $query->where(['domain'=>$request->domain])->get();
+    //             return response()->json(['supervisors' => $supervisors]);
+    //         }     
+    //         $supervisors = $query->get();     
+    //         return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
+    //     }
 
 
-
-// public function supervisorAvailability(Request $request)
-//     {
-//         $query = Supervisor::query();
-//         $domains = Domain::all();
-//         if ($request->ajax()) {
-//             $supervisors = $query->where(['domain'=>$request->domain])->get();
-//             return response()->json(['supervisors' => $supervisors]);
-//         }     
-//         $supervisors = $query->get();     
-//         return view('frontend.student.supervisorAvailability', compact('supervisors', 'domains'));
-//     }
-
-
-    
-   
-    
-
-
-
-    // //Proposal Form
-    // public function proposalForm(Request $request)
-    // {
-    //     $supervisors = Supervisor::all();
-    //     $groups = Group::all();
-    //     $domains = Domain::all();
-    //     $id = $request->id;
-    //     $existInProposal = ProjectProposal::pluck('group_id')->unique()->values()->toArray();
-    //     // Get the group IDs that exist in the approved groups table
-    //     $existInApproved = ApprovedGroup::pluck('group_id')->toArray();
-    //     // Merge the two arrays to get all the disabled group IDs
-    //     $disabledGroupIds = array_merge($existInProposal, $existInApproved);
-    //     return view('frontend.student.proposalForm', compact('supervisors', 'id', 'domains', 'groups', 'disabledGroupIds'));
-    // }
 
     public function proposalForm(Request $request)
-{
-    $supervisors = Supervisor::all();
-    $groups = Group::all();
-    $domains = Domain::all();
-    $id = $request->id;
-    $existInProposal = ProjectProposal::pluck('group_id')->unique()->values()->toArray();
-    $existInApproved = ApprovedGroup::pluck('group_id')->toArray();
-    $disabledGroupIds = array_merge($existInProposal, $existInApproved);
-    
-    $selectedDomain = $request->input('domain');
-    $filteredSupervisors = [];
+    {
+        $id = Auth::guard('student')->user()->id;
+        $group = Group::where('id', function ($query) use ($id) {
+            $query->select('group_id')
+                ->from('group_members')
+                ->where('user_id', $id)
+                ->first();
+        })->first();
 
-    if ($request->ajax()) {
-        // If it's an AJAX request, filter supervisors based on the selected domain
-        $filteredSupervisors = Supervisor::where('domain', $selectedDomain)->get();
-        
-        // Prepare data to send back as JSON
-        $supervisorOptions = [];
-        foreach ($filteredSupervisors as $supervisor) {
-            $supervisorOptions[] = [
-                'id' => $supervisor->id,
-                'full_name' => $supervisor->user->first_name . ' ' . $supervisor->user->last_name,
-            ];
+        $members = null;
+        if ($group) {
+            $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
+            $members = User::whereIn('id', $memberIds)->get();
         }
+        $supervisors = Supervisor::all();
+        $domains = Domain::all();
 
-        return response()->json(['supervisors' => $supervisorOptions]);
+        
+    // Check if a proposal from the group already exists
+    $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
+    $proposalSubmitted = $existingProposal !== null;
+
+        return view('frontend.student.proposalForm', compact('supervisors', 'domains', 'id', 'group', 'members', 'proposalSubmitted'));
     }
-
-    // If not an AJAX request, return the regular view
-    return view('frontend.student.proposalForm', compact('supervisors', 'filteredSupervisors', 'id', 'domains', 'groups', 'disabledGroupIds'));
-}
-
-    
-
-
-
-
-
-
 
 
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
+
         $request->validate([
-            'group_id' => 'required',
             'title' => 'required',
             'course' => 'required',
             'supervisor_id' => 'required',
             'cosupervisor' => 'required',
             'domain' => 'required',
-            'type' => 'required'
+            'project_type' => 'required',
+            'description' => 'required'
         ]);
         try {
             ProjectProposal::create([
@@ -214,14 +179,14 @@ class StudentController extends Controller
                 'supervisor_id' => $request->supervisor_id,
                 'cosupervisor' => $request->cosupervisor,
                 'domain' => $request->domain,
-                'type' => $request->type
+                'project_type' => $request->project_type,
+                'description' => $request->description
             ]);
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
     }
-
 
 
 
@@ -303,7 +268,7 @@ class StudentController extends Controller
     // Request for join a group 
     public function requestToCoordinator(Request $request)
     {
-        
+
         try {
             $request->validate([
                 'reason' => 'required'

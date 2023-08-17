@@ -1,10 +1,8 @@
 <x-frontend.student.layouts.master>
-
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Request for Member
         </h2>
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
@@ -19,7 +17,6 @@
                 </li>
             </ol>
         </div>
-
         <div class="px-2 py-2">
             @if (session('message'))
                 <div
@@ -84,32 +81,26 @@
             'Need more members',
             'Want to propose for project'
         ];
-
         function toggleReason() {
             selectedReasonsContainer.innerHTML = selectedReasonsContainer.innerHTML ? '' : availableOptions.map(option => `
                 <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
                 onclick="selectReason('${option}')">${option}</div>
                 `).join('');
         }
-
         function selectReason(reason) {
             if (selectedReason === reason) {
                 return;
             }
-
             selectedReason = reason;
             updatedSelectedReason();
             updateReason();
-
         }
-
         function updatedSelectedReason() {
             selectedReasonsContainer.innerHTML = availableOptions.map(option => `
             <div class="bg-blue-500 text-white px-2 py-1 rounded mr-2 mb-2 flex items-center cursor-pointer ${option === selectedReason ? 'bg-purple-600' : ''}"
                 onclick="selectReason('${option}')">${option}</div>
         `).join('');
         }
-
         function updateReason() {
             reason.value = selectedReason;
         }

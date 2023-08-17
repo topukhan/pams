@@ -2,8 +2,6 @@
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Create Group </h2>
-
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
@@ -17,8 +15,6 @@
                 </li>
             </ol>
         </div>
-
-
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -30,7 +26,6 @@
         @endif
         @php
             $memberCount = count($students);
-            
         @endphp
         @if ($memberCount < 4)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
@@ -44,9 +39,6 @@
                 </button>
             </div><br>
         @endif
-
-
-
         @if (session('message'))
             <div class="bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
                 <div class="flex items-center">

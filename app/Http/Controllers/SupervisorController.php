@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ApprovedGroup;
 use App\Models\Group;
+use App\Models\GroupMember;
 use App\Models\ProjectProposal;
+use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
@@ -100,16 +102,25 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.login');
     }
 
+    
     // Project Proposal list
     public function proposalList()
     {
-        return view('frontend.supervisor.proposalList');
+        $proposals = ProjectProposal::all();
+        return view('frontend.supervisor.proposalList', compact('proposals'));
     }
 
     //project Proposal list
-    public function proposalDetails()
+    public function proposalDetails(Request $request)
     {
-        return view('frontend.supervisor.proposalDetails');
+        $group = Group::find($request->group_id);
+        $proposal = ProjectProposal::find($request->proposal_id);
+
+        if ($group) {
+            $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
+            $members = User::whereIn('id', $memberIds)->get();
+        } 
+        return view('frontend.supervisor.proposalDetails', compact('group', 'proposal', 'members'));
     }
 
     //project Proposal list

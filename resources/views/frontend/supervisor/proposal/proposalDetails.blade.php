@@ -32,7 +32,7 @@
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Type:</span>
-                    <span class="col-span-2">{{ $proposal->project_type }}</span>
+                    <span class="col-span-2">{{ ucfirst($proposal->project_type) }}</span>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Domain:</span>

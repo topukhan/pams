@@ -107,7 +107,7 @@ class GroupController extends Controller
         //for delete if all rejected
         $this->deletePendingGroups();
 
-        return view('frontend.student.groupRequest', compact('pending_group', 'users', 'invitation', 'loggedInStudent'));
+        return view('frontend.student.request.groupRequest', compact('pending_group', 'users', 'invitation', 'loggedInStudent'));
     }
 
     public function groupRequestResponse(Request $request, GroupInvitation $invitation, PendingGroup $pending_group)

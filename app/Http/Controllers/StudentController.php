@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
@@ -44,21 +45,38 @@ class StudentController extends Controller
     {
         try {
             $domains = Domain::all();
-            $query = Supervisor::query();
+            // $query = Supervisor::query();
+
             if ($request->ajax()) {
                 $selectedDomain = $request->input('domain');
+
                 if ($selectedDomain) {
-                    $supervisors = $query->where('domain', $selectedDomain)->get();
+                    $supervisorUserIds = DB::table('domain_user')
+                        ->where('domain_id', $selectedDomain)
+                        ->join('users', 'domain_user.user_id', '=', 'users.id')
+                        ->where('users.role', 'supervisor')
+                        ->pluck('users.id');
+                    // Fetch supervisors using the user IDs
+                    $supervisors = Supervisor::whereIn('user_id', $supervisorUserIds)->get();
+
+                    // Log::debug('Selected Domain: ' . $selectedDomain);
+                    // Log::debug('Supervisor User IDs: ' . $supervisorUserIds->implode(', '));
+                } else {
+                    $supervisors = [];
                 }
+
                 return response()->json(['supervisors' => $supervisors]);
             }
-            $supervisors = $query->get();
+
+            $supervisors = Supervisor::all();
+
             return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors', 'domains'));
         } catch (\Exception $e) {
             Log::error('Error retrieving supervisors: ' . $e->getMessage());
             return response()->json(['error' => 'An error occurred while loading data.'], 500);
         }
     }
+
 
     // public function supervisorAvailability(Request $request)
     //     {
@@ -84,15 +102,16 @@ class StudentController extends Controller
                 ->first();
         })->first();
         $members = null;
+        $proposalSubmitted = null;
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
+            // Check if a proposal from the group already exists
+            $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
+            $proposalSubmitted = $existingProposal !== null;
         }
         $supervisors = Supervisor::all();
         $domains = Domain::all();
-    // Check if a proposal from the group already exists
-    $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
-    $proposalSubmitted = $existingProposal !== null;
         return view('frontend.student.proposal.proposalForm', compact('supervisors', 'domains', 'id', 'group', 'members', 'proposalSubmitted'));
     }
 
@@ -179,7 +198,6 @@ class StudentController extends Controller
     public function changePassword()
     {
         return view('frontend.student.aside.changePassword');
-        
     }
 
     // previous Projects
@@ -219,10 +237,10 @@ class StudentController extends Controller
             }
 
 
-            return redirect()->route('student.request.groupMemberRequest')->withMessage('Request Sent! Check back later');
+            return redirect()->route('student.groupMemberRequest')->withMessage('Request Sent! Check back later');
         } catch (\Exception $e) {
 
-            return redirect()->route('student.request.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
+            return redirect()->route('student.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
         }
     }
 

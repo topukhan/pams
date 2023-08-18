@@ -1,5 +1,4 @@
 <x-frontend.student.layouts.master>
-
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Genre and Supervisor Availabilty</h2>
@@ -44,12 +43,13 @@
                     type="button">
                     Filter
                 </button>
+                <a href="{{ route('student.supervisor.availability') }}"
+                    class="shadow bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
+                    type="button">
+                    Reset
+                </a>
             </div>
         </div>
-
-
-
-
         {{-- table --}}
         <div class="px-2 py-2">
             <div class="w-full mb-8 overflow-hidden border rounded-lg shadow-lg">
@@ -113,102 +113,21 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-
                         </tbody>
                     </table>
                 </div>
             </div>
-
         </div>
-
-        </table>
     </div>
-    {{-- <script>
-        $(document).ready(function() {
-           
-            $('#domain').on('change', function() {
-                var domain = $(this).val();
-                $.ajax({
-                    url: '{{ route('student.supervisor.availability') }}',
-                    type: 'GET',
-                    data: {'domain': domain},
-                    success: function(data) {
-                        console.log(data);
-                    }   
-                       
-                });
-            });
-        });
-    </script> --}}
 
-  
-<script>
+
+    <script>
         $(document).ready(function() {
             var domainSelect = $('#domain');
             var supervisorTableBody = $('#supervisorTableBody');
+            var filterButton = $('#filterButton');
 
-            $('#filterButton').on('click', function() {
-                var selectedDomain = domainSelect.val();
-        
-
-                $.ajax({
-                    url: '{{ route('student.supervisor.availability') }}',
-                    type: 'GET',
-                    data: {domain : selectedDomain},
-                    success: function(data) {
-                        console.log(data);
-
-                        var supervisors = data.supervisors;
-                        var html = '';
-
-                        if (supervisors.length > 0) {
-                            supervisors.forEach(function(supervisor, index) {
-                                html += `
-                                    <tr class="text-gray-700 dark:text-gray-400">
-                                        <td class="px-4 py-3 text-sm">${index + 1}</td>
-                                        <td class="px-4 py-3 font-semibold text-sm">${supervisor.user.first_name} ${supervisor.user.last_name}</td>
-                                        <td class="px-4 py-3 font-semibold text-sm">${supervisor.user.email}</td>
-                                        <td class="px-4 py-3 font-semibold text-sm">${supervisor.user.phone_number}</td>
-                                        <td class="px-4 py-3 font-semibold text-sm">${supervisor.domain}</td>
-                                        <td class="px-4 py-3 font-semibold text-sm">${supervisor.availability ? 'Yes' : 'No'}</td>
-                                        <td class="px-4 py-3 text-xs">
-                            ${supervisor.availability === 1
-                                ? '<a href="' + '{{ route("student.proposalForm", ["id" => "' + supervisor.id + '"]) }}' + '">' +
-                                    '<button class="px-2 py-1 font-semibold leading-tight text-green-800 bg-green-200 rounded-full dark:bg-green-700 dark:text-green-200">Request</button>' +
-                                '</a>'
-                                : '<a href="' + '{{ route("student.proposalForm", ["id" => "' + supervisor.id + '"]) }}' + '">' +
-                                    '<button disabled class="px-4 py-1 font-semibold leading-tight text-green-800 bg-red-200 rounded-full dark:bg-red-700 dark:text-green-200">N/A</button>' +
-                                '</a>'}
-                        </td>
-                    `;
-                            });
-
-                            supervisorTableBody.html(html);
-                        } else {
-                            supervisorTableBody.html(
-                                '<tr><td colspan="7" class="px-4 py-3 text-center">No supervisors found.</td></tr>'
-                            );
-                        }
-                    },
-                    error: function() {
-                        supervisorTableBody.html(
-                            '<tr><td colspan="7" class="px-4 py-3 text-center">Error loading data.</td></tr>'
-                        );
-                    }
-                });
-            });
-        });
-     </script> 
- 
-
-
-    {{-- <script>
-        $(document).ready(function() {
-            var domainSelect = $('#domain');
-            var supervisorTableBody = $('#supervisorTableBody');
-
-            $('#filterButton').on('click', function() {
+            filterButton.on('click', function() {
                 var selectedDomain = domainSelect.val();
 
                 $.ajax({
@@ -218,59 +137,53 @@
                         domain: selectedDomain
                     },
                     success: function(data) {
-                        supervisorTableBody.empty();
+                        // console.log(data);
 
-                        if (data.length === 0) {
-                            var noSupervisorRow = `
-                        <tr>
-                            <td colspan="7" class="px-4 py-3 text-center font-semibold">No supervisors available for the selected domain.</td>
-                        </tr>`;
-                            supervisorTableBody.append(noSupervisorRow);
-                        } else {
-                            var tableHtml = '';
+                        var supervisors = data.supervisors;
+                        var domainName = data.domainName;
+                        console.log(supervisors);
 
-                            data.forEach(function(supervisor, index) {
-                                var availabilityText = supervisor.availability === 1 ?
-                                    'Yes' : 'No';
-                                var proposalButtonHtml = supervisor.availability === 1 ?
-                                    `
-                                <a href="{{ route('student.proposalForm', ['id' => ':id']) }}">
-                                    <button class="px-2 py-1 font-semibold leading-tight text-green-800 bg-green-200 rounded-full dark:bg-green-700 dark:text-green-200">
-                                        Request
-                                    </button>
-                                </a>` :
-                                    `
-                                <a href="{{ route('student.proposalForm', ['id' => ':id']) }}">
-                                    <button disabled class="px-4 py-1 font-semibold leading-tight text-green-800 bg-red-200 rounded-full dark:bg-red-700 dark:text-green-200">
-                                        N/A
-                                    </button>
-                                </a>`;
+                        var html = '';
 
-                                proposalButtonHtml = proposalButtonHtml.replace(':id',
-                                    supervisor.id);
-
-                                tableHtml += `
-                            <tr class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3 text-sm">${index + 1}</td>
-                                <td class="px-4 py-3 font-semibold text-sm">${supervisor.user.first_name} ${supervisor.user.last_name}</td>
-                                <td class="px-4 py-3 font-semibold text-sm">${supervisor.user.email}</td>
-                                <td class="px-4 py-3 font-semibold text-sm">${supervisor.user.phone_number}</td>
-                                <td class="px-4 py-3 font-semibold text-sm">${supervisor.domain}</td>
-                                <td class="px-4 py-3 font-semibold text-sm">${availabilityText}</td>
-                                <td class="px-4 py-3 text-xs">${proposalButtonHtml}</td>
-                            </tr>`;
-
-
+                        if (Array.isArray(supervisors) && supervisors.length > 0) {
+                            var sl = 1;
+                            supervisors.forEach(function(supervisor, index) {
+                                html += `
+                <tr class="text-gray-700 dark:text-gray-400">
+                    <td class="px-4 py-3 text-sm">${sl++}</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.first_name + ' '+ supervisor.user.last_name}</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.email}</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.phone_number}</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ domainName }</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${supervisor.availability ? 'Yes' : 'No'}</td>
+                    <td class="px-4 py-3 text-xs">
+                        <a href="{{ route('student.proposalForm', ['id' => '${supervisor.id}']) }}">
+                            <button ${supervisor.availability ? '' : 'disabled '}
+                                class="px-2 py-1 font-semibold leading-tight text-green-800 bg-${supervisor.availability ? 'green' : 'red'}-200 rounded-full dark:bg-${supervisor.availability ? 'green' : 'red'}-700 dark:text-green-200">
+                                ${supervisor.availability ? 'Request' : 'N/A'}
+                            </button>
+                        </a>
+                    </td>
+                </tr>`;
                             });
 
-                            supervisorTableBody.html(tableHtml);
+                            supervisorTableBody.html(html);
+                        } else {
+                            supervisorTableBody.html(
+                                '<tr><td colspan="6" class="px-4 py-3 text-center">No supervisors found.</td></tr>'
+                            );
                         }
+                    },
+
+
+                    error: function() {
+                        supervisorTableBody.html(
+                            '<tr><td colspan="7" class="px-4 py-3 text-center">Error loading data.</td></tr>'
+                        );
                     }
                 });
             });
         });
-    </script> --}}
-
-
+    </script>
 
 </x-frontend.student.layouts.master>

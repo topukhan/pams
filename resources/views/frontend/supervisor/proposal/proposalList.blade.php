@@ -42,7 +42,7 @@
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">{{ $proposal->project_type }}</p>
+                                        <p class="font-semibold">{{ ucfirst($proposal->project_type) }}</p>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3">

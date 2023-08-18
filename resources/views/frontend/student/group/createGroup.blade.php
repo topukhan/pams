@@ -32,7 +32,7 @@
         @endphp
         @if ($memberCount < 4)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
-                Sufficient members are not available
+                {{strtoupper('Sufficient members are not available!')}}
                 <button type="button" class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
                     onclick="this.parentElement.style.display ='none'">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

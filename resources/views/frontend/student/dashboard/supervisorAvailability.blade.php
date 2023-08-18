@@ -43,7 +43,7 @@
                     type="button">
                     Filter
                 </button>
-                <a href="{{ route('student.supervisor.availability')}}" 
+                <a href="{{ route('student.supervisor.availability') }}"
                     class="shadow bg-blue-600 hover:bg-blue-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
                     type="button">
                     Reset
@@ -140,8 +140,9 @@
                         // console.log(data);
 
                         var supervisors = data.supervisors;
+                        var domainName = data.domainName;
                         console.log(supervisors);
-                        
+
                         var html = '';
 
                         if (Array.isArray(supervisors) && supervisors.length > 0) {
@@ -150,10 +151,10 @@
                                 html += `
                 <tr class="text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3 text-sm">${sl++}</td>
-                    <td class="px-4 py-3 font-semibold text-sm">John Wick</td>
-                    <td class="px-4 py-3 font-semibold text-sm">john@mail.com</td>
-                    <td class="px-4 py-3 font-semibold text-sm">01452416398</td>
-                    <td class="px-4 py-3 font-semibold text-sm">domain</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.first_name + ' '+ supervisor.user.last_name}</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.email}</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.phone_number}</td>
+                    <td class="px-4 py-3 font-semibold text-sm">${ domainName }</td>
                     <td class="px-4 py-3 font-semibold text-sm">${supervisor.availability ? 'Yes' : 'No'}</td>
                     <td class="px-4 py-3 text-xs">
                         <a href="{{ route('student.proposalForm', ['id' => '${supervisor.id}']) }}">
@@ -170,7 +171,7 @@
                         } else {
                             supervisorTableBody.html(
                                 '<tr><td colspan="6" class="px-4 py-3 text-center">No supervisors found.</td></tr>'
-                                );
+                            );
                         }
                     },
 

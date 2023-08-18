@@ -57,15 +57,16 @@ class StudentController extends Controller
                         ->where('users.role', 'supervisor')
                         ->pluck('users.id');
                     // Fetch supervisors using the user IDs
-                    $supervisors = Supervisor::whereIn('user_id', $supervisorUserIds)->get();
+                    $supervisors = Supervisor::whereIn('user_id', $supervisorUserIds)->with('user')->get();
+                    $domainName = Domain::where('id', $selectedDomain)->value('name');
 
-                    // Log::debug('Selected Domain: ' . $selectedDomain);
+                    // Log::debug('Selected Domain: ' . $domainName);
                     // Log::debug('Supervisor User IDs: ' . $supervisorUserIds->implode(', '));
                 } else {
                     $supervisors = [];
                 }
 
-                return response()->json(['supervisors' => $supervisors]);
+                return response()->json(['supervisors' => $supervisors, 'domainName' => $domainName]);
             }
 
             $supervisors = Supervisor::all();
@@ -206,11 +207,15 @@ class StudentController extends Controller
         return view('frontend.student.dashboard.previousProjects');
     }
 
-    // group member Request
-    public function groupMemberRequest()
+    // Individual Request
+    public function groupMemberRequest(Request $request)
     {
         $id = Auth::guard('student')->user()->id;
-        return view('frontend.student.request.groupMemberRequest', compact('id'));
+        $can_request = RequestToCoordinator::where(function ($query) use ($id) {
+            $query->whereIn('user_id', [$id]);
+        })
+            ->doesntExist();
+        return view('frontend.student.request.groupMemberRequest', compact('id', 'can_request'));
     }
 
     // Request for join a group 
@@ -237,17 +242,21 @@ class StudentController extends Controller
             }
 
 
-            return redirect()->route('student.groupMemberRequest')->withMessage('Request Sent! Check back later');
+            return redirect()->route('student.dashboard')->withMessage('Request Sent! Check back later');
         } catch (\Exception $e) {
 
             return redirect()->route('student.groupMemberRequest')->with('error', 'Request failed. Please try again later.');
         }
     }
 
-    // requestToCoordinator
+    // Group Request to coordinator
     public function requestToCoordinatorForm(Request $request)
     {
         $group_id = $request->group_id;
-        return view('frontend.student.request.requestToCoordinator', compact('group_id'));
+        $can_request = RequestToCoordinator::where(function ($query) use ($group_id) {
+            $query->whereIn('group_id', [$group_id]);
+        })
+            ->doesntExist();
+        return view('frontend.student.request.requestToCoordinator', compact('group_id', 'can_request'));
     }
 }

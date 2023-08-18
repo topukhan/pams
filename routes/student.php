@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\StudentLoginController;
-use App\Http\Controllers\StudentProfileController;
+use App\Http\Controllers\Student\GroupController;
+use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Student\StudentLoginController;
+use App\Http\Controllers\Student\StudentProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () { 

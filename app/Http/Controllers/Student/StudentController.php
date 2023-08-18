@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use App\Models\ApprovedGroup;
 use App\Models\Domain;
 use App\Models\Group;
@@ -20,26 +21,6 @@ use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
-    // public function supervisorAvailability()
-    // {
-    //     $supervisors = Supervisor::all();
-    //     $domains = Domain::all();
-    //     return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors','domains'));
-    // }
-
-
-    // public function supervisorAvailability(Request $request)
-    // {
-    //     $query = Supervisor::query();
-    //     $domains = Domain::all();
-    //     if ($request->ajax()) {
-    //         $selectedDomain = $request->input('domain');
-    //         $supervisors = $query->where('domain', $selectedDomain)->get();         
-    //         return response()->json(['supervisors' => $supervisors]);
-    //     }    
-    //     $supervisors = $query->get();    
-    //     return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors', 'domains'));
-    // }
 
     public function supervisorAvailability(Request $request)
     {
@@ -79,22 +60,14 @@ class StudentController extends Controller
     }
 
 
-    // public function supervisorAvailability(Request $request)
-    //     {
-    //         $query = Supervisor::query();
-    //         $domains = Domain::all();
-    //         if ($request->ajax()) {
-    //             $supervisors = $query->where(['domain'=>$request->domain])->get();
-    //             return response()->json(['supervisors' => $supervisors]);
-    //         }     
-    //         $supervisors = $query->get();     
-    //         return view('frontend.student.dashboard.supervisorAvailability', compact('supervisors', 'domains'));
-    //     }
 
 
 
     public function proposalForm(Request $request)
     {
+        $supervisor_id = $request->id;
+        $selected_supervisor = User::where('id', $supervisor_id)->first();
+        
         $id = Auth::guard('student')->user()->id;
         $group = Group::where('id', function ($query) use ($id) {
             $query->select('group_id')
@@ -111,9 +84,11 @@ class StudentController extends Controller
             $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
             $proposalSubmitted = $existingProposal !== null;
         }
-        $supervisors = Supervisor::all();
+        $supervisors = Supervisor::where('availability', true)->get();
+    
+        // dd($supervisors);
         $domains = Domain::all();
-        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'domains', 'id', 'group', 'members', 'proposalSubmitted'));
+        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'domains', 'selected_supervisor', 'group', 'members', 'proposalSubmitted'));
     }
 
 

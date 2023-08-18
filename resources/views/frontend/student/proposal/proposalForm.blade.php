@@ -2,32 +2,34 @@
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Final Year Project Proposal Form </h2>
-        {{-- breadcrumb --}}
-        <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
-                <li class="flex mr-3">
-                    <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
-                </li>
-                <li class="mr-3">/ </li>
-                <li>
-                    <a href="{{ route('student.proposalForm') }}" class="text-gray-900 dark:text-white">Proposal Form</a>
-                </li>
-            </ol>
-        </div>
-        @if ($proposalSubmitted)
+            {{-- breadcrumb --}}
+            <div class="px-4 mb-4">
+                <ol class="flex justify-end text-gray-500">
+                    <li class="flex mr-3">
+                        <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                    </li>
+                    <li class="mr-3">/ </li>
+                    <li>
+                        <a href="{{ route('student.proposalForm') }}" class="text-gray-900 dark:text-white">Proposal Form</a>
+                    </li>
+                </ol>
+            </div>
+            @if ($proposalSubmitted)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
                 Proposal already submitted for this group!
                 <button type="button" class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
-                    onclick="this.parentElement.style.display ='none'">
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
-                </button>
-            </div><br>
+                onclick="this.parentElement.style.display ='none'">
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div><br>
         @endif
+        
         {{-- form --}}
         @if ($group)
+        {{-- @dd($supervisors) --}}
             <div class="px-2 py-2">
                 <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                     <form action="{{ route('student.store.proposalForm') }}" method="POST">
@@ -42,11 +44,11 @@
                             </div>
                             <input type="hidden" name="group_id" value="{{ $group->id }}">
                             <div class="md:w-3/4">
-                                @if ($group)
+                                
                                     <input disabled
                                         class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input "
                                         id="group_id" name="group_id" type="text" value="{{ $group->name }}">
-                                @endif
+                               
                             </div>
                         </div>
                         {{-- Title --}}
@@ -91,6 +93,7 @@
                                     for="my-select">
                                     Supervisor
                                 </label>
+                           
                             </div>
                             <div class="md:w-3/4">
                                 <select name="supervisor_id"
@@ -98,8 +101,8 @@
                                     id="supervisor">
                                     <option value="Default" disabled selected>select</option>
                                     @foreach ($supervisors as $supervisor)
-                                        <option value="{{ $supervisor->id }}"
-                                            {{ $supervisor->id == $id ? 'selected' : '' }}>
+                                        <option value="{{ $supervisor->user->id }}"
+                                            {{ $supervisor->user->id == $selected_supervisor->id ? 'selected' : '' }}>
                                             {{ $supervisor->user->first_name . ' ' . $supervisor->user->last_name }}
                                         </option>
                                     @endforeach
@@ -137,27 +140,17 @@
                                 <select name="domain"
                                     class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300"
                                     id="domain">
-                                    {{-- Find specific supervisor with passed $id & auto select domain --}}
-                                    @php
-                                        $supervisor = \App\Models\Supervisor::find($id);
-                                    @endphp
+                                   
                                     <option value="0" selected disabled>select domain</option>
-                                    @if ($supervisor != null)
-                                        @foreach ($domains as $domain)
-                                            <option value="{{ $domain->name }}"
-                                                {{ $domain->name == $supervisor->expertise_area ? 'selected' : '' }}>
-                                                {{ $domain->name }}
-                                            </option>
-                                        @endforeach
-                                    @endif
+                                    
                                     {{-- if not passed from supervisor availability --}}
-                                    @if ($supervisor == null)
+                                    {{-- @if ($supervisor == null) --}}
                                         @foreach ($domains as $domain)
                                             <option value="{{ $domain->name }}">
                                                 {{ $domain->name }}
                                             </option>
                                         @endforeach
-                                    @endif
+                                    {{-- @endif --}}
                                 </select>
                                 <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                             </div>

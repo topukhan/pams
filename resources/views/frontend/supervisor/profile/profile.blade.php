@@ -12,7 +12,8 @@
                 </li>
                 <li class="mr-3">/</li>
                 <li>
-                    <a href="{{ route('supervisor.profile') }}" class="text-gray-900 dark:text-white">Supervisor Profile</a>
+                    <a href="{{ route('supervisor.profile') }}" class="text-gray-900 dark:text-white">Supervisor
+                        Profile</a>
                 </li>
             </ol>
         </div>
@@ -74,7 +75,18 @@
 
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <span class="text-gray-700 font-bold mb-2 col-span-1">Domain:</span>
-                        <span class="col-span-2">{{ $user->supervisor->domain }}</span>
+                        @if (count($domains) == 0)
+                            <span class="col-span-2 text-green-600">Not set yet</span>
+                        @else
+                            <span class="col-span-2">
+                                @foreach ($domains as $domain)
+                                    {{ $domain->name }}
+                                    @unless ($loop->last)
+                                        ,
+                                    @endunless
+                                @endforeach
+                            </span>
+                        @endif
 
                     </div>
 

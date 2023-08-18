@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use App\Models\Domain;
 use App\Models\Group;
 use App\Models\GroupInvitation;
@@ -107,7 +108,7 @@ class GroupController extends Controller
         //for delete if all rejected
         $this->deletePendingGroups();
 
-        return view('frontend.student.request.groupRequest', compact('pending_group', 'users', 'invitation', 'loggedInStudent'));
+        return view('frontend.student.group.groupRequest', compact('pending_group', 'users', 'invitation', 'loggedInStudent'));
     }
 
     public function groupRequestResponse(Request $request, GroupInvitation $invitation, PendingGroup $pending_group)

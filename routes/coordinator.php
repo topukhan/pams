@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\CoordinatorController;
-use App\Http\Controllers\CoordinatorLoginController;
-use App\Http\Controllers\CoordinatorRequestController;
+use App\Http\Controllers\Coordinator\CoordinatorController;
+use App\Http\Controllers\Coordinator\CoordinatorLoginController;
+use App\Http\Controllers\Coordinator\CoordinatorRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['CoordinatorAuth'])->group(function () {

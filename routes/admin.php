@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AdminLoginController;
-use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\DomainController;
-use App\Http\Controllers\ProjectTypeController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\Admin\DesignationController;
+use App\Http\Controllers\Admin\DomainController;
+use App\Http\Controllers\Admin\ProjectTypeController;
 use Illuminate\Support\Facades\Route;
 
 

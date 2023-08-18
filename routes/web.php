@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\CoordinatorLoginController;
-use App\Http\Controllers\SupervisorLoginController;
+use App\Http\Controllers\Coordinator\CoordinatorLoginController;
+use App\Http\Controllers\Supervisor\SupervisorLoginController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\StudentLoginController;
+use App\Http\Controllers\Student\StudentLoginController;
 use Illuminate\Support\Facades\Route;
 
 /*

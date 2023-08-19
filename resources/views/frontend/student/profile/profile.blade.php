@@ -79,50 +79,6 @@
                     <span class="col-span-2">{{ $user->student->shift }}</span>
                 </div>
 
-                {{-- <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1">Project Type:</span>
-                    @if ($user->student->project_type_status == 0)
-                        <span class="col-span-2 text-red-600">Set your project type</span>
-                    @else
-                        @php
-                            $projectType = json_decode($user->student->project_type, true);
-                            
-                            foreach ($projectType as $key => $value) {
-                                $projectType[$key] = ucfirst($value);
-                            }
-                        @endphp
-                        <span class="col-span-2">
-                            @foreach ($projectType as $type)
-                                {{ $type }}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
-                        </span>
-                    @endif
-                </div> --}}
-
-
-                {{-- <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1">Domain:</span>
-                    @if ($user->student->domain === null)
-                        <span class="col-span-2 text-green-600">Not set yet</span>
-                    @else
-                        @php
-                            $domain = json_decode($user->student->domain, true);
-                        @endphp
-                        <span class="col-span-2">
-                            @foreach ($domain as $item)
-                                {{ $item }}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
-                        </span>
-                    @endif
-                </div> --}}
-
-
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Types:</span>
                     @if ($user->student->project_type_status === 0)

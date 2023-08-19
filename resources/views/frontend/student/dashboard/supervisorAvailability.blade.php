@@ -79,22 +79,27 @@
                                     <td class="px-4 py-3 font-semibold text-sm ">{{ $supervisor->user->email }}</td>
                                     <td class="px-4 py-3 font-semibold  text-sm ">{{ $supervisor->user->phone_number }}
                                     </td>
-                                    <td class="px-4 py-3 font-semibold  text-sm ">{{ $supervisor->domain }}</td>
                                     <td class="px-4 py-3 font-semibold  text-sm ">
-                                        @php
-                                            $yes = 'Yes';
-                                            $no = 'No';
-                                            if ($supervisor->availability == 1) {
-                                                echo $yes;
-                                            } else {
-                                                echo $no;
-                                            }
-                                            
-                                        @endphp
+                                        @if (count($supervisor->user->domains) == 0)
+                                            <span class="col-span-2 text-semibold">N/A</span>
+                                        @else
+                                            <span class="col-span-2">
+                                                @foreach ($supervisor->user->domains as $domain)
+                                                    {{ $domain->name }}
+                                                    @unless ($loop->last)
+                                                        ,
+                                                    @endunless
+                                                @endforeach
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3 font-semibold  text-sm ">
+                                        {{ $supervisor->availability == 1 ? 'Yes' : 'No' }}
                                     </td>
                                     <td class="px-4 py-3 text-xs">
                                         @if ($supervisor->availability == 1)
-                                            <a href="{{ route('student.proposalForm', ['id' => $supervisor->id]) }}">
+                                            <a
+                                                href="{{ route('student.proposalForm', ['id' => $supervisor->user->id]) }}">
                                                 <button
                                                     class="px-2 py-1 font-semibold leading-tight text-green-800 bg-green-200 rounded-full dark:bg-green-700 dark:text-green-200">
                                                     Request
@@ -102,12 +107,10 @@
                                             </a>
                                         @endif
                                         @if ($supervisor->availability == 0)
-                                            <a href="{{ route('student.proposalForm', ['id' => $supervisor->id]) }}">
                                                 <button disabled
                                                     class="px-4 py-1 font-semibold leading-tight text-green-800 bg-red-200 rounded-full dark:bg-red-700 dark:text-green-200">
                                                     N/A
                                                 </button>
-                                            </a>
                                         @endif
 
                                     </td>
@@ -147,7 +150,12 @@
 
                         if (Array.isArray(supervisors) && supervisors.length > 0) {
                             var sl = 1;
+                            
                             supervisors.forEach(function(supervisor, index) {
+                                var supervisor_id = supervisor.user.id;
+                                console.log(supervisor_id);
+                                
+                                
                                 html += `
                 <tr class="text-gray-700 dark:text-gray-400">
                     <td class="px-4 py-3 text-sm">${sl++}</td>
@@ -157,7 +165,8 @@
                     <td class="px-4 py-3 font-semibold text-sm">${ domainName }</td>
                     <td class="px-4 py-3 font-semibold text-sm">${supervisor.availability ? 'Yes' : 'No'}</td>
                     <td class="px-4 py-3 text-xs">
-                        <a href="{{ route('student.proposalForm', ['id' => '${supervisor.id}']) }}">
+                        <a href="{{ route('student.proposalForm', ['id' => '']) }}${supervisor_id}&domain_name=${encodeURIComponent(domainName)}">
+                            <button ${supervisor.availability ? '' : 'disabled '}
                             <button ${supervisor.availability ? '' : 'disabled '}
                                 class="px-2 py-1 font-semibold leading-tight text-green-800 bg-${supervisor.availability ? 'green' : 'red'}-200 rounded-full dark:bg-${supervisor.availability ? 'green' : 'red'}-700 dark:text-green-200">
                                 ${supervisor.availability ? 'Request' : 'N/A'}

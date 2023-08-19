@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use App\Models\Domain;
 use App\Models\ProjectType;
 use App\Models\Student;
@@ -26,11 +27,10 @@ class StudentProfileController extends Controller
         $domains = Domain::all();
         $user = Auth::guard('student')->user();
         $projectTypes = ProjectType::all();
-        $domains = Domain::all();
         $selectedDomains = collect($user->domains->pluck('name'));
         $selectedProjectTypes = collect($user->projectTypes->pluck('name'));
 
-        return view('frontend.student.profile.profileEdit', compact('domains', 'projectTypes', 'domains', 'selectedDomains', 'selectedProjectTypes'));
+        return view('frontend.student.profile.profileEdit', compact('domains', 'projectTypes', 'selectedDomains', 'selectedProjectTypes'));
     }
 
 

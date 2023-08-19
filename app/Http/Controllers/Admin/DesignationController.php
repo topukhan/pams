@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Domain;
+use App\Http\Controllers\Controller;
+use App\Models\Designation;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Http\Request;
 
-class DomainController extends Controller
+class DesignationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $domains = Domain::paginate(4);
-        return view('backend.admin.domain.index', compact('domains'));
+        $designations = Designation::paginate(4);
+        return view('backend.admin.designation.index', compact('designations'));
     }
 
     /**
@@ -22,7 +23,7 @@ class DomainController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.domain.create');
+        return view('backend.admin.designation.create');
     }
 
     /**
@@ -34,10 +35,10 @@ class DomainController extends Controller
             'name' => 'required'
         ]);
         try {
-            Domain::create([
+            Designation::create([
                 'name' => $request->name
             ]);
-            return redirect()->route('domains.index')->withMessage("Domain Created!");
+            return redirect()->route('designations.index')->withMessage("Designation Created!");
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
@@ -46,32 +47,32 @@ class DomainController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Domain $domain)
+    public function show(Designation $designation)
     {
-        return view('backend.admin.domain.show', compact('domain'));
+        return view('backend.admin.designation.show', compact('designation'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Domain $domain)
+    public function edit(Designation $designation)
     {
-        return view('backend.admin.domain.edit', compact('domain'));
+        return view('backend.admin.designation.edit', compact('designation'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Domain $domain)
+    public function update(Request $request, Designation $designation)
     {
         $request->validate([
             'name' => 'required'
         ]);
         try {
-            $domain->update([
+            $designation->update([
                 'name' => $request->name,
             ]);
-            return redirect()->route('domains.index')->withMessage("Domain Updated!");
+            return redirect()->route('designations.index')->withMessage("Designation Updated!");
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
@@ -80,9 +81,9 @@ class DomainController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Domain $domain)
+    public function destroy(Designation $designation)
     {
-        $domain->delete();
-        return redirect()->route('domains.index')->withMessage("Domain Deleted!");
+        $designation->delete();
+        return redirect()->route('designations.index')->withMessage("Designation Deleted!");
     }
 }

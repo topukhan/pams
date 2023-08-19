@@ -8,7 +8,7 @@
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('coordinator.dashboard')}}" class="hover:text-gray-300">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li class="flex mr-3">Groups</li>
@@ -28,25 +28,25 @@
                     <table class="w-full whitespace-no-wrap ">
                         <thead>
                             <tr
-                                class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-300 dark:bg-gray-800">
                                 <th class="px-3 py-3">Sl</th>
                                 <th class="px-3 py-3">Domain</th>
                                 <th class="px-3 py-3">Type</th>
                                 <th class="px-3 py-3">No. of members</th>
-                                <th class="px-3 py-3">Info</th>
+                                <th class="px-3 py-3">Action</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                             @foreach ($groups as $group)
                                 @continue($group->id == $requestedGroupId)
-                                <tr class="text-gray-700 dark:text-gray-400">
+                                <tr class="text-gray-700 dark:text-gray-300">
                                     <td class="px-4 py-3">{{ $serialOffset + $loop->index + 1 }}</td>
                                     <td class="px-4 py-3">
                                         <div class="flex items-center text-sm">
                                             <p class="font-semibold">{{ $group->domain }} </p>
                                         </div>
                                     </td>
-                                    <td class="px-4 py-3 text-sm">{{ $group->project_type }}</td>
+                                    <td class="px-4 py-3 text-sm">{{ ucfirst($group->project_type) }}</td>
                                     <td class="px-4 py-3 text-sm">{{ $group->groupMembers->count() }}</td>
                                     <td class="px-4 py-3 text-xs">
                                         @if ($requestedGroupId !== null)

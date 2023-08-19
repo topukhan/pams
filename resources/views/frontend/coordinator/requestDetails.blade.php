@@ -8,7 +8,7 @@
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-300">Dashboard</a>
                 </li>
                 <li class="mr-3">/</li>
                 <li>
@@ -20,33 +20,47 @@
 
         {{-- Details --}}
 
-        <h2
-            class="p-3 leading-tight text-blue-700 bg-blue-100  dark:bg-blue-700 dark:text-blue-100 font-bold text-center ">
-            Request For Group Members</h2>
-
-        <div class="container mx-auto mt-4 p-4 bg-white shadow-md rounded-lg">
+        <h2 class="p-3 leading-tight text-blue-700 bg-blue-100 dark:bg-blue-700 dark:text-blue-500 font-bold text-center">
+            Individual Request</h2>
+        
+        <div class="container mx-auto mt-4 p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
             <div class="p-4">
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1">Student ID:</span>
-                    <span class="col-span-2">{{ $request->user->student->student_id }}</span>
+                    <span class="text-gray-700 font-bold mb-2 col-span-1 dark:text-gray-300">Student ID:</span>
+                    <span class="col-span-2 dark:text-gray-100">{{ $request->user->student->student_id }}</span>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1">Preferred Type:</span>
-
-
-                    @if ($request->user->student->project_type_status === 0)
-                        <span class="col-span-2 text-blue-600">N/A</span>
+                    <span class="text-gray-700 font-bold mb-2 col-span-1 dark:text-gray-300">Project Type:</span>
+                
+                    @if (count($request->user->projectTypes) == 0)
+                        <span class="col-span-2 text-blue-600 dark:text-blue-400">N/A</span>
                     @else
                         @php
-                            $projectType = json_decode($request->user->student->project_type, true);
-                            
-                            foreach ($projectType as $key => $value) {
-                                $projectType[$key] = ucfirst($value);
-                            }
+                            $projectTypes = $request->user->projectTypes;
                         @endphp
-                        <span class="col-span-2">
-                            @foreach ($projectType as $type)
-                                {{ $type }}
+                
+                        <span class="col-span-2 dark:text-gray-100">
+                            @foreach ($projectTypes as $projectType)
+                                {{ ucfirst($projectType->name) }}
+                
+                                @unless ($loop->last)
+                                    ,
+                                @endunless
+                            @endforeach
+                        </span>
+                    @endif
+                </div>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <span class="text-gray-700 font-bold mb-2 col-span-1 dark:text-gray-300">Preferred Domain:</span>
+                    @if (count($request->user->domains) == 0)
+                        <span class="col-span-2 text-blue-600 dark:text-blue-400">N/A</span>
+                    @else
+                        @php
+                            $domains = $request->user->domains;
+                        @endphp
+                        <span class="col-span-2 dark:text-gray-100">
+                            @foreach ($domains as $domain)
+                                {{ $domain->name }}
                                 @if (!$loop->last)
                                     ,
                                 @endif
@@ -54,46 +68,27 @@
                         </span>
                     @endif
                 </div>
+                
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1">Preferred Domain:</span>
-                    @if ($request->user->student->domain === null)
-                        <span class="col-span-2 text-blue-600">N/A</span>
-                    @else
-                        @php
-                            $domain = json_decode($request->user->student->domain, true);
-                        @endphp
-                        <span class="col-span-2">
-                            @foreach ($domain as $item)
-                                {{ $item }}
-                                @if (!$loop->last)
-                                    ,
-                                @endif
-                            @endforeach
-                        </span>
-                    @endif
-
+                    <span class="text-gray-700 font-bold mb-2 col-span-1 dark:text-gray-300">Reason:</span>
+                    <span class="col-span-2 font-bold text-blue-700 dark:text-blue-100 ">{{ $request->reason }}</span>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1 ">Reason:</span>
-                    <span class="col-span-2 font-bold  text-blue-700 dark:text-blue-100">{{ $request->reason }}</span>
+                    <span class="text-gray-700 font-bold mb-2 col-span-1 dark:text-gray-300">Description:</span>
+                    <span class="col-span-2 dark:text-gray-100">{{ $request->note }}</span>
                 </div>
-                <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1">Description:</span>
-                    <span class="col-span-2">{{ $request->note }}</span>
-                </div>
-
+        
                 <div class="flex justify-end space-x-2">
                     <button class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-2 px-4 rounded">
                         <a href="{{ route('coordinator.formedGroupsLists', $request->id) }}">Groups</a>
                     </button>
-                    <button class=" bg-violet-500 hover:bg-violet-600 text-white font-bold mt-8 py-2 px-4 rounded">
+                    <button class="bg-violet-500 hover:bg-violet-600 text-white font-bold mt-8 py-2 px-4 rounded">
                         <a href="{{ route('coordinator.requests') }}">Cancel</a>
                     </button>
                 </div>
-
             </div>
-
         </div>
+        
 
 
     </div>

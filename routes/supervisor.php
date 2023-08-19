@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\CoordinatorController;
-use App\Http\Controllers\SupervisorLoginController;
-use App\Http\Controllers\SupervisorController;
-use App\Http\Controllers\SupervisorProfileController;
+use App\Http\Controllers\Supervisor\SupervisorLoginController;
+use App\Http\Controllers\Supervisor\SupervisorController;
+use App\Http\Controllers\Supervisor\SupervisorProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['SupervisorAuth'])->group(function () {
@@ -27,6 +27,7 @@ Route::middleware(['SupervisorAuth'])->group(function () {
 
     Route::get('/supervisor/profile', [SupervisorProfileController::class, 'index'])->name('supervisor.profile');
     Route::get('/supervisor/profile/edit', [SupervisorProfileController::class, 'edit'])->name('supervisor.profileEdit');
+    Route::patch('/supervisor/profile/update', [SupervisorProfileController::class, 'update'])->name('supervisor.profileUpdate');
     // *
     Route::post('/supervisor/logout', [SupervisorLoginController::class, 'logout'])->name('supervisor.logout');
 

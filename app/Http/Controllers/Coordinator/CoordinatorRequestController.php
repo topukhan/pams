@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Coordinator;
 
+use App\Http\Controllers\Controller;
 use App\Models\Group;
 use App\Models\GroupInvitation;
 use App\Models\RequestToCoordinator;
@@ -48,20 +49,19 @@ class CoordinatorRequestController extends Controller
         $request_id = $request->request_id;
         $group_id = $request->input('group_id');
         $selectedUserIds = $request->input('user_id', []);
-
         if (!is_array($selectedUserIds)) {
             $selectedUserIds = [$selectedUserIds];
         }
-
+        
         DB::beginTransaction();
-
+        
         try {
             // Check if any of the selected users are already in a group
             $userInGroup = GroupMember::whereIn('user_id', $selectedUserIds)->exists();
-
+            
             if (!$userInGroup) {
                 $group = Group::find($group_id);
-
+                
                 if ($group) {
                     // Insert into the group_members table for each selected user
                     foreach ($selectedUserIds as $user_id) {
@@ -70,7 +70,9 @@ class CoordinatorRequestController extends Controller
                             'user_id' => $user_id,
                         ]);
                     }
-
+                    if (count($group->groupMembers) >= 4){
+                        $group->update(['can_propose'=> 1]);
+                    }
                     // Delete the group join request
                     RequestToCoordinator::where('id', $request_id)->delete();
 
@@ -116,6 +118,9 @@ class CoordinatorRequestController extends Controller
                     'group_id' => $receiverGroupId,
                     'user_id' => $user_id,
                 ]);
+            }
+            if (count($receiverGroup->groupMembers) >= 4){
+                $receiverGroup->update(['can_propose'=> 1]);
             }
             // Delete the requested group and its join request
             $requestedGroup->delete();
@@ -164,4 +169,24 @@ class CoordinatorRequestController extends Controller
     {
         return view('frontend.coordinator.requestToPropose');
     }
+    //Incomplete Group's Approve for proposal
+    public function groupApproveForProposal(RequestToCoordinator $request)
+    {
+        $requestedGroupId = $request->group_id;
+        $group = Group::where('id', $requestedGroupId)->first();
+        try {
+            DB::beginTransaction();
+            $group->update(['can_propose' => 1]);
+            
+            $request->delete();
+            // dd($group);
+            DB::commit();
+            return redirect()->route('coordinator.requests')->withMessage('Permission Given for Proposal');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    
 }

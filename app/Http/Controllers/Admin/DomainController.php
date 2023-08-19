@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Domain;
 use Doctrine\DBAL\Query\QueryException;
-use App\Models\ProjectType;
 use Illuminate\Http\Request;
 
-class ProjectTypeController extends Controller
+class DomainController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $projectTypes = ProjectType::paginate(4);
-        return view('backend.admin.projectType.index', compact('projectTypes'));
+        $domains = Domain::paginate(4);
+        return view('backend.admin.domain.index', compact('domains'));
     }
 
     /**
@@ -21,7 +23,7 @@ class ProjectTypeController extends Controller
      */
     public function create()
     {
-        return view('backend.admin.projectType.create');
+        return view('backend.admin.domain.create');
     }
 
     /**
@@ -33,10 +35,10 @@ class ProjectTypeController extends Controller
             'name' => 'required'
         ]);
         try {
-            ProjectType::create([
+            Domain::create([
                 'name' => $request->name
             ]);
-            return redirect()->route('projectTypes.index')->withMessage("ProjectType Created!");
+            return redirect()->route('domains.index')->withMessage("Domain Created!");
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
@@ -45,32 +47,32 @@ class ProjectTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProjectType $projectType)
+    public function show(Domain $domain)
     {
-        return view('backend.admin.projectType.show', compact('projectType'));
+        return view('backend.admin.domain.show', compact('domain'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProjectType $projectType)
+    public function edit(Domain $domain)
     {
-        return view('backend.admin.projectType.edit', compact('projectType'));
+        return view('backend.admin.domain.edit', compact('domain'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProjectType $projectType)
+    public function update(Request $request, Domain $domain)
     {
         $request->validate([
             'name' => 'required'
         ]);
         try {
-            $projectType->update([
+            $domain->update([
                 'name' => $request->name,
             ]);
-            return redirect()->route('projectTypes.index')->withMessage("ProjectType Updated!");
+            return redirect()->route('domains.index')->withMessage("Domain Updated!");
         } catch (QueryException $e) {
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
@@ -79,9 +81,9 @@ class ProjectTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProjectType $projectType)
+    public function destroy(Domain $domain)
     {
-        $projectType->delete();
-        return redirect()->route('projectTypes.index')->withMessage("ProjectType Deleted!");
+        $domain->delete();
+        return redirect()->route('domains.index')->withMessage("Domain Deleted!");
     }
 }

@@ -65,7 +65,7 @@
                 </div>
             </div>
         @endif
-        <div class="px-2 py-4 mb-6 bg-slate-100 rounded-md">
+        <div class="px-2 py-4 mb-6 bg-slate-100 dark:bg-gray-900  border border-gray-400 rounded-md">
             <div class="px-2 py-2 mb-6">
                 <form action="{{ route('student.storeGroup') }}" method="POST">
                     @csrf
@@ -104,7 +104,7 @@
                         </div>
                         <div class="md:w-3/12">
                             <select name="domain" id="domain"
-                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 focus:dark:bg-gray-800 dark:text-gray-300"
                                 id="domain">
                                 <option value="0" selected disabled>select domain</option>
                                 @foreach ($domains as $domain)
@@ -146,7 +146,7 @@
                                         <th class="px-3 py-3">Batch</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800 ">
                                     {{-- Member 1 --}}
                                     <tr class="text-gray-700 dark:text-gray-400 ">
                                         <td class="px-4 py-3 text-sm">
@@ -191,8 +191,8 @@
                                             </td>
                                             <td class="px-3 py-3 ">
                                                 <select type="email" name="email[]"
-                                                    class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
-                                                    <option value="0">select email</option>
+                                                    class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 " aria-placeholder="select email">
+                                                    <option value="" disabled selected hidden>Select email</option>
 
                                                     @foreach ($students as $student)
                                                         @continue ($student->user->email === $loggedInStudent->email)

@@ -19,6 +19,14 @@
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-3">
                 <div class="flex flex-row items-center mb-2 space-x-4">
                     <div class="flex-shrink-0 w-1/6">
+                        <label class="text-md font-bold text-gray-700 dark:text-white">Group Name: </label>
+                    </div>
+                    <div class="w-2/6">
+                        <span class="text-sm font-semibold dark:text-white"> {{ strlen($group->name) > 0 ? $group->name : 'N/A'}} </span>
+                    </div>
+                </div>
+                <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex-shrink-0 w-1/6">
                         <label class="text-md font-bold text-gray-700 dark:text-white">Domain: </label>
                     </div>
                     <div class="w-2/6">
@@ -30,7 +38,7 @@
                         <label class="text-md font-bold text-gray-700 dark:text-white">Project Type: </label>
                     </div>
                     <div class="w-2/6">
-                        <span class="text-sm font-semibold dark:text-white"> {{ $group->project_type }} </span>
+                        <span class="text-sm font-semibold dark:text-white"> {{ ucfirst($group->project_type) }} </span>
                     </div>
                 </div>
                 <div class="flex flex-row items-center mb-2 space-x-4">
@@ -38,7 +46,7 @@
                         <label class="text-md font-bold text-gray-700 dark:text-white">Reason: </label>
                     </div>
                     <div class="w-2/6">
-                        <span class="text-sm bg-blue-100 py-1 px-1 rounded-md font-semibold dark:text-white">
+                        <span class="text-sm bg-blue-100 py-1 px-1 rounded-md font-semibold dark:text-blue">
                             {{ $request->reason }} </span>
                     </div>
                 </div>
@@ -93,8 +101,8 @@
                 </div>
             </div>
             @if (count($students) > 0)
-                <div class="flex justify-start h-4 items-center bg-gray-200 dark:bg-gray-800 mt-4">
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Available Students</h3>
+                <div class="justify-start bg-gray-200 dark:bg-gray-800 mt-4  ">
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 p-4">Available Students</h3>
                 </div>
                 <form action="{{ route('coordinator.requestedStudentAddToGroup') }}" method="POST">
                     @csrf
@@ -133,7 +141,7 @@
                                             <td class="px-4 py-3">
                                                 @if ($student->project_type != null)
                                                     <div class="flex items-center text-sm">
-                                                        <p class="font-semibold">{{ $student->project_type }}</p>
+                                                        <p class="font-semibold">{{ ucfirst($student->project_type) }}</p>
                                                     </div>
                                                 @else
                                                     <div class="flex items-center text-sm">
@@ -164,11 +172,13 @@
                 </form>
             @else
                 {{-- If no member is available then merge the group with suitable one --}}
-                <div>
-                    <p>No Members Available</p>
-                    <button class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-2 py-2 px-4 rounded">
+                <div class="mb-6">
+                    <p class="text-gray-800 dark:text-gray-300 py-3">No Students Available To Add This Group</p>
+                    <button class="bg-purple-700 hover:bg-purple-900 text-white font-semibold mt-1 py-2 px-4 rounded-md">
                         <a href="{{ route('coordinator.formedGroupsLists', $request->id) }}">Groups</a>
                     </button>
+                    
+                    <a onclick="return confirm('Are you sure? You want to approve this group for proposal')" href="{{ route('coordinator.groupApproveForProposal', $request->id) }}" class="text-blue-500 dark:text-blue-500 underline text-sm mx-4">Do you want to approve this group for make proposal? </a>
                 </div>
             @endif
         </div>

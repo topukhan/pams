@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use App\Models\Domain;
 use App\Models\Group;
 use App\Models\GroupInvitation;
@@ -78,7 +79,7 @@ class GroupController extends Controller
             DB::commit();
 
             // Redirect to success page or show success message
-            return redirect()->route('student.createGroup')->withMessage('Request Sent!');
+            return redirect()->route('student.dashboard')->withMessage('Group Request Sent to selected Members!');
         } catch (QueryException $e) {
             DB::rollBack();
             return redirect()->back()->withInput()->withErrors([$e->getMessage()]);
@@ -107,7 +108,7 @@ class GroupController extends Controller
         //for delete if all rejected
         $this->deletePendingGroups();
 
-        return view('frontend.student.request.groupRequest', compact('pending_group', 'users', 'invitation', 'loggedInStudent'));
+        return view('frontend.student.group.groupRequest', compact('pending_group', 'users', 'invitation', 'loggedInStudent'));
     }
 
     public function groupRequestResponse(Request $request, GroupInvitation $invitation, PendingGroup $pending_group)
@@ -183,6 +184,9 @@ class GroupController extends Controller
                             // Add any other required fields for group members here
                         ]);
                     }
+                }
+                if(count($group->groupMembers) >= 4){
+                    $group->update(['can_propose' => 1]);
                 }
                 // Update the members column in the group table with accepted member user_ids
                 // $group->update(['members' => json_encode($acceptedMembers)]);

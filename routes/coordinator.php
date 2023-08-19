@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\CoordinatorController;
-use App\Http\Controllers\CoordinatorLoginController;
-use App\Http\Controllers\CoordinatorRequestController;
+use App\Http\Controllers\Coordinator\CoordinatorController;
+use App\Http\Controllers\Coordinator\CoordinatorLoginController;
+use App\Http\Controllers\Coordinator\CoordinatorRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['CoordinatorAuth'])->group(function () {
@@ -22,7 +22,8 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
     Route::post('/coordinator/requests/transferGroupMembers', [CoordinatorRequestController::class, 'transferGroupMembers'])->name('coordinator.transferGroupMembers');
     // Route::get('/coordinator/requestGroupDetails', [CoordinatorRequestController::class, 'requestGroupDetails'])->name('coordinator.requestGroupDetails');
     // Route::get('/coordinator/requestToPropose', [CoordinatorRequestController::class, 'requestToPropose'])->name('coordinator.requestToPropose');
-
+    //Incomplete Group's Proposal permission
+    Route::get('/coordinator/groupApproveForProposal/{request}', [CoordinatorRequestController::class, 'groupApproveForProposal'])->name('coordinator.groupApproveForProposal');
     // *
 
 });

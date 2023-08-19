@@ -22,7 +22,8 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
     Route::post('/coordinator/requests/transferGroupMembers', [CoordinatorRequestController::class, 'transferGroupMembers'])->name('coordinator.transferGroupMembers');
     // Route::get('/coordinator/requestGroupDetails', [CoordinatorRequestController::class, 'requestGroupDetails'])->name('coordinator.requestGroupDetails');
     // Route::get('/coordinator/requestToPropose', [CoordinatorRequestController::class, 'requestToPropose'])->name('coordinator.requestToPropose');
-
+    //Incomplete Group's Proposal permission
+    Route::get('/coordinator/groupApproveForProposal/{request}', [CoordinatorRequestController::class, 'groupApproveForProposal'])->name('coordinator.groupApproveForProposal');
     // *
 
 });

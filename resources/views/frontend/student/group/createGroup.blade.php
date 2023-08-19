@@ -59,7 +59,7 @@
                 </div>
             </div>
         @endif
-        <div class="px-2 py-4 mb-6 bg-slate-100 dark:bg-gray-900  border border-gray-800 rounded-md">
+        <div class="px-2 py-4 mb-6 bg-slate-100 dark:bg-gray-900  border border-gray-400 rounded-md">
             <div class="px-2 py-2 mb-6">
                 <form action="{{ route('student.storeGroup') }}" method="POST">
                     @csrf
@@ -185,8 +185,8 @@
                                             </td>
                                             <td class="px-3 py-3 ">
                                                 <select type="email" name="email[]"
-                                                    class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 ">
-                                                    <option value="0">select email</option>
+                                                    class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 " aria-placeholder="select email">
+                                                    <option value="" disabled selected hidden>Select email</option>
 
                                                     @foreach ($students as $student)
                                                         @continue ($student->user->email === $loggedInStudent->email)

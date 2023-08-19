@@ -127,41 +127,31 @@
                                         <td class="px-4 py-3 text-xs">
 
                                             @if ($member->groupInvitation->status == 0 && $loggedInStudent->id != $member->id)
-                                                <a href="">
-                                                    <button
-                                                        class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
-                                                        Pending
-                                                    </button>
-                                                </a>
+                                                <button
+                                                    class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-700 dark:text-yellow-100">
+                                                    Pending
+                                                </button>
                                             @elseif ($member->groupInvitation->status == 1 && $loggedInStudent->id != $member->id)
-                                                <a href="">
+                                                <button
+                                                    class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                    Accepted
+                                                </button>
+                                            @elseif ($member->groupInvitation->status == 2 && $loggedInStudent->id != $member->id)
+                                                <button
+                                                    class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                                                    Rejected
+                                                </button>
+                                            @elseif ($loggedInStudent->id === $member->id)
+                                                @if ($member->groupInvitation->status == 1)
                                                     <button
                                                         class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                                         Accepted
                                                     </button>
-                                                </a>
-                                            @elseif ($member->groupInvitation->status == 2 && $loggedInStudent->id != $member->id)
-                                                <a href="">
+                                                @elseif ($member->groupInvitation->status == 2)
                                                     <button
                                                         class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
                                                         Rejected
                                                     </button>
-                                                </a>
-                                            @elseif ($loggedInStudent->id === $member->id)
-                                                @if ($member->groupInvitation->status == 1)
-                                                    <a href="">
-                                                        <button
-                                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                                            Accepted
-                                                        </button>
-                                                    </a>
-                                                @elseif ($member->groupInvitation->status == 2)
-                                                    <a href="">
-                                                        <button
-                                                            class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
-                                                            Rejected
-                                                        </button>
-                                                    </a>
                                                 @elseif ($member->groupInvitation->status == 0)
                                                     <form
                                                         action="{{ route('student.groupRequestResponse', ['invitation' => $member->groupInvitation]) }}"
@@ -184,7 +174,6 @@
                                                             </button>
                                                         </a>
                                                     </form>
-                                                
                                                 @endif
                                             @endif
                                         </td>

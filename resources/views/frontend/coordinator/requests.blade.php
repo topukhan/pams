@@ -97,20 +97,20 @@
                                         @endif
                                         <td class="px-4 py-3">
                                             <span
-                                                class="px-2 py-1 text-sm font-semibold leading-tight text-sky-700 bg-sky-100 rounded-full dark:bg-blue-700 dark:text-gray-200">
+                                                class="px-2 py-1 text-sm font-semibold leading-tight text-sky-700 bg-sky-100 rounded-full dark:bg-sky-700 dark:text-sky-200">
                                                 {{ $request->reason }}
                                             </span>
 
                                         </td>
                                         <td class="px-4 py-3 text-sm">
-                                            {{ $request->shortNote }}
+                                            {{ ucfirst($request->shortNote) }}
                                         </td>
 
                                         <td class="px-4 py-3 text-xs ">
                                             @if ($request->user_id != null)
                                                 <a href="{{ route('coordinator.requestDetails', $request->id) }}">
                                                     <button
-                                                        class="px-2 py-1 font-semibold text-base align-middle leading-tight text-yellow-600 bg-yellow-100 rounded-md dark:bg-yellow-700 dark:text-yellow-100">
+                                                        class="px-2 py-1 font-semibold text-base align-middle leading-tight text-yellow-600 bg-yellow-100 rounded-md dark:bg-yellow-700 dark:text-yellow-100 hover:bg-yellow-200">
                                                         details
                                                     </button>
                                                 </a>
@@ -119,7 +119,7 @@
                                                 <a
                                                     href="{{ route('coordinator.requestGroupMembersDetails', ['group' => $request->group_id, 'request' => $request->id]) }}">
                                                     <button
-                                                        class="px-2 py-1 font-semibold text-base align-middle leading-tight text-violet-600 bg-violet-100 rounded-md dark:bg-violet-700 dark:text-violet-100">
+                                                        class="px-2 py-1 font-semibold text-base align-middle leading-tight text-violet-600 bg-violet-100 rounded-md dark:bg-violet-700 dark:text-violet-100 hover:bg-violet-200">
                                                         details
                                                     </button>
                                                 </a>

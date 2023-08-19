@@ -43,7 +43,7 @@
                     <span class="col-span-2">{{ $proposal->description }}</span>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    <span class="text-gray-700 font-bold mb-2 col-span-1">Group:</span>
+                    <span class="text-gray-700 font-bold mb-2 col-span-1">Group Name:</span>
                     <span class="col-span-2">{{ $group->name }}</span>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">

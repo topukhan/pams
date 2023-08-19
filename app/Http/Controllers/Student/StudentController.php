@@ -66,8 +66,13 @@ class StudentController extends Controller
     public function proposalForm(Request $request)
     {
         $supervisor_id = $request->id;
-        $selected_supervisor = User::where('id', $supervisor_id)->first();
-        
+        $sup_dom_name = null;
+        $selected_supervisor = null;
+        if($supervisor_id){
+            $selected_supervisor = User::where('id', $supervisor_id)->first();
+            //Selected supervisor domain name (filtered)
+            $sup_dom_name = $request->domain_name;
+        }
         $id = Auth::guard('student')->user()->id;
         $group = Group::where('id', function ($query) use ($id) {
             $query->select('group_id')
@@ -85,10 +90,10 @@ class StudentController extends Controller
             $proposalSubmitted = $existingProposal !== null;
         }
         $supervisors = Supervisor::where('availability', true)->get();
-    
+
         // dd($supervisors);
         $domains = Domain::all();
-        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'domains', 'selected_supervisor', 'group', 'members', 'proposalSubmitted'));
+        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'members', 'proposalSubmitted'));
     }
 
 

@@ -127,6 +127,9 @@ class StudentController extends Controller
         }
     }
 
+    
+
+
     //Proposal Change Form
     public function proposalChangeForm()
     {

@@ -20,9 +20,14 @@ return new class extends Migration
             $table->unsignedBigInteger('supervisor_id');
             $table->foreign('supervisor_id')->references('id')->on('users');
             $table->string('cosupervisor');
+            $table->unsignedBigInteger('coordinator_id');
+            $table->foreign('coordinator_id')->references('id')->on('users');
             $table->string('domain');
             $table->string('project_type');
+            $table->text('description');
             $table->timestamps();
+
+            
         });
     }
 

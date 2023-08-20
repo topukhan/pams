@@ -7,9 +7,11 @@ use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\ProjectProposal;
+use App\Models\ProjectProposalApprovalRequest;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupervisorController extends Controller
 {
@@ -31,17 +33,17 @@ class SupervisorController extends Controller
     // Store approved group to table 
     public function storeApproveGroup(Request $request)
     {
-        
+
         $approved = ProjectProposal::find($request->proposal_id);
         try {
             $store = ApprovedGroup::create([
                 'group_id' => $approved->group_id,
-                'title'=> $approved->title,
-                'course'=> $approved->course,
-                'supervisor_id'=> $approved->supervisor_id,
-                'cosupervisor'=> $approved->cosupervisor,
-                'domain'=> $approved->domain,
-                'type'=> $approved->type
+                'title' => $approved->title,
+                'course' => $approved->course,
+                'supervisor_id' => $approved->supervisor_id,
+                'cosupervisor' => $approved->cosupervisor,
+                'domain' => $approved->domain,
+                'type' => $approved->type
             ]);
             if ($approved) {
                 $approved->delete();
@@ -86,7 +88,8 @@ class SupervisorController extends Controller
     }
 
     // assign task
-    public function assignTask(){
+    public function assignTask()
+    {
         $groups = Group::all();
         return view('frontend.supervisor.task.assignTask', ['groups' => $groups]);
     }
@@ -97,7 +100,7 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.login');
     }
 
-    
+
     // Project Proposal list
     public function proposalList()
     {
@@ -114,9 +117,58 @@ class SupervisorController extends Controller
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
-        } 
+        }
         return view('frontend.supervisor.proposal.proposalDetails', compact('group', 'proposal', 'members'));
     }
+
+    // supervisor response
+    public function proposalResponse(Request $request, $proposal_id)
+    {
+        $response = $request->input('response');
+        $proposal = ProjectProposal::find($proposal_id);
+        // $proposal->update([
+            // 'status' => $response,
+        // ]);
+        if ($response == 1) {
+
+            $proposal->update([
+                'status' => 'Supervisor Approved',
+                'supervisor_feedback' => 1, // Assuming 1 means 'Approved'
+            ]);
+            // Create an approval request without supervisor_feedback
+            $approvalRequestData = $proposal->toArray();
+            $approvalRequestData['proposal_id'] = $proposal->id; // Set the proposal ID explicitly
+
+            // Unset the fields you don't want in the second table
+            unset($approvalRequestData['supervisor_feedback']);
+            unset($approvalRequestData['status']);
+
+            $approvalRequest = ProjectProposalApprovalRequest::create($approvalRequestData);
+
+
+            // Redirect to the coordinator for final approval
+            return redirect()->route('coordinator.projectApproval', ['request_id' => $approvalRequest->id]);
+        } elseif ($response == 2) {
+            $proposal->update([
+                'status' => 'Supervisor Denied',
+                'supervisor_feedback' => 2, // Assuming 2 means 'Denied'
+            ]);
+            return redirect()->route('supervisor.proposalList');
+        } elseif ($response == 3) {
+            $proposal->update([
+                'status' => 'Supervisor Suggest',
+                'supervisor_feedback' => 3, // Assuming 2 means 'Denied'
+            ]);
+            // Handle "Suggest" response
+            return redirect()->route('supervisor.proposalSuggest', ['proposal_id' => $proposal_id]);
+        }
+
+     
+
+        return redirect()->back()->with('success', 'Proposal response recorded.');
+    }
+ 
+
 
     //project Proposal list
     public function proposalSuggest()

@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Coordinator;
 
 use App\Http\Controllers\Controller;
+use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\GroupInvitation;
 use App\Models\RequestToCoordinator;
 use App\Models\GroupMember;
+use App\Models\ProjectProposalApprovalRequest;
 use App\Models\Student;
+use App\Models\User;
+use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class CoordinatorRequestController extends Controller
 {
@@ -22,7 +27,7 @@ class CoordinatorRequestController extends Controller
             $request->shortNote = Str::limit($request->note, 25, '...');
         }
         $serialOffset = ($requests->currentPage() - 1) * $requests->perPage();
-        return view('frontend.coordinator.requests', compact('requests', 'serialOffset'));
+        return view('frontend.coordinator.request.group.requests', compact('requests', 'serialOffset'));
     }
 
     public function formedGroupsLists(RequestToCoordinator $request)
@@ -34,14 +39,14 @@ class CoordinatorRequestController extends Controller
         $request_id = $request->id;
         $groups = Group::paginate(7);
         $serialOffset = ($groups->currentPage() - 1) * $groups->perPage();
-        return view('frontend.coordinator.formedGroupsList', compact('groups', 'requestedGroupId', 'id', 'request_id', 'serialOffset'));
+        return view('frontend.coordinator.request.group.formedGroupsList', compact('groups', 'requestedGroupId', 'id', 'request_id', 'serialOffset'));
     }
 
     //Request Details
     public function requestDetails(RequestToCoordinator $request)
     {
 
-        return view('frontend.coordinator.requestDetails', compact('request'));
+        return view('frontend.coordinator.request.group.requestDetails', compact('request'));
     }
 
     public function requestedStudentAddToGroup(Request $request)
@@ -52,16 +57,16 @@ class CoordinatorRequestController extends Controller
         if (!is_array($selectedUserIds)) {
             $selectedUserIds = [$selectedUserIds];
         }
-        
+
         DB::beginTransaction();
-        
+
         try {
             // Check if any of the selected users are already in a group
             $userInGroup = GroupMember::whereIn('user_id', $selectedUserIds)->exists();
-            
+
             if (!$userInGroup) {
                 $group = Group::find($group_id);
-                
+
                 if ($group) {
                     // Insert into the group_members table for each selected user
                     foreach ($selectedUserIds as $user_id) {
@@ -70,8 +75,8 @@ class CoordinatorRequestController extends Controller
                             'user_id' => $user_id,
                         ]);
                     }
-                    if (count($group->groupMembers) >= 4){
-                        $group->update(['can_propose'=> 1]);
+                    if (count($group->groupMembers) >= 4) {
+                        $group->update(['can_propose' => 1]);
                     }
                     // Delete the group join request
                     RequestToCoordinator::where('id', $request_id)->delete();
@@ -119,8 +124,8 @@ class CoordinatorRequestController extends Controller
                     'user_id' => $user_id,
                 ]);
             }
-            if (count($receiverGroup->groupMembers) >= 4){
-                $receiverGroup->update(['can_propose'=> 1]);
+            if (count($receiverGroup->groupMembers) >= 4) {
+                $receiverGroup->update(['can_propose' => 1]);
             }
             // Delete the requested group and its join request
             $requestedGroup->delete();
@@ -138,7 +143,7 @@ class CoordinatorRequestController extends Controller
     //Request Group Details
     public function requestGroupDetails()
     {
-        return view('frontend.coordinator.requestGroupDetails');
+        return view('frontend.coordinator.request.group.requestGroupDetails');
     }
 
     //Request Group Members Details
@@ -161,13 +166,13 @@ class CoordinatorRequestController extends Controller
             ->get();
         // dd($students);
 
-        return view('frontend.coordinator.requestGroupMembersDetails', compact('group', 'groupMembers', 'request', 'students'));
+        return view('frontend.coordinator.request.group.requestGroupMembersDetails', compact('group', 'groupMembers', 'request', 'students'));
     }
 
     //Request Group Members Details
     public function requestToPropose()
     {
-        return view('frontend.coordinator.requestToPropose');
+        return view('frontend.coordinator.request.group.requestToPropose');
     }
     //Incomplete Group's Approve for proposal
     public function groupApproveForProposal(RequestToCoordinator $request)
@@ -177,7 +182,7 @@ class CoordinatorRequestController extends Controller
         try {
             DB::beginTransaction();
             $group->update(['can_propose' => 1]);
-            
+
             $request->delete();
             // dd($group);
             DB::commit();
@@ -188,5 +193,83 @@ class CoordinatorRequestController extends Controller
         }
     }
 
-    
+    public function projectApproval(Request $request, $request_id)
+    {
+        try {
+            DB::beginTransaction();
+
+            // Retrieve the approval request based on the provided $requestId
+            $approvalRequest = ProjectProposalApprovalRequest::findOrFail($request_id);
+
+            // Update the approval status in the approval request
+            $approvalRequest->update([
+                'coordinator_approval' => 'Approved',
+            ]);
+
+            // You can also update other fields as needed
+
+            // Additional logic if needed, such as sending notifications, etc.
+
+            DB::commit();
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('coordinator.dashboard')->with('success', 'Coordinator Approval Recorded');
+    }
+
+    public function proposalList()
+    {
+        $proposals = ProjectProposalApprovalRequest::all();
+
+        return view('frontend.coordinator.request.proposal.proposalList', compact('proposals'));
+    }
+
+    public function proposalDetails(Request $request)
+    {
+        $group = Group::find($request->group_id);
+        $proposal = ProjectProposalApprovalRequest::find($request->proposal_id);
+
+        if ($group) {
+            $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
+            $members = User::whereIn('id', $memberIds)->get();
+        }
+        return view('frontend.coordinator.request.proposal.proposalDetails', compact('group', 'proposal', 'members'));
+    }
+
+
+    public function projectApprove(Request $request, $request_id)
+    {
+        // Find the project proposal approval request
+        $request = ProjectProposalApprovalRequest::find($request_id);
+
+        // dd($request);
+        try {
+            DB::beginTransaction();
+
+            // Create a new record in the approved_groups table
+            ApprovedGroup::create([
+                'group_id' => $request->group_id,
+                'title' => $request->title,
+                'course' => $request->course,
+                'supervisor_id' => $request->supervisor_id,
+                'cosupervisor' => $request->cosupervisor,
+                'coordinator_id' => auth('coordinator')->user()->id, // Assuming coordinator's ID is stored in users table
+                'domain' => $request->domain,
+                'project_type' => $request->project_type,
+                'description' => $request->description,
+            ]);
+
+            // Delete the project proposal approval request
+            $request->delete();
+
+            DB::commit();
+
+            return redirect()->route('coordinator.proposalList')->with('success', 'Request approved. Group data transferred.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'An error occurred.');
+        }
+    }
 }

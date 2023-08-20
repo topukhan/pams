@@ -9,17 +9,10 @@ class ApprovedGroup extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'group_id',
-        'title',
-        'course',
-        'supervisor_id',
-        'cosupervisor',
-        'domain',
-        'type'
-    ];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function group(){
+    public function group()
+    {
         return $this->belongsTo(Group::class);
     }
 }

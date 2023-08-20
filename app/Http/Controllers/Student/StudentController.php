@@ -59,10 +59,6 @@ class StudentController extends Controller
         }
     }
 
-
-
-
-
     public function proposalForm(Request $request)
     {
         $supervisor_id = $request->id;
@@ -105,7 +101,6 @@ class StudentController extends Controller
             'title' => 'required',
             'course' => 'required',
             'supervisor_id' => 'required',
-            'cosupervisor' => 'required',
             'domain' => 'required',
             'project_type' => 'required',
             'description' => 'required'
@@ -116,7 +111,6 @@ class StudentController extends Controller
                 'title' => $request->title,
                 'course' => $request->course,
                 'supervisor_id' => $request->supervisor_id,
-                'cosupervisor' => $request->cosupervisor,
                 'domain' => $request->domain,
                 'project_type' => $request->project_type,
                 'description' => $request->description
@@ -127,6 +121,14 @@ class StudentController extends Controller
         }
     }
 
+    // Project proposal feedback/status
+    public function proposalStatus() {
+
+        $id = Auth::guard('student')->user()->id;
+        $group_id = GroupMember::where('user_id', $id)->value('group_id');
+        $proposal = ProjectProposal::where('group_id',$group_id )->first();
+        return view('frontend.student.proposal.proposalStatus', compact('proposal'));
+    }
     //Proposal Change Form
     public function proposalChangeForm()
     {

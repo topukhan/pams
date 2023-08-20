@@ -59,6 +59,10 @@ function data() {
     toggleFollowUpsMenu() {
       this.isFollowUpsOpen = !this.isFollowUpsOpen
     },
+    isProposalOpen: false,
+    toggleProposalMenu() {
+      this.isProposalOpen = !this.isProposalOpen
+    },
     isUserManagementMenuOpen: false,
     toggleUserManagementMenu() {
       this.isUserManagementMenuOpen = !this.isUserManagementMenuOpen

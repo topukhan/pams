@@ -36,7 +36,7 @@ Route::middleware(['AdminAuth'])->group(function () {
     Route::post('/admin/addCoordinator', [AdminController::class, 'addCoordinator'])->name('admin.addCoordinator');
 
     //Add domain
-    Route::resource('admin/domains', DomainController::class);
     Route::resource('admin/projectTypes', ProjectTypeController::class);
     Route::resource('admin/designations', DesignationController::class);
 });
+Route::resource('admin/domains', DomainController::class);

@@ -39,7 +39,6 @@ class SupervisorController extends Controller
                 'title'=> $approved->title,
                 'course'=> $approved->course,
                 'supervisor_id'=> $approved->supervisor_id,
-                'cosupervisor'=> $approved->cosupervisor,
                 'domain'=> $approved->domain,
                 'type'=> $approved->type
             ]);
@@ -118,9 +117,12 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.proposal.proposalDetails', compact('group', 'proposal', 'members'));
     }
 
-    //project Proposal list
+    //project Proposal Suggestion to student
     public function proposalSuggest()
     {
         return view('frontend.supervisor.proposal.proposalSuggest');
     }
+
+    // public function 
+
 }

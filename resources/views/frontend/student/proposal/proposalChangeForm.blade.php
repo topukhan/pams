@@ -86,21 +86,6 @@
                         </div>
                     </div>
 
-                    {{-- Co-Supervisor --}}
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/4">
-                            <label class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="cosupervisor">
-                                Co-Supervisor :
-                            </label>
-                        </div>
-                        <div class="md:w-3/4">
-                            <input
-                                class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input text-gray-600"
-                                id="cosupervisor" type="text" value="" placeholder="Enter name"> 
-                        </div>
-                    </div>
-                    
                     {{-- Domain --}}
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">

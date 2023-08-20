@@ -34,8 +34,8 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
 
     // Proposal 
     Route::get('/student/proposalForm', [StudentController::class, 'proposalForm'])->name('student.proposalForm');
-
     Route::post('/student/proposalForm', [StudentController::class, 'storeProposalForm'])->name('student.store.proposalForm');
+    Route::get('/student/proposalStatus', [StudentController::class, 'proposalStatus'])->name('student.proposalStatus');
     
     //Change Topic
     Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm');

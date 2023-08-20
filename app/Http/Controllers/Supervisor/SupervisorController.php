@@ -7,9 +7,11 @@ use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\ProjectProposal;
+use App\Models\ProjectProposalApprovalRequest;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupervisorController extends Controller
 {
@@ -31,7 +33,7 @@ class SupervisorController extends Controller
     // Store approved group to table 
     public function storeApproveGroup(Request $request)
     {
-        
+
         $approved = ProjectProposal::find($request->proposal_id);
         try {
             $store = ApprovedGroup::create([
@@ -85,7 +87,8 @@ class SupervisorController extends Controller
     }
 
     // assign task
-    public function assignTask(){
+    public function assignTask()
+    {
         $groups = Group::all();
         return view('frontend.supervisor.task.assignTask', ['groups' => $groups]);
     }
@@ -96,7 +99,7 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.login');
     }
 
-    
+
     // Project Proposal list
     public function proposalList()
     {
@@ -113,10 +116,9 @@ class SupervisorController extends Controller
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
-        } 
+        }
         return view('frontend.supervisor.proposal.proposalDetails', compact('group', 'proposal', 'members'));
     }
-
     //project Proposal Suggestion to student
     public function proposalSuggest()
     {

@@ -11,19 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_proposals', function (Blueprint $table) {
+        Schema::create('project_proposal_approval_requests', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('proposal_id');
+            $table->foreign('proposal_id')->references('id')->on('project_proposals');
             $table->unsignedBigInteger('group_id');
             $table->foreign('group_id')->references('id')->on('groups');
             $table->string('title');
             $table->string('course');
             $table->unsignedBigInteger('supervisor_id');
             $table->foreign('supervisor_id')->references('id')->on('users');
-            $table->string('supervisor_feedback')->default('pending');
+            $table->string('cosupervisor');
             $table->string('domain');
             $table->string('project_type');
             $table->text('description');
-            $table->integer('supervisor_feedback')->default(0);
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_proposals');
+        Schema::dropIfExists('project_proposal_approval_requests');
     }
 };

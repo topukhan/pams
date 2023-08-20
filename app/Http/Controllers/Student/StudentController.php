@@ -120,15 +120,14 @@ class StudentController extends Controller
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
     }
+// Project proposal feedback/status
+public function proposalStatus() {
 
-    // Project proposal feedback/status
-    public function proposalStatus() {
-
-        $id = Auth::guard('student')->user()->id;
-        $group_id = GroupMember::where('user_id', $id)->value('group_id');
-        $proposal = ProjectProposal::where('group_id',$group_id )->first();
-        return view('frontend.student.proposal.proposalStatus', compact('proposal'));
-    }
+    $id = Auth::guard('student')->user()->id;
+    $group_id = GroupMember::where('user_id', $id)->value('group_id');
+    $proposal = ProjectProposal::where('group_id',$group_id )->first();
+    return view('frontend.student.proposal.proposalStatus', compact('proposal'));
+}
     //Proposal Change Form
     public function proposalChangeForm()
     {

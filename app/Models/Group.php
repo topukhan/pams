@@ -30,5 +30,9 @@ class Group extends Model
         return $this->hasOne(ApprovedGroup::class);
     }
 
+    public function projectProposalApproval()
+    {
+        return $this->hasOne(ProjectProposalApprovalRequest::class);
+    }
 
 }

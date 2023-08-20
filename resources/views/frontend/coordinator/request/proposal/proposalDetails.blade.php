@@ -1,4 +1,4 @@
-<x-frontend.supervisor.layouts.master>
+<x-frontend.coordinator.layouts.master>
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Proposal Details </h2>
@@ -22,6 +22,10 @@
             Project Proposal</h2>
         <div class="container mx-auto mt-4 p-4 bg-white shadow-md rounded-lg">
             <div class="p-4">
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <span class="text-gray-700 font-bold mb-2 col-span-1">Supervisor Name:</span>
+                    <span class="col-span-2"> {{ $proposal->supervisor_id }}</span>
+                </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Title:</span>
                     <span class="col-span-2"> {{ $proposal->title }}</span>
@@ -92,13 +96,10 @@
             </div>
         </div>
         <div class="flex justify-center space-x-5 mb-3">
-            <form action="{{ route('supervisor.proposalResponse', ['proposal_id' => $proposal->id]) }}" method="post">
+            <form action="{{route('coordinator.projectApprove', ['proposal_id' => $proposal->id]) }}" method="post">
                 @csrf
                 <input type="hidden" name="proposal_id" value="{{ $proposal->id }}">
-                <button type="submit" name="response" value="3"
-                    class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
-                   Suggest
-                </button>
+                
                 <button type="submit" name="response" value="1"
                     class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
                     Approve
@@ -110,4 +111,4 @@
             </form>
         </div>
     </div>
-</x-frontend.supervisor.layouts.master>
+</x-frontend.coordinator.layouts.master>

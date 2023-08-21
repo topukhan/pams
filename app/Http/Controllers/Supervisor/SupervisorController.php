@@ -8,10 +8,14 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
+use App\Models\ProposalFeedback;
 use App\Models\User;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class SupervisorController extends Controller
 {
@@ -38,11 +42,11 @@ class SupervisorController extends Controller
         try {
             $store = ApprovedGroup::create([
                 'group_id' => $approved->group_id,
-                'title'=> $approved->title,
-                'course'=> $approved->course,
-                'supervisor_id'=> $approved->supervisor_id,
-                'domain'=> $approved->domain,
-                'type'=> $approved->type
+                'title' => $approved->title,
+                'course' => $approved->course,
+                'supervisor_id' => $approved->supervisor_id,
+                'domain' => $approved->domain,
+                'type' => $approved->type
             ]);
             if ($approved) {
                 $approved->delete();
@@ -93,17 +97,13 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.task.assignTask', ['groups' => $groups]);
     }
 
-    //Supervisor Login
-    public function login()
-    {
-        return view('frontend.supervisor.login');
-    }
-
-
     // Project Proposal list
     public function proposalList()
     {
-        $proposals = ProjectProposal::all();
+        $id = Auth::guard('supervisor')->user()->id;
+        $proposals = ProjectProposal::where('supervisor_id', $id)
+        ->Where('supervisor_feedback', 'pending')
+        ->get();
         return view('frontend.supervisor.proposal.proposalList', compact('proposals'));
     }
 
@@ -120,11 +120,59 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.proposal.proposalDetails', compact('group', 'proposal', 'members'));
     }
     //project Proposal Suggestion to student
-    public function proposalSuggest()
+    public function proposalSuggest($group_id, $proposal_id)
     {
-        return view('frontend.supervisor.proposal.proposalSuggest');
+
+        return view('frontend.supervisor.proposal.proposalSuggest', compact('group_id', 'proposal_id'));
     }
 
-    // public function 
+    public function proposalResponse(Request $request)
+    {
+        $id = $request->proposal_id;
+        $proposal = ProjectProposal::where('id', $id)->first();
+        $response = $request->response;
+        // dd($proposal);
+        try {
+            if ($proposal) {
+                if ($response == 'approved') {
+                    $proposal->update(['supervisor_feedback' => 'accepted']);
+                    return redirect()->route('supervisor.proposalList')->withMessage('Proposal Accepted & sent to coordinator for approval');
+                } elseif ($response == 'denied') {
+                    try {
+                        DB::beginTransaction();
+                        $proposal_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+                        $proposal_feedback->update(['is_denied' => true]);
+                        $proposal->delete();
+                        DB::commit();
+                    } catch (\Throwable $th) {
+                        DB::rollBack();
+                        return redirect()->back()->withInput()->with('errors', $th->getMessage());
+                    }
+                } elseif ($request->suggest) {
+                    $request->validate([
+                        'suggest' => 'required'
+                    ]);
+                    try {
+                        DB::beginTransaction();
+                        // $proposal_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
+                        // dd($proposal_feedback);
+                        ProposalFeedback::create([
+                            'group_id' => $request->group_id,
+                            'suggestion' => $request->suggest
+                        ]);
 
+                        $proposal->update(['supervisor_feedback' => 'suggestion']);
+                        DB::commit();
+                        return redirect()->route('supervisor.proposalList')->withMessage('Suggestion Made Successfully');
+                    } catch (Throwable $th) {
+                        DB::rollback();
+                        dd($th->getMessage());
+                        return redirect()->back()->withInput()->with('errors', $th->getMessage());
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
 }

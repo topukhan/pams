@@ -6,7 +6,7 @@
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('supervisor.dashboard')}}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li class="flex mr-3">Proposal List</li>
@@ -17,6 +17,27 @@
             </ol>
         </div>
         {{-- Details --}}
+        @if (session('error'))
+                <div
+                    class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
+                    <div class="flex items-center">
+                        <div class="w-6 h-6 mr-4 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div class="flex-1">
+                            {{ session('error') }}
+                        </div>
+                        <button type="button"
+                            class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                            data-dismiss="alert" aria-label="Close"
+                            onclick="this.parentElement.parentElement.style.display='none'">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
+                                </path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            @endif
         <h2
             class="p-3 leading-tight text-blue-700 bg-blue-100  dark:bg-blue-700 dark:text-blue-100 font-bold text-center ">
             Project Proposal</h2>
@@ -91,23 +112,20 @@
                 </div>
             </div>
         </div>
-        <div class="flex justify-center space-x-5 mb-3">
-            <form action="{{ route('supervisor.proposalResponse', ['proposal_id' => $proposal->id]) }}" method="post">
+        <div class="flex justify-center space-x-4 mb-4">
+            <form action="{{ route('supervisor.proposalResponse') }}" method="post">
                 @csrf
                 <input type="hidden" name="proposal_id" value="{{ $proposal->id }}">
-                <button type="submit" name="response" value="3"
-                    class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
-                   Suggest
-                </button>
-                <button type="submit" name="response" value="1"
-                    class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
+                <button type="submit" name="response" value="approved"
+                    class="bg-green-500 hover:bg-green-600 text-white font-semibold mt-4 py-2 px-4 rounded-md">
                     Approve
                 </button>
-                <button type="submit" name="response" value="2"
-                    class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
+                <button type="submit" name="response" value="denied"
+                    class="bg-red-500 hover:bg-red-600 text-white font-semibold mt-4 py-2 px-4 rounded-md">
                     Deny
                 </button>
             </form>
+            <a href="{{ route('supervisor.proposalSuggest', ['group_id' => $group->id, 'proposal_id' => $proposal->id]) }}" class="text-blue-500 dark:text-blue-500 underline text-md mt-4 py-2 px-4">Do you want to suggest something? </a>
         </div>
     </div>
 </x-frontend.supervisor.layouts.master>

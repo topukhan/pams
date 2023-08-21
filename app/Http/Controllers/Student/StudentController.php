@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ApprovedGroup;
 use App\Models\Domain;
 use App\Models\Group;
+use App\Models\ProposalFeedback;
 use App\Models\GroupMember;
 use App\Models\ProjectProposal;
 use App\Models\RequestToCoordinator;
@@ -64,7 +65,7 @@ class StudentController extends Controller
         $supervisor_id = $request->id;
         $sup_dom_name = null;
         $selected_supervisor = null;
-        if($supervisor_id){
+        if ($supervisor_id) {
             $selected_supervisor = User::where('id', $supervisor_id)->first();
             //Selected supervisor domain name (filtered)
             $sup_dom_name = $request->domain_name;
@@ -76,11 +77,9 @@ class StudentController extends Controller
                 ->where('user_id', $id)
                 ->first();
         })->first();
-        $members = null;
         $proposalSubmitted = null;
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
-            $members = User::whereIn('id', $memberIds)->get();
             // Check if a proposal from the group already exists
             $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
             $proposalSubmitted = $existingProposal !== null;
@@ -89,7 +88,7 @@ class StudentController extends Controller
 
         // dd($supervisors);
         $domains = Domain::all();
-        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'members', 'proposalSubmitted'));
+        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'proposalSubmitted'));
     }
 
 
@@ -120,14 +119,96 @@ class StudentController extends Controller
             return redirect()->back()->withInput()->withErrors('Something went wrong!');
         }
     }
-// Project proposal feedback/status
-public function proposalStatus() {
 
-    $id = Auth::guard('student')->user()->id;
-    $group_id = GroupMember::where('user_id', $id)->value('group_id');
-    $proposal = ProjectProposal::where('group_id',$group_id )->first();
-    return view('frontend.student.proposal.proposalStatus', compact('proposal'));
-}
+    // Project proposal feedback/status
+    public function proposalStatus()
+    {
+
+        $id = Auth::guard('student')->user()->id;
+        $group_id = GroupMember::where('user_id', $id)->value('group_id');
+        $proposal = ProjectProposal::where('group_id', $group_id)->first();
+        $proposal_feedback = null;
+        $supervisor = null;
+        if($proposal){
+            $proposal_feedback = ProposalFeedback::where('group_id', $group_id)->first();
+            $supervisor = User::where('id', $proposal->supervisor_id)->first();
+        }
+
+        return view('frontend.student.proposal.proposalStatus', compact('proposal', 'proposal_feedback', 'supervisor'));
+    }
+
+    //If supervisor's suggestion accept then existing project proposal will modified
+    public function editProposalForm(ProjectProposal $proposal)
+    {
+        $id = Auth::guard('student')->user()->id;
+        $group = Group::where('id', function ($query) use ($id) {
+            $query->select('group_id')
+                ->from('group_members')
+                ->where('user_id', $id)
+                ->first();
+        })->first();
+        $supervisor = User::where('id', $proposal->supervisor_id)->select('first_name', 'last_name')->first();
+
+
+        $supervisor_name = $supervisor->first_name . ' ' . $supervisor->last_name;
+        $domains = Domain::all();
+
+        return view('frontend.student.proposal.editProposalForm', compact('proposal', 'group', 'supervisor_name', 'domains'));
+    }
+
+
+    //Update existing proposal based on suggestion from supervisor
+    public function proposalUpdate(Request $request)
+    {
+        $proposal = ProjectProposal::where('id', $request->proposal_id)->first();
+
+        $request->validate([
+            'title' => 'required',
+            'course' => 'required',
+            'domain' => 'required',
+            'project_type' => 'required',
+            'description' => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            $proposal->update([
+                'title' => $request->title,
+                'course' => $request->course,
+                'domain' => $request->domain,
+                'project_type' => $request->project_type,
+                'supervisor_feedback' => 'pending',
+                'description' => $request->description
+            ]);
+
+            $proposal_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+            $proposal_feedback->delete();
+            DB::commit();
+            return redirect()->route('student.dashboard')->withMessage("Proposal Updated!");
+        } catch (QueryException $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors($e->getMessage());
+        }
+    }
+
+
+    //Supervisor's suggestion denied delete the proposal
+    public function proposalDelete(Request $request)
+    {
+        $proposal = ProjectProposal::where('id', $request->proposal_id)->first();
+        $proposal_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+        try {
+            DB::beginTransaction();
+            $proposal->delete();
+            $proposal_feedback->delete();
+            DB::commit();
+            return redirect()->route('student.proposalStatus')->withMessage('Cancelled, Make a new Proposal');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+
     //Proposal Change Form
     public function proposalChangeForm()
     {

@@ -21,13 +21,13 @@
         </div>
 
         <div class="px-2 py-2">
-            @if (session('message'))
+            @if (session('error'))
                 <div
                     class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
                     <div class="flex items-center">
                         <div class="w-6 h-6 mr-4 bg-green-500 rounded-full flex-shrink-0"></div>
                         <div class="flex-1">
-                            {{ session('message') }}
+                            {{ session('error') }}
                         </div>
                         <button type="button"
                             class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
@@ -43,17 +43,19 @@
                 </div>
             @endif
             <div class="max-w-3xl mx-auto mt-4 p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <form action="" method="">
-                    
-
-
+                <form action="{{ route('supervisor.proposalResponse')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="group_id" value="{{ $group_id}}">
+                    <input type="hidden" name="proposal_id" value="{{ $proposal_id}}">
                     <div class="mb-6">
                         <label for="suggest" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Suggest:
                         </label>
-                        <textarea id="suggest" name="suggest" rows="2"
+                        <textarea id="suggest" name="suggest" rows="2" value="{{ old('suggest') }}"
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
-                    </div>
+                        {{-- <x-input-error :messages="$errors->get('suggest')" class="mt-2"/> --}}
+                        {{-- <x-input-error :messages="$errors->get('suggest')" class="mt-2"/> --}}
+                        </div>
                     <div class="mb-6">
                         <button type="submit"
                             class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">

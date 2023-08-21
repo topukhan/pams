@@ -50,7 +50,7 @@ class SupervisorProfileController extends Controller
             ];
             $user->supervisor->update($Data);
 
-            return redirect()->route('supervisor.profile')->withMessage('Edited Successfully');
+            return redirect()->route('supervisor.profile')->withMessage('Updated Successfully');
         } catch (\Throwable $th) {
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }

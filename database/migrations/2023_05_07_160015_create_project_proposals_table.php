@@ -19,10 +19,11 @@ return new class extends Migration
             $table->string('course');
             $table->unsignedBigInteger('supervisor_id');
             $table->foreign('supervisor_id')->references('id')->on('users');
-            $table->string('cosupervisor');
+            $table->string('supervisor_feedback')->default('pending');
             $table->string('domain');
             $table->string('project_type');
             $table->text('description');
+            $table->integer('supervisor_feedback')->default(0);
             $table->timestamps();
         });
     }

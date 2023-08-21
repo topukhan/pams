@@ -51,6 +51,10 @@ function data() {
     toggleGroupsMenu() {
       this.isGroupsMenuOpen = !this.isGroupsMenuOpen
     },
+    isRequestsOpen: false,
+    toggleRequestsMenu() {
+      this.isRequestsOpen = !this.isRequestsOpen
+    },
     isGroupsCOORMenuOpen: false,
     toggleGroupsCOORMenu() {
       this.isGroupsCOORMenuOpen = !this.isGroupsCOORMenuOpen
@@ -58,6 +62,10 @@ function data() {
     isFollowUpsOpen: false,
     toggleFollowUpsMenu() {
       this.isFollowUpsOpen = !this.isFollowUpsOpen
+    },
+    isProposalOpen: false,
+    toggleProposalMenu() {
+      this.isProposalOpen = !this.isProposalOpen
     },
     isUserManagementMenuOpen: false,
     toggleUserManagementMenu() {

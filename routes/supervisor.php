@@ -23,7 +23,8 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     //Project proposals
     Route::get('/supervisor/proposalList', [SupervisorController::class, 'proposalList'])->name('supervisor.proposalList');
     Route::get('/supervisor/proposalDetails/{group_id}/{proposal_id}', [SupervisorController::class, 'proposalDetails'])->name('supervisor.proposalDetails');
-    Route::get('/supervisor/proposalSuggest', [SupervisorController::class, 'proposalSuggest'])->name('supervisor.proposalSuggest');
+    Route::get('/supervisor/proposalSuggest/{group_id}/{proposal_id}', [SupervisorController::class, 'proposalSuggest'])->name('supervisor.proposalSuggest');
+    Route::post('/supervisor/proposalResponse', [SupervisorController::class, 'proposalResponse'])->name('supervisor.proposalResponse');
 
     Route::get('/supervisor/profile', [SupervisorProfileController::class, 'index'])->name('supervisor.profile');
     Route::get('/supervisor/profile/edit', [SupervisorProfileController::class, 'edit'])->name('supervisor.profileEdit');

@@ -11,16 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('approved_groups', function (Blueprint $table) {
+        Schema::create('proposal_feedbacks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('group_id');
             $table->foreign('group_id')->references('id')->on('groups');
-            $table->string('title');
-            $table->string('course');
-            $table->unsignedBigInteger('supervisor_id');
-            $table->foreign('supervisor_id')->references('id')->on('users');
-            $table->string('domain');
-            $table->string('project_type');
+            $table->string('suggestion')->nullable();
+            $table->boolean('is_denied')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('approved_groups');
+        Schema::dropIfExists('proposal_feedbacks');
     }
 };

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_proposals', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('group_id');
             $table->foreign('group_id')->references('id')->on('groups');
@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('course');
             $table->unsignedBigInteger('supervisor_id');
             $table->foreign('supervisor_id')->references('id')->on('users');
-            $table->string('supervisor_feedback')->default('pending');
+            $table->unsignedBigInteger('coordinator_id');
+            $table->foreign('coordinator_id')->references('id')->on('users');
             $table->string('domain');
             $table->string('project_type');
             $table->text('description');
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_proposals');
+        Schema::dropIfExists('projects');
     }
 };

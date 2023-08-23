@@ -8,14 +8,17 @@ use App\Models\Group;
 use App\Models\GroupInvitation;
 use App\Models\RequestToCoordinator;
 use App\Models\GroupMember;
+use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
 use App\Models\Student;
 use App\Models\User;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class CoordinatorRequestController extends Controller
 {
@@ -199,7 +202,7 @@ class CoordinatorRequestController extends Controller
             DB::beginTransaction();
 
             // Retrieve the approval request based on the provided $requestId
-            $approvalRequest = ProjectProposalApprovalRequest::findOrFail($request_id);
+            $approvalRequest = ProjectProposal::findOrFail($request_id);
 
             // Update the approval status in the approval request
             $approvalRequest->update([
@@ -221,7 +224,7 @@ class CoordinatorRequestController extends Controller
 
     public function proposalList()
     {
-        $proposals = ProjectProposalApprovalRequest::all();
+        $proposals = ProjectProposal::where('supervisor_feedback', 'accepted')->get();
 
         return view('frontend.coordinator.request.proposal.proposalList', compact('proposals'));
     }
@@ -229,7 +232,7 @@ class CoordinatorRequestController extends Controller
     public function proposalDetails(Request $request)
     {
         $group = Group::find($request->group_id);
-        $proposal = ProjectProposalApprovalRequest::find($request->proposal_id);
+        $proposal = ProjectProposal::find($request->proposal_id);
 
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
@@ -239,37 +242,41 @@ class CoordinatorRequestController extends Controller
     }
 
 
-    public function projectApprove(Request $request, $request_id)
-    {
-        // Find the project proposal approval request
-        $request = ProjectProposalApprovalRequest::find($request_id);
+    public function projectApprove(Request $request, $proposal_id)
+{
+    try {
+        DB::beginTransaction();
 
-        // dd($request);
-        try {
-            DB::beginTransaction();
+        // Retrieve proposal data
+        $proposal = DB::table('project_proposals')->where('id', $proposal_id)->first();
 
-            // Create a new record in the approved_groups table
-            ApprovedGroup::create([
-                'group_id' => $request->group_id,
-                'title' => $request->title,
-                'course' => $request->course,
-                'supervisor_id' => $request->supervisor_id,
-                'cosupervisor' => $request->cosupervisor,
-                'coordinator_id' => auth('coordinator')->user()->id, // Assuming coordinator's ID is stored in users table
-                'domain' => $request->domain,
-                'project_type' => $request->project_type,
-                'description' => $request->description,
+        if ($proposal) {
+            // Insert data into projects table
+            DB::table('projects')->insert([
+                'group_id' => $proposal->group_id,
+                'title' => $proposal->title,
+                'course' => $proposal->course,
+                'supervisor_id' => $proposal->supervisor_id,
+                'coordinator_id' => Auth::guard('coordinator')->user()->id, // You need to get the coordinator's ID
+                'domain' => $proposal->domain,
+                'project_type' => $proposal->project_type,
+                'description' => $proposal->description,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
 
-            // Delete the project proposal approval request
-            $request->delete();
+            // Delete the proposal from project_proposals table
+            DB::table('project_proposals')->where('id', $proposal_id)->delete();
 
-            DB::commit();
-
-            return redirect()->route('coordinator.proposalList')->with('success', 'Request approved. Group data transferred.');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->with('error', 'An error occurred.');
+            DB::commit(); // Commit the transaction
+            return redirect()->route('coordinator.proposalList')->with('message', 'Proposal approved successfully!');
+        } else {
+            DB::rollBack(); // Roll back the transaction
+            return redirect()->route('coordinator.proposalList')->with('error', 'Proposal not found.');
         }
+    } catch (Throwable $th) {
+        DB::rollBack(); // Roll back the transaction on exception
+        return redirect()->back()->withInput()->with('errors', $th->getMessage());
     }
+}
 }

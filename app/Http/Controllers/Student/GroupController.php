@@ -235,13 +235,15 @@ class GroupController extends Controller
                 ->where('user_id', $id)
                 ->first();
         })->first();
+        $can_propose = $group->can_propose == 1;
+        // dd($can_propose);
         $members = null;
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
         }
 
-        return view('frontend.student.group.myGroup', compact('group', 'members'));
+        return view('frontend.student.group.myGroup', compact('group', 'members','can_propose'));
     }
 
     //My Group Details 

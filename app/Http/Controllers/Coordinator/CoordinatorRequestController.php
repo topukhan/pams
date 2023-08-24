@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Coordinator;
 
 use App\Http\Controllers\Controller;
-use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\GroupInvitation;
 use App\Models\RequestToCoordinator;
 use App\Models\GroupMember;
+use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
+use App\Models\ProposalFeedback;
 use App\Models\Student;
 use App\Models\User;
 use Doctrine\DBAL\Query\QueryException;
@@ -233,50 +234,80 @@ class CoordinatorRequestController extends Controller
     {
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
+        $supervisor = User::find($proposal->supervisor_id);
+        // dd($supervisor);
 
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
         }
-        return view('frontend.coordinator.request.proposal.proposalDetails', compact('group', 'proposal', 'members'));
+        return view('frontend.coordinator.request.proposal.proposalDetails', compact('group', 'proposal', 'members', 'supervisor'));
     }
 
 
-    public function projectApprove(Request $request, $proposal_id)
-{
-    try {
-        DB::beginTransaction();
+    public function projectApprove(Request $request, ProjectProposal $proposal)
+    {
+        try {
+            if ($proposal) {
+                $is_allocated = Project::where('group_id', $proposal->group_id)->exists();
 
-        // Retrieve proposal data
-        $proposal = DB::table('project_proposals')->where('id', $proposal_id)->first();
+                if (!$is_allocated) {
+                    if ($request->response == 1) {
+                        try {
+                            DB::beginTransaction();
 
-        if ($proposal) {
-            // Insert data into projects table
-            DB::table('projects')->insert([
-                'group_id' => $proposal->group_id,
-                'title' => $proposal->title,
-                'course' => $proposal->course,
-                'supervisor_id' => $proposal->supervisor_id,
-                'coordinator_id' => Auth::guard('coordinator')->user()->id, // You need to get the coordinator's ID
-                'domain' => $proposal->domain,
-                'project_type' => $proposal->project_type,
-                'description' => $proposal->description,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+                            Project::create([
+                                'group_id' => $proposal->group_id,
+                                'title' => $proposal->title,
+                                'course' => $proposal->course,
+                                'supervisor_id' => $proposal->supervisor_id,
+                                'coordinator_id' => Auth::guard('coordinator')->user()->id,
+                                'domain' => $proposal->domain,
+                                'project_type' => $proposal->project_type,
+                                'description' => $proposal->description,
+                            ]);
+                            $has_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+                            if ($has_feedback) {
+                                $has_feedback->delete();
+                            }
+                            $proposal->delete();
+                            DB::commit();
+                            return redirect()->route('coordinator.proposalList')->withMessage("Project Allocated to This Group Successfully!");
+                        } catch (\Throwable $th) {
+                            DB::rollBack();
+                            return redirect()->back()->with('error', $th->getMessage());
+                        }
+                    }
+                    if ($request->response == 2) {
+                        $has_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+                        try {
+                            DB::beginTransaction();
+                            if ($has_feedback) {
+                                $has_feedback->update(['is_denied' => 1]);
+                            } else {
+                                ProposalFeedback::create([
+                                    'group_id' => $proposal->group_id,
+                                    'is_denied' => 1
+                                ]);
+                            }
+                            $proposal->delete();
+                            DB::commit();
+                            return redirect()->route('coordinator.proposalList')->withMessage("Project Proposal Denied");
+                        } catch (\Throwable $th) {
+                            DB::rollBack();
+                            return redirect()->back()->with('error', $th->getMessage());
+                        }
+                    }
+                } else {
+                    $proposal->delete();
+                    return redirect()->route('coordinator.proposalList')->with('error', "A Project is Already Allocated to This Group!");
+                }
+            } else {
 
-            // Delete the proposal from project_proposals table
-            DB::table('project_proposals')->where('id', $proposal_id)->delete();
-
-            DB::commit(); // Commit the transaction
-            return redirect()->route('coordinator.proposalList')->with('message', 'Proposal approved successfully!');
-        } else {
-            DB::rollBack(); // Roll back the transaction
-            return redirect()->route('coordinator.proposalList')->with('error', 'Proposal not found.');
+                return redirect()->route('coordinator.proposalList')->with('error', 'Proposal not found.');
+            }
+        } catch (Throwable $th) {
+            return redirect()->back()->withInput()->with('errors', $th->getMessage());
         }
-    } catch (Throwable $th) {
-        DB::rollBack(); // Roll back the transaction on exception
-        return redirect()->back()->withInput()->with('errors', $th->getMessage());
     }
-}
 }

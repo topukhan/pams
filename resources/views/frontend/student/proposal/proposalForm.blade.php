@@ -16,7 +16,19 @@
         </div>
         @if ($proposalSubmitted)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
-                Proposal already submitted for this group!
+                Proposal already submitted for your group!
+                <button type="button" class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
+                    onclick="this.parentElement.style.display ='none'">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div><br>
+        @endif
+        @if ($in_project)
+            <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
+                Project already Allocated for your group!
                 <button type="button" class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
                     onclick="this.parentElement.style.display ='none'">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -205,7 +217,8 @@
                                 <button
                                     class="shadow bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
                                     type="submit"{{ $proposalSubmitted ? 'disabled' : '' }}
-                                    {{ $group->can_propose == 0 ? 'disabled' : '' }}>
+                                    {{ $group->can_propose == 0 ? 'disabled' : '' }}
+                                    {{ $in_project ? 'disabled' : '' }}>
                                     Submit
                                 </button>
                                 @if (false)

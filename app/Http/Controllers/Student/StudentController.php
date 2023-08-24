@@ -8,6 +8,7 @@ use App\Models\Domain;
 use App\Models\Group;
 use App\Models\ProposalFeedback;
 use App\Models\GroupMember;
+use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\RequestToCoordinator;
 use App\Models\Student;
@@ -18,7 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Throwable;
 
 class StudentController extends Controller
 {
@@ -83,12 +84,14 @@ class StudentController extends Controller
             // Check if a proposal from the group already exists
             $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
             $proposalSubmitted = $existingProposal !== null;
+            $in_project = Project::where('group_id', $group->id)->exists();
+            
         }
         $supervisors = Supervisor::where('availability', true)->get();
 
         // dd($supervisors);
         $domains = Domain::all();
-        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'proposalSubmitted'));
+        return view('frontend.student.proposal.proposalForm', compact('supervisors', 'in_project', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'proposalSubmitted'));
     }
 
 
@@ -105,6 +108,7 @@ class StudentController extends Controller
             'description' => 'required'
         ]);
         try {
+            DB::beginTransaction();
             ProjectProposal::create([
                 'group_id' => $request->group_id,
                 'title' => $request->title,
@@ -114,9 +118,16 @@ class StudentController extends Controller
                 'project_type' => $request->project_type,
                 'description' => $request->description
             ]);
+            $existing_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
+            if ($existing_feedback){
+                $existing_feedback->delete();
+            }
+
+            DB::commit();
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
-        } catch (QueryException $e) {
-            return redirect()->back()->withInput()->withErrors('Something went wrong!');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
     }
 
@@ -127,14 +138,16 @@ class StudentController extends Controller
         $id = Auth::guard('student')->user()->id;
         $group_id = GroupMember::where('user_id', $id)->value('group_id');
         $proposal = ProjectProposal::where('group_id', $group_id)->first();
+        $is_denied = ProposalFeedback::where('group_id', $group_id)->where('is_denied', 1)->exists();
         $proposal_feedback = null;
         $supervisor = null;
+        $in_project = Project::where('group_id', $group_id)->exists();
         if($proposal){
             $proposal_feedback = ProposalFeedback::where('group_id', $group_id)->first();
             $supervisor = User::where('id', $proposal->supervisor_id)->first();
         }
 
-        return view('frontend.student.proposal.proposalStatus', compact('proposal', 'proposal_feedback', 'supervisor'));
+        return view('frontend.student.proposal.proposalStatus', compact('proposal','in_project', 'is_denied', 'proposal_feedback', 'supervisor'));
     }
 
     //If supervisor's suggestion accept then existing project proposal will modified

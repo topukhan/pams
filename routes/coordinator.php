@@ -31,7 +31,7 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
     Route::get('/coordinator/proposalDetails', [CoordinatorRequestController::class, 'proposalDetails'])->name('coordinator.proposalDetails');
 
     Route::get('/coordinator/projectApproval/{request_id}', [CoordinatorRequestController::class, 'projectApproval'])->name('coordinator.projectApproval');
-    Route::post('/coordinator/projectApprove/{proposal_id}', [CoordinatorRequestController::class, 'projectApprove'])->name('coordinator.projectApprove');
+    Route::post('/coordinator/projectApprove/{proposal}', [CoordinatorRequestController::class, 'projectApprove'])->name('coordinator.projectApprove');
 
 
 });

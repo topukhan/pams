@@ -6,7 +6,7 @@
         <div class="px-4 mb-4">
             <ol class="flex justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li class="flex mr-3">Proposal List</li>
@@ -24,7 +24,7 @@
             <div class="p-4">
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Supervisor Name:</span>
-                    <span class="col-span-2"> {{ $proposal->supervisor_id }}</span>
+                    <span class="col-span-2"> {{ $supervisor->first_name . ' ' . $supervisor->last_name }}</span>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Title:</span>
@@ -96,10 +96,8 @@
             </div>
         </div>
         <div class="flex justify-center space-x-5 mb-3">
-            <form action="{{route('coordinator.projectApprove', ['proposal_id' => $proposal->id]) }}" method="post">
+            <form action="{{ route('coordinator.projectApprove', $proposal) }}" method="POST">
                 @csrf
-                <input type="hidden" name="proposal_id" value="{{ $proposal->id }}">
-                
                 <button type="submit" name="response" value="1"
                     class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
                     Approve

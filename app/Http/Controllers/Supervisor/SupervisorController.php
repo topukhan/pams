@@ -140,10 +140,16 @@ class SupervisorController extends Controller
                 } elseif ($response == 'denied') {
                     try {
                         DB::beginTransaction();
+                        ProposalFeedback::create([
+                            'group_id' => $proposal->group_id,
+                            'is_denied' => true,
+                        ]);
+                        $proposal->update(['supervisor_feedback' => 'rejected']);
                         $proposal_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
                         $proposal_feedback->update(['is_denied' => true]);
                         $proposal->delete();
                         DB::commit();
+                        return redirect()->route('supervisor.proposalList')->withDenied('You denied the project proposal');
                     } catch (\Throwable $th) {
                         DB::rollBack();
                         return redirect()->back()->withInput()->with('errors', $th->getMessage());

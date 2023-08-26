@@ -62,6 +62,14 @@
                 </template>
             </li>
 
+            {{-- Notice Task --}}
+            <li class="relative px-6 py-3">
+                <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    href="{{ route('supervisor.notice') }}">
+                    <i class='bx bx-task text-2xl'></i>
+                    <span class="ml-4">Post Notice</span>
+                </a>
+            </li>
             {{-- Assign Task --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -70,6 +78,7 @@
                     <span class="ml-4">Assign Task</span>
                 </a>
             </li>
+
 
             {{-- Follow ups --}}
             <li class="relative px-6 py-3">
@@ -193,6 +202,14 @@
                         </li>
                     </ul>
                 </template>
+            </li>
+            {{-- Notice Task --}}
+            <li class="relative px-6 py-3">
+                <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    href="{{ route('supervisor.notice') }}">
+                    <i class='bx bx-task text-2xl'></i>
+                    <span class="ml-4">Post Notice</span>
+                </a>
             </li>
             {{-- Assign Task --}}
             <li class="relative px-6 py-3">

@@ -16,11 +16,11 @@
             </ol>
         </div>
 
-        <div class="md:flex mb-2">
-            <div class="md:w-1/4">
+        <div class="px-2 md:flex ">
+            <div class=" px-4 md:w-1/4">
                 <label class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                     for="domain">
-                    Domain
+                    Domain:
                 </label>
             </div>
             <div class="md:w-3/4">
@@ -34,8 +34,7 @@
                 <x-input-error :messages="$errors->get('domain')" class="mt-2" />
             </div>
         </div>
-
-        <div class="md:flex md:items-center mb-6">
+        <div class="p-2 md:flex md:items-center mb-2">
             <div class="md:w-1/4"></div>
             <div class="md:w-3/4">
                 <button id="filterButton"
@@ -52,82 +51,71 @@
         </div>
         {{-- table --}}
         <div class="px-2 py-2">
-            <div class="w-full mb-8 overflow-hidden border rounded-lg shadow-lg">
-                <div class="w-full overflow-x-auto shadow-lg">
-                    <table class="w-full whitespace-no-wrap ">
-                        <thead>
-                            <tr
-                                class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                <th class="px-3 py-3">Sl</th>
-                                <th class="px-3 py-3">Faculty Names</th>
-                                <th class="px-3 py-3">Email</th>
-                                <th class="px-3 py-3">Phone</th>
-                                <th class="px-3 py-3">Interest/Genre</th>
-                                <th class="px-3 py-3">Availability</th>
-                                <th class="px-3 py-3">Proposal</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800" id="supervisorTableBody">
+            <div id="supervisorCardContainer" class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {{-- Supervisor Cards --}}
+                @foreach ($supervisors->sortByDesc('availability') as $supervisor)
+                    <div class="border rounded-lg shadow-lg p-4 bg-white dark:bg-gray-800">
+                        <div class="justify-between flex mb-2">
+                            <div>
+                                <img src="https://pyxis.nymag.com/v1/imgs/7be/898/c22698a83a66c5a268116b0f311af72592-22-rm-bts-2.rvertical.w330.jpg"
+                                    alt="Profile Image"class="w-24 h-24 rounded-full">
+                            </div>
+                            <div>
+                                <a href="{{route('student.supervisorProfile', ['id' => $supervisor->user->id])}}">
+                                    <button
+                                    class="px-2 py-1 text-xs font-semibold leading-tight text-white bg-gray-400 rounded-full">
+                                    View Profile
+                                </button></a>
+                                <span class="text-xs ">
+                                    @if ($supervisor->availability == 1)
+                                        <a href="{{ route('student.proposalForm', ['id' => $supervisor->user->id]) }}">
+                                            <button
+                                                class="px-2 py-1 font-semibold leading-tight text-white bg-green-500 rounded-full">
+                                                Request
+                                            </button>
+                                        </a>
+                                    @endif
+                                    @if ($supervisor->availability == 0)
+                                        <button disabled
+                                            class="px-2 py-1 font-semibold leading-tight text-white bg-red-500 rounded-full">
+                                            Unavailable
+                                        </button>
+                                    @endif
+                                </span>
+                            </div>
+                        </div>
+                        <div class="font-semibold text-lg ">
+                            {{ $supervisor->user->first_name . ' ' . $supervisor->user->last_name }}</div>
+                        <div class="text-gray-700 text-sm mb-1">{{ $supervisor->designation }}</div>
+                        <div class="text-gray-700 text-sm mb-1 ">{{ $supervisor->user->email }}</div>
+                        <div class="text-gray-700 text-sm mb-2 ">{{ $supervisor->user->phone_number }}
+                        </div>
+                        <div class="mb-2 text-sm text-semibold">
+                            @if (count($supervisor->user->domains) == 0)
+                                <span>N/A</span>
+                            @else
+                                <span>
+                                    @foreach ($supervisor->user->domains as $domain)
+                                        {{ $domain->name }}
+                                        @unless ($loop->last)
+                                            |
+                                        @endunless
+                                    @endforeach
+                                </span>
+                            @endif
+                        </div>
 
-                            {{-- Supervisors  --}}
-
-                            @foreach ($supervisors->sortByDesc('availability') as $supervisor)
-                                <tr class="text-gray-700 dark:text-gray-400">
-                                    <td class="px-4 py-3 text-sm">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-3 font-semibold text-sm ">
-                                        {{ $supervisor->user->first_name . ' ' . $supervisor->user->last_name }}</td>
-                                    <td class="px-4 py-3 font-semibold text-sm ">{{ $supervisor->user->email }}</td>
-                                    <td class="px-4 py-3 font-semibold  text-sm ">{{ $supervisor->user->phone_number }}
-                                    </td>
-                                    <td class="px-4 py-3 font-semibold  text-sm ">
-                                        @if (count($supervisor->user->domains) == 0)
-                                            <span class="col-span-2 text-semibold">N/A</span>
-                                        @else
-                                            <span class="col-span-2">
-                                                @foreach ($supervisor->user->domains as $domain)
-                                                    {{ $domain->name }}
-                                                    @unless ($loop->last)
-                                                        ,
-                                                    @endunless
-                                                @endforeach
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="px-4 py-3 font-semibold  text-sm ">
-                                        {{ $supervisor->availability == 1 ? 'Yes' : 'No' }}
-                                    </td>
-                                    <td class="px-4 py-3 text-xs">
-                                        @if ($supervisor->availability == 1)
-                                            <a
-                                                href="{{ route('student.proposalForm', ['id' => $supervisor->user->id]) }}">
-                                                <button
-                                                    class="px-2 py-1 font-semibold leading-tight text-green-800 bg-green-200 rounded-full dark:bg-green-700 dark:text-green-200">
-                                                    Request
-                                                </button>
-                                            </a>
-                                        @endif
-                                        @if ($supervisor->availability == 0)
-                                                <button disabled
-                                                    class="px-4 py-1 font-semibold leading-tight text-green-800 bg-red-200 rounded-full dark:bg-red-700 dark:text-green-200">
-                                                    N/A
-                                                </button>
-                                        @endif
-
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                    </div>
+                @endforeach
             </div>
+
         </div>
     </div>
-
 
     <script>
         $(document).ready(function() {
             var domainSelect = $('#domain');
-            var supervisorTableBody = $('#supervisorTableBody');
+            var supervisorCardContainer = $('#supervisorCardContainer');
             var filterButton = $('#filterButton');
 
             filterButton.on('click', function() {
@@ -140,59 +128,68 @@
                         domain: selectedDomain
                     },
                     success: function(data) {
-                        // console.log(data);
-
                         var supervisors = data.supervisors;
                         var domainName = data.domainName;
-                        console.log(supervisors);
 
                         var html = '';
 
                         if (Array.isArray(supervisors) && supervisors.length > 0) {
-                            var sl = 1;
-                            
-                            supervisors.forEach(function(supervisor, index) {
+                            supervisors.forEach(function(supervisor) {
                                 var supervisor_id = supervisor.user.id;
-                                console.log(supervisor_id);
-                                
-                                
+                                var availabilityClass = supervisor.availability ?
+                                    'green' : 'red';
+                                var buttonLabel = supervisor.availability ? 'Request' :
+                                    'Unvailable';
+
                                 html += `
-                <tr class="text-gray-700 dark:text-gray-400">
-                    <td class="px-4 py-3 text-sm">${sl++}</td>
-                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.first_name + ' '+ supervisor.user.last_name}</td>
-                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.email}</td>
-                    <td class="px-4 py-3 font-semibold text-sm">${ supervisor.user.phone_number}</td>
-                    <td class="px-4 py-3 font-semibold text-sm">${ domainName }</td>
-                    <td class="px-4 py-3 font-semibold text-sm">${supervisor.availability ? 'Yes' : 'No'}</td>
-                    <td class="px-4 py-3 text-xs">
-                        <a href="{{ route('student.proposalForm', ['id' => '']) }}${supervisor_id}&domain_name=${encodeURIComponent(domainName)}">
-                            <button ${supervisor.availability ? '' : 'disabled '}
-                            <button ${supervisor.availability ? '' : 'disabled '}
-                                class="px-2 py-1 font-semibold leading-tight text-green-800 bg-${supervisor.availability ? 'green' : 'red'}-200 rounded-full dark:bg-${supervisor.availability ? 'green' : 'red'}-700 dark:text-green-200">
-                                ${supervisor.availability ? 'Request' : 'N/A'}
-                            </button>
-                        </a>
-                    </td>
-                </tr>`;
+    <div class="border rounded-lg shadow-lg p-4 bg-white dark:bg-gray-800">
+        <div class="justify-between flex mb-2">
+            <div>
+                <img src="https://pyxis.nymag.com/v1/imgs/7be/898/c22698a83a66c5a268116b0f311af72592-22-rm-bts-2.rvertical.w330.jpg"
+                    alt="Profile Image" class="w-24 h-24 rounded-full">
+            </div>
+            <div>
+                <a href="{{route('student.supervisorProfile', ['id' =>''])}}${supervisor.user.id}">
+                <button class="px-2 py-1 text-xs font-semibold leading-tight text-white bg-gray-400 rounded-full">
+                    View Profile
+                </button></a>
+                <span class="text-xs">
+                    <a href="{{ route('student.proposalForm', ['id' => '']) }}${supervisor_id}&domain_name=${encodeURIComponent(domainName)}">
+                        <button ${supervisor.availability ? '' : 'disabled '}
+                            class="px-2 py-1 font-semibold leading-tight text-white bg-${availabilityClass}-500 rounded-full">
+                            ${buttonLabel}
+                        </button>
+                    </a>
+                </span>
+            </div>
+        </div>
+        <div class="font-semibold text-lg ">
+            ${supervisor.user.first_name + ' ' + supervisor.user.last_name}
+        </div>
+        <div class="text-gray-700 text-sm mb-1">${supervisor.designation}</div>
+        <div class="text-gray-700 text-sm mb-1">${supervisor.user.email}</div>
+        <div class="text-gray-700 text-sm mb-2">${supervisor.user.phone_number}</div>
+        <div class="mb-2 text-sm text-semibold">${ domainName }</div>
+    </div>`;
                             });
 
-                            supervisorTableBody.html(html);
+                            supervisorCardContainer.html(html);
                         } else {
-                            supervisorTableBody.html(
-                                '<tr><td colspan="6" class="px-4 py-3 text-center">No supervisors found.</td></tr>'
+                            supervisorCardContainer.html(
+                                '<div class="text-center text-gray-700 dark:text-gray-400 py-8">No supervisors found.</div>'
                             );
                         }
                     },
 
-
                     error: function() {
-                        supervisorTableBody.html(
-                            '<tr><td colspan="7" class="px-4 py-3 text-center">Error loading data.</td></tr>'
+                        supervisorCardContainer.html(
+                            '<div class="text-center text-gray-700 dark:text-gray-400 py-8">Error loading data.</div>'
                         );
                     }
                 });
             });
         });
     </script>
+
 
 </x-frontend.student.layouts.master>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\GroupMember;
+use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
 use App\Models\ProposalFeedback;
@@ -181,4 +182,12 @@ class SupervisorController extends Controller
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
+
+     //Supervisor Notice
+     public function notice()
+     {
+        $id = Auth::guard('supervisor')->user()->id;
+        $projects = Project::where('supervisor_id', $id )->get();
+        return view('frontend.supervisor.notice.notice', compact('projects'));
+     }
 }

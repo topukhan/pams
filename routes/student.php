@@ -49,6 +49,8 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
     Route::get('/student/profile/edit', [StudentProfileController::class, 'edit'])->name('student.profileEdit');
     Route::patch('/student/profile/update', [StudentProfileController::class, 'update'])->name('student.profileUpdate');
 
+    Route::get('/student/supervisorProfile', [StudentProfileController::class, 'supervisorProfile'])->name('student.supervisorProfile');
+
     // *
     Route::post('/student/logout', [StudentLoginController::class, 'logout'])->name('student.logout');
 

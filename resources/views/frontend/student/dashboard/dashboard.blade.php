@@ -29,7 +29,7 @@
                 <div class="flex items-center">
                     <div class="w-6 h-6 mr-4 bg-red-500 rounded-lg flex-shrink-0"></div>
                     <div class="flex-1">
-                        {{strtoupper('Add Project Type in Your Profile')}}
+                        {{ strtoupper('Add Project Type in Your Profile') }}
                     </div>
                     <button type="button"
                         class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
@@ -45,7 +45,7 @@
             </div>
         @endif
 
-        
+
         <div class=" grid gap-10 md:grid-cols-2 xl:grid-cols-3">
 
             <!-- Cards -->
@@ -201,11 +201,123 @@
         </div>
     </div>
 
-    <script>
-        function dismissAlert() {
-            var alert = document.getElementById('alert');
-            alert.style.display = 'none';
-        }
-    </script>
+
+
+    <div class="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
+        <!-- Project Overview Card -->
+        <div class="p-4 bg-white rounded-lg shadow transition duration-200 ease-in-out dark:bg-gray-800">
+            <div class="p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
+                <i class="bx bxs-info-circle text-2xl"></i>
+            </div>
+            <div>
+                <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    Project Overview
+                </p>
+                <!-- Display project details, deadlines, and progress -->
+                <!-- You can replace this with actual dynamic data -->
+                <div class="text-md font-semibold text-gray-700 dark:text-gray-200">
+                    Project Title: Sample Project
+                    <br>
+                    Deadline: August 31, 2023
+                    <br>
+                    Progress: 50%
+                </div>
+            </div>
+        </div>
+    
+        <!-- Task List Card -->
+        <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 transition duration-200 ease-in-out">
+            <div class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
+                <i class="bx bxs-task text-2xl"></i>
+            </div>
+            <div>
+                <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    Task List
+                </p>
+                <!-- Display list of tasks with checkboxes -->
+                <ul class="text-md text-gray-700 dark:text-gray-200">
+                    <li><input type="checkbox"> Task 1</li>
+                    <li><input type="checkbox"> Task 2</li>
+                    <li><input type="checkbox"> Task 3</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Communication Hub Card (Chat) -->
+        <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 transition duration-200 ease-in-out">
+            <div class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-purple-500 bg-purple-100 rounded-full dark:text-purple-100 dark:bg-purple-500">
+                <i class="bx bxs-chat text-2xl"></i>
+            </div>
+            <div>
+                <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    Communication Hub (Chat)
+                </p>
+                <!-- Add a chat interface for project communication -->
+                <a href="#" class="px-4 py-1 bg-purple-300 rounded hover:bg-purple-500 hover:text-white transition-all shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-purple-500">
+                    Open Chat
+                </a>
+            </div>
+        </div>
+        
+        <!-- Meetings and Calendar Card -->
+        <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 transition duration-200 ease-in-out">
+            <div class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
+                <i class="bx bxs-calendar text-2xl"></i>
+            </div>
+            <div>
+                <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    Meetings and Calendar
+                </p>
+                <!-- Display upcoming meetings and events -->
+                <ul class="text-md text-gray-700 dark:text-gray-200">
+                    <li>Meeting with Supervisor - Aug 25, 2023</li>
+                    <li>Project Presentation - Sept 10, 2023</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Project Resources Card -->
+        <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 transition duration-200 ease-in-out">
+            <div class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
+                <i class="bx bxs-book-open text-2xl"></i>
+            </div>
+            <div>
+                <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    Project Resources
+                </p>
+                <!-- Display links to project-related resources -->
+                <ul class="text-md text-gray-700 dark:text-gray-200">
+                    <li><a href="#">Research Paper</a></li>
+                    <li><a href="#">Tutorial Videos</a></li>
+                    <li><a href="#">Coding Guidelines</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Project Journal/Blog Card -->
+        <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 transition duration-200 ease-in-out">
+            <div class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
+                <i class="bx bxs-journal text-2xl"></i>
+            </div>
+            <div>
+                <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
+                    Project Journal/Blog
+                </p>
+                <!-- Add a section for students to write and document their project journey -->
+                <a href="#" class="px-4 py-1 bg-blue-300 rounded hover:bg-blue-500 hover:text-white transition-all shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500">
+                    Write Journal
+                </a>
+            </div>
+        </div>
+    </div>
+
+    
+   
+        <script>
+            function dismissAlert() {
+                var alert = document.getElementById('alert');
+                alert.style.display = 'none';
+            }
+        </script>
 
 </x-frontend.student.layouts.master>

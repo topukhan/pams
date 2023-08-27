@@ -15,7 +15,6 @@
                 </li>
             </ol>
         </div>
-
         <div class="px-2 md:flex ">
             <div class=" px-4 md:w-1/4">
                 <label class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
@@ -51,10 +50,10 @@
         </div>
         {{-- table --}}
         <div class="px-2 py-2">
-            <div id="supervisorCardContainer" class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div id="supervisorCardContainer" class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3">
                 {{-- Supervisor Cards --}}
                 @foreach ($supervisors->sortByDesc('availability') as $supervisor)
-                    <div class="border rounded-lg shadow-lg p-4 bg-white dark:bg-gray-800">
+                    <div class=" rounded-lg shadow-md shadow-slate-500 p-4 bg-white dark:bg-gray-800">
                         <div class="justify-between flex mb-2">
                             <div>
                                 <img src="https://pyxis.nymag.com/v1/imgs/7be/898/c22698a83a66c5a268116b0f311af72592-22-rm-bts-2.rvertical.w330.jpg"
@@ -84,13 +83,13 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="font-semibold text-lg ">
+                        <div class="font-semibold  dark:text-gray-300 text-lg ">
                             {{ $supervisor->user->first_name . ' ' . $supervisor->user->last_name }}</div>
-                        <div class="text-gray-700 text-sm mb-1">{{ $supervisor->designation }}</div>
-                        <div class="text-gray-700 text-sm mb-1 ">{{ $supervisor->user->email }}</div>
-                        <div class="text-gray-700 text-sm mb-2 ">{{ $supervisor->user->phone_number }}
+                        <div class="text-gray-700  dark:text-gray-400 text-sm mb-1">{{ $supervisor->designation }}</div>
+                        <div class="text-gray-700  dark:text-gray-400 text-sm mb-1 ">{{ $supervisor->user->email }}</div>
+                        <div class="text-gray-700 dark:text-gray-400 text-sm mb-2 ">{{ $supervisor->user->phone_number }}
                         </div>
-                        <div class="mb-2 text-sm text-semibold">
+                        <div class="mb-2 text-sm  dark:text-gray-200  text-semibold">
                             @if (count($supervisor->user->domains) == 0)
                                 <span>N/A</span>
                             @else

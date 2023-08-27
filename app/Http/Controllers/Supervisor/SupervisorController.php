@@ -10,6 +10,7 @@ use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
 use App\Models\ProposalFeedback;
+use App\Models\Supervisor;
 use App\Models\User;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -103,8 +104,8 @@ class SupervisorController extends Controller
     {
         $id = Auth::guard('supervisor')->user()->id;
         $proposals = ProjectProposal::where('supervisor_id', $id)
-        ->Where('supervisor_feedback', 'pending')
-        ->get();
+            ->Where('supervisor_feedback', 'pending')
+            ->get();
         return view('frontend.supervisor.proposal.proposalList', compact('proposals'));
     }
 
@@ -183,11 +184,34 @@ class SupervisorController extends Controller
         }
     }
 
-     //Supervisor Notice
-     public function notice()
-     {
-        $id = Auth::guard('supervisor')->user()->id;
-        $projects = Project::where('supervisor_id', $id )->get();
-        return view('frontend.supervisor.notice.notice', compact('projects'));
-     }
+   ////////////////////////////////////////////////////////////////////
+
+    //Supervisor Evaluation
+    public function evaluateGroups()
+    {
+        $id = auth()->guard('supervisor')->user()->id;
+        $projects = Project::where('supervisor_id', $id)->get();
+        return view('frontend.supervisor.evaluate.groups',  compact('projects'));
+    }
+    //Supervisor Evaluation
+    public function evaluation(Request $request)
+    {
+        $project = Project::find($request->project_id);
+        // $groupMembers = GroupMember::where('group_id', $project->group_id)
+        // ->with('user') // Load the associated user information
+        // ->get();
+       
+        $supervisor = Supervisor::find($project->supervisor_id);
+        $group = Group::find($request->group_id);
+        $proposal = ProjectProposal::find($request->proposal_id);
+        $supervisor = User::find($project->supervisor_id);
+        // dd($supervisor);
+
+        if ($group) {
+            $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
+            $members = User::whereIn('id', $memberIds)->get();
+        }
+
+        return view('frontend.supervisor.evaluate.evaluation', compact('group', 'project', 'members', 'supervisor'));
+    }
 }

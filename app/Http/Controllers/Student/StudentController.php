@@ -334,4 +334,6 @@ class StudentController extends Controller
             ->doesntExist();
         return view('frontend.student.request.requestToCoordinator', compact('group_id', 'can_request'));
     }
+
+    
 }

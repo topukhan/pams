@@ -38,5 +38,5 @@ Route::middleware(['AdminAuth'])->group(function () {
     //Add domain
     Route::resource('admin/projectTypes', ProjectTypeController::class);
     Route::resource('admin/designations', DesignationController::class);
+    Route::resource('admin/domains', DomainController::class);
 });
-Route::resource('admin/domains', DomainController::class);

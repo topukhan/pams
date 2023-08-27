@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\Student\GroupController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\StudentLoginController;
 use App\Http\Controllers\Student\StudentProfileController;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\TestStatus\Notice;
 
 Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
     // Routes for authenticated Student users
@@ -48,9 +50,11 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
     Route::get('/student/profile/edit', [StudentProfileController::class, 'edit'])->name('student.profileEdit');
     Route::patch('/student/profile/update', [StudentProfileController::class, 'update'])->name('student.profileUpdate');
-
+/////////////////////////////
     Route::get('/student/supervisorProfile', [StudentProfileController::class, 'supervisorProfile'])->name('student.supervisorProfile');
 
+    Route::get('/student/notice', [NoticeController::class, 'notice'])->name('student.notice');
+////////////////////////////////////////////////
     // *
     Route::post('/student/logout', [StudentLoginController::class, 'logout'])->name('student.logout');
 

@@ -13,7 +13,7 @@
 
             <x-frontend.supervisor.layouts.partials.navbar />
 
-            <main class="h-full overflow-y-auto">
+            <main class="h-full overflow-y-auto ">
                 {{ $slot }}
             </main>
         </div>

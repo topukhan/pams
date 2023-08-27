@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CoordinatorController;
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\Supervisor\SupervisorLoginController;
 use App\Http\Controllers\Supervisor\SupervisorController;
 use App\Http\Controllers\Supervisor\SupervisorProfileController;
@@ -25,8 +26,13 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     Route::get('/supervisor/proposalDetails/{group_id}/{proposal_id}', [SupervisorController::class, 'proposalDetails'])->name('supervisor.proposalDetails');
     Route::get('/supervisor/proposalSuggest/{group_id}/{proposal_id}', [SupervisorController::class, 'proposalSuggest'])->name('supervisor.proposalSuggest');
     Route::post('/supervisor/proposalResponse', [SupervisorController::class, 'proposalResponse'])->name('supervisor.proposalResponse');
-
-    Route::get('/supervisor/notice', [SupervisorController::class, 'notice'])->name('supervisor.notice');
+/////////////////////////////////////////////
+    Route::get('/supervisor/notice', [NoticeController::class, 'create'])->name('supervisor.noticeCreate');
+    Route::post('/supervisor/noticeStore', [NoticeController::class, 'store'])->name('supervisor.noticeStore');
+    Route::get('/supervisor/evaluateGroups', [SupervisorController::class, 'evaluateGroups'])->name('supervisor.evaluateGroups');
+    
+///////////////////////////////////////
+    Route::get('/supervisor/evaluation', [SupervisorController::class, 'evaluation'])->name('supervisor.evaluation');
 
     Route::get('/supervisor/profile', [SupervisorProfileController::class, 'index'])->name('supervisor.profile');
     Route::get('/supervisor/profile/edit', [SupervisorProfileController::class, 'edit'])->name('supervisor.profileEdit');

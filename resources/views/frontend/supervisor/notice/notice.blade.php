@@ -40,7 +40,8 @@
                 </div>
             @endif
             <div class="max-w-3xl mx-auto  p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{route('supervisor.noticeStore')}}" method="POST" enctype="multipart/form-data">
+                    
                     @csrf
                     <div class="mb-3">
                         <label for="title" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
@@ -51,7 +52,7 @@
                                 class="block appearance-none w-full bg-white dark:bg-gray-700 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:bg-white focus:border-blue-500">
                                 <option value="Default" disabled selected>select</option>
                                 @foreach ($projects as $project)
-                                    <option>{{ $project->title }}</option>
+                                    <option value="{{ $project->group_id }}">{{ $project->title }}</option>
                                 @endforeach
                             </select>
                             <div

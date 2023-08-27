@@ -53,6 +53,12 @@
                         </li>
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="{{ route('supervisor.evaluateGroups') }}">
+                                Evaluate
+                            </a>
+                        </li>
+                        <li
+                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                             <a class="w-full" href="{{ route('supervisor.approvedGroups') }}">
                                 Approved Groups
                             </a>
@@ -65,7 +71,7 @@
             {{-- Notice Task --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="{{ route('supervisor.notice') }}">
+                    href="{{ route('supervisor.noticeCreate') }}">
                     <i class='bx bx-task text-2xl'></i>
                     <span class="ml-4">Post Notice</span>
                 </a>
@@ -78,6 +84,14 @@
                     <span class="ml-4">Assign Task</span>
                 </a>
             </li>
+              {{-- Evaluation --}}
+             {{-- <li class="relative px-6 py-3">
+                <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    href="">
+                    <i class='bx bx-task text-2xl'></i>
+                    <span class="ml-4">Evaluation</span>
+                </a>
+            </li> --}} 
 
 
             {{-- Follow ups --}}
@@ -206,7 +220,7 @@
             {{-- Notice Task --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="{{ route('supervisor.notice') }}">
+                    href="{{ route('supervisor.noticeCreate') }}">
                     <i class='bx bx-task text-2xl'></i>
                     <span class="ml-4">Post Notice</span>
                 </a>

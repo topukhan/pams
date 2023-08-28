@@ -88,9 +88,8 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
-                <div class=" flex justify-end d-none" style="display: {{$can_propose ? 'none' : 'block'}}">
+                <div class=" flex justify-end" style="display: {{$can_propose ? 'none' : 'block'}}">
                     <form action="{{ route('student.requestToCoordinatorForm') }}" method="post">
                         @csrf
                         <input type="hidden" name="group_id" value="{{ $group->id }}">

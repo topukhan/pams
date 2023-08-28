@@ -14,6 +14,9 @@
                 </li>
             </ol>
         </div>
+        @if (session('error'))
+            {{session('error')}}
+        @endif
         @if ($proposalSubmitted)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
                 Proposal already submitted for your group!

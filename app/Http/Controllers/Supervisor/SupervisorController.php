@@ -12,6 +12,7 @@ use App\Models\ProjectProposalApprovalRequest;
 use App\Models\ProposalFeedback;
 use App\Models\Supervisor;
 use App\Models\User;
+use App\Notifications\ProjectProposalNotification;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -138,6 +139,9 @@ class SupervisorController extends Controller
             if ($proposal) {
                 if ($response == 'approved') {
                     $proposal->update(['supervisor_feedback' => 'accepted']);
+                    $coordinator = User::where('role', 'coordinator')->first();
+                    //notify coordinator
+                    $coordinator->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
                     return redirect()->route('supervisor.proposalList')->withMessage('Proposal Accepted & sent to coordinator for approval');
                 } elseif ($response == 'denied') {
                     try {

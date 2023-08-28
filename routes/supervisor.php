@@ -3,6 +3,7 @@
 use App\Http\Controllers\CitationController;
 use App\Http\Controllers\CoordinatorController;
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Supervisor\SupervisorLoginController;
 use App\Http\Controllers\Supervisor\SupervisorController;
 use App\Http\Controllers\Supervisor\SupervisorProfileController;
@@ -40,6 +41,8 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     Route::get('/supervisor/profile', [SupervisorProfileController::class, 'index'])->name('supervisor.profile');
     Route::get('/supervisor/profile/edit', [SupervisorProfileController::class, 'edit'])->name('supervisor.profileEdit');
     Route::patch('/supervisor/profile/update', [SupervisorProfileController::class, 'update'])->name('supervisor.profileUpdate');
+    //Notifications
+    Route::get('/supervisor/notifications', [NotificationController::class, 'index'])->name('supervisor.notifications');
     // *
     Route::post('/supervisor/logout', [SupervisorLoginController::class, 'logout'])->name('supervisor.logout');
 

@@ -28,10 +28,13 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
 
     Route::get('/coordinator/proposalList', [CoordinatorRequestController::class, 'proposalList'])->name('coordinator.proposalList');
 
-    Route::get('/coordinator/proposalDetails', [CoordinatorRequestController::class, 'proposalDetails'])->name('coordinator.proposalDetails');
+    Route::get('/coordinator/proposalDetails/{group_id}/{proposal_id}', [CoordinatorRequestController::class, 'proposalDetails'])->name('coordinator.proposalDetails');
 
     Route::get('/coordinator/projectApproval/{request_id}', [CoordinatorRequestController::class, 'projectApproval'])->name('coordinator.projectApproval');
     Route::post('/coordinator/projectApprove/{proposal}', [CoordinatorRequestController::class, 'projectApprove'])->name('coordinator.projectApprove');
-
+    //notify 
+    Route::get('/coordinator/notifications', function () {
+        return view('frontend.coordinator.notification');
+    })->name('coordinator.notifications');
 
 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CitationController;
 use App\Http\Controllers\CoordinatorController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\Supervisor\SupervisorLoginController;
@@ -30,9 +31,11 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     Route::get('/supervisor/notice', [NoticeController::class, 'create'])->name('supervisor.noticeCreate');
     Route::post('/supervisor/noticeStore', [NoticeController::class, 'store'])->name('supervisor.noticeStore');
     Route::get('/supervisor/evaluateGroups', [SupervisorController::class, 'evaluateGroups'])->name('supervisor.evaluateGroups');
+    Route::get('/supervisor/evaluation', [SupervisorController::class, 'evaluation'])->name('supervisor.evaluation');
+    Route::get('/supervisor/citationCreate', [CitationController::class, 'create'])->name('supervisor.citationCreate');
+    Route::post('/supervisor/citationStore', [CitationController::class, 'store'])->name('supervisor.citationStore');
     
 ///////////////////////////////////////
-    Route::get('/supervisor/evaluation', [SupervisorController::class, 'evaluation'])->name('supervisor.evaluation');
 
     Route::get('/supervisor/profile', [SupervisorProfileController::class, 'index'])->name('supervisor.profile');
     Route::get('/supervisor/profile/edit', [SupervisorProfileController::class, 'edit'])->name('supervisor.profileEdit');

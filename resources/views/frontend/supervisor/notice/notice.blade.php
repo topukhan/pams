@@ -5,7 +5,7 @@
         </h2>
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -73,7 +73,7 @@
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
                     </div>
                     <div class="mb-4">
-                        <input type="file" id="files" name="files[]" multiple class="hidden">
+                        <input type="file" id="file" name="file[]" multiple="multiple" class="hidden">
                         <button type="button" id="chooseFilesBtn"
                             class=" mb-2 flex items-center px-3 py-1 rounded-md border dark:border-gray-600 dark:text-gray-200 bg-gray-500 hover:bg-gray-600 text-white focus:outline-none focus:ring focus:border-blue-600">
                             <i class='bx bx-cloud-upload text-2xl mr-2'></i>
@@ -93,7 +93,7 @@
     </div>
     <script>
         const fileListContainer = document.getElementById('fileList');
-        const filesInput = document.getElementById('files');
+        const filesInput = document.getElementById('file');
         const chooseFilesBtn = document.getElementById('chooseFilesBtn');
         const addedFiles = new Set();
 

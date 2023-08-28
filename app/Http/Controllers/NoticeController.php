@@ -52,9 +52,8 @@ class NoticeController extends Controller
              return redirect()->back()->with('error', 'Error creating notice: ' . $e->getMessage());
          }
      }
-     
-     
-    
+
+
      // notice
      public function notice()
      {

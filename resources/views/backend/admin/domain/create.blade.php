@@ -1,12 +1,10 @@
 <x-backend.layouts.master>
-
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Add New Domain </h2>
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="{{ route('admin.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -17,7 +15,6 @@
                 </li>
             </ol>
         </div>
-
         {{-- form --}}
         <div class="px-2 py-2">
             @if (session('message'))

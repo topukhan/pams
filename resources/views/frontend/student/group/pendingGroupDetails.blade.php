@@ -6,7 +6,7 @@
 
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="#" class="hover:text-gray-900">Dashboard</a>
                 </li>

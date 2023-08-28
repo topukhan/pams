@@ -1,12 +1,10 @@
 <x-frontend.coordinator.layouts.master>
-
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
         </h2>
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="{{ route('coordinator.dashboard')}}" class="hover:text-gray-300">Dashboard</a>
                 </li>
@@ -19,8 +17,6 @@
                 </li>
             </ol>
         </div>
-
-
         {{-- table --}}
         <div class="px-2 py-2">
             <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">

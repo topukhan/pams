@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Citation;
 use App\Models\Domain;
 use App\Models\ProjectType;
 use App\Models\Student;
@@ -67,6 +68,9 @@ class StudentProfileController extends Controller
         $supervisor_id = $request->id;
         $user = User::with('supervisor')->find($supervisor_id);
         $domains = Domain::all();
-        return view('frontend.student.profile.supervisorProfile', compact('user', 'domains'));
+        $citations = Citation::where('user_id', $user->id)->get();
+        return view('frontend.student.profile.supervisorProfile', compact('user', 'domains', 'citations'));
     }
+
+
 }

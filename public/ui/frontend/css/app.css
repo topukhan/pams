@@ -1176,6 +1176,9 @@ select {
 .cursor-pointer {
   cursor: pointer;
 }
+.list-disc {
+  list-style-type: disc;
+}
 .appearance-none {
   -webkit-appearance: none;
      -moz-appearance: none;
@@ -1421,6 +1424,10 @@ select {
 .bg-blue-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(147 197 253 / var(--tw-bg-opacity));
+}
+.bg-blue-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
 }
 .bg-blue-500 {
   --tw-bg-opacity: 1;
@@ -1688,6 +1695,9 @@ select {
 .pl-5 {
   padding-left: 1.25rem;
 }
+.pl-6 {
+  padding-left: 1.5rem;
+}
 .pl-8 {
   padding-left: 2rem;
 }
@@ -1877,6 +1887,10 @@ select {
 .text-purple-900 {
   --tw-text-opacity: 1;
   color: rgb(88 28 135 / var(--tw-text-opacity));
+}
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 .text-red-600 {
   --tw-text-opacity: 1;
@@ -2281,6 +2295,10 @@ select {
   --tw-border-opacity: 1;
   border-color: rgb(192 132 252 / var(--tw-border-opacity));
 }
+.focus\:bg-blue-500:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
 .focus\:bg-blue-600:focus {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
@@ -2458,10 +2476,6 @@ select {
 :is(.dark .dark\:bg-green-700) {
   --tw-bg-opacity: 1;
   background-color: rgb(21 128 61 / var(--tw-bg-opacity));
-}
-:is(.dark .dark\:bg-lime-500) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(132 204 22 / var(--tw-bg-opacity));
 }
 :is(.dark .dark\:bg-orange-500) {
   --tw-bg-opacity: 1;

@@ -5,7 +5,7 @@
         </h2>
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -18,7 +18,7 @@
         </div>
         {{-- Info --}}
         <div class="px-2 py-2 mb-2">
-            <div class="container mx-auto p-4 bg-white shadow-md rounded-lg dark:bg-gray-800 dark:text-gray-400">
+            <div class="container overflow-hidden mx-auto p-4 bg-white shadow-md rounded-lg dark:bg-gray-800 dark:text-gray-400">
                 <div class="grid grid-cols-3">
                     <div class="grid col-span-1 justify-center items-center ">
                         <div class="mb-2 ">
@@ -73,18 +73,17 @@
                     </div>
                 </div>
             </div>
-            <div class="container mx-auto p-4 mt-2 bg-white shadow-md rounded-lg  dark:text-gray-300 dark:bg-gray-800 ">
+            <div class="container overflow-hidden mx-auto p-4 mt-2 bg-white shadow-md rounded-lg  dark:text-gray-300 dark:bg-gray-800 ">
                 <h1 class="text-2xl font-semibold mb-4">Publications/Research</h1>
                 <div class="border-t border-gray-300 px-3 pt-6 space-y-8">
-                    <p class="font-semibold">Nasir Muhammad Munim, Tahmina Tabassum Treena, Mohammad Rakibul Islam and Mirza Muntasir Nishat, “Design and analysis of an ultra-high sensitive and tunable metal-insulator-metal waveguide-coupled octagonal ring resonator utilizing gold nanorods”, Sensing and Bio-Sensing Research, Volume 38, December 2022, 100529. [Scopus Q1 journal]</p> 
+                    @foreach($citations as $citation)
+                    <p class="font-semibold">{{ $citation->citation }}</p>
                     <hr class="my-4 border-gray-300">
-                    <p class="font-semibold">Mohammad Rakibul Islam, Md Moinul Islam Khan, Fariha Mehjabin, Jubair Alam Chowdhury, Mohibul Islam, Ahmad Jarif Yeasir, Jannat Ara Mim, Tajuddin Ahmed Nahid, “Design of a dual spider-shaped surface plasmon resonance-based refractometric sensor with high amplitude sensitivity”, IET Optoelectronics, 15 November 2022. https://doi.org/10.1049/ote2.12084. [SCIE indexed, JCR Impact Factor: 1.691]</p>
-                    <hr class="my-4 border-gray-300">
-                    <p class="font-semibold">Mohammad Rakibul Islam, Md Moinul Islam Khan, Fariha Mehjabin, Jubair Alam Chowdhury, Mohibul Islam, Ahmad Jarif Yeasir, Jannat Ara Mim, Tajuddin Ahmed Nahid, “Design of a dual spider-shaped surface plasmon resonance-based refractometric sensor with high amplitude sensitivity”, IET Optoelectronics, 15 November 2022. https://doi.org/10.1049/ote2.12084. [SCIE indexed, JCR Impact Factor: 1.691]</p>
+                    @endforeach
                 </div>
             </div>
 
         </div>
     </div>
-    </div>
+ 
 </x-frontend.student.layouts.master>

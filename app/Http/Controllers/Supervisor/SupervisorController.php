@@ -139,8 +139,14 @@ class SupervisorController extends Controller
             if ($proposal) {
                 if ($response == 'approved') {
                     $proposal->update(['supervisor_feedback' => 'accepted']);
-                    $coordinator = User::where('role', 'coordinator')->first();
+                     // for student notify
+                     $members = GroupMember::where('group_id', $proposal->group_id)->get();
+                     $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                     foreach ($students as $student) {
+                         $student->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
+                     } 
                     //notify coordinator
+                    $coordinator = User::where('role', 'coordinator')->first();
                     $coordinator->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
                     return redirect()->route('supervisor.proposalList')->withMessage('Proposal Accepted & sent to coordinator for approval');
                 } elseif ($response == 'denied') {

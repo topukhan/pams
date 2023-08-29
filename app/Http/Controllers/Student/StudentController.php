@@ -89,7 +89,6 @@ class StudentController extends Controller
         }
         $supervisors = Supervisor::where('availability', true)->get();
 
-        // dd($supervisors);
         $domains = Domain::all();
         return view('frontend.student.proposal.proposalForm', compact('supervisors', 'in_project', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'proposalSubmitted'));
     }
@@ -98,7 +97,6 @@ class StudentController extends Controller
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
-
         $request->validate([
             'title' => 'required',
             'course' => 'required',
@@ -116,18 +114,28 @@ class StudentController extends Controller
                 'supervisor_id' => $request->supervisor_id,
                 'domain' => $request->domain,
                 'project_type' => $request->project_type,
-                'description' => $request->description
+                'description' => $request->description,
+                'created_by' => Auth::guard('student')->user()->id
             ]);
             $existing_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
             if ($existing_feedback) {
                 $existing_feedback->delete();
             }
             DB::commit();
+
+            //notify supervisor
             $supervisor = User::where('id', $request->supervisor_id)->first();
-            //notify 
-            // dd('after commit');
             $supervisor->notify(new ProjectProposalNotification($request->group_id, $proposal));
-            dd('stop');
+
+            //notify students(group member)
+            $members = GroupMember::where('group_id', $proposal->group_id)->get();
+            $students = User::whereIn('id', $members->pluck('user_id'))
+                ->where('id', '<>', $proposal->created_by) // Exclude the proposal creator
+                ->get();
+
+            foreach ($students as $student) {
+                $student->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
+            }
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
         } catch (\Throwable $th) {
             DB::rollback();

@@ -2,37 +2,24 @@
 
 namespace App\Notifications;
 
-use App\Models\ProjectProposal;
-use App\Models\User;
+use App\Models\Project;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ProjectProposalNotification extends Notification
+class ProjectApprovalNotification extends Notification
 {
     use Queueable;
-    protected $group_id;
-    protected $proposal_id;
-    protected $proposal;
-    protected $supervisor_name;
-    protected $proposed_by;
+    protected $project;
+    protected $title;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($group_id, ProjectProposal $proposal)
+    public function __construct(Project $project)
     {
-        
-        $this->group_id = $group_id;
-        $this->proposal_id = $proposal->id;
-        $this->proposal = $proposal;
-        $supervisor = User::where('id', $proposal->supervisor_id)->first();
-        $this->supervisor_name = $supervisor->first_name. ' '. $supervisor->last_name;
-        $student = User::where('id', $proposal->created_by)->first();
-        $this->proposed_by = $student->first_name. ' '. $student->last_name;
-
-        
+        $this->project = $project;
     }
 
     /**
@@ -64,12 +51,7 @@ class ProjectProposalNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'group_id' => $this->group_id,
-            'proposal_id' => $this->proposal_id,
-            'title' => $this->proposal->title,
-            'supervisor_name' => $this->supervisor_name,
-            'proposed_by' =>  $this->proposed_by,
-
+            'title' => $this->project->title,
         ];
     }
 }

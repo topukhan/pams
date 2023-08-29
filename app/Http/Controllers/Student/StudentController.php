@@ -158,7 +158,6 @@ class StudentController extends Controller
             $proposal_feedback = ProposalFeedback::where('group_id', $group_id)->first();
             $supervisor = User::where('id', $proposal->supervisor_id)->first();
         }
-
         return view('frontend.student.proposal.proposalStatus', compact('proposal', 'in_project', 'is_denied', 'proposal_feedback', 'supervisor'));
     }
 

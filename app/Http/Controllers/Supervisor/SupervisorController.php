@@ -13,6 +13,7 @@ use App\Models\ProposalFeedback;
 use App\Models\Supervisor;
 use App\Models\User;
 use App\Notifications\ProjectProposalNotification;
+use App\Notifications\ProposalFeedbackNotification;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -139,12 +140,12 @@ class SupervisorController extends Controller
             if ($proposal) {
                 if ($response == 'approved') {
                     $proposal->update(['supervisor_feedback' => 'accepted']);
-                     // for student notify
-                     $members = GroupMember::where('group_id', $proposal->group_id)->get();
-                     $students = User::whereIn('id', $members->pluck('user_id'))->get();
-                     foreach ($students as $student) {
-                         $student->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
-                     } 
+                    // for student notify
+                    $members = GroupMember::where('group_id', $proposal->group_id)->get();
+                    $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                    foreach ($students as $student) {
+                        $student->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
+                    }
                     //notify coordinator
                     $coordinator = User::where('role', 'coordinator')->first();
                     $coordinator->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
@@ -155,12 +156,20 @@ class SupervisorController extends Controller
                         ProposalFeedback::create([
                             'group_id' => $proposal->group_id,
                             'is_denied' => true,
+                            'denied_by' => auth()->guard('supervisor')->user()->id,
+
                         ]);
                         $proposal->update(['supervisor_feedback' => 'rejected']);
                         $proposal_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
                         $proposal_feedback->update(['is_denied' => true]);
                         $proposal->delete();
                         DB::commit();
+                         // for student notify
+                         $members = GroupMember::where('group_id', $proposal_feedback->group_id)->get();
+                         $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                         foreach ($students as $student) {
+                             $student->notify(new ProposalFeedbackNotification($proposal_feedback));
+                         }
                         return redirect()->route('supervisor.proposalList')->withDenied('You denied the project proposal');
                     } catch (\Throwable $th) {
                         DB::rollBack();
@@ -172,8 +181,6 @@ class SupervisorController extends Controller
                     ]);
                     try {
                         DB::beginTransaction();
-                        // $proposal_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
-                        // dd($proposal_feedback);
                         ProposalFeedback::create([
                             'group_id' => $request->group_id,
                             'suggestion' => $request->suggest
@@ -181,6 +188,12 @@ class SupervisorController extends Controller
 
                         $proposal->update(['supervisor_feedback' => 'suggestion']);
                         DB::commit();
+                        // for student notify
+                        $members = GroupMember::where('group_id', $proposal->group_id)->get();
+                        $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                        foreach ($students as $student) {
+                            $student->notify(new ProjectProposalNotification($proposal->group_id, $proposal));
+                        }
                         return redirect()->route('supervisor.proposalList')->withMessage('Suggestion Made Successfully');
                     } catch (Throwable $th) {
                         DB::rollback();
@@ -194,7 +207,7 @@ class SupervisorController extends Controller
         }
     }
 
-   ////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////
 
     //Supervisor Evaluation
     public function evaluateGroups()
@@ -210,7 +223,7 @@ class SupervisorController extends Controller
         // $groupMembers = GroupMember::where('group_id', $project->group_id)
         // ->with('user') // Load the associated user information
         // ->get();
-       
+
         $supervisor = Supervisor::find($project->supervisor_id);
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);

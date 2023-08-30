@@ -37,7 +37,6 @@ class CoordinatorRequestController extends Controller
     public function formedGroupsLists(RequestToCoordinator $request)
     {
         //here $request is request from student to coordinator
-        // dd($request->group_id);
         $requestedGroupId = $request->group_id;
         $id = $request->user_id;
         $request_id = $request->id;
@@ -168,7 +167,6 @@ class CoordinatorRequestController extends Controller
         $students = Student::whereNotIn('user_id', $groupsMembers)
             ->whereNotIn('user_id', $pendingGroupsMembers)
             ->get();
-        // dd($students);
 
         return view('frontend.coordinator.request.group.requestGroupMembersDetails', compact('group', 'groupMembers', 'request', 'students'));
     }
@@ -188,7 +186,6 @@ class CoordinatorRequestController extends Controller
             $group->update(['can_propose' => 1]);
 
             $request->delete();
-            // dd($group);
             DB::commit();
             return redirect()->route('coordinator.requests')->withMessage('Permission Given for Proposal');
         } catch (\Exception $e) {
@@ -235,7 +232,6 @@ class CoordinatorRequestController extends Controller
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
         $supervisor = User::find($proposal->supervisor_id);
-        // dd($supervisor);
 
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();

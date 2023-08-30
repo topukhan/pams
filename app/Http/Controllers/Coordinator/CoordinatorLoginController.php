@@ -34,7 +34,6 @@ class CoordinatorLoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::guard('coordinator')->attempt($credentials, $request->remember)) {
             
-            // dd('here');
             return redirect()->intended(route('coordinator.dashboard'));
         }
 
@@ -48,10 +47,7 @@ class CoordinatorLoginController extends Controller
     public function dashboard()
     {
         $user = Auth::guard('coordinator')->user();
-        // View::share('user', $user);
-        // dd($user);
         session()->put('coordinatorUser', $user);
-        // dd(session());
         return view('frontend.coordinator.dashboard');
     }
 

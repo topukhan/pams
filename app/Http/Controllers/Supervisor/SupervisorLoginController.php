@@ -48,10 +48,7 @@ class SupervisorLoginController extends Controller
     public function dashboard()
     {
         $user = Auth::guard('supervisor')->user();
-        // View::share('user', $user);
-        // dd($user);
         session()->put('supervisorUser', $user);
-        // dd(session());
         return view('frontend.supervisor.dashboard.dashboard');
     }
 

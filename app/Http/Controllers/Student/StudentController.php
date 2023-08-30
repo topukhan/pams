@@ -90,7 +90,6 @@ class StudentController extends Controller
         }
         $supervisors = Supervisor::where('availability', true)->get();
 
-        // dd($supervisors);
         $domains = Domain::all();
         return view('frontend.student.proposal.proposalForm', compact('supervisors', 'in_project', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'proposalSubmitted'));
     }
@@ -126,7 +125,6 @@ class StudentController extends Controller
             DB::commit();
             $supervisor = User::where('id', $request->supervisor_id)->first();
             //notify 
-            // dd('after commit');
             $supervisor->notify(new ProjectProposalNotification($request->group_id, $proposal));
             
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");

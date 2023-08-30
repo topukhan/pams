@@ -21,7 +21,6 @@ class AdminController extends Controller
     public function dashboard()
     {
         $user = Auth::guard('admin')->user();
-        // dd($user);
         // View::share('user', $user);
         session()->put('adminUser', $user);
         return view('backend.admin.dashboard');

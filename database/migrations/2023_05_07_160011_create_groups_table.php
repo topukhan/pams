@@ -14,14 +14,10 @@ return new class extends Migration
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->unsignedBigInteger('supervisor_id')->nullable();
-            $table->foreign('supervisor_id')->references('id')->on('supervisors')->onDelete('cascade');
-            $table->unsignedBigInteger('coordinator_id')->nullable();
-            $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('cascade');
             $table->string('domain');
             $table->unsignedBigInteger('project_id')->nullable();
             $table->string('project_type');
-            $table->string('leader');
+            $table->unsignedBigInteger('leader_id');
             $table->boolean('can_propose')->default(false)->nullable();
             $table->timestamps();
         });

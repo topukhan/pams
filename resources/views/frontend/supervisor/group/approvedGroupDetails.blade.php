@@ -22,6 +22,12 @@
                 </li>
             </ol>
         </div>
+        @if (session('message'))
+            {{session('message')}}
+        @endif
+        @if (session('error'))
+            {{session('error')}}
+        @endif
         <div class="flex md:w-full space-x-4">
             <div class="md:w-2/4">
                 <label class="ml-4 mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">Group Name:</label>
@@ -90,11 +96,12 @@
                                     <td class="px-4 py-3 font-semibold  text-sm ">
                                         {{ $groupMember->user->student->batch }}</td>
                                     <td class="px-4 py-3 font-semibold  text-sm ">
-                                        <button onclick="openModal('{{ $groupMember->user->email }}')"
-                                            class="bg-blue-400 px-3  text-white rounded-md py-1">
-                                            mail
-                                        </button>
+                                        
+                                        <a href="mailto:{{$groupMember->user->email}}" >
+                                            <i class='text-2xl text-blue-500 bx bxs-envelope'></i>
+                                        </a>
                                     </td>
+                                   
                                 </tr>
                             @endforeach
 
@@ -105,7 +112,13 @@
         </div>
     </div>
 
-    <div class="main-modal fixed w-full h-full inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-auto"
+
+
+    {{-- <button onclick="openModal('{{ $groupMember->user->email }}')"
+        class="bg-blue-400 px-3  text-white rounded-md py-1">
+        mail
+    </button> --}}
+    {{-- <div class="main-modal fixed w-full h-full inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-auto"
         style="background: rgba(0,0,0,.3);">
         <div class="border border-teal-500 shadow-lg modal-container bg-white w-11/12 md:max-w-md mx-auto rounded z-50">
             <div class="modal-content py-4 text-left px-6">
@@ -123,35 +136,38 @@
                     </div>
                 </div>
                 <!--Body-->
+                <form action="{{ route('sendEmail') }}" method='post'>
+                    @csrf
+                    <h2 class="text-lg font-semibold mb-4">Compose Email</h2>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">To:</label>
+                        <input id="recipientEmail" type="email"
+                            class=" text-gray-700 w-full rounded-lg border border-gray-300 px-3 py-2" placeholder="Recipient's email"
+                            value="" name="receiver" readonly>
+                    </div>
 
-                <h2 class="text-lg font-semibold mb-4">Compose Email</h2>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">To:</label>
-                    <input id="recipientEmail" type="email" class="w-full rounded-lg border border-gray-300 px-3 py-2"
-                        placeholder="Recipient's email" value="">
-                </div>
-                
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Subject:</label>
-                    <input type="text" class="w-full rounded-lg border border-gray-300 px-3 py-2"
-                        placeholder="Enter subject">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Message:</label>
-                    <textarea class="w-full rounded-lg border border-gray-300 px-3 py-2" rows="4" placeholder="Email message"></textarea>
-                </div>
-                <!--Footer-->
-                <div class="space-x-2 flex justify-end">
-                    <button id="closeModal"
-                        class=" focus:outline-none modal-close bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">Cancel</button>
-                    <button id="sendEmail"
-                        class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg">Send</button>
-                </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Subject:</label>
+                        <input type="text" class=" text-gray-700 w-full rounded-lg border border-gray-300 px-3 py-2"
+                            placeholder="Enter subject" name="subject">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Message:</label>
+                        <textarea class="text-gray-700 w-full rounded-lg border border-gray-300 px-3 py-2" rows="4" placeholder="Email message" name="message"></textarea>
+                    </div>
+                    <!--Footer-->
+                    <div class="space-x-2 flex justify-end">
+                        <button id="closeModal"
+                            class=" focus:outline-none modal-close bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" id="sendEmail"
+                            class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg">Send</button>
+                    </div>
+                </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <script>
+    {{-- <script>
         const modal = document.querySelector('.main-modal');
         const closeButton = document.querySelectorAll('.modal-close');
 
@@ -184,6 +200,6 @@
                 if (event.target == modal) modalClose();
             }
         }
-    </script>
+    </script> --}}
 
 </x-frontend.supervisor.layouts.master>

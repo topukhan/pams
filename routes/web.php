@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Coordinator\CoordinatorLoginController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Supervisor\SupervisorLoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\StudentLoginController;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 //Student login
 Route::get('/student/login', [StudentLoginController::class, 'showLoginForm'])->name('student.login');
@@ -38,6 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    
+});
+
+Route::middleware(['allow.all.authenticated:student,supervisor,coordinator'])->group(function () {
+    Route::post('/send-email', [EmailController::class, 'sendEmail'])->name('sendEmail');
 });
 
 

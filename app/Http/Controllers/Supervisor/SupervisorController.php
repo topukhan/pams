@@ -75,7 +75,6 @@ class SupervisorController extends Controller
     {
         $group = Group::find($group_id);
         // $members = $group->groupMembers;
-        // dd($members);
         return view('frontend.supervisor.group.approvedGroupDetails', compact('group'));
     }
 
@@ -135,7 +134,6 @@ class SupervisorController extends Controller
         $id = $request->proposal_id;
         $proposal = ProjectProposal::where('id', $id)->first();
         $response = $request->response;
-        // dd($proposal);
         try {
             if ($proposal) {
                 if ($response == 'approved') {
@@ -167,8 +165,6 @@ class SupervisorController extends Controller
                     ]);
                     try {
                         DB::beginTransaction();
-                        // $proposal_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
-                        // dd($proposal_feedback);
                         ProposalFeedback::create([
                             'group_id' => $request->group_id,
                             'suggestion' => $request->suggest
@@ -179,7 +175,6 @@ class SupervisorController extends Controller
                         return redirect()->route('supervisor.proposalList')->withMessage('Suggestion Made Successfully');
                     } catch (Throwable $th) {
                         DB::rollback();
-                        dd($th->getMessage());
                         return redirect()->back()->withInput()->with('errors', $th->getMessage());
                     }
                 }
@@ -202,15 +197,11 @@ class SupervisorController extends Controller
     public function evaluation(Request $request)
     {
         $project = Project::find($request->project_id);
-        // $groupMembers = GroupMember::where('group_id', $project->group_id)
-        // ->with('user') // Load the associated user information
-        // ->get();
-       
+
         $supervisor = Supervisor::find($project->supervisor_id);
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
         $supervisor = User::find($project->supervisor_id);
-        // dd($supervisor);
 
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();

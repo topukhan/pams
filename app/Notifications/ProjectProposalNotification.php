@@ -16,6 +16,9 @@ class ProjectProposalNotification extends Notification
     protected $proposal_id;
     protected $proposal;
     protected $supervisor_name;
+    protected $feedback;
+    protected $proposed_by;
+    
 
     /**
      * Create a new notification instance.
@@ -28,6 +31,10 @@ class ProjectProposalNotification extends Notification
         $this->proposal = $proposal;
         $supervisor = User::where('id', $proposal->supervisor_id)->first();
         $this->supervisor_name = $supervisor->first_name. ' '. $supervisor->last_name;
+        $this->feedback = $proposal->supervisor_feedback;
+        $student = User::where('id', $proposal->created_by)->first();
+        $this->proposed_by = $student->first_name. ' '. $student->last_name;
+
         
     }
 
@@ -63,7 +70,10 @@ class ProjectProposalNotification extends Notification
             'group_id' => $this->group_id,
             'proposal_id' => $this->proposal_id,
             'title' => $this->proposal->title,
-            'supervisor_name' => $this->supervisor_name
+            'supervisor_name' => $this->supervisor_name,
+            'feedback' => $this->feedback,
+            'proposed_by' =>  $this->proposed_by,
+
         ];
     }
 }

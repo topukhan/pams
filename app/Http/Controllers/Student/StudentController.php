@@ -98,7 +98,6 @@ class StudentController extends Controller
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
-
         $request->validate([
             'title' => 'required',
             'course' => 'required',
@@ -116,17 +115,19 @@ class StudentController extends Controller
                 'supervisor_id' => $request->supervisor_id,
                 'domain' => $request->domain,
                 'project_type' => $request->project_type,
-                'description' => $request->description
+                'description' => $request->description,
+                'created_by' => Auth::guard('student')->user()->id
             ]);
             $existing_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
             if ($existing_feedback) {
                 $existing_feedback->delete();
             }
             DB::commit();
+
+            //notify supervisor
             $supervisor = User::where('id', $request->supervisor_id)->first();
-            //notify 
+
             $supervisor->notify(new ProjectProposalNotification($request->group_id, $proposal));
-            
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
         } catch (\Throwable $th) {
             DB::rollback();
@@ -149,7 +150,6 @@ class StudentController extends Controller
             $proposal_feedback = ProposalFeedback::where('group_id', $group_id)->first();
             $supervisor = User::where('id', $proposal->supervisor_id)->first();
         }
-
         return view('frontend.student.proposal.proposalStatus', compact('proposal', 'in_project', 'is_denied', 'proposal_feedback', 'supervisor'));
     }
 

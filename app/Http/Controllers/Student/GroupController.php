@@ -10,6 +10,7 @@ use App\Models\GroupMember;
 use App\Models\PendingGroup;
 use App\Models\Student;
 use App\Models\User;
+use App\Notifications\GroupCreateNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -70,7 +71,7 @@ class GroupController extends Controller
                 } else {
                     $status = 0;
                 }
-                GroupInvitation::create([
+                $invitation = GroupInvitation::create([
                     'group_id' => $pending_group->id,
                     'user_id' => $member,
                     'status' => $status,
@@ -78,7 +79,15 @@ class GroupController extends Controller
             }
 
             DB::commit();
+            //notify students(invited members)
+            $members = GroupInvitation::where('group_id', $invitation->group_id)->get();
+            $students = User::whereIn('id', $members->pluck('user_id'))
+                ->where('id', '<>', $pending_group->created_by) // Exclude the proposal creator
+                ->get();
 
+            foreach ($students as $student) {
+                $student->notify(new GroupCreateNotification($pending_group, $invitation));
+            }
             // Redirect to success page or show success message
             return redirect()->route('student.dashboard')->withMessage('Group Request Sent to selected Members!');
         } catch (QueryException $e) {
@@ -120,7 +129,6 @@ class GroupController extends Controller
             $invitation->update([
                 'status' => $request->response,
             ]);
-
             $isPositive = $request->response == 1 ? 1 : 0;
             $pending_group = PendingGroup::where('id', $request->pending_group_id)->first();
 
@@ -130,11 +138,13 @@ class GroupController extends Controller
             $pending_group->member_feedback = $pending_group->member_feedback + 1;
             $pending_group->update();
 
+            //notify student
+            $member = User::where('id', $pending_group->created_by)->first();
+            $member->notify(new GroupCreateNotification($pending_group, $invitation));
             // Call the method to check and transfer pending groups
             $this->transferPendingGroups();
             //for delete if all rejected
             $this->deletePendingGroups();
-
             DB::commit();
         } catch (QueryException $e) {
             DB::rollBack();

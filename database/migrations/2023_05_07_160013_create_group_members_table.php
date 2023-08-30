@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->string('email')->nullable();
             $table->string('name')->nullable();
-            $table->string('user_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('batch')->nullable();
             $table->timestamps();
         });

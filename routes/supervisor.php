@@ -18,7 +18,7 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     //approve
     Route::get('/supervisor/approveGroup', [SupervisorController::class, 'storeApproveGroup'])->name('supervisor.store.approveGroup');
     Route::get('/supervisor/approvedGroups', [SupervisorController::class, 'approvedGroups'])->name('supervisor.approvedGroups');
-    Route::get('/supervisor/approvedGroupDetails', [SupervisorController::class, 'approvedGroupDetails'])->name('supervisor.approvedGroupDetails');
+    Route::get('/supervisor/approvedGroupDetails/{group_id}', [SupervisorController::class, 'approvedGroupDetails'])->name('supervisor.approvedGroupDetails');
     // reject
     Route::get('/supervisor/rejectedGroups', [SupervisorController::class, 'rejectedGroups'])->name('supervisor.rejectedGroups');
     //assign task

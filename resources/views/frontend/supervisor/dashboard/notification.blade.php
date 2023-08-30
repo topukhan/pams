@@ -5,8 +5,8 @@
         </h2>
 
         <div class="px-2 py-2">
-            @forelse (auth()->guard('supervisor')->user()->notifications as $notification)
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md">
+            @forelse (auth()->guard('supervisor')->user()->unreadnotifications as $notification)
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md my-2">
                     <a
                         href="{{ route('supervisor.proposalDetails', ['group_id' => $notification->data['group_id'], 'proposal_id' => $notification->data['proposal_id']]) }}">
                         <h3 class="text-lg font-semibold">A Group Sent You A Project Proposal</h3>

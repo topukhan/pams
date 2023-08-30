@@ -256,7 +256,7 @@ class CoordinatorRequestController extends Controller
                         try {
                             DB::beginTransaction();
 
-                            Project::create([
+                            $project = Project::create([
                                 'group_id' => $proposal->group_id,
                                 'title' => $proposal->title,
                                 'course' => $proposal->course,
@@ -266,6 +266,9 @@ class CoordinatorRequestController extends Controller
                                 'project_type' => $proposal->project_type,
                                 'description' => $proposal->description,
                             ]);
+                            $group = Group::where('id', $proposal->group_id)->first();
+                            $group->update(['project_id' => $project->id]);
+                            
                             $has_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
                             if ($has_feedback) {
                                 $has_feedback->delete();

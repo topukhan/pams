@@ -29,7 +29,7 @@
         @endphp
         @if ($memberCount < 4)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
-                {{strtoupper('Sufficient members are not available!')}}
+                {{ strtoupper('Sufficient members are not available!') }}
                 <button type="button" class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
                     onclick="this.parentElement.style.display ='none'">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -121,8 +121,8 @@
                         </div>
                         <div class="md:w-3/12">
                             <input id="group_name" type="text" name="group_name"
-                                class=" block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                                placeholder="(optional)">
+                                class=" block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300" placeholder="Enter a name">
+                            <x-input-error :messages="$errors->get('group_name')" class="mt-2" />
                         </div>
                     </div>
 
@@ -185,8 +185,10 @@
                                             </td>
                                             <td class="px-3 py-3 ">
                                                 <select type="email" name="email[]"
-                                                    class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 " aria-placeholder="select email">
-                                                    <option value="" disabled selected hidden>Select email</option>
+                                                    class="email-select w-full form-select focus:bg-white bg-gray-100 border-gray-100 max-height rounded dark:bg-gray-800 "
+                                                    aria-placeholder="select email">
+                                                    <option value="" disabled selected hidden>Select email
+                                                    </option>
 
                                                     @foreach ($students as $student)
                                                         @continue ($student->user->email === $loggedInStudent->email)

@@ -17,7 +17,7 @@
                         class="text-gray-900 dark:text-white">Approved Groups</a></li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('supervisor.groupRequestDetails') }}" class="text-gray-900 dark:text-white"> Group
+                    <a href="#" class="text-gray-900 dark:text-white"> Group
                         Details</a>
                 </li>
             </ol>
@@ -36,7 +36,7 @@
                 <label class="ml-4 mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">Domain:</label>
                 <div class=" px-4 py-2 mb-4 bg-white rounded-lg shadow-sm dark:bg-gray-800">
                     <p class="text-md text-gray-600 dark:text-gray-400">
-                        {{ $approved->domain }}
+                        {{ $group->domain }}
                     </p>
                 </div>
             </div>
@@ -47,7 +47,16 @@
             <label class="ml-4 mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">Topic:</label>
             <div class=" px-4 py-2 mb-4 bg-white rounded-lg shadow-sm dark:bg-gray-800">
                 <p class="text-md text-gray-600 dark:text-gray-400">
-                    {{ $approved->title }}
+                    {{ $group->project->title }}
+                </p>
+            </div>
+        </div>
+
+        <div class="md:w-full">
+            <label class="ml-4 mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">Description:</label>
+            <div class=" px-4 py-2 mb-4 bg-white rounded-lg shadow-sm dark:bg-gray-800">
+                <p class="text-md text-gray-600 dark:text-gray-400">
+                    {{ $group->project->description }}
                 </p>
             </div>
         </div>
@@ -63,15 +72,29 @@
                                 <th class="px-3 py-3">Members</th>
                                 <th class="px-3 py-3">ID</th>
                                 <th class="px-3 py-3">Batch</th>
+                                <th class="px-3 py-3">Mail</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                            @foreach ($group->group_members as $group_member)
+                            @foreach ($group->groupMembers as $groupMember)
                                 <tr class="text-gray-700 dark:text-gray-400">
                                     <td class="px-4 py-3 text-sm">{{ $loop->iteration }}</td>
-                                    <td class="px-4 py-3 font-semibold text-sm ">{{ $group_member->name }}</td>
-                                    <td class="px-4 py-3 font-semibold text-sm ">{{ $group_member->student_id }}</td>
-                                    <td class="px-4 py-3 font-semibold  text-sm ">{{ $group_member->batch }}</td>
+                                    <td class="px-4 py-3 font-semibold text-sm ">
+                                        {{ $groupMember->user->first_name . ' ' . $groupMember->user->last_name }}
+                                        @if ($groupMember->user->id == $group->leader)
+                                            <span class="bg-blue-400 px-2 text-white rounded-full">Leader</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-3 font-semibold text-sm ">
+                                        {{ $groupMember->user->student->student_id }}</td>
+                                    <td class="px-4 py-3 font-semibold  text-sm ">
+                                        {{ $groupMember->user->student->batch }}</td>
+                                    <td class="px-4 py-3 font-semibold  text-sm ">
+                                        <button onclick="openModal('{{ $groupMember->user->email }}')"
+                                            class="bg-blue-400 px-3  text-white rounded-md py-1">
+                                            mail
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
 
@@ -79,27 +102,88 @@
                     </table>
                 </div>
             </div>
-
-            <div class="space-x-2">
-                {{-- <a href="#">
-                    <button type="button"
-                        class="px-4 py-2 font-bold text-white bg-blue-500 rounded-sm hover:bg-blue-700 focus:outline-none focus:shadow-outline-blue active:bg-blue-800">
-                        Approve
-                    </button>
-                </a> --}}
-
-                {{-- <a href="{{ route('supervisor.rejectedGroups', ['id' => $proposal->id]) }}">
-                    <button
-                        class="px-4 py-2 font-bold text-white bg-red-500 rounded-sm hover:bg-red-700 focus:outline-none focus:shadow-outline-blue active:bg-red-800">
-                        Deny
-                    </button>
-                </a> --}}
-            </div>
-
-
         </div>
-
     </div>
 
+    <div class="main-modal fixed w-full h-full inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-auto"
+        style="background: rgba(0,0,0,.3);">
+        <div class="border border-teal-500 shadow-lg modal-container bg-white w-11/12 md:max-w-md mx-auto rounded z-50">
+            <div class="modal-content py-4 text-left px-6">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="my-5 text-white">Send Email to the selected student about any project related issues</p>
+
+                    <div class="modal-close cursor-pointer z-50">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18"
+                            height="18" viewBox="0 0 18 18">
+                            <path
+                                d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+                <!--Body-->
+
+                <h2 class="text-lg font-semibold mb-4">Compose Email</h2>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">To:</label>
+                    <input id="recipientEmail" type="email" class="w-full rounded-lg border border-gray-300 px-3 py-2"
+                        placeholder="Recipient's email" value="">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Subject:</label>
+                    <input type="text" class="w-full rounded-lg border border-gray-300 px-3 py-2"
+                        placeholder="Enter subject">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Message:</label>
+                    <textarea class="w-full rounded-lg border border-gray-300 px-3 py-2" rows="4" placeholder="Email message"></textarea>
+                </div>
+                <!--Footer-->
+                <div class="space-x-2 flex justify-end">
+                    <button id="closeModal"
+                        class=" focus:outline-none modal-close bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">Cancel</button>
+                    <button id="sendEmail"
+                        class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.querySelector('.main-modal');
+        const closeButton = document.querySelectorAll('.modal-close');
+
+        const modalClose = () => {
+            modal.classList.remove('fadeIn');
+            modal.classList.add('fadeOut');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 100);
+        }
+
+        const openModal = (recipientEmail) => {
+            modal.classList.remove('fadeOut');
+            modal.classList.add('fadeIn');
+            modal.style.display = 'flex';
+
+            const recipientInput = document.getElementById('recipientEmail');
+            recipientInput.value = recipientEmail;
+        }
+
+        for (let i = 0; i < closeButton.length; i++) {
+
+            const elements = closeButton[i];
+
+            elements.onclick = (e) => modalClose();
+
+            modal.style.display = 'none';
+
+            window.onclick = function(event) {
+                if (event.target == modal) modalClose();
+            }
+        }
+    </script>
 
 </x-frontend.supervisor.layouts.master>

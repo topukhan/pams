@@ -19,7 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('coordinator_id')->nullable();
             $table->foreign('coordinator_id')->references('id')->on('coordinators')->onDelete('cascade');
             $table->string('domain');
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->string('project_type');
+            $table->string('leader');
             $table->boolean('can_propose')->default(false)->nullable();
             $table->timestamps();
         });

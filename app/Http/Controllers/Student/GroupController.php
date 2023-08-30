@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
@@ -39,6 +40,7 @@ class GroupController extends Controller
         $request->validate([
             'project_type' => 'required',
             'domain' => 'required',
+            'group_name' => 'required',
             'email.*' => 'required|email',
             'name' => 'required',
             'student_id' => 'required',
@@ -158,6 +160,7 @@ class GroupController extends Controller
                     'name' => $pendingGroup->name,
                     'project_type' => $pendingGroup->project_type,
                     'domain' => $pendingGroup->domain,
+                    'leader' => $pendingGroup->created_by,
                     // Add any other required fields for the group here
                 ]);
 
@@ -184,7 +187,7 @@ class GroupController extends Controller
                         ]);
                     }
                 }
-                if(count($group->groupMembers) >= 4){
+                if (count($group->groupMembers) >= 4) {
                     $group->update(['can_propose' => 1]);
                 }
                 // Update the members column in the group table with accepted member user_ids
@@ -243,7 +246,7 @@ class GroupController extends Controller
             $members = User::whereIn('id', $memberIds)->get();
         }
 
-        return view('frontend.student.group.myGroup', compact('group', 'members','can_propose'));
+        return view('frontend.student.group.myGroup', compact('group', 'members', 'can_propose'));
     }
 
     //My Group Details 

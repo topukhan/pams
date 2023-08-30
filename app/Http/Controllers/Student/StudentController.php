@@ -80,6 +80,7 @@ class StudentController extends Controller
                 ->first();
         })->first();
         $proposalSubmitted = null;
+        $in_project = null;
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             // Check if a proposal from the group already exists
@@ -127,7 +128,7 @@ class StudentController extends Controller
             //notify 
             // dd('after commit');
             $supervisor->notify(new ProjectProposalNotification($request->group_id, $proposal));
-            dd('stop');
+            
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
         } catch (\Throwable $th) {
             DB::rollback();

@@ -38,44 +38,45 @@ class SupervisorController extends Controller
     }
 
     // Store approved group to table 
-    public function storeApproveGroup(Request $request)
-    {
+    // public function storeApproveGroup(Request $request)
+    // {
 
-        $approved = ProjectProposal::find($request->proposal_id);
-        try {
-            $store = ApprovedGroup::create([
-                'group_id' => $approved->group_id,
-                'title' => $approved->title,
-                'course' => $approved->course,
-                'supervisor_id' => $approved->supervisor_id,
-                'domain' => $approved->domain,
-                'type' => $approved->type
-            ]);
-            if ($approved) {
-                $approved->delete();
-            }
-            return redirect()->route('supervisor.groupRequests')->withMessage("Proposal Approved!");
-        } catch (QueryException $e) {
-            return redirect()->back()->withInput()->withErrors('Something went wrong!');
-        }
-        return view('frontend.supervisor.group.groupRequestDetails', compact('group', 'proposal'));
-    }
+    //     $approved = ProjectProposal::find($request->proposal_id);
+    //     try {
+    //         $store = ApprovedGroup::create([
+    //             'group_id' => $approved->group_id,
+    //             'title' => $approved->title,
+    //             'course' => $approved->course,
+    //             'supervisor_id' => $approved->supervisor_id,
+    //             'domain' => $approved->domain,
+    //             'type' => $approved->type
+    //         ]);
+    //         if ($approved) {
+    //             $approved->delete();
+    //         }
+    //         return redirect()->route('supervisor.groupRequests')->withMessage("Proposal Approved!");
+    //     } catch (QueryException $e) {
+    //         return redirect()->back()->withInput()->withErrors('Something went wrong!');
+    //     }
+    //     return view('frontend.supervisor.group.groupRequestDetails', compact('group', 'proposal'));
+    // }
 
 
 
     //Supervisor Approved Groups
     public function approvedGroups()
     {
-        $approved_groups = ApprovedGroup::all();
+        $approved_groups = Project::where('supervisor_id', auth()->guard('supervisor')->user()->id)->get();
         return view('frontend.supervisor.group.approvedGroups', compact('approved_groups'));
     }
 
     //Supervisor Approved Group Details 
-    public function approvedGroupDetails(Request $request)
+    public function approvedGroupDetails(Request $request, $group_id)
     {
-        $group = Group::find($request->group_id);
-        $approved = ApprovedGroup::find($request->approved_id);
-        return view('frontend.supervisor.group.approvedGroupDetails', compact('group', 'approved'));
+        $group = Group::find($group_id);
+        // $members = $group->groupMembers;
+        // dd($members);
+        return view('frontend.supervisor.group.approvedGroupDetails', compact('group'));
     }
 
     //Supervisor Rejected Groups

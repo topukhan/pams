@@ -3,10 +3,9 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Notifications
         </h2>
-
         <div class="px-2 py-2">
             @forelse (auth()->guard('coordinator')->user()->notifications as $notification)
-                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 mb-2 shadow-md">
                     <a
                         href="{{ route('coordinator.proposalDetails', ['group_id' => $notification->data['group_id'], 'proposal_id' => $notification->data['proposal_id']]) }}">
                         <h3 class="text-lg font-semibold">Project Approval Request</h3>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
@@ -9,6 +10,7 @@ use App\Models\GroupMember;
 use App\Models\PendingGroup;
 use App\Models\Student;
 use App\Models\User;
+use App\Notifications\GroupCreateNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,7 +70,7 @@ class GroupController extends Controller
                 } else {
                     $status = 0;
                 }
-                GroupInvitation::create([
+                $invitation = GroupInvitation::create([
                     'group_id' => $pending_group->id,
                     'user_id' => $member,
                     'status' => $status,
@@ -76,7 +78,15 @@ class GroupController extends Controller
             }
 
             DB::commit();
+            //notify students(invited members)
+            $members = GroupInvitation::where('group_id', $invitation->group_id)->get();
+            $students = User::whereIn('id', $members->pluck('user_id'))
+                ->where('id', '<>', $pending_group->created_by) // Exclude the proposal creator
+                ->get();
 
+            foreach ($students as $student) {
+                $student->notify(new GroupCreateNotification($pending_group, $invitation));
+            }
             // Redirect to success page or show success message
             return redirect()->route('student.dashboard')->withMessage('Group Request Sent to selected Members!');
         } catch (QueryException $e) {
@@ -119,24 +129,20 @@ class GroupController extends Controller
             $invitation->update([
                 'status' => $request->response,
             ]);
-
-            // $id = $request->user_id;
             $isPositive = $request->response == 1 ? 1 : 0;
-            // dd($request->pending_group_id);
             $pending_group = PendingGroup::where('id', $request->pending_group_id)->first();
-
-            // $pending_group = PendingGroup::whereJsonContains('members', $id)->first();
-
             // Update positive_status column based on current value
             $pending_group->positive_status = $isPositive == 1 ? $pending_group->positive_status + 1 : $pending_group->positive_status;
             $pending_group->member_feedback = $pending_group->member_feedback + 1;
             $pending_group->update();
 
+            //notify student
+            $member = User::where('id', $pending_group->created_by)->first();
+            $member->notify(new GroupCreateNotification($pending_group, $invitation));
             // Call the method to check and transfer pending groups
             $this->transferPendingGroups();
             //for delete if all rejected
             $this->deletePendingGroups();
-
             DB::commit();
         } catch (QueryException $e) {
             DB::rollBack();
@@ -184,7 +190,7 @@ class GroupController extends Controller
                         ]);
                     }
                 }
-                if(count($group->groupMembers) >= 4){
+                if (count($group->groupMembers) >= 4) {
                     $group->update(['can_propose' => 1]);
                 }
                 // Update the members column in the group table with accepted member user_ids
@@ -243,7 +249,7 @@ class GroupController extends Controller
             $members = User::whereIn('id', $memberIds)->get();
         }
 
-        return view('frontend.student.group.myGroup', compact('group', 'members','can_propose'));
+        return view('frontend.student.group.myGroup', compact('group', 'members', 'can_propose'));
     }
 
     //My Group Details 

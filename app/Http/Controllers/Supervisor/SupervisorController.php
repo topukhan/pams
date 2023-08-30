@@ -135,7 +135,6 @@ class SupervisorController extends Controller
         $id = $request->proposal_id;
         $proposal = ProjectProposal::where('id', $id)->first();
         $response = $request->response;
-        // dd($proposal);
         try {
             if ($proposal) {
                 if ($response == 'approved') {

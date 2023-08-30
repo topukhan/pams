@@ -253,7 +253,6 @@ class CoordinatorRequestController extends Controller
         try {
             if ($proposal) {
                 $is_allocated = Project::where('group_id', $proposal->group_id)->exists();
-
                 if (!$is_allocated) {
                     if ($request->response == 1) {
                         try {
@@ -281,6 +280,9 @@ class CoordinatorRequestController extends Controller
                             foreach ($students as $student) {
                                 $student->notify(new ProjectApprovalNotification($project));
                             }
+                            //for supervisor notify
+                            $supervisor = User::find($project->supervisor_id);
+                            $supervisor->notify(new ProjectApprovalNotification($project));
                             return redirect()->route('coordinator.proposalList')->withMessage("Project Allocated to This Group Successfully!");
                         } catch (\Throwable $th) {
                             DB::rollBack();

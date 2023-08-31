@@ -15,15 +15,7 @@
                 </li>
             </ol>
         </div>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+
         @php
             $memberCount = count($students);
         @endphp
@@ -121,7 +113,8 @@
                         </div>
                         <div class="md:w-3/12">
                             <input id="group_name" type="text" name="group_name"
-                                class=" block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300" placeholder="Enter a name">
+                                class=" block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                placeholder="Enter a name">
                             <x-input-error :messages="$errors->get('group_name')" class="mt-2" />
                         </div>
                     </div>

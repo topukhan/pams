@@ -2,33 +2,24 @@
 
 namespace App\Notifications;
 
-use App\Models\GroupInvitation;
-use App\Models\PendingGroup;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class GroupCreateNotification extends Notification
+class RequestedStudentAddedToGroup extends Notification
 {
     use Queueable;
-    protected $request_from;
-    protected $feedbacks;
-    protected $status;
+    protected $requested_student_id;
+    protected $group_member_id;
 
-    public function __construct(PendingGroup $pending_group, GroupInvitation $invitation, $sender_id = false)
+    /**
+     * Create a new notification instance.
+     */
+    public function __construct($requested_student_id, $group_member_id = false)
     {
-        if ($sender_id == false) {
-            $student = User::where('id', $pending_group->created_by)->first();
-            $this->request_from = $student->first_name . ' ' . $student->last_name;
-        } else {
-            $student = User::where('id', $sender_id)->first();
-            $this->request_from = $student->first_name . ' ' . $student->last_name;
-        }
-
-        $this->feedbacks = $pending_group->member_feedback;
-        $this->status = $invitation->status;
+        $this->requested_student_id = $requested_student_id;
+        $this->group_member_id = $group_member_id;
     }
 
     /**
@@ -60,9 +51,8 @@ class GroupCreateNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'request_from' =>  $this->request_from,
-            'feedbacks' => $this->feedbacks,
-            'status' => $this->status
+            'requested_student_id' => $this->requested_student_id,
+            'group_member_id' => $this->group_member_id,
         ];
     }
 }

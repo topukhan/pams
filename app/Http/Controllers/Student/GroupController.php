@@ -137,10 +137,11 @@ class GroupController extends Controller
             $pending_group->positive_status = $isPositive == 1 ? $pending_group->positive_status + 1 : $pending_group->positive_status;
             $pending_group->member_feedback = $pending_group->member_feedback + 1;
             $pending_group->update();
+            $sender_id = User::where('id', $invitation->user_id)->value('id');
 
             //notify student
             $member = User::where('id', $pending_group->created_by)->first();
-            $member->notify(new GroupCreateNotification($pending_group, $invitation));
+            $member->notify(new GroupCreateNotification($pending_group, $invitation, $sender_id));
             // Call the method to check and transfer pending groups
             $this->transferPendingGroups();
             //for delete if all rejected

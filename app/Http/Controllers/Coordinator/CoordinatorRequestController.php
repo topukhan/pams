@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Notifications\ProjectApprovalNotification;
 use App\Notifications\ProjectProposalNotification;
 use App\Notifications\ProposalFeedbackNotification;
+use App\Notifications\RequestedStudentAddedToGroup;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -81,9 +82,20 @@ class CoordinatorRequestController extends Controller
                             'user_id' => $user_id,
                         ]);
                     }
-                    if (count($group->groupMembers) >= 4) {
+                    if (count($group->groupMembers) >= 3) {
                         $group->update(['can_propose' => 1]);
                     }
+                    $user = User::where('id', $request->user_id)->first();
+                    $user->notify(new  RequestedStudentAddedToGroup($user->id));
+
+                    $groupMemberIds = $group->groupMembers->pluck('user_id')->toArray();
+                    foreach ($groupMemberIds as $member_id) {
+                        if($member_id != $user->id){
+                            $member = User::where('id', $member_id)->first();
+                            $member->notify(new  RequestedStudentAddedToGroup($user->id, $member->id));
+                        }
+                    }
+
                     // Delete the group join request
                     RequestToCoordinator::where('id', $request_id)->delete();
 
@@ -266,7 +278,7 @@ class CoordinatorRequestController extends Controller
                             ]);
                             $group = Group::where('id', $proposal->group_id)->first();
                             $group->update(['project_id' => $project->id]);
-                            
+
                             $has_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
                             if ($has_feedback) {
                                 $has_feedback->delete();

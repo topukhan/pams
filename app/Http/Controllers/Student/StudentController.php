@@ -15,6 +15,8 @@ use App\Models\Student;
 use App\Models\Supervisor;
 use App\Models\User;
 use App\Notifications\ProjectProposalNotification;
+use App\Notifications\GroupRequestToCoordinator;
+use App\Notifications\IndividualRequestToCoordinator;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -304,19 +306,22 @@ class StudentController extends Controller
             $request->validate([
                 'reason' => 'required'
             ]);
+            $coordinator = User::where('role', 'coordinator')->first();
 
             if ($request->id) {
-                RequestToCoordinator::create([
+                $request_to_coordinator = RequestToCoordinator::create([
                     'user_id' => $request->id,
                     'reason' => $request->reason,
                     'note' => $request->note
                 ]);
+                $coordinator->notify(new IndividualRequestToCoordinator($request->id, $request_to_coordinator->id));
             } else {
-                RequestToCoordinator::create([
+                $request_to_coordinator = RequestToCoordinator::create([
                     'group_id' => $request->group_id,
                     'reason' => $request->reason,
                     'note' => $request->note
                 ]);
+                $coordinator->notify(new GroupRequestToCoordinator($request->group_id, $request_to_coordinator->id));
             }
 
 

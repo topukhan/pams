@@ -3,10 +3,9 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Supervisor Profile
         </h2>
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="{{ route('supervisor.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -17,9 +16,7 @@
                 </li>
             </ol>
         </div>
-
         {{-- Info --}}
-
         <div class="px-2 py-2 mb-2">
             @if (session('message'))
                 <div class="bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
@@ -41,13 +38,15 @@
                     </div>
                 </div>
             @endif
-            <div class="container mx-auto mt-8 p-4 bg-white shadow-md rounded-lg">
-                <div class="flex justify-end">
+            <div class="container overflow-hidden mx-auto mt-8 p-4 bg-white shadow-md rounded-lg">
+                <div class="flex justify-end space-x-2">
+                    <button class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-2 px-4 rounded">
+                        <a href="{{ route('supervisor.citationCreate') }}">Add Publications</a>
+                    </button>
                     <button class="bg-purple-500 hover:bg-purple-600 text-white font-bold mt-8 py-2 px-4 rounded">
                         <a href="{{ route('supervisor.profileEdit') }}">Edit</a>
                     </button>
                 </div>
-
                 <div class="px-5">
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <span class="text-gray-700 font-bold mb-2 col-span-1">Faculty ID:</span>
@@ -93,10 +92,7 @@
                                 @endforeach
                             </span>
                         @endif
-
                     </div>
-
-
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <span class="text-gray-700 font-bold mb-2 col-span-1">Availability Status:</span>
                         <span class="col-span-2">
@@ -106,13 +102,19 @@
                                 No
                             @endif
                         </span>
-
                     </div>
                 </div>
-
+            </div>
+            <div class="container overflow-hidden mx-auto p-4 mt-4 bg-white shadow-md rounded-lg  dark:text-gray-300 dark:bg-gray-800 ">
+                <h1 class="text-2xl font-semibold mb-4">Publications/Research</h1>
+                <div class="border-t border-gray-300 px-3 pt-6 space-y-8">
+                    @foreach($citations as $citation)
+                    <p class="font-semibold">{{ $citation->citation }}</p>
+                    <hr class="my-4 border-gray-300">
+                    @endforeach
+                </div>
             </div>
         </div>
-
     </div>
 
     <script>

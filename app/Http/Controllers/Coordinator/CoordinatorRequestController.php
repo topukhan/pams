@@ -13,6 +13,10 @@ use App\Models\ProjectProposalApprovalRequest;
 use App\Models\ProposalFeedback;
 use App\Models\Student;
 use App\Models\User;
+use App\Notifications\ProjectApprovalNotification;
+use App\Notifications\ProjectProposalNotification;
+use App\Notifications\ProposalFeedbackNotification;
+use App\Notifications\RequestedStudentAddedToGroup;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -37,7 +41,6 @@ class CoordinatorRequestController extends Controller
     public function formedGroupsLists(RequestToCoordinator $request)
     {
         //here $request is request from student to coordinator
-        // dd($request->group_id);
         $requestedGroupId = $request->group_id;
         $id = $request->user_id;
         $request_id = $request->id;
@@ -79,9 +82,20 @@ class CoordinatorRequestController extends Controller
                             'user_id' => $user_id,
                         ]);
                     }
-                    if (count($group->groupMembers) >= 4) {
+                    if (count($group->groupMembers) >= 3) {
                         $group->update(['can_propose' => 1]);
                     }
+                    $user = User::where('id', $request->user_id)->first();
+                    $user->notify(new  RequestedStudentAddedToGroup($user->id));
+
+                    $groupMemberIds = $group->groupMembers->pluck('user_id')->toArray();
+                    foreach ($groupMemberIds as $member_id) {
+                        if($member_id != $user->id){
+                            $member = User::where('id', $member_id)->first();
+                            $member->notify(new  RequestedStudentAddedToGroup($user->id, $member->id));
+                        }
+                    }
+
                     // Delete the group join request
                     RequestToCoordinator::where('id', $request_id)->delete();
 
@@ -168,7 +182,6 @@ class CoordinatorRequestController extends Controller
         $students = Student::whereNotIn('user_id', $groupsMembers)
             ->whereNotIn('user_id', $pendingGroupsMembers)
             ->get();
-        // dd($students);
 
         return view('frontend.coordinator.request.group.requestGroupMembersDetails', compact('group', 'groupMembers', 'request', 'students'));
     }
@@ -188,7 +201,6 @@ class CoordinatorRequestController extends Controller
             $group->update(['can_propose' => 1]);
 
             $request->delete();
-            // dd($group);
             DB::commit();
             return redirect()->route('coordinator.requests')->withMessage('Permission Given for Proposal');
         } catch (\Exception $e) {
@@ -235,7 +247,6 @@ class CoordinatorRequestController extends Controller
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
         $supervisor = User::find($proposal->supervisor_id);
-        // dd($supervisor);
 
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
@@ -250,13 +261,12 @@ class CoordinatorRequestController extends Controller
         try {
             if ($proposal) {
                 $is_allocated = Project::where('group_id', $proposal->group_id)->exists();
-
                 if (!$is_allocated) {
                     if ($request->response == 1) {
                         try {
                             DB::beginTransaction();
 
-                            Project::create([
+                            $project = Project::create([
                                 'group_id' => $proposal->group_id,
                                 'title' => $proposal->title,
                                 'course' => $proposal->course,
@@ -266,12 +276,24 @@ class CoordinatorRequestController extends Controller
                                 'project_type' => $proposal->project_type,
                                 'description' => $proposal->description,
                             ]);
+                            $group = Group::where('id', $proposal->group_id)->first();
+                            $group->update(['project_id' => $project->id]);
+
                             $has_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
                             if ($has_feedback) {
                                 $has_feedback->delete();
                             }
                             $proposal->delete();
                             DB::commit();
+                            // for student notify
+                            $members = GroupMember::where('group_id', $project->group_id)->get();
+                            $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                            foreach ($students as $student) {
+                                $student->notify(new ProjectApprovalNotification($project));
+                            }
+                            //for supervisor notify
+                            $supervisor = User::find($project->supervisor_id);
+                            $supervisor->notify(new ProjectApprovalNotification($project));
                             return redirect()->route('coordinator.proposalList')->withMessage("Project Allocated to This Group Successfully!");
                         } catch (\Throwable $th) {
                             DB::rollBack();
@@ -285,13 +307,20 @@ class CoordinatorRequestController extends Controller
                             if ($has_feedback) {
                                 $has_feedback->update(['is_denied' => 1]);
                             } else {
-                                ProposalFeedback::create([
+                                $proposal_feedback = ProposalFeedback::create([
                                     'group_id' => $proposal->group_id,
-                                    'is_denied' => 1
+                                    'is_denied' => 1,
+                                    'denied_by' => auth()->guard('coordinator')->user()->id,
                                 ]);
                             }
                             $proposal->delete();
                             DB::commit();
+                            // for student notify
+                            $members = GroupMember::where('group_id', $proposal_feedback->group_id)->get();
+                            $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                            foreach ($students as $student) {
+                                $student->notify(new ProposalFeedbackNotification($proposal_feedback));
+                            }
                             return redirect()->route('coordinator.proposalList')->withMessage("Project Proposal Denied");
                         } catch (\Throwable $th) {
                             DB::rollBack();

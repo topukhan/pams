@@ -3,10 +3,7 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Dashboard
         </h2>
-
-
         <div class=" grid gap-10 md:grid-cols-2 xl:grid-cols-3">
-
             <!-- Cards -->
             <div class="grid gap-6 mb-8 xl:col-span-2  text-center md:grid-cols-1 xl:grid-cols-2">
                 <!--Group Management Card -->
@@ -20,7 +17,6 @@
                             </path>
                         </svg>
                     </div>
-
                     <div class="">
                         <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Group Management
@@ -31,7 +27,6 @@
                             </button></a>
                     </div>
                 </div>
-
                 <!-- Project Allocation card -->
                 <div
                     class="p-4 bg-white rounded-lg shadow dark:bg-gray-800 transition duration-200 ease-in-out hover:bg-orange-50">
@@ -39,7 +34,6 @@
                         class="p-3 mb-4 w-12 mx-auto text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
                         <i class='bx bxs-archive text-2xl'></i>
                     </div>
-
                     <div>
                         <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Project Allocation
@@ -50,8 +44,6 @@
                         </button>
                     </div>
                 </div>
-
-
                 <!-- Report Evaluation -->
                 <div
                     class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800 transition duration-200 ease-in-out hover:bg-blue-50">
@@ -59,7 +51,6 @@
                         class="p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
                         <i class="bx bx-news text-2xl"></i>
                     </div>
-
                     <div>
                         <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Report Evaluation
@@ -70,16 +61,13 @@
                         </button>
                     </div>
                 </div>
-
                 <!-- Communication and Notifications card -->
                 <div
                     class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800 transition duration-200 ease-in-out hover:bg-teal-50">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
                         <i class='bx bxs-bell-ring text-2xl'></i>
-
                     </div>
-
                     <div>
                         <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Communication and Notifications
@@ -91,9 +79,6 @@
                     </div>
                 </div>
             </div>
-
-
-
             {{-- Notice --}}
             <div class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow float-right dark:bg-gray-800">
                 <h2 class="mb-2 font-medium text-gray-700 dark:text-gray-400">
@@ -114,7 +99,6 @@
                         </a>
                     </div>
                 </div>
-
                 {{-- Notice Card 2 --}}
                 <div
                     class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
@@ -128,7 +112,6 @@
                         </button>
                     </div>
                 </div>
-
                 {{-- Notice Card 3 --}}
                 <div
                     class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
@@ -142,7 +125,6 @@
                         </button>
                     </div>
                 </div>
-
                 {{-- Notice Card 4 --}}
                 <div
                     class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow dark:bg-gray-900 transition duration-200 ease-in-out">
@@ -159,5 +141,4 @@
             </div>
         </div>
     </div>
-
 </x-frontend.coordinator.layouts.master>

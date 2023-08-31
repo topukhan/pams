@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supervisor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Citation;
 use App\Models\Domain;
 use App\Models\Supervisor;
 use App\Models\User;
@@ -18,7 +19,8 @@ class SupervisorProfileController extends Controller
         $user_id = Auth::guard('supervisor')->user()->id;
         $user = User::with('supervisor')->find($user_id);
         $domains = $user->domains;
-        return view('frontend.supervisor.profile.profile', compact('user','domains'));
+        $citations = Citation::where('user_id', $user_id)->get();
+        return view('frontend.supervisor.profile.profile', compact('user','domains','citations'));
         
 
     }

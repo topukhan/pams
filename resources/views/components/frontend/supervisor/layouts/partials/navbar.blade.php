@@ -46,56 +46,25 @@
                 </button>
             </li>
             <!-- Notifications menu -->
-            <li class="relative">
-                <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
-                    @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu" aria-label="Notifications"
-                    aria-haspopup="true">
-                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
-                        </path>
-                    </svg>
-                    <!-- Notification badge -->
-                    <span aria-hidden="true"
-                        class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
-                </button>
-                <template x-if="isNotificationsMenuOpen">
-                    <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-                        x-transition:leave-end="opacity-0" @click.away="closeNotificationsMenu"
-                        @keydown.escape="closeNotificationsMenu"
-                        class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700">
-                        <li class="flex">
-                            <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                href="#">
-                                <span>Messages</span>
-                                <span
-                                    class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
-                                    13
-                                </span>
-                            </a>
-                        </li>
-                        <li class="flex">
-                            <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                href="#">
-                                <span>Sales</span>
-                                <span
-                                    class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-600 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-600">
-                                    2
-                                </span>
-                            </a>
-                        </li>
-                        <li class="flex">
-                            <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                href="#">
-                                <span>Alerts</span>
-                            </a>
-                        </li>
-                    </ul>
-                </template>
+            <li class="relative  ">
+                <a class=" items-center  px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md "
+                    href="{{ route('supervisor.notifications') }}">
+                    <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+                        @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu"
+                        aria-label="Notifications" aria-haspopup="true">
+                        <span
+                            class="absolute bottom-auto left-auto -right-0.5 -top-0.5 z-10 inline-block -translate-y-1/2 translate-x-2/4 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 whitespace-nowrap rounded-full bg-red-600 px-1.5 py-0.5 text-center align-baseline text-xs font-bold leading-none text-white">
+                            {{ count(auth()->guard('supervisor')->user()->unreadNotifications)}}
+                        </span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+                            </path>
+                        </svg>
+                    </button>
+                </a>
             </li>
 
-            
-                
             <!-- Profile menu -->
             <li class="relative">
 
@@ -103,13 +72,17 @@
                     <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                         @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account"
                         aria-haspopup="true">
-                        
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" ><path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z" class=""></path></svg>
+
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"
+                                class=""></path>
+                        </svg>
                     </button>
                     <div class="p-3">
                         <p class="font-semibold">{{ ucfirst(session('supervisorUser')->role) }} </p>
                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                            {{ session('supervisorUser')->first_name . ' ' . session('supervisorUser')->last_name }} 
+                            {{ session('supervisorUser')->first_name . ' ' . session('supervisorUser')->last_name }}
                         </p>
                     </div>
                 </div>
@@ -121,10 +94,9 @@
                         aria-label="submenu">
                         <li class="flex">
                             <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                href="{{ route('supervisor.profile')}}">
+                                href="{{ route('supervisor.profile') }}">
                                 <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                    stroke="currentColor">
+                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                                     </path>
                                 </svg>

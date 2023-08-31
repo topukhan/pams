@@ -6,7 +6,7 @@
 
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -88,9 +88,8 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
-                <div class=" flex justify-end d-none" style="display: {{$can_propose ? 'none' : 'block'}}">
+                <div class=" flex justify-end" style="display: {{$can_propose ? 'none' : 'block'}}">
                     <form action="{{ route('student.requestToCoordinatorForm') }}" method="post">
                         @csrf
                         <input type="hidden" name="group_id" value="{{ $group->id }}">

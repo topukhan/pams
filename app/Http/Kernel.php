@@ -69,5 +69,7 @@ class Kernel extends HttpKernel
         'CoordinatorAuth' => \App\Http\Middleware\CoordinatorAuth::class,
         'SupervisorAuth' => \App\Http\Middleware\SupervisorAuth::class,
         'AdminAuth' => \App\Http\Middleware\AdminAuth::class,
+        // for all auth users
+        'allow.all.authenticated' => \App\Http\Middleware\AllowAllAuthenticated::class,
     ];
 }

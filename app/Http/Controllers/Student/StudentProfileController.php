@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Citation;
 use App\Models\Domain;
 use App\Models\ProjectType;
 use App\Models\Student;
+use App\Models\Supervisor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,4 +63,14 @@ class StudentProfileController extends Controller
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
     }
+
+    public function supervisorProfile(Request $request){
+        $supervisor_id = $request->id;
+        $user = User::with('supervisor')->find($supervisor_id);
+        $domains = Domain::all();
+        $citations = Citation::where('user_id', $user->id)->get();
+        return view('frontend.student.profile.supervisorProfile', compact('user', 'domains', 'citations'));
+    }
+
+
 }

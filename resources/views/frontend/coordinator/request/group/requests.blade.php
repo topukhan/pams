@@ -1,12 +1,10 @@
 <x-frontend.coordinator.layouts.master>
-
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
         </h2>
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -18,7 +16,6 @@
                 </li>
             </ol>
         </div>
-
         @if (session('message'))
             <div class="bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
                 <div class="flex items-center">

@@ -3,10 +3,9 @@
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Request Details
         </h2>
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex justify-end text-gray-500">
+            <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -17,13 +16,10 @@
                 </li>
             </ol>
         </div>
-
         {{-- Details --}}
-
         <h2
             class="p-3 leading-tight text-blue-700 bg-blue-100  dark:bg-blue-700 dark:text-blue-100 font-bold text-center ">
             Request For Group Members</h2>
-
         <div class="container mx-auto mt-4 p-4 bg-white shadow-md rounded-lg">
             <div class="p-4">
                 <div class="grid grid-cols-3 gap-4 mb-4">

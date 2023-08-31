@@ -34,5 +34,10 @@ class Group extends Model
     {
         return $this->hasOne(ProjectProposalApprovalRequest::class);
     }
+    
+    public function project()
+    {
+        return $this->hasOne(Project::class);
+    }
 
 }

@@ -60,7 +60,6 @@ class StudentLoginController extends Controller
         }
         
         session()->put('studentUser', $user);
-        // dd(session()->get('user'));
         return view('frontend.student.dashboard.dashboard');
     }
 

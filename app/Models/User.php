@@ -82,4 +82,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Group::class);
     }
+    public function citations()
+    {
+        return $this->hasMany(Citation::class);
+    }
 }

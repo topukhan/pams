@@ -14,6 +14,9 @@ use App\Models\RequestToCoordinator;
 use App\Models\Student;
 use App\Models\Supervisor;
 use App\Models\User;
+use App\Notifications\ProjectProposalNotification;
+use App\Notifications\GroupRequestToCoordinator;
+use App\Notifications\IndividualRequestToCoordinator;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -79,17 +82,16 @@ class StudentController extends Controller
                 ->first();
         })->first();
         $proposalSubmitted = null;
+        $in_project = null;
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             // Check if a proposal from the group already exists
             $existingProposal = ProjectProposal::where('group_id', $group->id)->first();
             $proposalSubmitted = $existingProposal !== null;
             $in_project = Project::where('group_id', $group->id)->exists();
-            
         }
         $supervisors = Supervisor::where('availability', true)->get();
 
-        // dd($supervisors);
         $domains = Domain::all();
         return view('frontend.student.proposal.proposalForm', compact('supervisors', 'in_project', 'sup_dom_name', 'domains', 'selected_supervisor', 'group', 'proposalSubmitted'));
     }
@@ -98,7 +100,6 @@ class StudentController extends Controller
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
-
         $request->validate([
             'title' => 'required',
             'course' => 'required',
@@ -109,21 +110,26 @@ class StudentController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            ProjectProposal::create([
+            $proposal = ProjectProposal::create([
                 'group_id' => $request->group_id,
                 'title' => $request->title,
                 'course' => $request->course,
                 'supervisor_id' => $request->supervisor_id,
                 'domain' => $request->domain,
                 'project_type' => $request->project_type,
-                'description' => $request->description
+                'description' => $request->description,
+                'created_by' => Auth::guard('student')->user()->id
             ]);
             $existing_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
-            if ($existing_feedback){
+            if ($existing_feedback) {
                 $existing_feedback->delete();
             }
-
             DB::commit();
+
+            //notify supervisor
+            $supervisor = User::where('id', $request->supervisor_id)->first();
+
+            $supervisor->notify(new ProjectProposalNotification($request->group_id, $proposal));
             return redirect()->route('student.dashboard')->withMessage("Proposal Submitted!");
         } catch (\Throwable $th) {
             DB::rollback();
@@ -142,12 +148,11 @@ class StudentController extends Controller
         $proposal_feedback = null;
         $supervisor = null;
         $in_project = Project::where('group_id', $group_id)->exists();
-        if($proposal){
+        if ($proposal) {
             $proposal_feedback = ProposalFeedback::where('group_id', $group_id)->first();
             $supervisor = User::where('id', $proposal->supervisor_id)->first();
         }
-
-        return view('frontend.student.proposal.proposalStatus', compact('proposal','in_project', 'is_denied', 'proposal_feedback', 'supervisor'));
+        return view('frontend.student.proposal.proposalStatus', compact('proposal', 'in_project', 'is_denied', 'proposal_feedback', 'supervisor'));
     }
 
     //If supervisor's suggestion accept then existing project proposal will modified
@@ -301,19 +306,22 @@ class StudentController extends Controller
             $request->validate([
                 'reason' => 'required'
             ]);
+            $coordinator = User::where('role', 'coordinator')->first();
 
             if ($request->id) {
-                RequestToCoordinator::create([
+                $request_to_coordinator = RequestToCoordinator::create([
                     'user_id' => $request->id,
                     'reason' => $request->reason,
                     'note' => $request->note
                 ]);
+                $coordinator->notify(new IndividualRequestToCoordinator($request->id, $request_to_coordinator->id));
             } else {
-                RequestToCoordinator::create([
+                $request_to_coordinator = RequestToCoordinator::create([
                     'group_id' => $request->group_id,
                     'reason' => $request->reason,
                     'note' => $request->note
                 ]);
+                $coordinator->notify(new GroupRequestToCoordinator($request->group_id, $request_to_coordinator->id));
             }
 
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('group_id')->references('id')->on('groups');
             $table->string('suggestion')->nullable();
             $table->boolean('is_denied')->default(false);
-            $table->unsignedBigInteger('denied_by');
+            $table->unsignedBigInteger('denied_by')->nullable();
 
             $table->foreign('denied_by')->references('id')->on('users')->onDelete('cascade');
 

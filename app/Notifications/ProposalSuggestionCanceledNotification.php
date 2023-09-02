@@ -2,30 +2,22 @@
 
 namespace App\Notifications;
 
-use App\Models\ProposalFeedback;
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ProposalFeedbackNotification extends Notification
+class ProposalSuggestionCanceledNotification extends Notification
 {
     use Queueable;
+    protected $group_name;
 
-    protected $user_id;
-    protected $denied_by;
-    protected $role;
-    
-
-    public function __construct(ProposalFeedback $proposal_feedback)
+    /**
+     * Create a new notification instance.
+     */
+    public function __construct($name)
     {
-       
-        $this->user_id = $proposal_feedback->denied_by;
-        $user = User::where('id', $this->user_id)->first();
-        $this->denied_by = $user->first_name. ' '. $user->last_name;
-        $this->role = $user->role;
-        
+        $this->group_name = $name;
     }
 
     /**
@@ -57,11 +49,8 @@ class ProposalFeedbackNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            
-            'user_id' => $this->user_id,
-            'denied_by' => $this->denied_by,
-            'role' => $this->role,
-            
+            'message' => "Canceled Your Suggestion",
+            'group_name' => $this->group_name,
         ];
     }
 }

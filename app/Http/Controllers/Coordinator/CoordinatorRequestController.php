@@ -346,6 +346,10 @@ class CoordinatorRequestController extends Controller
                                     'denied_by' => auth()->guard('coordinator')->user()->id,
                                 ]);
                             }
+                            // supervisor notify
+                            $supervisor = User::find($proposal->supervisor_id);
+                            $supervisor->notify(new ProposalFeedbackNotification($proposal_feedback));
+
                             $proposal->delete();
                             DB::commit();
                             // for student notify

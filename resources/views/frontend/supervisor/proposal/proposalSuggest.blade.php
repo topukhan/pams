@@ -21,9 +21,9 @@
         <div class="px-2 py-2">
             @if (session('error'))
                 <div
-                    class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
+                    class="max-w-3xl mx-auto bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md my-4">
                     <div class="flex items-center">
-                        <div class="w-6 h-6 mr-4 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div class="w-6 h-6 mr-4 bg-red-500 rounded-full flex-shrink-0"></div>
                         <div class="flex-1">
                             {{ session('error') }}
                         </div>
@@ -49,10 +49,9 @@
                         <label for="suggest" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Suggest:
                         </label>
-                        <textarea id="suggest" name="suggest" rows="2" value="{{ old('suggest') }}"
+                        <textarea id="suggest" name="suggest" rows="3" value=""
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
-                        {{-- <x-input-error :messages="$errors->get('suggest')" class="mt-2"/> --}}
-                        {{-- <x-input-error :messages="$errors->get('suggest')" class="mt-2"/> --}}
+                        {{-- <x-input-error :messages="$errors->get('suggest')" class="mt-2 text-red-400"/> --}}
                         </div>
                     <div class="mb-6">
                         <button type="submit"

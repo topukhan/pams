@@ -15,13 +15,29 @@
                             <p class="text-gray-600 dark:text-gray-300">Topic: "{{ $notification->data['title'] }}"</p>
                         </a>
                         {{ $notification->markAsRead() }}
+
                     </div>
                     {{-- Project Approval Notification --}}
                 @elseif ($notification->type === 'App\Notifications\ProjectApprovalNotification')
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 mb-2 shadow-md">
-                        <a href="">
-                            <h3 class="text-lg font-semibold">"{{ $notification->data['title'] }}"</span> has been allocated to you.
+                        <a href="{{route('supervisor.approvedGroups')}}">
+                            <h3 class="text-lg font-semibold">"{{ $notification->data['title'] }}" has been allocated to you.
                             </h3>
+                        </a>
+                        {{ $notification->markAsRead() }}
+                    </div>
+                @elseif ($notification->type === 'App\Notifications\ProposalFeedbackNotification')
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 mb-2 shadow-md">
+                        <a href="{{route('supervisor.approvedGroups')}}">
+                            <h3 class="text-lg font-semibold">{{ucfirst($notification->data['role']).': "' .$notification->data['denied_by'] }}" has denied A Project Proposal You were Accepted.
+                            </h3>
+                        </a>
+                        {{ $notification->markAsRead() }}
+                    </div>
+                @elseif ($notification->type === 'App\Notifications\ProposalSuggestionCanceledNotification')
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 mb-2 shadow-md">
+                        <a href="{{route('supervisor.proposalList')}}">
+                            <h3 class="text-lg font-semibold">Group:"{{ucfirst($notification->data['group_name']).'" ' .$notification->data['message'] }}.</h3>
                         </a>
                         {{ $notification->markAsRead() }}
                     </div>

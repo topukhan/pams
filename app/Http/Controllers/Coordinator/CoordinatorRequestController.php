@@ -9,17 +9,18 @@ use App\Models\RequestToCoordinator;
 use App\Models\GroupMember;
 use App\Models\Project;
 use App\Models\ProjectProposal;
-use App\Models\ProjectProposalApprovalRequest;
 use App\Models\ProposalFeedback;
 use App\Models\Student;
 use App\Models\User;
+use App\Notifications\GroupUpdateNotification;
 use App\Notifications\ProjectApprovalNotification;
-use App\Notifications\ProjectProposalNotification;
 use App\Notifications\ProposalFeedbackNotification;
+use App\Notifications\ProposalPermissionGrantedNotification;
 use App\Notifications\RequestedStudentAddedToGroup;
 use Doctrine\DBAL\Query\QueryException;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -56,6 +57,7 @@ class CoordinatorRequestController extends Controller
         return view('frontend.coordinator.request.group.requestDetails', compact('request'));
     }
 
+    // Both individual and group request single/multiple student add to a group
     public function requestedStudentAddToGroup(Request $request)
     {
         $request_id = $request->request_id;
@@ -65,7 +67,6 @@ class CoordinatorRequestController extends Controller
             $selectedUserIds = [$selectedUserIds];
         }
 
-        DB::beginTransaction();
 
         try {
             // Check if any of the selected users are already in a group
@@ -75,6 +76,7 @@ class CoordinatorRequestController extends Controller
                 $group = Group::find($group_id);
 
                 if ($group) {
+                    DB::beginTransaction();
                     // Insert into the group_members table for each selected user
                     foreach ($selectedUserIds as $user_id) {
                         GroupMember::create([
@@ -85,14 +87,31 @@ class CoordinatorRequestController extends Controller
                     if (count($group->groupMembers) >= 3) {
                         $group->update(['can_propose' => 1]);
                     }
-                    $user = User::where('id', $request->user_id)->first();
-                    $user->notify(new  RequestedStudentAddedToGroup($user->id));
+                    if (count($selectedUserIds) == 1) {
+                        $user = User::where('id', $request->user_id)->first();
+                        $user->notify(new  RequestedStudentAddedToGroup($user->id));
 
-                    $groupMemberIds = $group->groupMembers->pluck('user_id')->toArray();
-                    foreach ($groupMemberIds as $member_id) {
-                        if($member_id != $user->id){
-                            $member = User::where('id', $member_id)->first();
-                            $member->notify(new  RequestedStudentAddedToGroup($user->id, $member->id));
+                        $groupMemberIds = $group->groupMembers->pluck('user_id')->toArray();
+                        foreach ($groupMemberIds as $member_id) {
+                            if ($member_id != $user->id) {
+                                $member = User::where('id', $member_id)->first();
+                                $member->notify(new  RequestedStudentAddedToGroup($user->id, $member->id));
+                            }
+                        }
+                    }
+                    if (count($selectedUserIds) > 1) {
+
+                        $added_members = User::whereIn('id', $selectedUserIds)->get();
+                        foreach ($added_members as $member) {
+                            $member->notify(new  GroupUpdateNotification(true, false, $member->id, false));
+                        }
+
+                        $members = GroupMember::where('group_id', $group_id)->pluck('user_id')->toArray();
+
+                        $group_members_without_added = array_diff($members, $added_members->pluck('id')->toArray());
+                        $group_members = User::whereIn('id', $group_members_without_added)->get();
+                        foreach ($group_members as $member) {
+                            $member->notify(new  GroupUpdateNotification(true, false, false, $member->id));
                         }
                     }
 
@@ -107,16 +126,14 @@ class CoordinatorRequestController extends Controller
                     return redirect()->route('coordinator.requests')->with('error', 'Group not found.');
                 }
             } else {
-                DB::rollback();
                 RequestToCoordinator::where('id', $request_id)->delete();
                 return redirect()->route('coordinator.requests')->with('error', 'One or more selected students are already in a group.');
             }
         } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->with('error', 'An error occurred while adding the students to the group.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
+    // Merge Group 
     public function transferGroupMembers(Request $request)
     {
         $requestedGroupId = $request->input('requested_group_id');
@@ -134,7 +151,18 @@ class CoordinatorRequestController extends Controller
             }
 
             $requestedMembers = GroupMember::where('group_id', $requestedGroup->id)->pluck('user_id')->unique()->toArray();
-
+            $requestedUsers = User::whereIn('id', $requestedMembers)->get();
+            //for notify
+            $receiverGroupMemberIds = GroupMember::where('group_id', $receiverGroup->id)->pluck('user_id')->unique()->toArray();
+            $receiverGroupMembers = User::whereIn('id', $receiverGroupMemberIds)->get();
+            //requested users will be notify they are merged with a group
+            foreach ($requestedUsers as $member) {
+                $member->notify(new  GroupUpdateNotification(false, true, $member->id , false ));
+            }
+            // receiver group members will be notify a group is merged with them 
+            foreach ($receiverGroupMembers as $member) {
+                $member->notify(new  GroupUpdateNotification(false, true, false , $member->id));
+            }
             // Insert transferred members into the group_members table of the receiver group
             foreach ($requestedMembers as $user_id) {
                 GroupMember::create([
@@ -142,13 +170,13 @@ class CoordinatorRequestController extends Controller
                     'user_id' => $user_id,
                 ]);
             }
+
             if (count($receiverGroup->groupMembers) >= 4) {
                 $receiverGroup->update(['can_propose' => 1]);
             }
             // Delete the requested group and its join request
             $requestedGroup->delete();
             RequestToCoordinator::where('group_id', $requestedGroupId)->delete();
-
             DB::commit();
 
             return redirect()->route('coordinator.requests')->with('message', 'Group members transferred successfully.');
@@ -200,6 +228,11 @@ class CoordinatorRequestController extends Controller
             DB::beginTransaction();
             $group->update(['can_propose' => 1]);
 
+            $member_ids = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
+            $group_members = User::whereIn('id', $member_ids)->get();
+            foreach($group_members as $member){
+                $member->notify(new ProposalPermissionGrantedNotification($member->id));
+            }
             $request->delete();
             DB::commit();
             return redirect()->route('coordinator.requests')->withMessage('Permission Given for Proposal');

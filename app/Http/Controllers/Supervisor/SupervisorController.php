@@ -163,18 +163,18 @@ class SupervisorController extends Controller
                         $proposal_feedback->update(['is_denied' => true]);
                         $proposal->delete();
                         DB::commit();
-                         // for student notify
-                         $members = GroupMember::where('group_id', $proposal_feedback->group_id)->get();
-                         $students = User::whereIn('id', $members->pluck('user_id'))->get();
-                         foreach ($students as $student) {
-                             $student->notify(new ProposalFeedbackNotification($proposal_feedback));
-                         }
+                        // for student notify
+                        $members = GroupMember::where('group_id', $proposal_feedback->group_id)->get();
+                        $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                        foreach ($students as $student) {
+                            $student->notify(new ProposalFeedbackNotification($proposal_feedback));
+                        }
                         return redirect()->route('supervisor.proposalList')->withDenied('You denied the project proposal');
                     } catch (\Throwable $th) {
                         DB::rollBack();
                         return redirect()->back()->withInput()->with('errors', $th->getMessage());
                     }
-                } elseif ($request->suggest) {
+                } else {
                     $request->validate([
                         'suggest' => 'required'
                     ]);
@@ -196,7 +196,7 @@ class SupervisorController extends Controller
                         return redirect()->route('supervisor.proposalList')->withMessage('Suggestion Made Successfully');
                     } catch (Throwable $th) {
                         DB::rollback();
-                        return redirect()->back()->withInput()->with('errors', $th->getMessage());
+                        return redirect()->back()->withInput()->with('error', $th->getMessage());
                     }
                 }
             }
@@ -218,7 +218,7 @@ class SupervisorController extends Controller
     public function evaluation(Request $request)
     {
         $project = Project::find($request->project_id);
-        
+
         $supervisor = Supervisor::find($project->supervisor_id);
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);

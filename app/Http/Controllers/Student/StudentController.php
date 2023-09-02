@@ -14,14 +14,17 @@ use App\Models\RequestToCoordinator;
 use App\Models\Student;
 use App\Models\Supervisor;
 use App\Models\User;
+use App\Notifications\GroupRequestNotification;
 use App\Notifications\ProjectProposalNotification;
 use App\Notifications\GroupRequestToCoordinator;
 use App\Notifications\IndividualRequestToCoordinator;
+use App\Notifications\ProposalSuggestionCanceledNotification;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Throwable;
 
 class StudentController extends Controller
@@ -214,11 +217,16 @@ class StudentController extends Controller
     {
         $proposal = ProjectProposal::where('id', $request->proposal_id)->first();
         $proposal_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+        //notify supervisor
+        $supervisor = User::find($proposal->supervisor_id);
+        $group = Group::find($proposal->group_id);
         try {
             DB::beginTransaction();
             $proposal->delete();
             $proposal_feedback->delete();
             DB::commit();
+            //notify supervisor
+            $supervisor->notify(new ProposalSuggestionCanceledNotification($group->name));
             return redirect()->route('student.proposalStatus')->withMessage('Cancelled, Make a new Proposal');
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -306,8 +314,9 @@ class StudentController extends Controller
             $request->validate([
                 'reason' => 'required'
             ]);
+            //notify
             $coordinator = User::where('role', 'coordinator')->first();
-
+            
             if ($request->id) {
                 $request_to_coordinator = RequestToCoordinator::create([
                     'user_id' => $request->id,
@@ -322,6 +331,15 @@ class StudentController extends Controller
                     'note' => $request->note
                 ]);
                 $coordinator->notify(new GroupRequestToCoordinator($request->group_id, $request_to_coordinator->id));
+                // notify group members about request sent to coordinator
+                $group = Group::find($request->group_id);
+                $member_ids = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
+                $auth_id = [auth()->guard('student')->user()->id];
+                $remaining_members = array_diff($member_ids, $auth_id);
+                $members = User::whereIn('id', $remaining_members)->get();
+                $name = auth()->guard('student')->user()->first_name.' ' .auth()->guard('student')->user()->last_name;
+                Notification::send($members, new GroupRequestNotification($name, $request->reason));
+                
             }
 
 

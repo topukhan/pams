@@ -84,7 +84,7 @@
                         <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
                             <a href="{{ route('student.proposalStatus') }}">
                                 <h3 class="text-lg font-semibold">Supervisor: <span class="mr-1 ml-1">
-                                        {{ $notification->data['supervisor_name'] }}</span> has accepted your
+                                        "{{ $notification->data['supervisor_name'] }}"</span> has accepted your
                                     project
                                     proposal.
                                 </h3>
@@ -93,31 +93,28 @@
                         </div>
                     @endif
                 @elseif($notification->type == 'App\Notifications\ProposalFeedbackNotification')
-                    @if (
-                        $notification->data['user_id'] ==
-                            auth()->guard('supervisor')->user()->id)
+                    @if ($notification->data['role'] == "supervisor")
                         <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
                             <a href="{{ route('student.proposalStatus') }}">
                                 <h3 class="text-lg font-semibold">Supervisor: <span class="mr-1 ml-1">
-                                        {{ $notification->data['denied_by'] }}</span> has denied your project
+                                        "{{ $notification->data['denied_by'] }}"</span> has denied your project
                                     proposal.
                                 </h3>
                             </a>
                             {{ $notification->markAsRead() }}
                         </div>
-                    @elseif (
-                        $notification->data['user_id'] ==
-                            auth()->guard('coordinator')->user()->id)
+                    @elseif ($notification->data['role'] == "coordinator")
                         <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
                             <a href="{{ route('student.proposalStatus') }}">
                                 <h3 class="text-lg font-semibold">Coordinator: <span class="mr-1 ml-1">
-                                        {{ $notification->data['denied_by'] }}</span> has denied your project
+                                       "{{ $notification->data['denied_by'] }}"</span> has denied your project
                                     proposal.
                                 </h3>
                             </a>
                             {{ $notification->markAsRead() }}
                         </div>
                     @endif
+                    {{-- when individual request for a group to coordinator and added to a group --}}
                 @elseif($notification->type == 'App\Notifications\RequestedStudentAddedToGroup')
                     @if (
                         $notification->data['requested_student_id'] ==
@@ -139,6 +136,57 @@
                             {{ $notification->markAsRead() }}
                         </div>
                     @endif
+                @elseif($notification->type == 'App\Notifications\GroupUpdateNotification')
+                    @if ($notification->data['added'] == true)
+                    @if ($notification->data['receiver'] == false)
+                        <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
+                            <a href="{{ route('student.myGroup') }}">
+                                <h3 class="text-lg font-semibold">You were placed in a group</h3>
+                            </a>
+                            {{ $notification->markAsRead() }}
+                        </div>
+                    @else
+                        <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
+                            <a href="{{ route('student.myGroup') }}">
+                                <h3 class="text-lg font-semibold">Coordinator Added member to your group</h3>
+                            </a>
+                            {{ $notification->markAsRead() }}
+                        </div>
+                    @endif
+                    @elseif ($notification->data['merged'] == true)
+                        @if ($notification->data['receiver'] == false)
+                            <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
+                                <a href="{{ route('student.myGroup') }}">
+                                    <h3 class="text-lg font-semibold {{isset($notification->read_at) ? 'text-gray-500' : ''}}">Your group was merged into another group</h3>
+                                </a>
+                                {{ $notification->markAsRead() }}
+                            </div>
+                        @else
+                            <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
+                                <a href="{{ route('student.myGroup') }}">
+                                    <h3 class="text-lg font-semibold">A group has been merged with your group</h3>
+                                </a>
+                                {{ $notification->markAsRead() }}
+                            </div>
+                        @endif
+                    @endif
+                @elseif($notification->type == 'App\Notifications\ProposalPermissionGrantedNotification')
+                    <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
+                        <a href="{{ route('student.proposalForm') }}">
+                            <h3 class="text-lg font-semibold {{isset($notification->read_at) ? 'text-gray-500' : ''}}">{{$notification->data['message']}}</h3> 
+                        </a>
+                        {{ $notification->markAsRead() }}
+                    </div>
+                @elseif($notification->type == 'App\Notifications\GroupRequestNotification')
+                    <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
+                        <a href="{{ route('student.proposalForm') }}">
+                            <h3 class="text-lg font-semibold {{isset($notification->read_at) ? 'text-gray-500' : ''}}">
+                                "{{$notification->data['name']}}" {{$notification->data['message']}} 
+                            </h3> 
+                            <span class="text-gray-600 ml-2">Reason: {{$notification->data['reason']}}</span>
+                        </a>
+                        {{ $notification->markAsRead() }}
+                    </div>
                 @endif
             @empty
                 <p class="text-gray-700 text-center">No notifications to display at this time.</p>

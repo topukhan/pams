@@ -187,12 +187,19 @@
                         </a>
                         {{ $notification->markAsRead() }}
                     </div>
+                @elseif($notification->type == 'App\Notifications\NoticeNotification')
+                        <div class="bg-white dark:bg-gray-800 mb-2 rounded-lg p-4 shadow-md">
+                            <a href="{{ route('student.notice', ['notice_id' => $notification->data['notice_id']]) }}">
+                                <h3 class="text-lg font-semibold">Supervisor: <span class="mr-1 ml-1">
+                                        {{ $notification->data['sender'] }}</span> posted a notice .
+                                </h3>
+                            </a>
+                            {{ $notification->markAsRead() }}
+                        </div>
                 @endif
             @empty
                 <p class="text-gray-700 text-center">No notifications to display at this time.</p>
             @endforelse
         </div>
     </div>
-
-
 </x-frontend.student.layouts.master>

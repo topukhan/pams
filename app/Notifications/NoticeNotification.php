@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use App\Models\Notice;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,12 +13,15 @@ class NoticeNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    
+    protected $supervisor_name;
+    protected $notice_id;
+
+    public function __construct(Notice $notice)
     {
-        //
+        $supervisor = User::where('id', $notice->user_id)->first();
+        $this->supervisor_name = $supervisor->first_name. ' '. $supervisor->last_name;
+        $this->notice_id = $notice->id;
     }
 
     /**
@@ -26,7 +31,7 @@ class NoticeNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -48,7 +53,8 @@ class NoticeNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'sender' => $this->supervisor_name,
+            'notice_id' => $this->notice_id,
         ];
     }
 }

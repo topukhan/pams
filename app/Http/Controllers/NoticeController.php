@@ -6,6 +6,8 @@ use App\Models\File;
 use App\Models\GroupMember;
 use App\Models\Notice;
 use App\Models\Project;
+use App\Models\User;
+use App\Notifications\NoticeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,8 +49,13 @@ class NoticeController extends Controller
                 }
             }
             DB::commit();
-            
-            return redirect()->route('supervisor.noticeCreate')->with('success', 'Notice created successfully.');
+            // for student notify
+            $members = GroupMember::where('group_id', $notice->group_id)->get();
+            $students = User::whereIn('id', $members->pluck('user_id'))->get();
+            foreach ($students as $student) {
+                $student->notify(new NoticeNotification($notice));
+            }
+            return redirect()->route('supervisor.noticeCreate')->withMessage('Notice created successfully.');
         } catch (\Exception $e) {
             dd('in roll');
             DB::rollBack();
@@ -56,11 +63,12 @@ class NoticeController extends Controller
         }
     }
 
-
+///////////////student
     // noticelist
     public function noticeList()
     {
         $user = Auth::guard('student')->user();
+    
         if ($user) {
             $groupMember = GroupMember::where('user_id', $user->id)->first();
             if ($groupMember) {
@@ -70,13 +78,10 @@ class NoticeController extends Controller
             }
         }
     }
-
     //  notice
     public function notice($notice_id)
     {
         $notice = Notice::where('id', $notice_id)->first();
         return view('frontend.student.notice.notice', compact('notice'));
     }
-
-   
 }

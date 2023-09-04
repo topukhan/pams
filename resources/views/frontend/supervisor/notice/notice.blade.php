@@ -18,6 +18,27 @@
             </ol>
         </div>
         <div class="px-2 py-2">
+            @if (session('message'))
+            <div
+                class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
+                <div class="flex items-center">
+                    <div class="w-6 h-6 mr-4 bg-green-500 rounded-full flex-shrink-0"></div>
+                    <div class="flex-1">
+                        {{ session('message') }}
+                    </div>
+                    <button type="button"
+                        class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                        data-dismiss="alert" aria-label="Close"
+                        onclick="this.parentElement.parentElement.style.display='none'">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        @endif
             @if (session('error'))
                 <div
                     class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
@@ -78,7 +99,6 @@
                     </div>
                     <div class="mb-4 flex flex-wrap">
                         <div id="fileInputs" class="w-full md:w-1/2 mb-2 md:mb-0">
-                            <!-- Initial file input field with Tailwind classes -->
                             <input type="file" name="file[]" multiple class="mb-2 p-2 bg-gray-100 rounded-md block">
                         </div>
                         @error('file.*')
@@ -102,19 +122,35 @@
             </div>
         </div>
     </div>
+
     <script>
         const fileInputsContainer = document.getElementById('fileInputs');
         const addFileInputBtn = document.getElementById('addFileInputBtn');
-
+        
         addFileInputBtn.addEventListener('click', function() {
+            const fileInputWrapper = document.createElement('div');
+            fileInputWrapper.classList.add('mb-2', 'flex', 'items-center', 'space-x-2');
+    
             const newFileInput = document.createElement('input');
             newFileInput.type = 'file';
             newFileInput.name = 'file[]';
             newFileInput.classList.add('mb-2', 'p-2', 'bg-gray-100', 'rounded-md', 'block');
             newFileInput.setAttribute('multiple', 'multiple');
-            fileInputsContainer.appendChild(newFileInput);
+    
+            const removeButton = document.createElement('button');
+            removeButton.type = 'button';
+            removeButton.textContent = '-';
+            removeButton.classList.add('px-3', 'py-2', 'text-3xl','font-bold', 'text-red-600');
+            removeButton.addEventListener('click', function() {
+                fileInputWrapper.remove();
+            });
+    
+            fileInputWrapper.appendChild(newFileInput);
+            fileInputWrapper.appendChild(removeButton);
+            fileInputsContainer.appendChild(fileInputWrapper);
         });
     </script>
+    
 
 
 

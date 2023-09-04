@@ -1,7 +1,7 @@
 <x-frontend.student.layouts.master>
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Proposal List</h2>
+            Notice List</h2>
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
@@ -10,14 +10,14 @@
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="#" class="text-gray-900 dark:text-white">Proposal List</a>
+                    <a href="#" class="text-gray-900 dark:text-white">Notice List</a>
                 </li>
             </ol>
         </div>
 
         <div class="px-2 py-2 ">
 
-            {{-- @if (count($notices) > 0) --}}
+            @if (count($notices) > 0)
                 <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto shadow-lg">
                         <table class="w-full whitespace-no-wrap ">
@@ -55,13 +55,13 @@
                         </table>
                     </div>
                 </div>
-            {{-- @else --}}
-                {{-- <div class="flex justify-center h-screen "> --}}
-                    {{-- <div class="text-center"> --}}
-                        {{-- <h3 class="my-6">No Notice</h3> --}}
+            @else
+                <div class="flex justify-center h-screen ">
+                    <div class="text-center">
+                        <h3 class="my-6">No Notice</h3>
                     </div>
-                {{-- </div> --}}
-            {{-- @endif --}}
+                </div>
+            @endif
         </div>
     </div>
 </x-frontend.student.layouts.master>

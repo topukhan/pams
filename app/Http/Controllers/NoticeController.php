@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\File;
+use App\Models\GroupMember;
 use App\Models\Notice;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -35,22 +36,18 @@ class NoticeController extends Controller
                 'user_id' => $id,
                 'notice' => $request->notice,
             ]);
-            // dd($notice);
             if ($request->hasFile('file')) {
                 foreach ($request->file('file') as $file) {
                     $filename = $file->getClientOriginalName();
-                    // dd($filename);
                     $file->storeAs('files', $filename, 'public');
-
                     $new_file = File::create([
                         'notice_id' => $notice->id,
                         'filename' => $filename,
                     ]);
-                    // dd($new_file);
                 }
             }
-            // dd('hereeee');
             DB::commit();
+            
             return redirect()->route('supervisor.noticeCreate')->with('success', 'Notice created successfully.');
         } catch (\Exception $e) {
             dd('in roll');
@@ -60,9 +57,26 @@ class NoticeController extends Controller
     }
 
 
-    // notice
-    public function notice()
+    // noticelist
+    public function noticeList()
     {
-        return view('frontend.student.notice.notice');
+        $user = Auth::guard('student')->user();
+        if ($user) {
+            $groupMember = GroupMember::where('user_id', $user->id)->first();
+            if ($groupMember) {
+                $group_id = $groupMember->group_id;
+                $notices = Notice::where('group_id', $group_id)->get();
+                return view('frontend.student.notice.noticeList', compact('notices'));
+            }
+        }
     }
+
+    //  notice
+    public function notice($notice_id)
+    {
+        $notice = Notice::where('id', $notice_id)->first();
+        return view('frontend.student.notice.notice', compact('notice'));
+    }
+
+   
 }

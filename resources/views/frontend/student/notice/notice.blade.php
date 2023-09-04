@@ -20,20 +20,21 @@
         <div class="px-2 py-2">
             <div class="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-8">
                 <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
-                    From : <span>aaa </span>
+                    From : <span>{{$notice->user->first_name.' '.$notice->user->last_name}} </span>
                 </label>
                 <div class="mb-3">
                     <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                         Notice:
                     </label>
-                    <p > we shall do the project on time, and not burden it on one person. Everyone should at least put some effort and stop being so thick headed. cauze WInter is Coming</p>
+                    <p > {{$notice->notice}}</p>
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Attached Files:</label>
-                    <ul class="list-disc pl-6">
-                            <li> ffff</li>
-                            <li> ffff</li>
-                            <li> ffff</li>
+                    <ul class="pl-2">
+                        @foreach ($notice->files as $file )
+                        <li class="px-4 py-2 bg-blue-200 rounded-md mb-2">  <a href="{{ asset('storage/files/' . $file->filename) }}" class="text-blue-800 hover:underline">
+                            {{ $file->filename }}</a></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>

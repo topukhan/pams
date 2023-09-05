@@ -17,13 +17,14 @@
         {{-- phase1 --}}
         <div class="mt-3">
             <div class="w-full overflow-hidden rounded-lg shadow-xs ">
-                <div class="bg-lime-200 rounded-md text-center text-gray-800 shadow-sm" id="phase1Section">
-                    <span class="px-2 text-lg font-bold">PHASE I</span>
+                <div class="bg-lime-200 rounded-md text-center text-gray-800 shadow-sm cursor-pointer"
+                    id="phase1Section">
+                    <span class="px-2 text-lg font-bold ">PHASE I</span>
                 </div>
             </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs" id="phase1Table" style="display: none;">
                 <div class="bg-lime-200 rounded-md text-center shadow-sm">
-                    <div class="shadow-xs overflow-x-auto w-[159vh]">
+                    <div class="shadow-xs overflow-x-auto w-[160vh]">
                         <table class="whitespace-no-wrap table-auto">
                             <thead>
                                 <tr
@@ -36,7 +37,7 @@
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 1</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 2</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 3</th>
-                                    <th class="px-3 py-3 whitespace-normal text-center">Examiner</th>
+                                    <th class="px-3 py-3 whitespace-normal text-center">Examiner Average</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Attendance</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Project Development</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Report Preparation</th>
@@ -55,27 +56,35 @@
                                         </td>
                                         @if ($index === 0)
                                             <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold "
-                                                rowspan="4">{{ $project->title }}</td>
+                                                rowspan="{{ count($members) }}">{{ $project->title }}</td>
                                             <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold"
-                                                rowspan="4">
+                                                rowspan="{{ count($members) }}">
                                                 {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
                                             </td>
                                         @endif
-                                        <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="100"></td>
-                                        <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="100"></td>
-                                        <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="100"></td>
-                                        <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="40"></td>
-                                        <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="10"></td>
-                                        <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="20"></td>
-                                        <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="30"></td>
-                                        <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
                                                 type="number" value="100"></td>
                                     </tr>
                                 @endforeach
@@ -96,7 +105,8 @@
         {{-- phase2 --}}
         <div class="mt-3">
             <div class="w-full overflow-hidden rounded-lg shadow-xs ">
-                <div class="bg-lime-200 rounded-md text-center text-gray-800 shadow-sm " id="phase2Section">
+                <div class="bg-lime-200 rounded-md text-center text-gray-800 shadow-sm cursor-pointer "
+                    id="phase2Section">
                     <span class="px-2 text-lg font-bold">PHASE II</span>
                 </div>
             </div>
@@ -115,7 +125,7 @@
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 1</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 2</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 3</th>
-                                    <th class="px-3 py-3 whitespace-normal text-center">Examiner</th>
+                                    <th class="px-3 py-3 whitespace-normal text-center">Examiner Average</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Attendance</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Project Development</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Report Preparation</th>
@@ -140,22 +150,30 @@
                                                 {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
                                             </td>
                                         @endif
-                                        <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
-                                    <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="40"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="10"></td>
-                                    <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="20"></td>
-                                    <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="30"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="40"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="10"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="20"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="30"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -173,9 +191,10 @@
         </div>
         {{-- phase3 --}}
         <div class="mt-3">
-            <div class="w-full overflow-hidden rounded-lg shadow-xs ">
-                <div class="bg-lime-200 rounded-md text-center text-gray-800 shadow-sm " id="phase3Section">
-                    <span class="px-2 text-lg font-bold">PHASE II</span>
+            <div class="w-full overflow-hidden rounded-lg shadow-xs  mb-6">
+                <div class="bg-lime-200 rounded-md text-center text-gray-800 shadow-sm cursor-pointer"
+                    id="phase3Section">
+                    <span class="px-2 text-lg font-bold">PHASE III</span>
                 </div>
             </div>
             <div class="w-full overflow-hidden rounded-lg shadow-xs " id="phase3Table" style="display: none;">
@@ -193,7 +212,7 @@
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 1</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 2</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Examiner 3</th>
-                                    <th class="px-3 py-3 whitespace-normal text-center">Examiner</th>
+                                    <th class="px-3 py-3 whitespace-normal text-center">Examiner Average</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Attendance</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Project Development</th>
                                     <th class="px-3 py-3 whitespace-normal text-center">Report Preparation</th>
@@ -218,22 +237,30 @@
                                                 {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
                                             </td>
                                         @endif
-                                        <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
-                                    <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="40"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="10"></td>
-                                    <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="20"></td>
-                                    <td><input class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="30"></td>
-                                    <td><input class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                            type="number" value="100"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="40"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="10"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="20"></td>
+                                        <td><input
+                                                class="border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="30"></td>
+                                        <td><input
+                                                class=" border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                type="number" value="100"></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -263,7 +290,7 @@
                 }
             });
 
-             // phase2
+            // phase2
             const phase2Section = document.getElementById('phase2Section');
             const phase2Table = document.getElementById('phase2Table');
 
@@ -275,7 +302,7 @@
                 }
             });
 
-             // phase3
+            // phase3
             const phase3Section = document.getElementById('phase3Section');
             const phase3Table = document.getElementById('phase3Table');
 

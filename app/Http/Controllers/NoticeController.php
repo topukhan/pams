@@ -40,8 +40,8 @@ class NoticeController extends Controller
             ]);
             if ($request->hasFile('file')) {
                 foreach ($request->file('file') as $file) {
-                    $filename = $file->getClientOriginalName();
-                    $file->storeAs('files', $filename, 'public');
+                    $filename = uniqid(). '_' . $file->getClientOriginalName();
+                    $file->storeAs('notices', $filename, 'public');
                     $new_file = File::create([
                         'notice_id' => $notice->id,
                         'filename' => $filename,
@@ -57,23 +57,23 @@ class NoticeController extends Controller
             }
             return redirect()->route('supervisor.noticeCreate')->withMessage('Notice created successfully.');
         } catch (\Exception $e) {
-            dd('in roll');
+            dd('in catch');
             DB::rollBack();
             return redirect()->back()->with('error', 'Error creating notice: ' . $e->getMessage());
         }
     }
 
-///////////////student
-    // noticelist
+    ///////////////student
+    // notice list
     public function noticeList()
     {
         $user = Auth::guard('student')->user();
-    
+
         if ($user) {
             $groupMember = GroupMember::where('user_id', $user->id)->first();
             if ($groupMember) {
-                $group_id = $groupMember->group_id;
-                $notices = Notice::where('group_id', $group_id)->get();
+                
+                $notices = Notice::where('group_id', $groupMember->group_id)->get();
                 return view('frontend.student.notice.noticeList', compact('notices'));
             }
         }

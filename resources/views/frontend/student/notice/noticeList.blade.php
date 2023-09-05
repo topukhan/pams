@@ -10,7 +10,7 @@
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="#" class="text-gray-900 dark:text-white">Notice List</a>
+                    <a href="{{route('student.noticeList')}}" class="text-gray-900 dark:text-white">Notices</a>
                 </li>
             </ol>
         </div>

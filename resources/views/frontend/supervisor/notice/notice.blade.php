@@ -139,8 +139,8 @@
     
             const removeButton = document.createElement('button');
             removeButton.type = 'button';
-            removeButton.textContent = '-';
-            removeButton.classList.add('px-3', 'py-2', 'text-3xl','font-bold', 'text-red-600');
+            removeButton.textContent = '✖';
+            removeButton.classList.add('px-3', 'py-2', 'text-lg','font-bold', 'text-red-600');
             removeButton.addEventListener('click', function() {
                 fileInputWrapper.remove();
             });

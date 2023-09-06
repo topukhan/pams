@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\GroupMember;
+use App\Models\Phase1;
 use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
@@ -215,13 +216,10 @@ class SupervisorController extends Controller
         return view('frontend.supervisor.evaluate.groups',  compact('projects'));
     }
     //Supervisor Evaluation
-    public function evaluation(Request $request)
+    public function evaluation(Request $request, Project $project, Group $group)
     {
-        $project = Project::find($request->project_id);
-
-        $supervisor = Supervisor::find($project->supervisor_id);
-        $group = Group::find($request->group_id);
-        $proposal = ProjectProposal::find($request->proposal_id);
+        $phase1 = Phase1::where('project_id', $project->id)->get();
+        // dd($phase1);
         $supervisor = User::find($project->supervisor_id);
 
         if ($group) {
@@ -230,5 +228,28 @@ class SupervisorController extends Controller
         }
 
         return view('frontend.supervisor.evaluate.evaluation', compact('group', 'project', 'members', 'supervisor'));
+    }
+
+    public function evaluationStore(Request $request){
+        $is_exist = Phase1::where('project_id', $request->project_id)->exists();
+        // dd($is_exist);
+        if($is_exist == false){
+            // dd('nai');
+            $rules = [
+                'examiner_1_mark.*' => 'required|numeric|min:0|max:100',  // Allow any numeric value (float or integer)
+                'examiner_2_mark.*' => 'required|numeric|max:100',
+                'examiner_3_mark.*' => 'required|numeric|max:100',
+                'examiner_average.*' => 'required|numeric',
+                'attendance.*' => 'required|numeric',
+                'project_development.*' => 'required|numeric',
+                'report_preparation.*' => 'required|numeric',
+                'total.*' => 'required|numeric',
+            ];
+
+            $request->validate($rules);
+        }
+        else{
+            dd('ache');
+        }
     }
 }

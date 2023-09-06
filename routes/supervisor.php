@@ -32,7 +32,8 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     Route::get('/supervisor/notice', [NoticeController::class, 'create'])->name('supervisor.noticeCreate');
     Route::post('/supervisor/noticeStore', [NoticeController::class, 'store'])->name('supervisor.noticeStore');
     Route::get('/supervisor/evaluateGroups', [SupervisorController::class, 'evaluateGroups'])->name('supervisor.evaluateGroups');
-    Route::get('/supervisor/evaluation', [SupervisorController::class, 'evaluation'])->name('supervisor.evaluation');
+    Route::get('/supervisor/evaluation/{project}/{group}', [SupervisorController::class, 'evaluation'])->name('supervisor.evaluation');
+    Route::post('/supervisor/evaluationStore', [SupervisorController::class, 'evaluationStore'])->name('supervisor.evaluationStore');
     Route::get('/supervisor/citationCreate', [CitationController::class, 'create'])->name('supervisor.citationCreate');
     Route::post('/supervisor/citationStore', [CitationController::class, 'store'])->name('supervisor.citationStore');
     

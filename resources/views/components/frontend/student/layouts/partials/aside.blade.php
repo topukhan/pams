@@ -169,6 +169,13 @@
                                 {{-- <i class='bx bx-list-ul text-2xl'></i> --}}
                                 <span class="ml-4">Upcoming Events</span></a>
                         </li>
+                        <li
+                        class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                        <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                            href="{{ route('student.noticeList') }}">
+                            {{-- <i class='bx bx-list-ul text-2xl'></i> --}}
+                            <span class="ml-4">Notices</span></a>
+                    </li>
 
                     </ul>
                 </template>

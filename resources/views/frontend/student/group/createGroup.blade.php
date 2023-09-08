@@ -96,7 +96,7 @@
                             <select name="domain" id="domain"
                                 class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 focus:dark:bg-gray-800 dark:text-gray-300"
                                 id="domain">
-                                <option value="0" selected disabled>select domain</option>
+                                <option value="0" hidden>select domain</option>
                                 @foreach ($domains as $domain)
                                     <option value="{{ $domain->name }}">
                                         {{ $domain->name }}

@@ -221,19 +221,26 @@ class SupervisorController extends Controller
         $phase1 = Phase1::where('project_id', $project->id)->get();
         // dd($phase1);
         $supervisor = User::find($project->supervisor_id);
-
+        $members = null;
+        $phase1_marks = null;
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
+            $phase1_marks = Phase1::where('project_id', $project->id)->get();
         }
 
-        return view('frontend.supervisor.evaluate.evaluation', compact('group', 'project', 'members', 'supervisor'));
+        return view('frontend.supervisor.evaluate.evaluation', compact('group', 'project', 'members', 'supervisor','phase1_marks'));
     }
 
-    public function evaluationStore(Request $request){
-        $is_exist = Phase1::where('project_id', $request->project_id)->exists();
-        // dd($is_exist);
-        if($is_exist == false){
+    public function evaluationStore(Request $request)
+    {
+        // dd($request->all());
+        $phase1_marks = Phase1::where('project_id', $request->project_id)->get();
+        // dd($phase1_marks);
+        $project = Project::find($request->project_id);
+
+        // dd($project);
+        if (!$phase1_marks) {
             // dd('nai');
             $rules = [
                 'examiner_1_mark.*' => 'required|numeric|min:0|max:100',  // Allow any numeric value (float or integer)
@@ -246,10 +253,93 @@ class SupervisorController extends Controller
                 'total.*' => 'required|numeric',
             ];
 
-            $request->validate($rules);
-        }
-        else{
-            dd('ache');
+            $custom_messages = [
+                'required' => 'The :attribute field is required.',
+                'numeric' => 'The :attribute field must be a number.',
+                'min' => 'The :attribute field must be at least :min.',
+                'max' => 'The :attribute field may not be greater than :max.',
+            ];
+
+            $validated_marks = $request->validate($rules, $custom_messages);
+
+            if ($project) {
+                if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
+                    $count = 0;
+                    foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
+                        $phase1 = Phase1::create([
+                            'project_id' => $project->id,
+                            'user_id' => $request->user_id[$key],
+                            'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                            'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                            'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                            'examiner_average' => $validated_marks['examiner_average'][$key],
+                            'attendance' => $validated_marks['attendance'][$key],
+                            'project_development' => $validated_marks['project_development'][$key],
+                            'report_preparation' => $validated_marks['report_preparation'][$key],
+                            'total' => $validated_marks['total'][$key],
+                        ]);
+                        if($phase1){
+                            $count++;
+                        }
+                    }
+                    return redirect()->back()->with('message', "Marks Added Successfully");
+                } else {
+                    
+                    return redirect()->back()->with('error', "You Can't Evaluate This Group");
+                }
+            }
+            else{
+                return redirect()->back()->with('error', "Project Not Found");
+            }
+        } else {
+            $rules = [
+                'examiner_1_mark.*' => 'required|numeric|min:0|max:100',  // Allow any numeric value (float or integer)
+                'examiner_2_mark.*' => 'required|numeric|max:100',
+                'examiner_3_mark.*' => 'required|numeric|max:100',
+                'examiner_average.*' => 'required|numeric',
+                'attendance.*' => 'required|numeric',
+                'project_development.*' => 'required|numeric',
+                'report_preparation.*' => 'required|numeric',
+                'total.*' => 'required|numeric',
+            ];
+
+            $custom_messages = [
+                'required' => 'The :attribute field is required.',
+                'numeric' => 'The :attribute field must be a number.',
+                'min' => 'The :attribute field must be at least :min.',
+                'max' => 'The :attribute field may not be greater than :max.',
+            ];
+
+            $validated_marks = $request->validate($rules, $custom_messages);
+            if ($project) {
+                if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
+                    $count = 0;
+                    foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
+                        $phase1 = Phase1::where('project_id', $project->id)
+                            ->where('user_id', $request->user_id[$key])
+                            ->update([
+                                'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                                'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                                'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                                'examiner_average' => $validated_marks['examiner_average'][$key],
+                                'attendance' => $validated_marks['attendance'][$key],
+                                'project_development' => $validated_marks['project_development'][$key],
+                                'report_preparation' => $validated_marks['report_preparation'][$key],
+                                'total' => $validated_marks['total'][$key],
+                            ]);
+                        if ($phase1) {
+                            $count++;
+                        }
+                    }
+                    return redirect()->back()->with('message', "Marks Updated Successfully");
+                } else {
+                    
+                    return redirect()->back()->with('error', "You Can't Evaluate This Group");
+                }
+            }
+            else{
+                return redirect()->back()->with('error', "Project Not Found");
+            }
         }
     }
 }

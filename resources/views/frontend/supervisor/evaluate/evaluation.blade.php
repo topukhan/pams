@@ -14,6 +14,47 @@
                 </li>
             </ol>
         </div>
+        @if (session('message'))
+            <div class="bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
+                <div class="flex items-center">
+                    <div class="w-6 h-6 mr-4 bg-green-500 rounded-full flex-shrink-0"></div>
+                    <div class="flex-1">
+                        {{ strtoupper(session('message')) }}
+                    </div>
+                    <button type="button"
+                        class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                        data-dismiss="alert" aria-label="Close"
+                        onclick="this.parentElement.parentElement.style.display='none'">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md my-4">
+                <div class="flex items-center">
+                    <div class="w-6 h-6 mr-4 bg-red-500 rounded-full flex-shrink-0"></div>
+                    <div class="flex-1">
+                        {{ strtoupper(session('error')) }}
+                    </div>
+                    <button type="button"
+                        class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                        data-dismiss="alert" aria-label="Close"
+                        onclick="this.parentElement.parentElement.style.display='none'">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        @endif
+
         {{-- phase1 --}}
         <div class="mt-3">
             <div class="w-full overflow-hidden rounded-lg shadow-xs ">
@@ -51,13 +92,20 @@
                                 </thead>
                                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                                     @foreach ($members as $index => $member)
+                                        <input type="hidden" name="user_id[]" value="{{ $member->id }}">
                                         <tr class="text-gray-700 dark:text-gray-400 text-center">
                                             <td class="px-4 py-3 text-sm text-center font-semibold">
-                                                {{ $member->student->student_id }}</td>
-                                            <td class="px-4 py-3 text-sm font-semibold text-center">
-                                                {{ $member->first_name . ' ' . $member->last_name }}</td>
-                                            <td class="px-4 py-3 text-sm font-semibold text-center">{{ $member->email }}
+                                                {{ $member->student->student_id }}
                                             </td>
+
+                                            <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                {{ $member->first_name . ' ' . $member->last_name }}
+                                            </td>
+
+                                            <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                {{ $member->email }}
+                                            </td>
+
                                             @if ($index === 0)
                                                 <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold "
                                                     rowspan="{{ count($members) }}">{{ $project->title }}</td>
@@ -67,48 +115,76 @@
                                                 </td>
                                             @endif
                                             <td>
+                                                @php
+                                                    // Find the corresponding phase1 data for the current member by user_id
+                                                    $phase1Data = $phase1_marks->firstWhere('user_id', $member->id);
+                                                @endphp
                                                 <input name="examiner_1_mark[]"
-                                                    class=" bg-gray-100 py-2 m-1 examiner-input border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" value="50">
-                                                {{-- <x-input-error :messages="$errors->get('examiner_1_mark')" class="mt-2"/> --}}
+                                                    class="bg-gray-100 py-2 m-1 examiner-input border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
+                                                    type="number"
+                                                    value="{{ $phase1Data ? $phase1Data->examiner_1_mark : '' }}"
+                                                    data-tippy-content="" data-tippy-trigger="manual">
+                                                <p class="text-red-600 text-sm mt-2 error-message hidden"></p>
                                             </td>
-                                            @error('examiner_1_mark.*')
-                                                <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
-                                            @enderror
+
                                             <td>
                                                 <input name="examiner_2_mark[]"
                                                     class="bg-gray-100 py-2 m-1  examiner-input border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" value="">
+                                                    type="number" 
+                                                    value="{{ $phase1Data ? $phase1Data->examiner_2_mark : '' }}"
+                                                    data-tippy-content=""
+                                                    data-tippy-trigger="manual">
+                                                <p class="text-red-600 text-sm mt-2 error-message hidden"></p>
                                             </td>
                                             <td>
                                                 <input name="examiner_3_mark[]"
                                                     class="bg-gray-100 py-2 m-1 examiner-input border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" value="">
+                                                    type="number" 
+                                                    value="{{ $phase1Data ? $phase1Data->examiner_3_mark : '' }}" 
+                                                    data-tippy-content=""
+                                                    data-tippy-trigger="manual">
+                                                <p class="text-red-600 text-sm mt-2 error-message hidden"></p>
                                             </td>
                                             <td>
                                                 <input name="examiner_average[]"
                                                     class="bg-gray-100 py-2 m-1 examiner-average border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" value="" readonly>
+                                                    type="number" 
+                                                    value="{{ $phase1Data ? $phase1Data->examiner_average : '' }}"
+                                                    readonly>
+                                                <p class="text-red-600 text-sm mt-2 error-message hidden"></p>
                                             </td>
                                             <td>
                                                 <input name="attendance[]"
                                                     class="bg-gray-100 py-2 m-1 border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" value="">
+                                                    type="number" 
+                                                    value="{{ $phase1Data ? $phase1Data->attendance : '' }}"
+                                                    data-tippy-content=""
+                                                    data-tippy-trigger="manual">
+                                                <p class="text-red-600 text-sm mt-2 error-message hidden"></p>
                                             </td>
                                             <td>
                                                 <input name="project_development[]"
                                                     class="bg-gray-100 py-2 m-1 border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" value="">
+                                                    type="number" 
+                                                    value="{{ $phase1Data ? $phase1Data->project_development : '' }}"
+                                                    data-tippy-content=""
+                                                    data-tippy-trigger="manual">
+                                                <p class="text-red-600 text-sm mt-2 error-message hidden"></p>
                                             </td>
                                             <td>
                                                 <input name="report_preparation[]"
                                                     class=" bg-gray-100 py-2 m-1 border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" value="">
+                                                    type="number" 
+                                                    value="{{ $phase1Data ? $phase1Data->report_preparation : '' }}"
+                                                    data-tippy-content=""
+                                                    data-tippy-trigger="manual">
+                                                <p class="text-red-600 text-sm mt-2 error-message hidden"></p>
                                             </td>
                                             <td>
                                                 <input name="total[]"
                                                     class="bg-gray-100 py-2 m-1 total-input border-none w-28 text-sm dark:bg-gray-800 font-semibold text-center"
-                                                    type="number" readonly>
+                                                    type="number" readonly
+                                                    value="{{ $phase1Data ? $phase1Data->total : '' }}">
                                             </td>
                                         </tr>
                                     @endforeach
@@ -118,11 +194,23 @@
 
                         </div>
                     </div>
-                    <div class="flex justify-end mb-4">
-                        <button type="submit"
-                            class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-2 px-2 mt-2 rounded-md text-sm ml-2">
-                            Grade
-                        </button>
+                    <div class="flex justify-between mb-4">
+                        <div class="p-2 mx-2">
+                            @if ($errors->any())
+                                <ul class="text-red-600 text-sm mt-2">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $loop->iteration . '. ' . $error }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </div>
+                        <div class="p-2 mx-2">
+                            <button type="submit"
+                                class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-2 px-2 mt-2 rounded-md text-sm ml-2">
+                                Grade
+                            </button>
+                        </div>
+
                     </div>
                 </form>
             </div>
@@ -342,15 +430,45 @@
         </script> --}}
 
 
-        {{-- Calculate marks --}}
+        <style>
+            .white-red .tippy-content {
+                background-color: #fff;
+                color: red;
+            }
+        </style>
+
         <script>
             $(document).ready(function() {
+                // Initialize Tippy.js tooltips
+                tippy('[data-tippy-content]', {
+                    arrow: true,
+                    animation: 'scale',
+                    hideOnClick: true,
+                    maxWidth: 250,
+                    moveTransition: 'transform 0.2s ease-out',
+                    offset: [0, 12],
+                    theme: 'white-red',
+                });
+                // Prevent form submission on enter click
+                var form = $("#phase1");
+
+                // Add an event listener for the form's keydown event
+                form.on("keydown", function(e) {
+                    // Check if the key pressed is Enter (key code 13)
+                    if (e.keyCode == 13) {
+                        // Prevent the default behavior (form submission)
+                        e.preventDefault();
+                    }
+                });
+
                 // Select all rows
                 var rows = $("tbody tr");
 
                 // Add event listeners to Examiner input fields
                 rows.find(".examiner-input").on("input", function() {
+                    validateExaminerMarks(this);
                     calculateAverage(this);
+                    calculateTotal();
                 });
 
                 // Add event listeners to all input fields (including attendance, development, and report preparation)
@@ -387,25 +505,134 @@
                         $(row).find(".total-input").val(total.toFixed(2));
                     });
                 }
-            });
-        </script>
 
-        {{-- Prevent form submission on enter click  --}}
-        <script>
-            $(document).ready(function() {
-                // Select your form by its ID or any other suitable selector
-                var form = $("#phase1");
-
-                // Add an event listener for the form's keydown event
-                form.on("keydown", function(e) {
-                    // Check if the key pressed is Enter (key code 13)
-                    if (e.keyCode == 13) {
-                        // Prevent the default behavior (form submission)
-                        e.preventDefault();
-                    }
+                // Add an event listener for input change
+                document.querySelectorAll('input[name="examiner_1_mark[]"]').forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        validateExaminerMarks(this);
+                        calculateTotals(this.closest('tr'));
+                    });
                 });
+
+                document.querySelectorAll('input[name="examiner_2_mark[]"]').forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        validateExaminerMarks(this);
+                        calculateTotals(this.closest('tr'));
+                    });
+                });
+
+                document.querySelectorAll('input[name="examiner_3_mark[]"]').forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        validateExaminerMarks(this);
+                        calculateTotals(this.closest('tr'));
+                    });
+                });
+
+                document.querySelectorAll('input[name="attendance[]"]').forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        validateAttendance(this);
+                        calculateTotals(this.closest('tr'));
+                    });
+                });
+
+                document.querySelectorAll('input[name="project_development[]"]').forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        validateProjectDevelopment(this);
+                        calculateTotals(this.closest('tr'));
+                    });
+                });
+
+                document.querySelectorAll('input[name="report_preparation[]"]').forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        validateReportPreparation(this);
+                        calculateTotals(this.closest('tr'));
+                    });
+                });
+
+                // Function to validate Examiner Marks
+                function validateExaminerMarks(inputField) {
+                    var value = parseFloat($(inputField).val());
+                    var errorMessage = '';
+
+                    if (isNaN(value) || value < 0 || value > 100) {
+                        errorMessage = 'Examiner marks must be between 0 and 100.';
+                        // Set the tooltip content
+                        $(inputField).attr('data-tippy-content', errorMessage);
+
+                        // Trigger the tooltip manually
+                        tippy(inputField).show();
+                    } else {
+                        // Remove the tooltip content and hide the tooltip
+                        $(inputField).attr('data-tippy-content', '');
+                        tippy(inputField).hide();
+                    }
+                }
+                // Function to validate Attendance Marks
+                function validateAttendance(inputField) {
+                    var value = parseFloat($(inputField).val());
+                    var errorMessage = '';
+
+                    if (isNaN(value) || value < 0 || value > 10) {
+                        errorMessage = 'Attendance must be between 0 and 10.';
+                        // Set the tooltip content
+                        $(inputField).attr('data-tippy-content', errorMessage);
+
+                        // Trigger the tooltip manually
+                        tippy(inputField).show();
+                    } else {
+                        // Remove the tooltip content and hide the tooltip
+                        $(inputField).attr('data-tippy-content', '');
+                        tippy(inputField).hide();
+                    }
+                }
+
+                // Function to validate Project Development Marks
+                function validateProjectDevelopment(inputField) {
+                    var value = parseFloat($(inputField).val());
+                    var errorMessage = '';
+
+                    if (isNaN(value) || value < 0 || value > 30) {
+                        errorMessage = 'Project development must be between 0 and 30.';
+                        // Set the tooltip content
+                        $(inputField).attr('data-tippy-content', errorMessage);
+
+                        // Trigger the tooltip manually
+                        tippy(inputField).show();
+                    } else {
+                        // Remove the tooltip content and hide the tooltip
+                        $(inputField).attr('data-tippy-content', '');
+                        tippy(inputField).hide();
+                    }
+                }
+
+                // Function to validate Report Preparation Marks
+                function validateReportPreparation(inputField) {
+                    var value = parseFloat($(inputField).val());
+                    var errorMessage = '';
+
+                    if (isNaN(value) || value < 0 || value > 20) {
+                        errorMessage = 'Report preparation must be between 0 and 20.';
+                        // Set the tooltip content
+                        $(inputField).attr('data-tippy-content', errorMessage);
+
+                        // Trigger the tooltip manually
+                        tippy(inputField).show();
+                    } else {
+                        // Remove the tooltip content and hide the tooltip
+                        $(inputField).attr('data-tippy-content', '');
+                        tippy(inputField).hide();
+                    }
+                }
+
+                function clearValidationError(input) {
+                    var errorMessage = input.closest('td').querySelector('.error-message');
+                    errorMessage.style.display = 'none';
+                }
             });
         </script>
+
+
+
 
 
 </x-frontend.supervisor.layouts.master>

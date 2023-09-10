@@ -4,6 +4,7 @@ use App\Http\Controllers\CitationController;
 use App\Http\Controllers\CoordinatorController;
 use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Supervisor\ProjectGradingController;
 use App\Http\Controllers\Supervisor\SupervisorLoginController;
 use App\Http\Controllers\Supervisor\SupervisorController;
 use App\Http\Controllers\Supervisor\SupervisorProfileController;
@@ -31,8 +32,11 @@ Route::middleware(['SupervisorAuth'])->group(function () {
 /////////////////////////////////////////////
     Route::get('/supervisor/notice', [NoticeController::class, 'create'])->name('supervisor.noticeCreate');
     Route::post('/supervisor/noticeStore', [NoticeController::class, 'store'])->name('supervisor.noticeStore');
-    Route::get('/supervisor/evaluateGroups', [SupervisorController::class, 'evaluateGroups'])->name('supervisor.evaluateGroups');
-    Route::get('/supervisor/evaluation', [SupervisorController::class, 'evaluation'])->name('supervisor.evaluation');
+    Route::get('/supervisor/evaluateGroups', [ProjectGradingController::class, 'evaluateGroups'])->name('supervisor.evaluateGroups');
+    Route::get('/supervisor/evaluation/{project}/{group}', [ProjectGradingController::class, 'evaluation'])->name('supervisor.evaluation');
+    Route::post('/supervisor/evaluation1Store', [ProjectGradingController::class, 'phase1Store'])->name('supervisor.phase1Store');
+    Route::post('/supervisor/evaluation2Store', [ProjectGradingController::class, 'phase2Store'])->name('supervisor.phase2Store');
+    Route::post('/supervisor/evaluation3Store', [ProjectGradingController::class, 'phase3Store'])->name('supervisor.phase3Store');
     Route::get('/supervisor/citationCreate', [CitationController::class, 'create'])->name('supervisor.citationCreate');
     Route::post('/supervisor/citationStore', [CitationController::class, 'store'])->name('supervisor.citationStore');
     

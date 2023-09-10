@@ -46,7 +46,8 @@
                                     </div>
                                 </td>
                                 <td class="px-4 py-3 text-xs">
-                                    <a href="{{route('supervisor.evaluation', ['project_id' => $project->id, 'group_id' => $project->group_id])}} ">
+                                    {{-- @dd($project) --}}
+                                    <a href="{{route('supervisor.evaluation', ['project' => $project->id, 'group' => $project->group_id])}} ">
                                         <button
                                             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                                             Evaluate

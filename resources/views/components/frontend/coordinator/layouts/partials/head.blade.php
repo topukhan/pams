@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="{{ asset('ui/frontend/css/tailwind.output.css') }}" />
     <link rel="stylesheet" href="{{ asset('ui/frontend/css/app.css') }}" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
 
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="{{ asset('ui/frontend/js/init-alpine.js') }}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" />

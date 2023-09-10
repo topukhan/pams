@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ApprovedGroup;
 use App\Models\Group;
 use App\Models\GroupMember;
+use App\Models\Phase1;
 use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
@@ -37,32 +38,6 @@ class SupervisorController extends Controller
         $proposal = ProjectProposal::find($request->proposal_id);
         return view('frontend.supervisor.group.groupRequestDetails', compact('group', 'proposal'));
     }
-
-    // Store approved group to table 
-    // public function storeApproveGroup(Request $request)
-    // {
-
-    //     $approved = ProjectProposal::find($request->proposal_id);
-    //     try {
-    //         $store = ApprovedGroup::create([
-    //             'group_id' => $approved->group_id,
-    //             'title' => $approved->title,
-    //             'course' => $approved->course,
-    //             'supervisor_id' => $approved->supervisor_id,
-    //             'domain' => $approved->domain,
-    //             'type' => $approved->type
-    //         ]);
-    //         if ($approved) {
-    //             $approved->delete();
-    //         }
-    //         return redirect()->route('supervisor.groupRequests')->withMessage("Proposal Approved!");
-    //     } catch (QueryException $e) {
-    //         return redirect()->back()->withInput()->withErrors('Something went wrong!');
-    //     }
-    //     return view('frontend.supervisor.group.groupRequestDetails', compact('group', 'proposal'));
-    // }
-
-
 
     //Supervisor Approved Groups
     public function approvedGroups()
@@ -203,32 +178,5 @@ class SupervisorController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////
-
-    //Supervisor Evaluation
-    public function evaluateGroups()
-    {
-        $id = auth()->guard('supervisor')->user()->id;
-        $projects = Project::where('supervisor_id', $id)->get();
-        return view('frontend.supervisor.evaluate.groups',  compact('projects'));
-    }
-    //Supervisor Evaluation
-    public function evaluation(Request $request)
-    {
-        $project = Project::find($request->project_id);
-
-        $supervisor = Supervisor::find($project->supervisor_id);
-        $group = Group::find($request->group_id);
-        $proposal = ProjectProposal::find($request->proposal_id);
-        $supervisor = User::find($project->supervisor_id);
-
-        if ($group) {
-            $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
-            $members = User::whereIn('id', $memberIds)->get();
-        }
-
-        return view('frontend.supervisor.evaluate.evaluation', compact('group', 'project', 'members', 'supervisor'));
     }
 }

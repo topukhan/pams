@@ -53,7 +53,7 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
 /////////////////////////////
     Route::get('/student/supervisorProfile', [StudentProfileController::class, 'supervisorProfile'])->name('student.supervisorProfile');
 
-    Route::get('/student/noticeList', [NoticeController::class, 'noticeList'])->name('student.noticeList');
+    Route::get('/student/notices', [NoticeController::class, 'noticeList'])->name('student.noticeList');
     Route::get('/student/notice/{notice_id}', [NoticeController::class, 'notice'])->name('student.notice');
 
 

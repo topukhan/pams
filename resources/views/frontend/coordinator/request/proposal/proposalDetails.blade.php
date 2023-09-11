@@ -20,6 +20,28 @@
         <h2
             class="p-3 leading-tight text-blue-700 bg-blue-100  dark:bg-blue-700 dark:text-blue-100 font-bold text-center ">
             Project Proposal</h2>
+        @if ($propose_again)
+            <div class="bg-violet-100 container mx-auto mt-4 p-4 shadow-md  rounded-md ">
+                <div class="grid grid-cols-3 gap-4 mb-2">
+                    <span class="text-gray-700 font-bold mb-2 col-span-1">Old Title:</span>
+                    <span class="col-span-2"> old title Lorem ipsum dolor sit amet</span>
+                </div>
+                @if (!$same_supervisor)
+                    <div class="grid grid-cols-3 gap-4  mb-2">
+                        <span class="text-gray-700 font-bold  mb-2 col-span-1">Previous Supervisor:</span>
+                        <span class="col-span-2"> {{ $old_supervisor->first_name . ' ' . $old_supervisor->last_name }}</span>
+                    </div>
+                @endif
+
+                <div class="grid grid-cols-3 gap-4">
+                    <span class="text-gray-700 font-bold col-span-1">Reason:</span>
+                    <span class="col-span-2">
+                        <label for="title">Title Change</label>,
+                        <label for="supervisor">Supervisor Change</label>
+                    </span>
+                </div>
+            </div>
+        @endif
         <div class="container mx-auto mt-4 p-4 bg-white shadow-md rounded-lg">
             <div class="p-4">
                 <div class="grid grid-cols-3 gap-4 mb-4">

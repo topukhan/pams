@@ -19,26 +19,26 @@
         </div>
         <div class="px-2 py-2">
             @if (session('message'))
-            <div
-                class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
-                <div class="flex items-center">
-                    <div class="w-6 h-6 mr-4 bg-green-500 rounded-full flex-shrink-0"></div>
-                    <div class="flex-1">
-                        {{ session('message') }}
+                <div
+                    class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
+                    <div class="flex items-center">
+                        <div class="w-6 h-6 mr-4 bg-green-500 rounded-full flex-shrink-0"></div>
+                        <div class="flex-1">
+                            {{ session('message') }}
+                        </div>
+                        <button type="button"
+                            class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                            data-dismiss="alert" aria-label="Close"
+                            onclick="this.parentElement.parentElement.style.display='none'">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
+                                </path>
+                            </svg>
+                        </button>
                     </div>
-                    <button type="button"
-                        class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
-                        data-dismiss="alert" aria-label="Close"
-                        onclick="this.parentElement.parentElement.style.display='none'">
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
-                            </path>
-                        </svg>
-                    </button>
                 </div>
-            </div>
-        @endif
+            @endif
             @if (session('error'))
                 <div
                     class="max-w-3xl mx-auto bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
@@ -93,8 +93,10 @@
                         <label for="notice" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Notice:
                         </label>
-                        <textarea id="notice" name="notice" rows="3" value="{{ old('notice') }}"
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
+                        {{-- <textarea id="notice" name="notice" rows="3" 
+                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea> --}}
+
+                        <textarea id="myTextarea" name="notice" class="w-full h-40 border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></textarea>
                         <x-input-error :messages="$errors->get('notice')" class="mt-2 " />
                     </div>
                     <div class="mb-4 flex flex-wrap">
@@ -126,31 +128,53 @@
     <script>
         const fileInputsContainer = document.getElementById('fileInputs');
         const addFileInputBtn = document.getElementById('addFileInputBtn');
-        
+
         addFileInputBtn.addEventListener('click', function() {
             const fileInputWrapper = document.createElement('div');
             fileInputWrapper.classList.add('mb-2', 'flex', 'items-center', 'space-x-2');
-    
+
             const newFileInput = document.createElement('input');
             newFileInput.type = 'file';
             newFileInput.name = 'file[]';
             newFileInput.classList.add('mb-2', 'p-2', 'bg-gray-100', 'rounded-md', 'block');
             newFileInput.setAttribute('multiple', 'multiple');
-    
+
             const removeButton = document.createElement('button');
             removeButton.type = 'button';
             removeButton.textContent = '✖';
-            removeButton.classList.add('px-3', 'py-2', 'text-lg','font-bold', 'text-red-600');
+            removeButton.classList.add('px-3', 'py-2', 'text-lg', 'font-bold', 'text-red-600');
             removeButton.addEventListener('click', function() {
                 fileInputWrapper.remove();
             });
-    
+
             fileInputWrapper.appendChild(newFileInput);
             fileInputWrapper.appendChild(removeButton);
             fileInputsContainer.appendChild(fileInputWrapper);
         });
     </script>
-    
+
+    <!-- Include TinyMCE script -->
+    <script src="https://cdn.tiny.cloud/1/hhnq7hg36iftaksh53bhmn6a7hme5klpc3bhi3it61fnae4q/tinymce/5/tinymce.min.js">
+    </script>
+
+
+    <!-- Initialize TinyMCE -->
+    <script>
+        tinymce.init({
+            selector: '#myTextarea',
+            plugins: 'autolink lists link image charmap print preview',
+            formats: {
+                customLink: {
+                    inline: 'a',
+                    styles: {
+                        'color': 'blue'
+                    }
+                },
+            },
+            toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image',
+            skin: 'oxide',
+        });
+    </script>
 
 
 

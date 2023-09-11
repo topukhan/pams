@@ -10,6 +10,7 @@ use App\Models\GroupMember;
 use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProposalFeedback;
+use App\Models\OldTitle;
 use App\Models\Student;
 use App\Models\User;
 use App\Notifications\GroupUpdateNotification;
@@ -157,11 +158,11 @@ class CoordinatorRequestController extends Controller
             $receiverGroupMembers = User::whereIn('id', $receiverGroupMemberIds)->get();
             //requested users will be notify they are merged with a group
             foreach ($requestedUsers as $member) {
-                $member->notify(new  GroupUpdateNotification(false, true, $member->id , false ));
+                $member->notify(new  GroupUpdateNotification(false, true, $member->id, false));
             }
             // receiver group members will be notify a group is merged with them 
             foreach ($receiverGroupMembers as $member) {
-                $member->notify(new  GroupUpdateNotification(false, true, false , $member->id));
+                $member->notify(new  GroupUpdateNotification(false, true, false, $member->id));
             }
             // Insert transferred members into the group_members table of the receiver group
             foreach ($requestedMembers as $user_id) {
@@ -230,7 +231,7 @@ class CoordinatorRequestController extends Controller
 
             $member_ids = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $group_members = User::whereIn('id', $member_ids)->get();
-            foreach($group_members as $member){
+            foreach ($group_members as $member) {
                 $member->notify(new ProposalPermissionGrantedNotification($member->id));
             }
             $request->delete();
@@ -280,12 +281,18 @@ class CoordinatorRequestController extends Controller
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
         $supervisor = User::find($proposal->supervisor_id);
-
+        $propose_again = OldTitle::where('group_id', $proposal->group_id)->exists();
+        $same_supervisor = OldTitle::where('group_id', $proposal->group_id)
+        ->where('supervisor_id', $supervisor->id)
+        ->exists();
+        $id = OldTitle::where('group_id', $proposal->group_id)->value('supervisor_id');
+        $old_supervisor = User::find($id);
+        // dd($old_supervisor);
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
         }
-        return view('frontend.coordinator.request.proposal.proposalDetails', compact('group', 'proposal', 'members', 'supervisor'));
+        return view('frontend.coordinator.request.proposal.proposalDetails', compact('group', 'proposal', 'members', 'supervisor', 'propose_again','old_supervisor', 'same_supervisor'));
     }
 
 

@@ -43,7 +43,7 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
     Route::post('/student/proposalDelete', [StudentController::class, 'proposalDelete'])->name('student.proposalDelete');
 
     //Change Topic
-    Route::get('/student/proposalChangeForm', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm');
+    Route::get('/student/proposalChangeForm/{project}', [StudentController::class, 'proposalChangeForm'])->name('student.proposalChangeForm');
     Route::get('/student/pendingGroups', [StudentController::class, 'pendingGroups'])->name('student.pendingGroups');
     Route::get('/student/pendingGroupDetails', [StudentController::class, 'pendingGroupDetails'])->name('student.pendingGroupDetails');
     //Profile

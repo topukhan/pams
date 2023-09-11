@@ -8,6 +8,7 @@ use App\Models\Domain;
 use App\Models\Group;
 use App\Models\ProposalFeedback;
 use App\Models\GroupMember;
+use App\Models\OldTitle;
 use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\RequestToCoordinator;
@@ -103,6 +104,7 @@ class StudentController extends Controller
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
+            //    dd($request->all());
         $request->validate([
             'title' => 'required',
             'course' => 'required',
@@ -111,9 +113,15 @@ class StudentController extends Controller
             'project_type' => 'required',
             'description' => 'required'
         ]);
+        if($request->old_title){
+            $request->validate([
+                'reason' => 'required'
+            ]);
+        }
         try {
             DB::beginTransaction();
-            $proposal = ProjectProposal::create([
+
+            $proposalData = [
                 'group_id' => $request->group_id,
                 'title' => $request->title,
                 'course' => $request->course,
@@ -122,7 +130,23 @@ class StudentController extends Controller
                 'project_type' => $request->project_type,
                 'description' => $request->description,
                 'created_by' => Auth::guard('student')->user()->id
-            ]);
+            ];
+            if($request->reason){
+                $proposalData += [
+                    'reason' => serialize($request->reason),
+                ];
+            }
+            $proposal = ProjectProposal::create($proposalData);
+            if($request->old_title){
+                $data = [
+                    'group_id' => $request->group_id,
+                    'supervisor_id' => $request->old_supervisor_id,
+                    'old_title' => $request->old_title,
+                    'created_by' => Auth::guard('student')->user()->id
+                ];
+                OldTitle::create($data);
+            }
+            
             $existing_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
             if ($existing_feedback) {
                 $existing_feedback->delete();
@@ -236,9 +260,11 @@ class StudentController extends Controller
 
 
     //Proposal Change Form
-    public function proposalChangeForm()
+    public function proposalChangeForm(Project $project)
     {
-        return view('frontend.student.proposal.proposalChangeForm');
+        $supervisors = Supervisor::where('availability', 1)->get();
+        $domains = Domain::all();
+        return view('frontend.student.proposal.proposalChangeForm', compact('project', 'supervisors', 'domains'));
     }
 
     //Pending Groups

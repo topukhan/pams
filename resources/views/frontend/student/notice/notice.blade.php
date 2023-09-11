@@ -27,7 +27,18 @@
                     <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                         Notice:
                     </label>
-                    <p class="text-gray-700 dark:text-gray-300"> {{ $notice->notice }}</p>
+                    @php
+                        $config = HTMLPurifier_Config::createDefault();
+                        $config->set('HTML.Allowed', 'strong,span,em,p,a[href|title|target],br');
+                        
+                        $purifier = new HTMLPurifier($config);
+                        $safeContent = $purifier->purify($notice->notice);
+                    @endphp
+                    {{-- <p class="text-gray-700 dark:text-gray-300"> {{ $notice->notice }}</p> --}}
+                    <p class="text-gray-700 dark:text-gray-300"> @php
+                        echo $safeContent;
+                    @endphp </p>
+                    
                 </div>
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Attached Files:</label>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\GroupMember;
+use App\Models\Project;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -58,9 +60,12 @@ class StudentLoginController extends Controller
             // Store the $studentData in the session as 'studentData'
             session()->put('studentData', $studentData);
         }
-        
         session()->put('studentUser', $user);
-        return view('frontend.student.dashboard.dashboard');
+
+        $group_id = GroupMember::where('user_id', $user->id)->value('group_id');
+        $project = Project::where('group_id', $group_id)->first();
+        // dd($project);
+        return view('frontend.student.dashboard.dashboard', compact('project'));
     }
 
     // Student Logout / Session destroy

@@ -79,6 +79,7 @@
                     <span class="col-span-2">{{ $user->student->shift }}</span>
                 </div>
 
+               
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Project Types:</span>
                     @if ($user->student->project_type_status === 0)

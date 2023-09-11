@@ -84,4 +84,11 @@ class NoticeController extends Controller
         $notice = Notice::where('id', $notice_id)->first();
         return view('frontend.student.notice.notice', compact('notice'));
     }
+
+    public function noticeCreate()
+    {
+        
+        return view('frontend.coordinator.notice.notice');
+    }
+
 }

@@ -34,6 +34,7 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
 
     Route::get('/coordinator/projectApproval/{request_id}', [CoordinatorRequestController::class, 'projectApproval'])->name('coordinator.projectApproval');
     Route::post('/coordinator/projectApprove/{proposal}', [CoordinatorRequestController::class, 'projectApprove'])->name('coordinator.projectApprove');
+    Route::post('/coordinator/reProposalFeedback/{proposal}', [CoordinatorRequestController::class, 'reProposalFeedback'])->name('coordinator.reProposalFeedback');
 
     Route::get('/coordinator/notice', [NoticeController::class, 'noticeCreate'])->name('coordinator.noticeCreate');
 

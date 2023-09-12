@@ -117,7 +117,22 @@
                 </div>
             </div>
         </div>
+        @if ($propose_again)
         <div class="flex justify-center space-x-5 mb-3">
+            <form action="{{ route('coordinator.reProposalFeedback', $proposal) }}" method="POST">
+                @csrf
+                <button type="submit" name="response" value="1"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
+                    Approve
+                </button>
+                <button type="submit" name="response" value="2"
+                    class="bg-violet-500 hover:bg-violet-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
+                    Deny
+                </button>
+            </form>
+        </div>
+        @else
+            <div class="flex justify-center space-x-5 mb-3">
             <form action="{{ route('coordinator.projectApprove', $proposal) }}" method="POST">
                 @csrf
                 <button type="submit" name="response" value="1"
@@ -130,5 +145,7 @@
                 </button>
             </form>
         </div>
+        @endif
+        
     </div>
 </x-frontend.coordinator.layouts.master>

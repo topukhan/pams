@@ -10,10 +10,12 @@ use App\Models\GroupMember;
 use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProposalFeedback;
+use App\Models\OldTitle;
 use App\Models\Student;
 use App\Models\User;
 use App\Notifications\GroupUpdateNotification;
 use App\Notifications\ProjectApprovalNotification;
+use App\Notifications\SupervisorReallocationNotification;
 use App\Notifications\ProposalFeedbackNotification;
 use App\Notifications\ProposalPermissionGrantedNotification;
 use App\Notifications\RequestedStudentAddedToGroup;
@@ -157,11 +159,11 @@ class CoordinatorRequestController extends Controller
             $receiverGroupMembers = User::whereIn('id', $receiverGroupMemberIds)->get();
             //requested users will be notify they are merged with a group
             foreach ($requestedUsers as $member) {
-                $member->notify(new  GroupUpdateNotification(false, true, $member->id , false ));
+                $member->notify(new  GroupUpdateNotification(false, true, $member->id, false));
             }
             // receiver group members will be notify a group is merged with them 
             foreach ($receiverGroupMembers as $member) {
-                $member->notify(new  GroupUpdateNotification(false, true, false , $member->id));
+                $member->notify(new  GroupUpdateNotification(false, true, false, $member->id));
             }
             // Insert transferred members into the group_members table of the receiver group
             foreach ($requestedMembers as $user_id) {
@@ -230,7 +232,7 @@ class CoordinatorRequestController extends Controller
 
             $member_ids = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $group_members = User::whereIn('id', $member_ids)->get();
-            foreach($group_members as $member){
+            foreach ($group_members as $member) {
                 $member->notify(new ProposalPermissionGrantedNotification($member->id));
             }
             $request->delete();
@@ -280,12 +282,18 @@ class CoordinatorRequestController extends Controller
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
         $supervisor = User::find($proposal->supervisor_id);
-
+        $propose_again = OldTitle::where('group_id', $proposal->group_id)->exists();
+        $same_supervisor = OldTitle::where('group_id', $proposal->group_id)
+        ->where('supervisor_id', $supervisor->id)
+        ->exists();
+        $id = OldTitle::where('group_id', $proposal->group_id)->value('supervisor_id');
+        $old_supervisor = User::find($id);
+        // dd($old_supervisor);
         if ($group) {
             $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
             $members = User::whereIn('id', $memberIds)->get();
         }
-        return view('frontend.coordinator.request.proposal.proposalDetails', compact('group', 'proposal', 'members', 'supervisor'));
+        return view('frontend.coordinator.request.proposal.proposalDetails', compact('group', 'proposal', 'members', 'supervisor', 'propose_again','old_supervisor', 'same_supervisor'));
     }
 
 
@@ -367,6 +375,97 @@ class CoordinatorRequestController extends Controller
                 } else {
                     $proposal->delete();
                     return redirect()->route('coordinator.proposalList')->with('error', "A Project is Already Allocated to This Group!");
+                }
+            } else {
+
+                return redirect()->route('coordinator.proposalList')->with('error', 'Proposal not found.');
+            }
+        } catch (Throwable $th) {
+            return redirect()->back()->withInput()->with('errors', $th->getMessage());
+        }
+    }
+    // Project title change or supervisor change 
+    public function reProposalFeedback(Request $request, ProjectProposal $proposal){
+        try {
+            $project = Project::where('group_id', $proposal->group_id)->first();
+            // dd($project );
+            if ($proposal && $project) {
+                $old_title = OldTitle::where('group_id', $proposal->group_id)->first();
+                if ($old_title) {
+                    if ($request->response == 1) {
+                        try {
+                            DB::beginTransaction();
+
+                            $project->update([
+                                'group_id' => $proposal->group_id,
+                                'title' => $proposal->title,
+                                'course' => $proposal->course,  
+                                'supervisor_id' => $proposal->supervisor_id,
+                                'coordinator_id' => Auth::guard('coordinator')->user()->id,
+                                'domain' => $proposal->domain,
+                                'project_type' => $proposal->project_type,
+                                'description' => $proposal->description,
+                            ]);
+                            $group = Group::where('id', $proposal->group_id)->first();
+                            $group->update(['project_id' => $project->id]);
+
+                            $has_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+                            if ($has_feedback) {
+                                $has_feedback->delete();
+                            }
+                            $proposal->delete();
+                            DB::commit();
+                            // for student notify
+                            $members = GroupMember::where('group_id', $project->group_id)->get();
+                            $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                            foreach ($students as $student) {
+                                $student->notify(new ProjectApprovalNotification($project));
+                            }
+                            //for supervisor notify
+                            $new_supervisor = User::find($project->supervisor_id);
+                            $new_supervisor->notify(new ProjectApprovalNotification($project));
+                            $old_supervisor = User::find($old_title->supervisor_id);
+                            $old_supervisor->notify(new SupervisorReallocationNotification($old_title));
+                            return redirect()->route('coordinator.proposalList')->withMessage("Project Re-Allocated to This Group Successfully!");
+                        } catch (\Throwable $th) {
+                            DB::rollBack();
+                            return redirect()->back()->with('error', $th->getMessage());
+                        }
+                    }
+                    if ($request->response == 2) {
+                        $has_feedback = ProposalFeedback::where('group_id', $proposal->group_id)->first();
+                        try {
+                            DB::beginTransaction();
+                            if ($has_feedback) {
+                                $has_feedback->update(['is_denied' => 1]);
+                            } else {
+                                $proposal_feedback = ProposalFeedback::create([
+                                    'group_id' => $proposal->group_id,
+                                    'is_denied' => 1,
+                                    'denied_by' => auth()->guard('coordinator')->user()->id,
+                                ]);
+                            }
+                            // supervisor notify
+                            $supervisor = User::find($proposal->supervisor_id);
+                            $supervisor->notify(new ProposalFeedbackNotification($proposal_feedback));
+
+                            $proposal->delete();
+                            DB::commit();
+                            // for student notify
+                            $members = GroupMember::where('group_id', $proposal_feedback->group_id)->get();
+                            $students = User::whereIn('id', $members->pluck('user_id'))->get();
+                            foreach ($students as $student) {
+                                $student->notify(new ProposalFeedbackNotification($proposal_feedback));
+                            }
+                            return redirect()->route('coordinator.proposalList')->withMessage("Project Proposal Denied");
+                        } catch (\Throwable $th) {
+                            DB::rollBack();
+                            return redirect()->back()->with('error', $th->getMessage());
+                        }
+                    }
+                } else {
+                    $proposal->delete();
+                    return redirect()->route('coordinator.proposalList')->with('error', "Existing Project not found!");
                 }
             } else {
 

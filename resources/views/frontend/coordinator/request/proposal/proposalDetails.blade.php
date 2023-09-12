@@ -20,6 +20,28 @@
         <h2
             class="p-3 leading-tight text-blue-700 bg-blue-100  dark:bg-blue-700 dark:text-blue-100 font-bold text-center ">
             Project Proposal</h2>
+        @if ($propose_again)
+            <div class="bg-violet-100 container mx-auto mt-4 p-4 shadow-md  rounded-md ">
+                <div class="grid grid-cols-3 gap-4 mb-2">
+                    <span class="text-gray-700 font-bold mb-2 col-span-1">Old Title:</span>
+                    <span class="col-span-2"> old title Lorem ipsum dolor sit amet</span>
+                </div>
+                @if (!$same_supervisor)
+                    <div class="grid grid-cols-3 gap-4  mb-2">
+                        <span class="text-gray-700 font-bold  mb-2 col-span-1">Previous Supervisor:</span>
+                        <span class="col-span-2"> {{ $old_supervisor->first_name . ' ' . $old_supervisor->last_name }}</span>
+                    </div>
+                @endif
+
+                <div class="grid grid-cols-3 gap-4">
+                    <span class="text-gray-700 font-bold col-span-1">Reason:</span>
+                    <span class="col-span-2">
+                        <label for="title">Title Change</label>,
+                        <label for="supervisor">Supervisor Change</label>
+                    </span>
+                </div>
+            </div>
+        @endif
         <div class="container mx-auto mt-4 p-4 bg-white shadow-md rounded-lg">
             <div class="p-4">
                 <div class="grid grid-cols-3 gap-4 mb-4">
@@ -95,7 +117,22 @@
                 </div>
             </div>
         </div>
+        @if ($propose_again)
         <div class="flex justify-center space-x-5 mb-3">
+            <form action="{{ route('coordinator.reProposalFeedback', $proposal) }}" method="POST">
+                @csrf
+                <button type="submit" name="response" value="1"
+                    class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
+                    Approve
+                </button>
+                <button type="submit" name="response" value="2"
+                    class="bg-violet-500 hover:bg-violet-600 text-white font-bold mt-8 py-1 px-4 rounded-md">
+                    Deny
+                </button>
+            </form>
+        </div>
+        @else
+            <div class="flex justify-center space-x-5 mb-3">
             <form action="{{ route('coordinator.projectApprove', $proposal) }}" method="POST">
                 @csrf
                 <button type="submit" name="response" value="1"
@@ -108,5 +145,7 @@
                 </button>
             </form>
         </div>
+        @endif
+        
     </div>
 </x-frontend.coordinator.layouts.master>

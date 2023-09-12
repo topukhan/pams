@@ -15,10 +15,9 @@
                 </li>
             </ol>
         </div>
-        
+
         @php
             $memberCount = count($students);
-            
         @endphp
         @if ($memberCount < 4)
             <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
@@ -32,9 +31,6 @@
                 </button>
             </div><br>
         @endif
-
-
-
         @if (session('message'))
             <div class="bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
                 <div class="flex items-center">

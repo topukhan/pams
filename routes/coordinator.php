@@ -3,6 +3,8 @@
 use App\Http\Controllers\Coordinator\CoordinatorController;
 use App\Http\Controllers\Coordinator\CoordinatorLoginController;
 use App\Http\Controllers\Coordinator\CoordinatorRequestController;
+use App\Http\Controllers\NoticeController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['CoordinatorAuth'])->group(function () {
@@ -32,6 +34,10 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
 
     Route::get('/coordinator/projectApproval/{request_id}', [CoordinatorRequestController::class, 'projectApproval'])->name('coordinator.projectApproval');
     Route::post('/coordinator/projectApprove/{proposal}', [CoordinatorRequestController::class, 'projectApprove'])->name('coordinator.projectApprove');
+    Route::post('/coordinator/reProposalFeedback/{proposal}', [CoordinatorRequestController::class, 'reProposalFeedback'])->name('coordinator.reProposalFeedback');
+
+    Route::get('/coordinator/notice', [NoticeController::class, 'noticeCreate'])->name('coordinator.noticeCreate');
+
     //notify 
     Route::get('/coordinator/notifications', function () {
         return view('frontend.coordinator.notification');

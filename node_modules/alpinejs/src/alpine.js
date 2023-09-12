@@ -1,16 +1,17 @@
 import { setReactivityEngine, disableEffectScheduling, reactive, effect, release, raw } from './reactivity'
 import { mapAttributes, directive, setPrefix as prefix, prefix as prefixed } from './directives'
 import { start, addRootSelector, addInitSelector, closestRoot, findClosest, initTree, destroyTree, interceptInit } from './lifecycle'
-import { mutateDom, deferMutations, flushAndStopDeferringMutations, startObservingMutations, stopObservingMutations } from './mutation'
+import { onElRemoved, onAttributeRemoved, onAttributesAdded, mutateDom, deferMutations, flushAndStopDeferringMutations, startObservingMutations, stopObservingMutations } from './mutation'
 import { mergeProxies, closestDataStack, addScopeToNode, scope as $data } from './scope'
 import { setEvaluator, evaluate, evaluateLater, dontAutoEvaluateFunctions } from './evaluator'
 import { transition } from './directives/x-transition'
-import { clone, skipDuringClone, onlyDuringClone } from './clone'
+import { clone, cloneNode, skipDuringClone, onlyDuringClone } from './clone'
 import { interceptor } from './interceptor'
-import { getBinding as bound } from './utils/bind'
+import { getBinding as bound, extractProp } from './utils/bind'
 import { debounce } from './utils/debounce'
 import { throttle } from './utils/throttle'
 import { setStyles } from './utils/styles'
+import { entangle } from './entangle'
 import { nextTick } from './nextTick'
 import { walk } from './utils/walk'
 import { plugin } from './plugin'
@@ -31,6 +32,8 @@ let Alpine = {
     startObservingMutations,
     stopObservingMutations,
     setReactivityEngine,
+    onAttributeRemoved,
+    onAttributesAdded,
     closestDataStack,
     skipDuringClone,
     onlyDuringClone,
@@ -43,7 +46,9 @@ let Alpine = {
     interceptInit,
     setEvaluator,
     mergeProxies,
+    extractProp,
     findClosest,
+    onElRemoved,
     closestRoot,
     destroyTree,
     interceptor, // INTERNAL: not public API and is subject to change without major release.
@@ -51,6 +56,7 @@ let Alpine = {
     setStyles, // INTERNAL
     mutateDom,
     directive,
+    entangle,
     throttle,
     debounce,
     evaluate,
@@ -62,7 +68,8 @@ let Alpine = {
     magic,
     store,
     start,
-    clone,
+    clone, // INTERNAL
+    cloneNode, // INTERNAL
     bound,
     $data,
     walk,

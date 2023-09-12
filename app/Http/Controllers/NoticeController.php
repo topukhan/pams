@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class NoticeController extends Controller
 {
 
-    //Supervisor Notice
+    //Supervisor Make Notice
     public function create()
     {
         $id = Auth::guard('supervisor')->user()->id;
@@ -23,6 +23,7 @@ class NoticeController extends Controller
         return view('frontend.supervisor.notice.notice', compact('projects'));
     }
 
+    // Supervisor Store notice
     public function store(Request $request)
     {
         $id = Auth::guard('supervisor')->user()->id;
@@ -78,10 +79,17 @@ class NoticeController extends Controller
             }
         }
     }
-    //  notice
+    //  notice view for students
     public function notice($notice_id)
     {
         $notice = Notice::where('id', $notice_id)->first();
         return view('frontend.student.notice.notice', compact('notice'));
     }
+
+    public function noticeCreate()
+    {
+        
+        return view('frontend.coordinator.notice.notice');
+    }
+
 }

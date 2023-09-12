@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('domain');
             $table->string('project_type');
             $table->text('description');            
+            $table->text('reason')->nullable();            
             $table->unsignedBigInteger('created_by');
             
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

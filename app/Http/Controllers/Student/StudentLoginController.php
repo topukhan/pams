@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\GroupMember;
+use App\Models\Notice;
 use App\Models\Project;
 use App\Models\Student;
 use App\Models\User;
@@ -64,8 +65,8 @@ class StudentLoginController extends Controller
 
         $group_id = GroupMember::where('user_id', $user->id)->value('group_id');
         $project = Project::where('group_id', $group_id)->first();
-        // dd($project);
-        return view('frontend.student.dashboard.dashboard', compact('project'));
+        $notices = Notice::where('group_id', $group_id)->get();
+        return view('frontend.student.dashboard.dashboard', compact('project','notices'));
     }
 
     // Student Logout / Session destroy

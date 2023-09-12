@@ -386,4 +386,27 @@ class StudentController extends Controller
             ->doesntExist();
         return view('frontend.student.request.requestToCoordinator', compact('group_id', 'can_request'));
     }
+
+     // student My project
+     public function myProject()
+     {
+        $id = Auth::guard('student')->user()->id;
+        $group = Group::where('id', function ($query) use ($id) {
+            $query->select('group_id')
+                ->from('group_members')
+                ->where('user_id', $id)
+                ->first();
+        })->first();
+        $can_propose = $group->can_propose == 1;
+        $members = null;
+        if ($group) {
+            $memberIds = GroupMember::where('group_id', $group->id)->pluck('user_id')->toArray();
+            $members = User::whereIn('id', $memberIds)->get();
+        }
+        $project = Project::where('group_id', $group->id)->first();
+        $supervisor = User::where('id', $project->supervisor_id)->first();
+
+        return view('frontend.student.dashboard.myProject', compact('group', 'members', 'can_propose','project','supervisor'));
+     }
+ 
 }

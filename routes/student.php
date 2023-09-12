@@ -76,6 +76,8 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
 
     Route::post('/student/requestToCoordinatorForm', [StudentController::class, 'requestToCoordinatorForm'])->name('student.requestToCoordinatorForm');
 
+    Route::get('/student/myProject', [StudentController::class, 'myProject'])->name('student.myProject');
+
     //notify 
     Route::get('/student/notifications', function () {
         return view('frontend.student.dashboard.notification');

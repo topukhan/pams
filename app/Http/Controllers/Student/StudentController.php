@@ -104,7 +104,7 @@ class StudentController extends Controller
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
-            //    dd($request->all());
+        //    dd($request->all());
         $request->validate([
             'title' => 'required',
             'course' => 'required',
@@ -113,7 +113,7 @@ class StudentController extends Controller
             'project_type' => 'required',
             'description' => 'required'
         ]);
-        if($request->old_title){
+        if ($request->old_title) {
             $request->validate([
                 'reason' => 'required'
             ]);
@@ -131,13 +131,13 @@ class StudentController extends Controller
                 'description' => $request->description,
                 'created_by' => Auth::guard('student')->user()->id
             ];
-            if($request->reason){
+            if ($request->reason) {
                 $proposalData += [
                     'reason' => serialize($request->reason),
                 ];
             }
             $proposal = ProjectProposal::create($proposalData);
-            if($request->old_title){
+            if ($request->old_title) {
                 $data = [
                     'group_id' => $request->group_id,
                     'supervisor_id' => $request->old_supervisor_id,
@@ -146,7 +146,7 @@ class StudentController extends Controller
                 ];
                 OldTitle::create($data);
             }
-            
+
             $existing_feedback = ProposalFeedback::where('group_id', $request->group_id)->first();
             if ($existing_feedback) {
                 $existing_feedback->delete();
@@ -259,12 +259,14 @@ class StudentController extends Controller
     }
 
 
-    //Proposal Change Form
+    //Proposal Change Form // re proposal form 
     public function proposalChangeForm(Project $project)
     {
+        $group_id = GroupMember::where('user_id', auth()->guard('student')->user()->id)->value('group_id');
         $supervisors = Supervisor::where('availability', 1)->get();
+        $has_old_title = OldTitle::where('group_id', $group_id)->exists();
         $domains = Domain::all();
-        return view('frontend.student.proposal.proposalChangeForm', compact('project', 'supervisors', 'domains'));
+        return view('frontend.student.proposal.proposalChangeForm', compact('project', 'supervisors', 'domains', 'has_old_title'));
     }
 
     //Pending Groups
@@ -342,7 +344,7 @@ class StudentController extends Controller
             ]);
             //notify
             $coordinator = User::where('role', 'coordinator')->first();
-            
+
             if ($request->id) {
                 $request_to_coordinator = RequestToCoordinator::create([
                     'user_id' => $request->id,
@@ -363,9 +365,8 @@ class StudentController extends Controller
                 $auth_id = [auth()->guard('student')->user()->id];
                 $remaining_members = array_diff($member_ids, $auth_id);
                 $members = User::whereIn('id', $remaining_members)->get();
-                $name = auth()->guard('student')->user()->first_name.' ' .auth()->guard('student')->user()->last_name;
+                $name = auth()->guard('student')->user()->first_name . ' ' . auth()->guard('student')->user()->last_name;
                 Notification::send($members, new GroupRequestNotification($name, $request->reason));
-                
             }
 
 
@@ -387,9 +388,9 @@ class StudentController extends Controller
         return view('frontend.student.request.requestToCoordinator', compact('group_id', 'can_request'));
     }
 
-     // student My project
-     public function myProject()
-     {
+    // student My project
+    public function myProject()
+    {
         $id = Auth::guard('student')->user()->id;
         $group = Group::where('id', function ($query) use ($id) {
             $query->select('group_id')
@@ -406,7 +407,6 @@ class StudentController extends Controller
         $project = Project::where('group_id', $group->id)->first();
         $supervisor = User::where('id', $project->supervisor_id)->first();
 
-        return view('frontend.student.dashboard.myProject', compact('group', 'members', 'can_propose','project','supervisor'));
-     }
- 
+        return view('frontend.student.dashboard.myProject', compact('group', 'members', 'can_propose', 'project', 'supervisor'));
+    }
 }

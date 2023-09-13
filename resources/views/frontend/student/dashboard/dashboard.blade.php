@@ -47,7 +47,7 @@
             <!-- Cards -->
             <div class="grid gap-6 mb-8 xl:col-span-2  text-center md:grid-cols-1 xl:grid-cols-2">
                 {{-- If not in a project --}}
-                @if ($project ==  null )
+                @if ($project == null)
                     <!--Create Group Card -->
                     <div
                         class="p-4 hover:bg-orange-50 bg-white rounded-lg shadow-xl transition  duration-200 ease-in-out dark:bg-gray-800">
@@ -128,23 +128,25 @@
                 @if ($project != null)
                     <div class="grid gap-6 mb-8 xl:col-span-2  text-center md:grid-cols-1 xl:grid-cols-2">
                         <!-- Project Overview Card -->
-                        <div class="p-4 bg-white hover:bg-blue-100 cursor-pointer rounded-lg shadow-xl transition duration-200 ease-in-out dark:bg-gray-800">
+                        <div
+                            class="p-4 bg-white hover:bg-blue-100 cursor-pointer rounded-lg shadow-xl transition duration-200 ease-in-out dark:bg-gray-800">
                             <div
                                 class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-200 rounded-full dark:text-blue-100 dark:bg-blue-500">
                                 <i class="bx bx-comment-detail text-2xl"></i>
-                            </div>                            
+                            </div>
                             <div>
                                 <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                                     My Project
                                 </p>
-                                <a href="{{route('student.myProject')}}"
+                                <a href="{{ route('student.myProject') }}"
                                     class="px-4 py-1 bg-blue-300 rounded shadow-lg hover:bg-blue-500 hover:text-white transition-all  text-md font-semibold text-gray-700 dark:text-gray-500 dark:bg-blue-500">
                                     View
                                 </a>
                             </div>
                         </div>
                         <!-- Change Proposal Card -->
-                        <div class="p-4 bg-white hover:bg-green-100  rounded-lg shadow-xl dark:bg-gray-800 transition duration-200 ease-in-out">
+                        <div
+                            class="p-4 bg-white hover:bg-green-100  rounded-lg shadow-xl dark:bg-gray-800 transition duration-200 ease-in-out">
                             <div
                                 class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-green-500 bg-green-200 rounded-full dark:text-green-100  dark:bg-green-500">
                                 <i class="bx bxs-file text-2xl "></i>
@@ -154,7 +156,8 @@
                                     Change Proposal
                                 </p>
                                 <a href="{{ route('student.proposalChangeForm', $project) }}">
-                                    <button class="bg-green-400 hover:bg-green-600 shadow-lg transition duration-200 ease-in-out text-white px-4 py-1 text-md font-semibold dark:text-gray-600 rounded">Form</button>
+                                    <button
+                                        class="bg-green-400 hover:bg-green-600 shadow-lg transition duration-200 ease-in-out text-white px-4 py-1 text-md font-semibold dark:text-gray-600 rounded">Form</button>
                                 </a>
                             </div>
                         </div>
@@ -234,27 +237,32 @@
                     </div>
                 @endif
             </div>
-          {{-- Notice --}}
+            {{-- Notice --}}
             <div class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow float-right dark:bg-gray-800">
                 <h2 class="mb-2 font-medium text-gray-700 dark:text-gray-400">
                     Notice
                 </h2>
                 {{-- Notice Card --}}
                 @foreach ($notices as $notice)
-                <div
-                    class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
-                    <div>
-                        <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            {{$notice->notice}}
-                        </p>
-                        <button
-                            class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
-                            View
-                        </button>
+                    <div
+                        class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
+                        <div>
+                            <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                {{-- {{$notice->notice}} --}}
+                                @php
+                                    echo $notice->notice;
+                                @endphp
+                            </p>
+                            <a href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
+                                <button
+                                    class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                                    View
+                                </button>
+                            </a>
+                        </div>
                     </div>
-                </div>
                 @endforeach
-              
+
             </div>
         </div>
     </div>

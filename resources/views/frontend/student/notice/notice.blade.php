@@ -18,6 +18,7 @@
                 </li>
             </ol>
         </div>
+        
         <div class="px-2 py-2">
             <div class="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-8">
                 <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">

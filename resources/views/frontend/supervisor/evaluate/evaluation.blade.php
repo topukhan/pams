@@ -54,7 +54,7 @@
                 </div>
             </div>
         @endif
-
+        
         {{-- validation error messages  --}}
         <div class="p-2 mx-2">
             @if ($errors->any())
@@ -99,9 +99,9 @@
                         <li class="bg-gray-100 mx-1 my-1 p-1 rounded-sm">{{ implode(' || ', $errorMessages) }}</li>
                     @endif
                 </ul>
-            @endif
-        </div>
-
+                @endif
+            </div>
+            
         {{-- Toggle buttons --}}
         <div class="flex space-x-4">
             {{-- PHASE I --}}

@@ -40,18 +40,21 @@ phase3Section.addEventListener("click", () => {
 const project1Section = document.getElementById("project1Section");
 const project1Table = document.getElementById("project1Table");
 
-project1Section.addEventListener("click", () => {
-    if (project1Table.style.display === "none") {
-        project1Table.style.display = "block";
-    } else {
-        project1Table.style.display = "none";
-    }
-});
+if (project1Section) {
+    project1Section.addEventListener("click", () => {
+        if (project1Table.style.display === "none") {
+            project1Table.style.display = "block";
+        } else {
+            project1Table.style.display = "none";
+        }
+    });
+}
 
 // project2
 const project2Section = document.getElementById("project2Section");
 const project2Table = document.getElementById("project2Table");
 
+if (project2Section) {
 project2Section.addEventListener("click", () => {
     if (project2Table.style.display === "none") {
         project2Table.style.display = "block";
@@ -59,6 +62,7 @@ project2Section.addEventListener("click", () => {
         project2Table.style.display = "none";
     }
 });
+}
 
 $(document).ready(function () {
     // Initialize Tippy.js tooltips

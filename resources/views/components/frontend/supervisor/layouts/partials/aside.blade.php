@@ -72,7 +72,7 @@
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('supervisor.noticeCreate') }}">
-                    <i class='bx bx-task text-2xl'></i>
+                    <i class='bx bx-clipboard text-2xl'></i>
                     <span class="ml-4">Post Notice</span>
                 </a>
             </li>

@@ -63,14 +63,24 @@ class StudentProfileController extends Controller
             return redirect()->back()->withInput()->with('error', $th->getMessage());
         }
     }
-
-    public function supervisorProfile(Request $request){
+//supervisor profile for student to view
+    public function supervisorProfile(Request $request)
+    {
         $supervisor_id = $request->id;
         $user = User::with('supervisor')->find($supervisor_id);
-        $domains = Domain::all();
+        // Fetch the domains associated with the user
+        $domains = $user->domains;
+        // Fetch citations for the user
         $citations = Citation::where('user_id', $user->id)->get();
+    
         return view('frontend.student.profile.supervisorProfile', compact('user', 'domains', 'citations'));
     }
+    
+    
+    
+    
+    
+    
 
 
 }

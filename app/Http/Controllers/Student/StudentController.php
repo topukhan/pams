@@ -409,4 +409,10 @@ class StudentController extends Controller
 
         return view('frontend.student.dashboard.myProject', compact('group', 'members', 'can_propose', 'project', 'supervisor'));
     }
+
+ 
+      public function getStarted()
+      {
+          return view('frontend.student.dashboard.getStarted');
+      }
 }

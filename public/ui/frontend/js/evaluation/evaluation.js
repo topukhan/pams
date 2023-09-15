@@ -276,3 +276,5 @@ $(document).ready(function () {
         errorMessage.style.display = "none";
     }
 });
+
+// result Publish

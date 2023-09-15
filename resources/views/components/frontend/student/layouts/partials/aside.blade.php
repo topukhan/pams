@@ -202,7 +202,7 @@
             <form method="POST" action="{{ route('student.logout') }}">
                 @csrf
                 <button
-                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple">
+                    class="flex items-center shadow-xl justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple">
                     Log Out
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
                         stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">

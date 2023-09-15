@@ -24,6 +24,8 @@ return new class extends Migration
             $table->string('domain');
             $table->string('project_type');
             $table->text('description');
+            
+            $table->boolean('result_published')->default(false);
             $table->timestamps();
         });
     }

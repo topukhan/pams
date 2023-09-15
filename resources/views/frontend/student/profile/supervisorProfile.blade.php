@@ -46,8 +46,8 @@
                             <span>{{ $user->phone_number }}</span>
                         </div>
                         <div class="gap-4 mb-2">
-                            <span class="text-gray-700  dark:text-gray-300 font-bold  mr-2">Domain:</span>
-                            @if (count($domains) == 0)
+                            <span class="text-gray-700 dark:text-gray-300 font-bold  mr-2">Domain:</span>
+                            @if ($domains->isEmpty())
                                 <span class="text-green-600">Not set yet</span>
                             @else
                                 <span>

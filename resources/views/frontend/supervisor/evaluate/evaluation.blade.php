@@ -54,7 +54,7 @@
                 </div>
             </div>
         @endif
-        
+
         {{-- validation error messages  --}}
         <div class="p-2 mx-2">
             @if ($errors->any())
@@ -99,9 +99,9 @@
                         <li class="bg-gray-100 mx-1 my-1 p-1 rounded-sm">{{ implode(' || ', $errorMessages) }}</li>
                     @endif
                 </ul>
-                @endif
-            </div>
-            
+            @endif
+        </div>
+
         {{-- Toggle buttons --}}
         <div class="flex space-x-4">
             {{-- PHASE I --}}
@@ -254,13 +254,14 @@
 
                         </div>
                     </div>
-                    <div
-                        class="flex justify-end mb-4 {{ count($members) == count($phase1_marks) && !$phase3_marks->isEmpty() ? 'hidden' : '' }}">
-                        <button type="submit"
+                    @if(  $project->result_published == true ? '' : 'hidden')
+                    <div class="flex justify-end mb-4 {{ count($members) == count($phase1_marks) }}">
+                        <button type="submit" id="gradeButton1"
                             class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
                             Grade
                         </button>
                     </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -393,13 +394,14 @@
 
                         </div>
                     </div>
-                    <div
-                        class="flex justify-end mb-4 {{ count($members) == count($phase2_marks) && !$phase3_marks->isEmpty() ? 'hidden' : '' }}">
-                        <button type="submit"
+                    @if(  $project->result_published == true ? '' : 'hidden')
+                    <div class="flex justify-end mb-4 {{ count($members) == count($phase2_marks)}}">
+                        <button type="submit" id="gradeButton2"
                             class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
                             Grade
                         </button>
                     </div>
+                    @endif
                 </form>
             </div>
         </div>
@@ -532,164 +534,188 @@
 
                         </div>
                     </div>
-                    <div class="flex justify-end mb-4 {{ count($members) == count($phase3_marks) ? 'hidden' : '' }}">
-                        <button type="submit"
+                    @if(  $project->result_published == true ? '' : 'hidden')
+                    <div class="flex justify-end mb-4 {{ count($members) == count($phase3_marks)}} ">
+                        <button type="submit" id="gradeButton3"
                             class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
                             Grade
                         </button>
                     </div>
+                    @endif
                 </form>
             </div>
         </div>
 
         {{-- View results toggle buttons --}}
         @if (!$phase3_marks->isEmpty())
-            <div class="">
-                <span class="text-2xl dark:text-gray-300 font-semibold text-gray-700 ">View Results Here</span>
-                {{-- toggle buttons --}}
-                <div class="flex space-x-4 my-4">
-                    {{-- Project I toggle --}}
-                    <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
-                        <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer"
-                            id="project1Section">
-                            <span class="px-2 text-lg font-bold font-mono">PROJECT-I</span>
-                        </div>
-                    </div>
-                    {{-- Project II toggle --}}
-                    <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
-                        <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer "
-                            id="project2Section">
-                            <span class="px-2 text-lg font-bold font-mono">PROJECT-II</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap justify-center space-x-4 my-4">
-                    {{-- project 1 --}}
-                    <div class="my-3">
-                        <div class="w-full overflow-hidden rounded-lg shadow-xs " id="project1Table"
-                            style="display: none;">
-                            <div class="bg-gray-100 rounded-md text-center shadow-sm pb-3">
-                                <div class="shadow-xs  w-full">
-                                    <table class=" table-auto">
-                                        <thead> <span class="text-xl font-semibold font-mono">PROJECT-I Results</span>
-                                            <tr
-                                                class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                                <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
-                                                <th class="px-3 py-3 whitespace-normal text-center">Name</th>
-                                                <th class="px-3 py-3 whitespace-normal text-center">Email</th>
-                                                <th class="px-3 py-3 whitespace-normal text-center">Project Title</th>
-                                                {{-- <th class="px-3 py-3 whitespace-normal text-center">Supervisor</th> --}}
-
-                                                <th class="px-3 py-3 whitespace-normal text-center">Marks (100)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                            @foreach ($members as $index => $member)
-                                                <input type="hidden" name="user_id[]" value="{{ $member->id }}">
-                                                <tr class="text-gray-700 dark:text-gray-400 text-center">
-                                                    <td class="px-4 py-3 text-sm text-center font-semibold">
-                                                        {{ $member->student->student_id }}
-                                                    </td>
-
-                                                    <td class="px-4 py-3 text-sm font-semibold text-center">
-                                                        {{ $member->first_name . ' ' . $member->last_name }}
-                                                    </td>
-
-                                                    <td class="px-4 py-3 text-sm font-semibold text-center">
-                                                        {{ $member->email }}
-                                                    </td>
-
-                                                    @if ($index === 0)
-                                                        <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold "
-                                                            rowspan="{{ count($members) }}">{{ $project->title }}
-                                                        </td>
-                                                        {{-- <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold"
-                                                    rowspan="{{ count($members) }}">
-                                                    {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
-                                                </td> --}}
-                                                    @endif
-
-                                                    <td class="px-4 py-3 text-sm font-semibold text-center">
-                                                        {{ array_key_exists($member->id, $project1_marks) ? preg_replace('/\.?0*$/', '', number_format($project1_marks[$member->id], 2)) : 'No result found' }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    {{-- project 2 --}}
-                    <div class="my-3">
-                        <div class="w-full overflow-hidden rounded-lg shadow-xs " id="project2Table"
-                            style="display: none;">
-                            <div class="bg-gray-100 rounded-md text-center shadow-sm pb-3">
-                                <div class="shadow-xs  w-full">
-                                    <table class=" table-auto">
-                                        <thead> <span class="text-xl font-semibold font-mono">PROJECT-II Results</span>
-                                            <tr
-                                                class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                                                <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
-                                                <th class="px-3 py-3 whitespace-normal text-center">Name</th>
-                                                <th class="px-3 py-3 whitespace-normal text-center">Email</th>
-                                                <th class="px-3 py-3 whitespace-normal text-center">Project Title</th>
-                                                {{-- <th class="px-3 py-3 whitespace-normal text-center">Supervisor</th> --}}
-
-                                                <th class="px-3 py-3 whitespace-normal text-center">Marks (100)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                            @foreach ($members as $index => $member)
-                                                <input type="hidden" name="user_id[]" value="{{ $member->id }}">
-                                                <tr class="text-gray-700 dark:text-gray-400 text-center">
-                                                    <td class="px-4 py-3 text-sm text-center font-semibold">
-                                                        {{ $member->student->student_id }}
-                                                    </td>
-
-                                                    <td class="px-4 py-3 text-sm font-semibold text-center">
-                                                        {{ $member->first_name . ' ' . $member->last_name }}
-                                                    </td>
-
-                                                    <td class="px-4 py-3 text-sm font-semibold text-center">
-                                                        {{ $member->email }}
-                                                    </td>
-
-                                                    @if ($index === 0)
-                                                        <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold "
-                                                            rowspan="{{ count($members) }}">{{ $project->title }}
-                                                        </td>
-                                                        {{-- <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold"
-                                                    rowspan="{{ count($members) }}">
-                                                    {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
-                                                </td> --}}
-                                                    @endif
-                                                    @php
-                                                        // Find the corresponding project2 data for the current member by user_id
-                                                        $project2Data = $phase3_marks->firstWhere('user_id', $member->id);
-                                                    @endphp
-
-                                                    <td class="px-4 py-3 text-sm font-semibold text-center">
-                                                        {{ $project2Data ? preg_replace('/\.?0*$/', '', number_format($project2Data->total, 2)) : 'No result found' }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+            <div class="flex justify-center mb-4">
+                @if (!$project->result_published)
+                    <form action="{{ route('supervisor.publishResult', ['project' => $project]) }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
+                        Publish Result
+                    </button>
+                    </form>
+                @endif
             </div>
         @endif
 
+        <div id="resultSection" style="display: {{ $project->result_published ? 'block' : 'none' }};" class="">
+            <span class="text-2xl dark:text-gray-300 font-semibold text-gray-700 ">View Results Here</span>
+            {{-- toggle buttons --}}
+            <div class="flex space-x-4 my-4">
+                {{-- Project I toggle --}}
+                <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
+                    <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer"
+                        id="project1Section">
+                        <span class="px-2 text-lg font-bold font-mono">PROJECT-I</span>
+                    </div>
+                </div>
+                {{-- Project II toggle --}}
+                <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
+                    <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer "
+                        id="project2Section">
+                        <span class="px-2 text-lg font-bold font-mono">PROJECT-II</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-center space-x-4 my-4">
+                {{-- project 1 --}}
+                <div class="my-3">
+                    <div class="w-full overflow-hidden rounded-lg shadow-xs " id="project1Table"
+                        style="display: none;">
+                        <div class="bg-gray-100 rounded-md text-center shadow-sm pb-3">
+                            <div class="shadow-xs  w-full">
+                                <table class=" table-auto">
+                                    <thead> <span class="text-xl font-semibold font-mono">PROJECT-I Results</span>
+                                        <tr
+                                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                            <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
+                                            <th class="px-3 py-3 whitespace-normal text-center">Name</th>
+                                            <th class="px-3 py-3 whitespace-normal text-center">Email</th>
+                                            <th class="px-3 py-3 whitespace-normal text-center">Project Title</th>
+                                            {{-- <th class="px-3 py-3 whitespace-normal text-center">Supervisor</th> --}}
+
+                                            <th class="px-3 py-3 whitespace-normal text-center">Marks (100)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                        @foreach ($members as $index => $member)
+                                            <input type="hidden" name="user_id[]" value="{{ $member->id }}">
+                                            <tr class="text-gray-700 dark:text-gray-400 text-center">
+                                                <td class="px-4 py-3 text-sm text-center font-semibold">
+                                                    {{ $member->student->student_id }}
+                                                </td>
+
+                                                <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                    {{ $member->first_name . ' ' . $member->last_name }}
+                                                </td>
+
+                                                <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                    {{ $member->email }}
+                                                </td>
+
+                                                @if ($index === 0)
+                                                    <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold "
+                                                        rowspan="{{ count($members) }}">{{ $project->title }}
+                                                    </td>
+                                                    {{-- <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold"
+                                                rowspan="{{ count($members) }}">
+                                                {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
+                                            </td> --}}
+                                                @endif
+
+                                                <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                    @if (is_array($project1_marks) && array_key_exists($member->id, $project1_marks))
+                                                        {{ preg_replace('/\.?0*$/', '', number_format($project1_marks[$member->id], 2)) }}
+                                                    @else
+                                                        No result found
+                                                    @endif
+                                                </td>
+
+
+                                                {{-- <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                    {{ array_key_exists($member->id, $project1_marks) ? preg_replace('/\.?0*$/', '', number_format($project1_marks[$member->id], 2)) : 'No result found' }}
+                                                </td> --}}
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {{-- project 2 --}}
+                <div class="my-3">
+                    <div class="w-full overflow-hidden rounded-lg shadow-xs " id="project2Table"
+                        style="display: none;">
+                        <div class="bg-gray-100 rounded-md text-center shadow-sm pb-3">
+                            <div class="shadow-xs  w-full">
+                                <table class=" table-auto">
+                                    <thead> <span class="text-xl font-semibold font-mono">PROJECT-II Results</span>
+                                        <tr
+                                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                            <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
+                                            <th class="px-3 py-3 whitespace-normal text-center">Name</th>
+                                            <th class="px-3 py-3 whitespace-normal text-center">Email</th>
+                                            <th class="px-3 py-3 whitespace-normal text-center">Project Title</th>
+                                            {{-- <th class="px-3 py-3 whitespace-normal text-center">Supervisor</th> --}}
+
+                                            <th class="px-3 py-3 whitespace-normal text-center">Marks (100)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                                        @foreach ($members as $index => $member)
+                                            <input type="hidden" name="user_id[]" value="{{ $member->id }}">
+                                            <tr class="text-gray-700 dark:text-gray-400 text-center">
+                                                <td class="px-4 py-3 text-sm text-center font-semibold">
+                                                    {{ $member->student->student_id }}
+                                                </td>
+
+                                                <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                    {{ $member->first_name . ' ' . $member->last_name }}
+                                                </td>
+
+                                                <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                    {{ $member->email }}
+                                                </td>
+
+                                                @if ($index === 0)
+                                                    <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold "
+                                                        rowspan="{{ count($members) }}">{{ $project->title }}
+                                                    </td>
+                                                    {{-- <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold"
+                                                rowspan="{{ count($members) }}">
+                                                {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
+                                            </td> --}}
+                                                @endif
+                                                @php
+                                                    // Find the corresponding project2 data for the current member by user_id
+                                                    $project2Data = $phase3_marks->firstWhere('user_id', $member->id);
+                                                @endphp
+
+                                                <td class="px-4 py-3 text-sm font-semibold text-center">
+                                                    {{ $project2Data ? preg_replace('/\.?0*$/', '', number_format($project2Data->total, 2)) : 'No result found' }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    
+
+
+
     <script src="{{ asset('ui/frontend/js/evaluation/evaluation.js') }}"></script>
 
 </x-frontend.supervisor.layouts.master>

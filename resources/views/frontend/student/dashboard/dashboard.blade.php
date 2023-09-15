@@ -243,26 +243,31 @@
                     Notice
                 </h2>
                 {{-- Notice Card --}}
-                @foreach ($notices as $notice)
-                    <div
-                        class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
-                        <div>
-                            <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                {{-- {{$notice->notice}} --}}
-                                @php
-                                    echo $notice->notice;
-                                @endphp
-                            </p>
-                            <a href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
-                                <button
-                                    class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
-                                    View
-                                </button>
-                            </a>
+                @if ($notices->isEmpty())
+                <div class="mb-4 p-4  hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out flex items-center justify-center">
+                    <p class="text-xl p-2 font-medium  text-gray-700 dark:text-gray-400 text-center font-mono ">NO NOTICES AT THIS MOMENT</p>
+                </div>
+                
+                @else
+                    @foreach ($notices as $notice)
+                        <div
+                            class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
+                            <div>
+                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                    @php
+                                        echo $notice->notice;
+                                    @endphp
+                                </p>
+                                <a href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
+                                    <button
+                                        class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                                        View
+                                    </button>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

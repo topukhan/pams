@@ -61,12 +61,12 @@
                 </div>
             @endif
             <div class="max-w-3xl mx-auto  p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('coordinator.noticeStore') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="mb-8 flex justify-center space-x-4 items-center align-middle">
                         <label for="phase" class="block text-gray-700 text-md font-bold dark:text-gray-300">
-                            Choose Phases:
+                            Choose Phases: <span class="text-red-500">*</span>
                         </label>
                         <div class="relative space-x-4 flex items-center">
                             <!-- Phase 1 Checkbox -->
@@ -84,7 +84,7 @@
                             <label for="phase3"
                                 class="inline-block text-lg text-gray-700 mr-1 font-semibold font-mono dark:text-gray-300">Phase
                                 III</label>
-                            <x-input-error :messages="$errors->get('phase')" class="mt-2 text-red-400" />
+
                             <div
                                 class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                                 <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -93,6 +93,7 @@
                                         d="M9 5l7 "></path>
                                 </svg>
                             </div>
+                            <x-input-error :messages="$errors->get('phase')" class="mt-2 text-red-400" />
                         </div>
                     </div>
                     <div class="flex justify-center space-x-2 ">
@@ -102,22 +103,27 @@
                                 class="block text-gray-700 text-md font-bold mb-2 dark:text-gray-300">
                                 Choose Date
                             </label>
-                            <input type="date" id="presentation-date" min="<?php echo date('Y-m-d'); ?>"
+                            <input name="date" type="date" id="presentation-date" min="<?php echo date('Y-m-d'); ?>"
                                 class="border px-2 py-1 rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                            <input name="formatted_date" type="hidden" id="hidden-presentation-date"
+                                name="hidden-presentation-date">
+                            <x-input-error :messages="$errors->get('date')" class="mt-2 text-red-400" />
                         </div>
                         <div class=" flex space-x-3  items-center align-middle  ml-6">
                             <label for="presentation-time"
                                 class="block text-gray-700 text-md font-bold mb-2 dark:text-gray-300">
                                 Choose Time
                             </label>
-                            <input type="time" id="presentation-time"
+                            <input name="time" type="time" id="presentation-time"
                                 class="border px-2 py-1 rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                                <input type="hidden" id="hidden-presentation-time" name="formatted_time">
+                            <x-input-error :messages="$errors->get('time')" class="mt-2 text-red-400" />
                         </div>
                     </div>
 
                     <div class="mb-3 mt-6">
                         <label for="title" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
-                            Notice Title:
+                            Notice Title: <span class="text-red-500">*</span>
                         </label>
 
                         <input name="title" id="title"
@@ -125,8 +131,8 @@
                         <x-input-error :messages="$errors->get('title')" class="mt-2 text-red-400" />
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 "></path>
                             </svg>
@@ -134,9 +140,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="notice" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
-                            Notice:
+                            Notice: <span class="text-red-500">*</span>
                         </label>
-                        <textarea id="notice" name="notice" rows="3" value="{{ old('notice') }}"
+                        <textarea id="notice" name="notice" rows="3"
                             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
                         <x-input-error :messages="$errors->get('notice')" class="mt-2 " />
                     </div>
@@ -192,5 +198,66 @@
             fileInputWrapper.appendChild(removeButton);
             fileInputsContainer.appendChild(fileInputWrapper);
         });
+
+        // Get a reference to the input element and the span where you want to display the formatted date
+        const inputDate = document.getElementById("presentation-date");
+        const formattedDateSpan = document.getElementById("formatted-date");
+
+        // Add an event listener to the input element to update the formatted date when the value changes
+        inputDate.addEventListener("change", function() {
+            const selectedDate = new Date(this.value);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            const formattedDate = selectedDate.toLocaleDateString(undefined, options);
+            formattedDateSpan.textContent = formattedDate;
+        });
+
+        function updateHiddenDate() {
+            // Get the value from the presentation-date input
+            const presentationDateInput = document.getElementById('presentation-date');
+            const selectedDate = new Date(presentationDateInput.value);
+
+            // Format the date as "23 September, 2023"
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+            const formattedDate = selectedDate.toLocaleDateString(undefined, options);
+
+            // Set the formatted date in the hidden-presentation-date input
+            const hiddenPresentationDateInput = document.getElementById('hidden-presentation-date');
+            hiddenPresentationDateInput.value = formattedDate;
+        }
+
+        // Add an event listener to the presentation-date input
+        const presentationDateInput = document.getElementById('presentation-date');
+        presentationDateInput.addEventListener('input', updateHiddenDate);
     </script>
+    <script>
+        const presentationTimeInput = document.getElementById('presentation-time');
+        const hiddenPresentationTimeInput = document.getElementById('hidden-presentation-time');
+    
+        // Add an input event listener to the time input
+        presentationTimeInput.addEventListener('input', () => {
+            const enteredTime = presentationTimeInput.value;
+            if (enteredTime) {
+                const formattedTime = formatTimeWithAMPM(enteredTime);
+                hiddenPresentationTimeInput.value = formattedTime;
+            }
+        });
+    
+        // Function to format time with AM/PM
+        function formatTimeWithAMPM(time) {
+            const [hour, minute] = time.split(':');
+            const parsedHour = parseInt(hour, 10);
+            const ampm = parsedHour >= 12 ? 'PM' : 'AM';
+            const formattedHour = parsedHour % 12 === 0 ? '12' : (parsedHour % 12).toString();
+            return `${formattedHour}:${minute} ${ampm}`;
+        }
+    </script>
+
 </x-frontend.coordinator.layouts.master>

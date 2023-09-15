@@ -13,11 +13,18 @@ return new class extends Migration
     {
         Schema::create('notices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('group_id')->nullable();
             $table->unsignedBigInteger('user_id');
+            $table->text('title')->nullable();
             $table->text('notice');
+            $table->text('link')->nullable();
+            $table->boolean('phase1')->default(false);
+            $table->boolean('phase2')->default(false);
+            $table->boolean('phase3')->default(false);
+            $table->string('date')->nullable();
+            $table->string('time')->nullable();
             $table->timestamps();
-
+            
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

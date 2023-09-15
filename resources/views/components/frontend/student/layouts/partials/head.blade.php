@@ -6,6 +6,7 @@
     header('Pragma: no-cache');
     header('Expires: 0');
     ?>
+    <link href="{{ asset('ui/frontend/images/favicon.png') }}" rel="icon">
     <title>PAMS</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 

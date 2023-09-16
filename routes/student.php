@@ -81,6 +81,11 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
 
     Route::get('/student/myProject', [StudentController::class, 'myProject'])->name('student.myProject');
 
+    // Report Submission
+    Route::get('/student/submitReport/', [StudentController::class, 'reportSubmission'])->name('student.reportSubmission');
+    Route::post('/student/reportStore/{project}', [StudentController::class, 'reportStore'])->name('student.reportStore');
+
+
     //notify 
     Route::get('/student/notifications', function () {
         return view('frontend.student.dashboard.notification');

@@ -66,7 +66,24 @@ class StudentLoginController extends Controller
         $group_id = GroupMember::where('user_id', $user->id)->value('group_id');
         $project = Project::where('group_id', $group_id)->first();
         $notices = Notice::where('group_id', $group_id)->get();
-        return view('frontend.student.dashboard.dashboard', compact('project','notices'));
+        ////////////////////////////////////////
+        $coordinator_id = User::where('role', 'coordinator')->value('id');
+        $phase = $project->phase;
+        $filtered_notices_ids = [];
+        $coordinator_notices = Notice::where('user_id', $coordinator_id)->get();
+        foreach ($coordinator_notices as $notice) {
+            if ($phase != 'completed') {
+                if ($notice->$phase == 1) {
+                    $filtered_notices_ids[] = $notice->id;
+                }
+            }
+        }
+        $filtered_notices = Notice::whereIn('id', $filtered_notices_ids)->get();
+
+        ///////////////////////////////////
+
+
+        return view('frontend.student.dashboard.dashboard', compact('project', 'notices', 'group_id', 'filtered_notices'));
     }
 
     // Student Logout / Session destroy

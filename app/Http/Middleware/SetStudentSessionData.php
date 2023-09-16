@@ -7,6 +7,7 @@ use App\Models\GroupInvitation;
 use App\Models\GroupMember;
 use App\Models\User;
 use App\Models\PendingGroup;
+use App\Models\Project;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,9 +28,9 @@ class SetStudentSessionData
             $loggedInStudent = User::where('id', $id)->with('student')->first();
             $groupsMembers = GroupMember::pluck('user_id')->unique()->toArray();
             $pendingGroupsMembers = GroupInvitation::pluck('user_id')->unique()->toArray();
-
-            // $domainIds = $loggedInStudent->domains->pluck('id')->toArray();
-            // $projectTypeIds = $loggedInStudent->projectTypes->pluck('id')->toArray();
+            /////// check in project or not 
+            $group_id = GroupMember::where('user_id', $id)->value('group_id');
+            $project_exists = Project::where('group_id', $group_id)->exists();
 
             $authorizedToCreateGroup = !in_array($loggedInStudent->id, $pendingGroupsMembers) && !in_array($loggedInStudent->id, $groupsMembers);
             $authorizedToAccessRequest = in_array($loggedInStudent->id, $pendingGroupsMembers);
@@ -40,6 +41,7 @@ class SetStudentSessionData
                 'authorizedToCreateGroup' => $authorizedToCreateGroup,
                 'authorizedToAccessRequest' => $authorizedToAccessRequest,
                 'authorizedToAccessMyGroup' => $authorizedToAccessMyGroup,
+                'projectExists' => $project_exists,
                 // 'loggedInStudentDomainIds' => $domainIds,
                 // 'loggedInStudentProjectTypeIds' => $projectTypeIds,
             ];

@@ -7,7 +7,7 @@
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/</li>
                 <li>
@@ -116,7 +116,7 @@
                             </label>
                             <input name="time" type="time" id="presentation-time"
                                 class="border px-2 py-1 rounded-md focus:outline-none focus:ring focus:border-blue-300">
-                                <input type="hidden" id="hidden-presentation-time" name="formatted_time">
+                            <input type="hidden" id="hidden-presentation-time" name="formatted_time">
                             <x-input-error :messages="$errors->get('time')" class="mt-2 text-red-400" />
                         </div>
                     </div>
@@ -236,11 +236,10 @@
         // Add an event listener to the presentation-date input
         const presentationDateInput = document.getElementById('presentation-date');
         presentationDateInput.addEventListener('input', updateHiddenDate);
-    </script>
-    <script>
+
         const presentationTimeInput = document.getElementById('presentation-time');
         const hiddenPresentationTimeInput = document.getElementById('hidden-presentation-time');
-    
+
         // Add an input event listener to the time input
         presentationTimeInput.addEventListener('input', () => {
             const enteredTime = presentationTimeInput.value;
@@ -249,7 +248,7 @@
                 hiddenPresentationTimeInput.value = formattedTime;
             }
         });
-    
+
         // Function to format time with AM/PM
         function formatTimeWithAMPM(time) {
             const [hour, minute] = time.split(':');

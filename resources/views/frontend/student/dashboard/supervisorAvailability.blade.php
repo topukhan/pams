@@ -56,7 +56,7 @@
                     <div class=" rounded-lg shadow-md shadow-slate-500 p-4 bg-white dark:bg-gray-800">
                         <div class="justify-between flex mb-2">
                             <div>
-                                <img src="https://pyxis.nymag.com/v1/imgs/7be/898/c22698a83a66c5a268116b0f311af72592-22-rm-bts-2.rvertical.w330.jpg"
+                                <img src="https://shorturl.at/yHORW"
                                     alt="Profile Image"class="w-24 h-24 rounded-full">
                             </div>
                             <div>
@@ -144,7 +144,7 @@
     <div class="border rounded-lg shadow-lg p-4 bg-white dark:bg-gray-800">
         <div class="justify-between flex mb-2">
             <div>
-                <img src="https://pyxis.nymag.com/v1/imgs/7be/898/c22698a83a66c5a268116b0f311af72592-22-rm-bts-2.rvertical.w330.jpg"
+                <img src="https://shorturl.at/yHORW"
                     alt="Profile Image" class="w-24 h-24 rounded-full">
             </div>
             <div>

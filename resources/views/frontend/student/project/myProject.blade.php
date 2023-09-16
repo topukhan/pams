@@ -19,7 +19,7 @@
         @if ($members && $group)
             <div class="px-2 py-2 ">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 mb-5">
-                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                    <div class="flex flex-row items-center mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Project Title: </label>
                         </div>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                    <div class="flex flex-row items-center mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Description: </label>
                         </div>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                    <div class="flex flex-row items-center mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Domain: </label>
                         </div>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                    <div class="flex flex-row items-center mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Project Type: </label>
                         </div>
@@ -54,26 +54,55 @@
                             <span class="text-sm font-semibold dark:text-white">{{ $group->project_type }}</span>
                         </div>
                     </div>
-                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                    <div class="flex flex-row items-center mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Supervisor: </label>
                         </div>
                         <div class="w-2/6">
-                            <span class="text-sm font-semibold dark:text-white mr-2">{{ $supervisor->first_name.' '. $supervisor->last_name }}</span>
-                            <a href="{{route('student.supervisorProfile', ['id' => $supervisor->id])}}">
+                            <span
+                                class="text-sm font-semibold dark:text-white mr-2">{{ $supervisor->first_name . ' ' . $supervisor->last_name }}</span>
+                            <a href="{{ route('student.supervisorProfile', ['id' => $supervisor->id]) }}">
                                 <button
-                                class="px-2 py-1 text-xs font-semibold leading-tight text-white bg-purple-400 shadow-lg rounded-full">
-                                View Profile
-                            </button></a>
+                                    class="px-2 py-1 text-xs font-semibold leading-tight text-white bg-purple-400 shadow-lg rounded-full">
+                                    View Profile
+                                </button></a>
                         </div>
                     </div>
-                    <div class="flex flex-row items-center mb-2 space-x-4"> 
+                    <div class="flex flex-row items-center mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Group Name: </label>
                         </div>
                         <div class="w-2/6">
                             <span class="text-sm font-semibold dark:text-white">{{ $group->name }}</span>
                         </div>
+                    </div>
+                    <div class="flex flex-row items-center mb-2 space-x-4">
+                        <div class="flex-shrink-0 w-1/6">
+                            <label class="text-md font-bold text-gray-700 dark:text-white">Current Phase: </label>
+                        </div>
+                        <div class="w-2/6">
+                            <span
+                                class="text-sm font-semibold dark:text-white">{{ $project->phase == 'phase1'
+                                    ? 'Phase 1'
+                                    : ($project->phase == 'phase2'
+                                        ? 'Phase 2'
+                                        : ($project->phase == 'phase3'
+                                            ? 'Phase 3'
+                                            : ($project->phase == 'completed'
+                                                ? 'Completed'
+                                                : 'Not Set'))) }}</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-end items-center mb-2 space-x-4">
+                        <div>
+                            <a href="{{ route('student.reportSubmission') }}">
+                                <button
+                                    class="px-4 py-2 text-md font-semibold  text-white bg-purple-500 hover:bg-purple-700 shadow-lg rounded-full">
+                                    Submit Report
+                                </button>
+                            </a>
+                        </div>
+
                     </div>
                 </div>
 
@@ -120,7 +149,7 @@
                         </table>
                     </div>
                 </div>
-              
+
             </div>
         @else
             <div class="flex justify-center h-screen ">

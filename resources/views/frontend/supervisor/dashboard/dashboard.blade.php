@@ -23,7 +23,7 @@
                         <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Group Management
                         </p>
-                        <a href="{{ route('student.createGroup') }}"><button
+                        <a href="{{ route('supervisor.approvedGroups') }}"><button
                                 class="px-4 py-1 bg-green-300 hover:bg-green-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200 dark:bg-green-500 transition duration-200 ease-in-out">
                                 Manage
                             </button></a>
@@ -62,10 +62,12 @@
                         <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
                             Report Evaluation
                         </p>
-                        <button
-                            class="px-4 py-1  bg-blue-300 hover:bg-blue-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200  dark:bg-blue-500 transition duration-200 ease-in-out">
-                            Details
-                        </button>
+                        <a href="{{ route('supervisor.projectReportList') }}">
+                            <button
+                                class="px-4 py-1  bg-blue-300 hover:bg-blue-500 rounded shadow text-md font-semibold text-gray-700 hover:text-white dark:text-gray-200  dark:bg-blue-500 transition duration-200 ease-in-out">
+                                Reports
+                            </button>
+                        </a>
                     </div>
                 </div>
 

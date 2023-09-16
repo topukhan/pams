@@ -22,10 +22,10 @@
         <p class="text-3xl font-semibold text-center">
             Welcome to Project Allocation &amp; Management System (PAMS)
         </p>
-        <span class="text-xl font-semibold text-center">Login As: </span>
+        <span class="text-xl font-semibold text-center font-mono">Login As: </span>
         <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-6">
             <a href="{{ route('student.login') }}"
-                class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded  shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
                 Student
             </a>
 

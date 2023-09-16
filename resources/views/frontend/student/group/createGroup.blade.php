@@ -1,16 +1,16 @@
 <x-frontend.student.layouts.master>
     <div class="container px-6 mx-auto grid">
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <h2 class="mt-6 px-8 text-2xl font-mono font-semibold text-gray-700 dark:text-gray-200">
             Create Group </h2>
         {{-- breadcrumb --}}
-        <div class="px-4 mb-4">
+        <div class="px-4 mb-6">
             <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
                     <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('student.createGroup') }}" class="text-gray-900 dark:text-white">Create
+                    <a href="{{ route('student.createGroup') }}" class="text-gray-900 dark:text-white mr-8 ">Create
                         Group</a>
                 </li>
             </ol>
@@ -51,18 +51,18 @@
                 </div>
             </div>
         @endif
-        <div class="px-2 py-4 mb-6 bg-slate-100 dark:bg-gray-900  border border-gray-400 rounded-md">
-            <div class="px-2 py-2 mb-6">
+        <div class="px-2 py-4 mb-6 bg-slate-100 dark:bg-gray-900 shadow-2xl rounded-md">
+            <div class="px-4 py-2 mb-6">
                 <form action="{{ route('student.storeGroup') }}" method="POST">
                     @csrf
                     {{-- project type --}}
-                    <div class="md:flex mb-4 px-4">
-                        <div class="md:w-2/12 mb-2">
-                            <span class="text-gray-700 font-semibold dark:text-gray-300 ">
-                                Type :
+                    <div class=" mb-10  mt-4 px-6 justify-center align-center flex">
+                        <div class="px-12">
+                            <span class="text-gray-700 font-semibold dark:text-gray-300 text-end ">
+                                Choose Project Type :
                             </span>
                         </div>
-                        <div class="md:w-3/12 sm:mt-2 md:mt-0">
+                        <div class="  ">
                             <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
                                 <input type="radio"
                                     class="project_type text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray dark:bg-gray-700 border-separate"
@@ -79,53 +79,54 @@
                         </div>
                     </div>
 
-                    {{-- Domain --}}
-                    <div class="md:flex mb-4 px-4">
-                        <div class="md:w-2/12">
-                            <label
-                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mt-2 pr-4"
-                                for="my-select">
-                                Domain:
-                            </label>
-                        </div>
-                        <div class="md:w-3/12">
-                            <select name="domain" id="domain"
-                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 focus:dark:bg-gray-800 dark:text-gray-300"
-                                id="domain">
-                                <option value="0" hidden>select domain</option>
-                                @foreach ($domains as $domain)
+                    <div class="grid grid-cols-2 gap-4 mb-3">
+                        {{-- Domain --}}
+                        <div class="md:flex mb-4 px-6">
+                            <div class="md:w-3/12">
+                                <label class="block text-gray-600 dark:text-gray-300 font-semibold mb-3 md:mt-2 pr-4" for="my-select">
+                                    Domain:
+                                </label>
+                            </div>
+                            <div class="md:w-8/12">
+                                <select name="domain" id="domain"
+                                    class="form-select block w-full shadow-md focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                    id="domain">
+                                    <option value="0" hidden>select domain</option>
+                                    @foreach ($domains as $domain)
                                     <option value="{{ $domain->name }}">
                                         {{ $domain->name }}
                                     </option>
-                                @endforeach
-                            </select>
-                            <x-input-error :messages="$errors->get('domain')" class="mt-2" />
+                                    @endforeach
+                                </select>
+                                <x-input-error :messages="$errors->get('domain')" class="mt-2" />
+                            </div>
+                        </div>
+                    
+                        {{-- Group Name --}}
+                        <div class="md:flex mb-6 ">
+                            <div class="md:w-3/12">
+                                <label for="group_name"
+                                    class="block text-gray-600 dark:text-gray-300 font-semibold mb-3 md:mt-2 pr-4">
+                                    Group Name:
+                                </label>
+                            </div>
+                            <div class="md:w-8/12">
+                                <input id="group_name" type="text" name="group_name"
+                                    class="block w-full focus:bg-white shadow-md bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+                                    placeholder="Enter a name">
+                                <x-input-error :messages="$errors->get('group_name')" class="mt-2" />
+                            </div>
                         </div>
                     </div>
-
-                    {{-- Group Name --}}
-                    <div class="md:flex mb-6 px-4">
-                        <div class="md:w-2/12">
-                            <label for="group_name"
-                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mt-2 pr-4">
-                                Group Name:
-                            </label>
-                        </div>
-                        <div class="md:w-3/12">
-                            <input id="group_name" type="text" name="group_name"
-                                class=" block w-full focus:bg-white bg-gray-100 rounded-md border-sm border-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                                placeholder="Enter a name">
-                            <x-input-error :messages="$errors->get('group_name')" class="mt-2" />
-                        </div>
-                    </div>
+                    
 
                     {{-- table --}}
-                    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-md">
+                    <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xl">
                         <div class="w-full overflow-x-auto shadow-lg">
                             <table class="w-full whitespace-no-wrap ">
                                 <thead>
                                     <tr
-                                        class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                        class="text-sm font-medium  tracking-wide text-center text-gray-500 uppercase border dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                         <th class="px-3 py-3">Sl</th>
                                         <th class="px-3 py-3">Email</th>
                                         <th class="px-3 py-3">Name</th>
@@ -223,7 +224,7 @@
                                 <span>Request Members</span></a>
                         @else
                             <input type="submit"
-                                class="px-4 py-2 mt-3 font-bold bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700"
+                                class="px-4 py-2 mt-3 font-bold shadow-xl bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-700"
                                 value="Submit">
                         @endif
                     </div>

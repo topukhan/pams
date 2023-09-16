@@ -1,12 +1,12 @@
 <x-frontend.student.layouts.master>
 
     <div class="container px-6 mx-auto grid">
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <h2 class="mt-6 px-8 text-2xl font-semibold font-mono text-gray-700 dark:text-gray-200">
             My Group </h2>
 
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
-            <ol class="flex text-sm justify-end text-gray-500">
+            <ol class="flex text-sm justify-end  text-gray-500">
                 <li class="flex mr-3">
                     <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
@@ -14,7 +14,7 @@
                 <li class="flex mr-3">Groups</li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('student.myGroup') }}" class="text-gray-900 dark:text-white">My Group</a>
+                    <a href="{{ route('student.myGroup') }}" class="text-gray-900 dark:text-white mr-8">My Group</a>
                 </li>
             </ol>
         </div>

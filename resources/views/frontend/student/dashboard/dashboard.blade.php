@@ -48,6 +48,7 @@
             <div class="grid gap-6 mb-8 xl:col-span-2  text-center md:grid-cols-1 xl:grid-cols-2">
                 {{-- If not in a project --}}
                 @if ($project == null)
+                @if ($group_id == null)
                     <!--Create Group Card -->
                     <div
                         class="p-4 hover:bg-orange-50 bg-white rounded-lg shadow-xl transition  duration-200 ease-in-out dark:bg-gray-800">
@@ -69,6 +70,7 @@
                                 </button></a>
                         </div>
                     </div>
+                    @endif
                     <!-- Genre and Supervisor Availability card -->
                     <div
                         class="p-4 hover:bg-green-50 bg-white rounded-lg shadow-xl dark:bg-gray-800 transition duration-200 ease-in-out">
@@ -242,39 +244,73 @@
                 <h2 class="mb-2 font-medium text-gray-700 dark:text-gray-400">
                     Notice
                 </h2>
-                {{-- Notice Card --}}
-                @if ($notices->isEmpty())
-                <div class="mb-4 p-4  hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out flex items-center justify-center">
-                    <p class="text-xl p-2 font-medium  text-gray-700 dark:text-gray-400 text-center font-mono ">NO NOTICES AT THIS MOMENT</p>
-                </div>
                 
-                @else
-                    @foreach ($notices as $notice)
-                        <div
-                            class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
-                            <div>
-                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                    @php
-                                        echo $notice->notice;
-                                    @endphp
-                                </p>
-                                <a href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
-                                    <button
-                                        class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
-                                        View
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
-            </div>
-        </div>
-    </div>
-    <script>
-        function dismissAlert() {
-            var alert = document.getElementById('alert');
-            alert.style.display = 'none';
-        }
-    </script>
+              {{-- Notice Card --}}
+              @if ($filtered_notices->count() > 0)
+              @php
+                  $filtered_notices = $filtered_notices->reverse(); // Reverse the order of the notices array
+              @endphp
+              @foreach ($filtered_notices as $notice)
+                  <div
+                      class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
+                      <span class="font-bold text-red-500">Important! </span><br>
+                      <span class="font-semibold">From: Coordinator</span>
+
+                      <div>
+                          <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                              @php
+                                  $shortenedNotice = substr($notice->title, 0, 30);
+                                  echo $shortenedNotice;
+                              @endphp
+                          </p>
+                          <a class="my-2" href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
+                              <button
+                                  class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                                  View
+                              </button>
+                          </a>
+                      </div>
+                  </div>
+              @endforeach
+          @endif
+          @php
+              $notices = $notices->reverse(); // Reverse the order of the notices array
+          @endphp
+          @foreach ($notices as $notice)
+              <div
+                  class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
+                  <span class="font-semibold">From: Supervisor</span>
+                  <div>
+                      <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                          @php
+                              $shortenedNotice = substr($notice->notice, 0, 32);
+                              echo $shortenedNotice . '...';
+                          @endphp
+                      </p>
+                      <a href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
+                          <button
+                              class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                              View
+                          </button>
+                      </a>
+                  </div>
+              </div>
+          @endforeach
+          @if (count($notices) == 0 and count($filtered_notices) == 0)
+              <div
+                  class="mb-4 p-4  hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out flex items-center justify-center">
+                  <p class="text-xl p-2 font-medium  text-gray-700 dark:text-gray-400 text-center font-mono ">NO
+                      NOTICES AT THIS MOMENT</p>
+              </div>
+          @endif
+
+      </div>
+  </div>
+</div>
+<script>
+  function dismissAlert() {
+      var alert = document.getElementById('alert');
+      alert.style.display = 'none';
+  }
+</script>
 </x-frontend.student.layouts.master>

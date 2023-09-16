@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Models\ApprovedGroup;
 use App\Models\Domain;
+use App\Models\File;
 use App\Models\Group;
 use App\Models\ProposalFeedback;
 use App\Models\GroupMember;
 use App\Models\OldTitle;
 use App\Models\Project;
 use App\Models\ProjectProposal;
+use App\Models\ProjectReport;
 use App\Models\RequestToCoordinator;
 use App\Models\Student;
 use App\Models\Supervisor;
@@ -407,12 +409,57 @@ class StudentController extends Controller
         $project = Project::where('group_id', $group->id)->first();
         $supervisor = User::where('id', $project->supervisor_id)->first();
 
-        return view('frontend.student.dashboard.myProject', compact('group', 'members', 'can_propose', 'project', 'supervisor'));
+        return view('frontend.student.project.myProject', compact('group', 'members', 'can_propose', 'project', 'supervisor'));
     }
 
- 
-      public function getStarted()
-      {
-          return view('frontend.student.dashboard.getStarted');
-      }
+
+    public function getStarted()
+    {
+        return view('frontend.student.dashboard.getStarted');
+    }
+
+    public function reportSubmission()
+    {
+        $group_id = GroupMember::where('user_id', auth()->guard('student')->user()->id)->value('group_id');
+        $project = Project::where('group_id', $group_id)->first();
+        return view('frontend.student.project.reportSubmission', compact('project'));
+    }
+
+    public function reportStore(Request $request, Project $project)
+    {
+
+        $id = Auth::guard('student')->user()->id;
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'file.*' => 'nullable|file|mimes:pdf,doc,docx,txt,png,jpg,jpeg',
+        ]);
+
+
+        try {
+            DB::beginTransaction();
+            $project_report = ProjectReport::create([
+                'project_id' => $project->id,
+                'user_id' => $id,
+                'title' => $request->title,
+                'description' => $request->description,
+            ]);
+            if ($request->hasFile('file')) {
+                foreach ($request->file('file') as $file) {
+                    $filename = uniqid() . '_' . $file->getClientOriginalName();
+                    $file->storeAs('projectReports', $filename, 'public');
+                    $new_file = File::create([
+                        'project_report_id' => $project_report->id,
+                        'filename' => $filename,
+                    ]);
+                }
+            }
+            DB::commit();
+
+            return redirect()->back()->withMessage('Report Submitted successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Error creating Report: ' . $e->getMessage());
+        }
+    }
 }

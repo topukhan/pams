@@ -101,7 +101,9 @@
                     </div>
                     <div class="mb-4 flex flex-wrap">
                         <div id="fileInputs" class="w-full md:w-1/2 mb-2 md:mb-0">
+                            <span class="mx-2 text-gray-600 text-xs">file of type: pdf, doc, docx</span>
                             <input type="file" name="file[]" multiple class="mb-2 p-2 bg-gray-100 rounded-md block">
+                            
                         </div>
                         @error('file.*')
                             <p class="text-red-600 text-sm mt-2">{{ $message }}</p>

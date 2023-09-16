@@ -11,7 +11,7 @@ use App\Http\Controllers\Supervisor\SupervisorProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['SupervisorAuth'])->group(function () {
-    
+
     Route::get('/supervisor/dashboard', [SupervisorLoginController::class, 'dashboard'])->name('supervisor.dashboard');
     //request
     Route::get('/supervisor/groupRequests', [SupervisorController::class, 'groupRequests'])->name('supervisor.groupRequests');
@@ -25,10 +25,13 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     //assign task
     Route::get('/supervisor/assignTask', [SupervisorController::class, 'assignTask'])->name('supervisor.assignTask');
     //Project proposals
-    Route::get('/supervisor/proposalList', [SupervisorController::class, 'proposalList'])->name('supervisor.proposalList');
+    Route::get('/supervisor/proposals', [SupervisorController::class, 'proposalList'])->name('supervisor.proposalList');
     Route::get('/supervisor/proposalDetails/{group_id}/{proposal_id}', [SupervisorController::class, 'proposalDetails'])->name('supervisor.proposalDetails');
     Route::get('/supervisor/proposalSuggest/{group_id}/{proposal_id}', [SupervisorController::class, 'proposalSuggest'])->name('supervisor.proposalSuggest');
     Route::post('/supervisor/proposalResponse', [SupervisorController::class, 'proposalResponse'])->name('supervisor.proposalResponse');
+    // Project Report 
+    Route::get('/supervisor/projectReports', [SupervisorController::class, 'projectReportList'])->name('supervisor.projectReportList');
+    Route::get('/supervisor/projectReportDetail/{project_report}', [SupervisorController::class, 'projectReportDetails'])->name('supervisor.projectReportDetails');
     // Notice
     Route::get('/supervisor/notice', [NoticeController::class, 'create'])->name('supervisor.noticeCreate');
     Route::post('/supervisor/noticeStore', [NoticeController::class, 'store'])->name('supervisor.noticeStore');
@@ -41,14 +44,14 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     Route::post('/supervisor/evaluation1Store', [ProjectGradingController::class, 'phase1Store'])->name('supervisor.phase1Store');
     Route::post('/supervisor/evaluation2Store', [ProjectGradingController::class, 'phase2Store'])->name('supervisor.phase2Store');
     Route::post('/supervisor/evaluation3Store', [ProjectGradingController::class, 'phase3Store'])->name('supervisor.phase3Store');
-    
+
     Route::post('/supervisor/publishResult/{project}',  [ProjectGradingController::class, 'publishResult'])->name('supervisor.publishResult');
     //Profile
     Route::get('/supervisor/profile', [SupervisorProfileController::class, 'index'])->name('supervisor.profile');
     Route::get('/supervisor/profile/edit', [SupervisorProfileController::class, 'edit'])->name('supervisor.profileEdit');
     Route::patch('/supervisor/profile/update', [SupervisorProfileController::class, 'update'])->name('supervisor.profileUpdate');
     //Notifications
-    Route::get('/supervisor/notifications', [NotificationController::class, 'index'])->name('supervisor.notifications'); 
+    Route::get('/supervisor/notifications', [NotificationController::class, 'index'])->name('supervisor.notifications');
     // logout
     Route::post('/supervisor/logout', [SupervisorLoginController::class, 'logout'])->name('supervisor.logout');
 });

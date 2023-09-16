@@ -10,6 +10,7 @@ use App\Models\Phase1;
 use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProjectProposalApprovalRequest;
+use App\Models\ProjectReport;
 use App\Models\ProposalFeedback;
 use App\Models\Supervisor;
 use App\Models\User;
@@ -178,5 +179,22 @@ class SupervisorController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
+    }
+
+    public function projectReportList()
+    {
+        $id = auth()->guard('supervisor')->user()->id;
+        $projects = Project::where('supervisor_id', $id)->get();
+
+        $project_ids = $projects->pluck('id');
+        $project_reports = ProjectReport::whereIn('project_id', $project_ids)->get();
+
+
+        return view('frontend.supervisor.project.projectReportList', compact('projects', 'project_reports'));
+    }
+
+    public function projectReportDetails(ProjectReport $project_report)
+    {
+        return view('frontend.supervisor.project.projectReportDetails', compact('project_report'));
     }
 }

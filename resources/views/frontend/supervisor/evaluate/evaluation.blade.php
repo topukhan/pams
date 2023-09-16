@@ -254,13 +254,13 @@
 
                         </div>
                     </div>
-                    @if(  $project->result_published == true ? '' : 'hidden')
-                    <div class="flex justify-end mb-4 {{ count($members) == count($phase1_marks) }}">
-                        <button type="submit" id="gradeButton1"
-                            class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
-                            Grade
-                        </button>
-                    </div>
+                    @if ($project->result_published == true ? '' : 'hidden')
+                        <div class="flex justify-end mb-4 {{ count($members) == count($phase1_marks) }}">
+                            <button type="submit" id="gradeButton1"
+                                class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
+                                Grade
+                            </button>
+                        </div>
                     @endif
                 </form>
             </div>
@@ -394,13 +394,13 @@
 
                         </div>
                     </div>
-                    @if(  $project->result_published == true ? '' : 'hidden')
-                    <div class="flex justify-end mb-4 {{ count($members) == count($phase2_marks)}}">
-                        <button type="submit" id="gradeButton2"
-                            class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
-                            Grade
-                        </button>
-                    </div>
+                    @if ($project->result_published == true ? '' : 'hidden')
+                        <div class="flex justify-end mb-4 {{ count($members) == count($phase2_marks) }}">
+                            <button type="submit" id="gradeButton2"
+                                class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
+                                Grade
+                            </button>
+                        </div>
                     @endif
                 </form>
             </div>
@@ -534,13 +534,13 @@
 
                         </div>
                     </div>
-                    @if(  $project->result_published == true ? '' : 'hidden')
-                    <div class="flex justify-end mb-4 {{ count($members) == count($phase3_marks)}} ">
-                        <button type="submit" id="gradeButton3"
-                            class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
-                            Grade
-                        </button>
-                    </div>
+                    @if ($project->result_published == true ? '' : 'hidden')
+                        <div class="flex justify-end mb-4 {{ count($members) == count($phase3_marks) }} ">
+                            <button type="submit" id="gradeButton3"
+                                class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
+                                Grade
+                            </button>
+                        </div>
                     @endif
                 </form>
             </div>
@@ -550,18 +550,19 @@
         @if (!$phase3_marks->isEmpty())
             <div class="flex justify-center mb-4">
                 @if (!$project->result_published)
-                    <form action="{{ route('supervisor.publishResult', ['project' => $project]) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
-                        Publish Result
-                    </button>
+                    <form action="{{ route('supervisor.publishResult', $project) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="bg-lime-300 hover:bg-lime-400 text-gray-800 font-bold py-3 px-6 mt-4 rounded-md text-sm mx-12">
+                            Publish Result
+                        </button>
                     </form>
                 @endif
             </div>
         @endif
 
-        <div id="resultSection" style="display: {{ $project->result_published ? 'block' : 'none' }};" class="">
+        <div id="resultSection" style="display: {{ $project->result_published ? 'block' : 'none' }};"
+            class="">
             <span class="text-2xl dark:text-gray-300 font-semibold text-gray-700 ">View Results Here</span>
             {{-- toggle buttons --}}
             <div class="flex space-x-4 my-4">

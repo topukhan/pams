@@ -14,7 +14,7 @@
                             <h3 class="text-lg font-semibold">A Group Sent You A Project Proposal</h3>
                             <p class="text-gray-600 dark:text-gray-300">Topic: "{{ $notification->data['title'] }}"</p>
                         </a>
-                        {{ $notification->markAsRead() }}
+                        {{ $notification->markAsRead() }} 
 
                     </div>
                     {{-- Project Approval Notification --}}
@@ -49,11 +49,9 @@
                     </div>
                 @elseif ($notification->type === 'App\Notifications\SupervisorReallocationNotification')
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 mb-2 shadow-md cursor-pointer"
-                        title="Click to view details" data-modal-toggle="example" data-modal-action="open">
-
-                        <h3 class="text-lg font-semibold">A project is allocated to another supervisor .</h3>
-
-                        {{ $notification->markAsRead() }}
+                    data-modal-toggle="example" data-modal-action="open" title="Click to view details">
+                            <h3 class="text-lg font-semibold">A project is allocated to another supervisor.</h3>
+                        {{ $notification->markAsRead() }} 
                     </div>
                     {{-- modal for project reallocated to another supervisor --}}
                     <div data-modal="example"

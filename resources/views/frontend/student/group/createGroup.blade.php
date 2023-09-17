@@ -51,7 +51,7 @@
                 </div>
             </div>
         @endif
-        <div class="px-2 py-4 mb-6 bg-slate-100 dark:bg-gray-900 shadow-2xl rounded-md">
+        <div class="px-2 py-4 mb-6 bg-gray-200 dark:bg-gray-900 shadow-xl rounded-md">
             <div class="px-4 py-2 mb-6">
                 <form action="{{ route('student.storeGroup') }}" method="POST">
                     @csrf

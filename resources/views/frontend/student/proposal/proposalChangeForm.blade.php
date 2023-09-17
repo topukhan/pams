@@ -79,7 +79,7 @@
         @endif
         {{-- form --}}
         <div class="px-2 py-2">
-            <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+            <div class="p-8 mb-8 bg-white rounded-lg shadow-2xl dark:bg-gray-800">
                 <form action="{{ route('student.store.proposalForm') }}" method="POST">
                     @csrf
                     <input type="hidden" name="group_id" value="{{ $project->group_id }}">
@@ -90,7 +90,7 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="my-textfield">
-                                New Project/Thesis Title :
+                                New Project/Thesis Title 
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -106,7 +106,7 @@
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4">
-                                Old Project/Thesis Title :
+                                Old Project/Thesis Title 
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -120,7 +120,7 @@
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4">
-                                Reason :
+                                Reason 
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -148,7 +148,7 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="course">
-                                Course/Subject :
+                                Course/Subject 
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -165,7 +165,7 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="my-select">
-                                Supervisor :
+                                Supervisor 
                             </label>
                         </div>
                         <div class="md:w-3/4">

@@ -1,9 +1,7 @@
 <x-frontend.student.layouts.master>
-
     <div class="container px-6 mx-auto grid">
-        <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <h2 class="mt-6 px-4 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Change Password </h2>
-
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
@@ -17,10 +15,8 @@
                 </li>
             </ol>
         </div>
-
-
         <div class="px-2 py-2 ">
-            <div class="p-8 bg-white rounded-lg shadow-lg">
+            <div class="p-8 bg-white rounded-lg shadow-2xl">
                 <form action="#" method="">
                     <!-- Current Password -->
                     <div class="md:flex mb-6">

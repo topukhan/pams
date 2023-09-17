@@ -22,7 +22,7 @@
         {{-- table --}}
         @if ($members && $group)
             <div class="px-2 py-2 ">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-3">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 mb-3">
                     <div class="flex flex-row items-center mb-2 space-x-4"> <!-- Adjusted the mb-4 to mb-2 -->
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Group Name: </label>
@@ -52,8 +52,8 @@
                 </div>
 
 
-                <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto shadow-md">
+                <div class="w-full overflow-hidden rounded-lg shadow-xl">
+                    <div class="w-full overflow-x-auto ">
                         <table class="w-full whitespace-no-wrap ">
                             <thead>
                                 <tr

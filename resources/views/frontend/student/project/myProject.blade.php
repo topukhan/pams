@@ -19,25 +19,25 @@
         @if ($members && $group)
             <div class="px-2 py-2 ">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 mb-5">
-                    <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex flex-row  mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Project Title: </label>
                         </div>
-                        <div class="w-2/6">
+                        <div class="w-3/6">
                             <span class="text-sm font-semibold dark:text-white">{{ $project->title }}</span>
                         </div>
                     </div>
 
-                    <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex flex-row  mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Description: </label>
                         </div>
-                        <div class="w-2/6">
+                        <div class="w-3/6">
                             <span class="text-sm font-semibold dark:text-white">{{ $project->description }}</span>
                         </div>
                     </div>
 
-                    <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex flex-row  mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Domain: </label>
                         </div>
@@ -46,19 +46,19 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex flex-row  mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Project Type: </label>
                         </div>
-                        <div class="w-2/6">
+                        <div class="w-3/6">
                             <span class="text-sm font-semibold dark:text-white">{{ $group->project_type }}</span>
                         </div>
                     </div>
-                    <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex flex-row  mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Supervisor: </label>
                         </div>
-                        <div class="w-2/6">
+                        <div class="w-3/6">
                             <span
                                 class="text-sm font-semibold dark:text-white mr-2">{{ $supervisor->first_name . ' ' . $supervisor->last_name }}</span>
                             <a href="{{ route('student.supervisorProfile', ['id' => $supervisor->id]) }}">
@@ -68,19 +68,19 @@
                                 </button></a>
                         </div>
                     </div>
-                    <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex flex-row  mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Group Name: </label>
                         </div>
-                        <div class="w-2/6">
+                        <div class="w-3/6">
                             <span class="text-sm font-semibold dark:text-white">{{ $group->name }}</span>
                         </div>
                     </div>
-                    <div class="flex flex-row items-center mb-2 space-x-4">
+                    <div class="flex flex-row mb-2 space-x-4">
                         <div class="flex-shrink-0 w-1/6">
                             <label class="text-md font-bold text-gray-700 dark:text-white">Current Phase: </label>
                         </div>
-                        <div class="w-2/6">
+                        <div class="w-3/6">
                             <span
                                 class="text-sm font-semibold dark:text-white">{{ $project->phase == 'phase1'
                                     ? 'Phase 1'

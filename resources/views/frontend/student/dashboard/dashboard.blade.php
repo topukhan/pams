@@ -120,7 +120,7 @@
                                 Proposal Form
                             </p>
                             <a href="{{ route('student.proposalForm') }}"><button
-                                    class="px-3 py-1 font-mono bg-teal-200 hover:bg-teal-500 hover:text-white transition-all rounded shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
+                                    class="px-3 py-1  font-mono bg-teal-200 hover:bg-teal-500 hover:text-white transition-all rounded shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
                                     View
                                 </button></a>
                         </div>
@@ -134,7 +134,7 @@
                             class="p-4 bg-white hover:bg-blue-100 cursor-pointer rounded-lg shadow-xl transition duration-200 ease-in-out dark:bg-gray-800">
                             <div
                                 class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-200 rounded-full dark:text-blue-100 dark:bg-blue-500">
-                                <i class="bx bx-comment-detail text-2xl"></i>
+                                <i class='bx bx-receipt text-2xl'></i>
                             </div>
                             <div>
                                 <p class="mb-2 text-md font-medium text-gray-600 dark:text-gray-400">
@@ -159,7 +159,7 @@
                                 </p>
                                 <a href="{{ route('student.proposalChangeForm', $project) }}">
                                     <button
-                                        class="bg-green-400 font-mono hover:bg-green-600 shadow-lg transition duration-200 ease-in-out text-white px-4 py-1 text-md font-semibold dark:text-gray-600 rounded">Form</button>
+                                        class="bg-green-400 font-mono hover:bg-green-600 shadow-lg transition duration-200 ease-in-out text-gray-700 px-4 py-1 text-md font-semibold dark:text-gray-600 rounded">Form</button>
                                 </a>
                             </div>
                         </div>

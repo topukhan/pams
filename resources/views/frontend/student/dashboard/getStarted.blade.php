@@ -12,11 +12,21 @@
                         <div class="z-20 flex items-center order-1 bg-gray-800 shadow-2xl w-8 h-8 rounded-full">
                             <h1 class="mx-auto font-semibold text-lg text-white">1</h1>
                         </div>
-                        <div class="order-1 bg-gray-400 rounded-lg shadow-inner shadow-xl w-5/12 px-6 py-4">
-                            <h3 class="mb-3 font-bold text-gray-800 text-2xl ">Profile Setup</h3>
-                            <p class="text-md leading-snug tracking-wide text-gray-900  text-opacity-100">Log in to the
-                                system, update your profile, and set your project preferences.</p>
+                        <div class="relative order-1 bg-gray-400 rounded-lg shadow-inner shadow-xl w-5/12 px-6 py-4">
+                            <div class="tooltip-container">
+                                <h3 class="mb-3 font-bold text-gray-800 text-2xl">Profile Setup</h3>
+                                <p class="text-md leading-snug tracking-wide text-gray-900 text-opacity-100">
+                                    Log in to the system, update your profile, and set your project preferences.
+                                </p>
+                                <!-- Tooltip -->
+                                <div class="tooltip bg-gray-800 text-white text-sm p-2 rounded absolute bottom-0 left-1/2 transform -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-300">
+                                    To match with students with similar preferences, set your domain and project type.
+                                </div>
+                            </div>
                         </div>
+                        
+                        
+                        
                     </div>
                     <!-- left timeline -->
                     <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
@@ -166,4 +176,16 @@
             </div>
         </div>
     </div>
+    <script>
+        const tooltipContainer = document.querySelector('.tooltip-container');
+        const tooltip = tooltipContainer.querySelector('.tooltip');
+    
+        tooltipContainer.addEventListener('mouseenter', () => {
+            tooltip.style.opacity = '1';
+        });
+    
+        tooltipContainer.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = '0';
+        });
+    </script>
 </x-frontend.student.layouts.master>

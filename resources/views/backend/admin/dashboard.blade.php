@@ -16,7 +16,7 @@
             <!-- Cards -->
             <div class="grid gap-6 mb-8 xl:col-span-2  text-center md:grid-cols-1 xl:grid-cols-2">
                 <!--Add Student Card -->
-                <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
+                <div class="p-4 bg-white rounded-lg shadow-xl  dark:bg-gray-800">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -38,7 +38,7 @@
                 </div>
 
                 <!-- Add supervisor card -->
-                <div class="p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+                <div class="p-4 bg-white rounded-lg shadow-xl dark:bg-gray-800">
                     <div
                         class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -62,7 +62,7 @@
 
 
                 <!-- Card -->
-                <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
+                <div class="p-4 bg-white rounded-lg shadow-xl  dark:bg-gray-800">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
                         <i class='bx bxs-cog text-2xl'></i>
@@ -80,7 +80,7 @@
                 </div>
 
                 <!-- Card -->
-                <div class="p-4 bg-white rounded-lg shadow  dark:bg-gray-800">
+                <div class="p-4 bg-white rounded-lg shadow-xl  dark:bg-gray-800">
                     <div
                         class="p-3 mb-4 w-12 mx-auto text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
                         <i class='bx bxs-help-circle text-2xl'></i>
@@ -101,7 +101,6 @@
 
 
 
-            {{-- Notice --}}
 
         </div>
     </div>

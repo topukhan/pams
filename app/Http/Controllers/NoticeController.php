@@ -72,9 +72,23 @@ class NoticeController extends Controller
         if ($user) {
             $groupMember = GroupMember::where('user_id', $user->id)->first();
             if ($groupMember) {
+                $group_id = GroupMember::where('user_id', $user->id)->value('group_id');
+                $project = Project::where('group_id', $group_id)->first();
+                $coordinator_id = User::where('role', 'coordinator')->value('id');
+                $phase = $project->phase;
+                $filtered_notices_ids = [];
+                $coordinator_notices = Notice::where('user_id', $coordinator_id)->get();
+                foreach ($coordinator_notices as $notice) {
+                    if ($phase != 'completed') {
+                        if ($notice->$phase == 1) {
+                            $filtered_notices_ids[] = $notice->id;
+                        }
+                    }
+                }
+                $filtered_notices = Notice::whereIn('id', $filtered_notices_ids)->get();
 
                 $notices = Notice::where('group_id', $groupMember->group_id)->get();
-                return view('frontend.student.notice.noticeList', compact('notices'));
+                return view('frontend.student.notice.noticeList', compact('notices', 'filtered_notices'));
             }
         }
     }

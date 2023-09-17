@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
-use App\Models\ApprovedGroup;
 use App\Models\Domain;
 use App\Models\File;
 use App\Models\Group;
@@ -14,7 +13,6 @@ use App\Models\Project;
 use App\Models\ProjectProposal;
 use App\Models\ProjectReport;
 use App\Models\RequestToCoordinator;
-use App\Models\Student;
 use App\Models\Supervisor;
 use App\Models\User;
 use App\Notifications\GroupRequestNotification;
@@ -28,7 +26,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
-use Throwable;
 
 class StudentController extends Controller
 {
@@ -106,7 +103,7 @@ class StudentController extends Controller
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
-        //    dd($request->all());
+           dd($request->all());
         $request->validate([
             'title' => 'required',
             'course' => 'required',

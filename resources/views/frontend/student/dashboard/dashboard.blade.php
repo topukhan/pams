@@ -176,7 +176,7 @@
                                 </p>
                                 <!-- Add a chat interface for project communication -->
                                 <a href="#"
-                                    class="px-4 py-1 font-mono bg-purple-300 rounded hover:bg-purple-500 shadow-lg hover:text-white transition-all shadow text-md font-semibold text-gray-700 dark:text-gray-500 dark:bg-purple-500">
+                                    class="px-4 py-1 font-mono bg-purple-300 rounded hover:bg-purple-500 shadow-lg hover:text-white transition-all  text-md font-semibold text-gray-700 dark:text-gray-500 dark:bg-purple-500">
                                     Open Chat
                                 </a>
                             </div>

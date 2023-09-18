@@ -24,7 +24,7 @@
             </div>
             <div class="md:w-5/12">
                 <select name="domain" id="domain"
-                    class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                    class="form-select shadow block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-700 dark:bg-gray-700 dark:text-gray-300">
                     <option value="0" selected disabled hidden>Select domain</option>
                     @foreach ($domains as $domain)
                         <option value="{{ $domain->id }}">{{ $domain->name }}</option>

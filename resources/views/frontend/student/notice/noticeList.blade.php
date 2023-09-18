@@ -18,7 +18,7 @@
         <div class="px-2 py-2 ">
 
             @if (count($notices) > 0 or count($filtered_notices) > 0)
-                <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+                <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xl">
                     <div class="w-full overflow-x-auto shadow-lg">
                         <table class="w-full whitespace-no-wrap ">
                             <thead>

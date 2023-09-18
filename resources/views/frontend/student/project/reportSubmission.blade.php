@@ -1,7 +1,7 @@
 <x-frontend.student.layouts.master>
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Report Create </h2>
+            Submit Report </h2>
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
@@ -16,7 +16,7 @@
             </ol>
         </div>
 
-        <div class="max-w-4xl mx-auto">
+        <div class="w-full mx-auto">
             @if (session('message'))
                 <div class="bg-green-100 border-t-4 border-green-500 rounded-b text-green-900 px-4 py-3 shadow-md my-4">
                     <div class="flex items-center">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             @endif
-            <div class="max-w-4xl mx-auto  p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+            <div class="max-w-4xl mx-auto mb-8 py-4 px-8 bg-white rounded-lg shadow-2xl dark:bg-gray-800">
 
                 <form action="{{ route('student.reportStore', $project) }}" method="POST"
                     enctype="multipart/form-data">
@@ -103,9 +103,9 @@
                             </button>
                         </div>
                     </div>
-                    <div class="mb-6">
+                    <div class="mb-6 justify-end flex">
                         <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                            class="px-8 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                             Post
                         </button>
                     </div>

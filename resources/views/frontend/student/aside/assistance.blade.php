@@ -19,7 +19,7 @@
 
        
         <div class="px-2 py-2 ">
-            <div class="max-w-3xl mx-auto mt-8 p-8 bg-white rounded-lg shadow-lg">
+            <div class="max-w-3xl mx-auto mt-8 p-8 bg-white rounded-lg shadow-xl">
                 <form action="#" method="">
                     <div class="mb-6">
                         <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject:</label>

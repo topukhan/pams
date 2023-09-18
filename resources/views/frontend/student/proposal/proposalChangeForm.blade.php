@@ -57,6 +57,26 @@
                 </div>
             </div>
         @endif
+        @if ($has_old_title)
+            <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-3 shadow-md my-4">
+                <div class="flex items-center">
+                    <div class="w-6 h-6 mr-4 bg-red-500 rounded-full flex-shrink-0"></div>
+                    <div class="flex-1">
+                        <span>You Can Only Change Your Title/Supervisor Once</span>
+                    </div>
+                    <button type="button"
+                        class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                        data-dismiss="alert" aria-label="Close"
+                        onclick="this.parentElement.parentElement.style.display='none'">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414L11.414 10l2.293 2.293a1 1 0 01-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 01-1.414-1.414L8.586 10 6.293 7.707a1 1 0 010-1.414z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        @endif
         {{-- form --}}
         <div class="px-2 py-2">
             <div class="p-8 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -70,15 +90,15 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="my-textfield">
-                                New Project/Thesis Title :
+                                New Project/Thesis Title<span class="text-red-500">*</span>
                             </label>
                         </div>
                         <div class="md:w-3/4">
                             <input name="title"
                                 class="w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray focus:bg-white bg-gray-100 rounded-md border-none form-input text-gray-700"
                                 id="my-textfield" type="text" value="" placeholder="Enter new title">
+                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
-                        <x-input-error :messages="$errors->get('title')" class="mt-2" />
                     </div>
 
                     {{-- Old Title --}}
@@ -86,7 +106,7 @@
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4">
-                                Old Project/Thesis Title :
+                                Old Project/Thesis Title
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -100,7 +120,7 @@
                         <div class="md:w-1/4">
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4">
-                                Reason :
+                                Reason<span class="text-red-500">*</span>
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -128,7 +148,7 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="course">
-                                Course/Subject :
+                                Course/Subject
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -145,7 +165,7 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="my-select">
-                                Supervisor :
+                                Supervisor
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -163,6 +183,8 @@
                             </select>
                             <x-input-error :messages="$errors->get('supervisor')" class="mt-2" />
                         </div>
+                        <input type="hidden" name="supervisor_id" value="{{ $project->supervisor_id }}"
+                            id="supervisor_id_hidden">
                     </div>
 
                     {{-- Domain --}}
@@ -171,7 +193,7 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="my-select">
-                                Domain :
+                                Domain
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -194,7 +216,7 @@
                     <div class="md:flex mb-6">
                         <div class="md:w-1/4">
                             <span class="text-gray-700 dark:text-gray-300 font-semibold ">
-                                Type :
+                                Type
                             </span>
                         </div>
                         <div class="md:w-3/4 pl-5">
@@ -220,7 +242,7 @@
                             <label
                                 class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
                                 for="description">
-                                Description:
+                                Description<span class="text-red-500">*</span>
                             </label>
                         </div>
                         <div class="md:w-3/4">
@@ -232,28 +254,50 @@
                     </div>
 
                     {{-- submit button --}}
-                    <div class="md:flex md:items-center">
-                        <div class="md:w-1/4"></div>
-                        <div class="md:w-3/4">
-                            <button
-                                class="shadow bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
-                                type="submit">
-                                Submit
-                            </button>
+                    @if (!$has_old_title)
+                        <div class="md:flex md:items-center">
+                            <div class="md:w-1/4"></div>
+                            <div class="md:w-3/4">
+                                <button
+                                    class="shadow bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
+                                    type="submit">
+                                    Submit
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
+
                 </form>
 
             </div>
 
-
-
-
-
         </div>
         </form>
     </div>
+    <script>
+        // Function to toggle the supervisor select box
+        function toggleSupervisorSelect() {
+            var supervisorSelect = document.getElementById('supervisor');
+            var changeSupervisorCheckbox = document.querySelector('input[name="reason[]"][value="Change Supervisor"]');
+            var hiddenSupervisorInput = document.getElementById('supervisor_id_hidden');
 
+            if (changeSupervisorCheckbox.checked) {
+                supervisorSelect.removeAttribute('disabled');
+                hiddenSupervisorInput.removeAttribute(
+                'name'); // Remove the name attribute to exclude it from the form submission
+            } else {
+                supervisorSelect.setAttribute('disabled', 'disabled');
+                hiddenSupervisorInput.setAttribute('name', 'supervisor_id'); // Add the name attribute back
+            }
+        }
+
+        // Add an event listener to the "Change Supervisor" checkbox
+        var changeSupervisorCheckbox = document.querySelector('input[name="reason[]"][value="Change Supervisor"]');
+        changeSupervisorCheckbox.addEventListener('change', toggleSupervisorSelect);
+
+        // Initial toggle state
+        toggleSupervisorSelect();
+    </script>
 
 
 </x-frontend.student.layouts.master>

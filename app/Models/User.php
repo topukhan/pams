@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     public function domains()
     {
-        return $this->belongsToMany(Domain::class);
+        return $this->belongsToMany(Domain::class, 'domain_user', 'user_id', 'domain_id');
     }
 
     public function projectTypes()

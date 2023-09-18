@@ -23,7 +23,10 @@ return new class extends Migration
             $table->foreign('coordinator_id')->references('id')->on('users');
             $table->string('domain');
             $table->string('project_type');
+            $table->string('phase')->default('phase1');
             $table->text('description');
+            
+            $table->boolean('result_published')->default(false);
             $table->timestamps();
         });
     }

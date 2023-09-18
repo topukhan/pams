@@ -4,7 +4,7 @@ use App\Http\Controllers\Coordinator\CoordinatorController;
 use App\Http\Controllers\Coordinator\CoordinatorLoginController;
 use App\Http\Controllers\Coordinator\CoordinatorRequestController;
 use App\Http\Controllers\NoticeController;
-
+use App\Models\Coordinator;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['CoordinatorAuth'])->group(function () {
@@ -37,10 +37,15 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
     Route::post('/coordinator/reProposalFeedback/{proposal}', [CoordinatorRequestController::class, 'reProposalFeedback'])->name('coordinator.reProposalFeedback');
 
     Route::get('/coordinator/notice', [NoticeController::class, 'noticeCreate'])->name('coordinator.noticeCreate');
+    //coordinator notice create
+    Route::post('/coordinator/noticeStore', [CoordinatorController::class, 'noticeStore'])->name('coordinator.noticeStore');
+
+    // assistance and change password
+    Route::get('/coordinator/assistance', [CoordinatorController::class, 'assistance'])->name('coordinator.assistance');
+    Route::get('/coordinator/changePassword', [CoordinatorController::class, 'changePassword'])->name('coordinator.changePassword');
 
     //notify 
     Route::get('/coordinator/notifications', function () {
         return view('frontend.coordinator.notification');
     })->name('coordinator.notifications');
-
 });

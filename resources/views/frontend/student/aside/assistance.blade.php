@@ -17,37 +17,31 @@
             </ol>
         </div>
 
-       
+
         <div class="px-2 py-2 ">
-            <div class="max-w-3xl mx-auto mt-8 p-8 bg-white rounded-lg shadow-lg">
+            <div class="max-w-4xl mx-auto mt-3 px-8 py-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl">
                 <form action="#" method="">
                     <div class="mb-6">
-                        <label for="subject" class="block text-gray-700 text-sm font-bold mb-2">Subject:</label>
+                        <label for="subject"
+                            class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Subject:</label>
                         <input type="text" id="subject" name="subject"
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600"
+                            class="w-full px-4 py-2 border-gray-300 dark:border-gray-500 dark:bg-gray-700 rounded-lg shadow-lg focus:outline-none focus:ring focus:border-blue-600"
                             required>
                     </div>
                     <div class="mb-6">
-                        <label for="message" class="block text-gray-700 text-sm font-bold mb-2">Message:</label>
+                        <label for="message"
+                            class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Message:</label>
                         <textarea id="message" name="message" rows="4"
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600" required></textarea>
+                            class="w-full px-4 py-2 border-gray-300 dark:border-gray-500 dark:bg-gray-700 rounded-lg shadow-lg focus:outline-none focus:ring focus:border-blue-600"
+                            required></textarea>
                     </div>
-                    <div class="mb-6">
+                    <div class="mb-2">
                         <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg">Submit</button>
+                            class="px-8 py-2 bg-blue-500 text-white font-semibold rounded-lg">Submit</button>
                     </div>
                 </form>
-
             </div>
-
-
         </div>
     </div>
-
-
-
-
-
-
 
 </x-frontend.student.layouts.master>

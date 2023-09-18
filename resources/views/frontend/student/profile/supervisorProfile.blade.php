@@ -22,10 +22,10 @@
                 <div class="grid grid-cols-3">
                     <div class="grid col-span-1 justify-center items-center ">
                         <div class="mb-2 ">
-                            <img src="https://pyxis.nymag.com/v1/imgs/7be/898/c22698a83a66c5a268116b0f311af72592-22-rm-bts-2.rvertical.w330.jpg"
+                            <img src="https://shorturl.at/yHORW"
                                 alt="Profile Image" class=" w-36 h-36 rounded-full shadow-md mb-2">
-                            <div class="justify-center flex font-mono font-semibold text-gray-800  dark:text-gray-300">{{ $user->supervisor->designation }}</div>
-                            <div class="justify-center flex font-mono font-semibold text-gray-800  dark:text-gray-300">{{ $user->department }}</div>
+                            <div class="justify-center flex  font-semibold text-gray-800  dark:text-gray-300">{{ $user->supervisor->designation }}</div>
+                            <div class="justify-center flex  font-semibold text-gray-800  dark:text-gray-300">{{ $user->department }}</div>
                         </div>
                     </div>
                     <div class="col-start-2 col-span-2 mt-1">
@@ -46,8 +46,8 @@
                             <span>{{ $user->phone_number }}</span>
                         </div>
                         <div class="gap-4 mb-2">
-                            <span class="text-gray-700  dark:text-gray-300 font-bold  mr-2">Domain:</span>
-                            @if (count($domains) == 0)
+                            <span class="text-gray-700 dark:text-gray-300 font-bold  mr-2">Domain:</span>
+                            @if ($domains->isEmpty())
                                 <span class="text-green-600">Not set yet</span>
                             @else
                                 <span>

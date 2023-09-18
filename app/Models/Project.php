@@ -13,4 +13,8 @@ class Project extends Model
     public function group(){
         return $this->hasOne(Group::class);
     }
+    
+    public function projectReports(){
+        return $this->hasMany(ProjectReport::class);
+    }
 }

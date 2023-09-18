@@ -25,7 +25,7 @@
         @endif
         {{-- table --}}
         <div class="px-2 py-2">
-            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div class="w-full overflow-x-auto shadow-lg">
                     <table class="w-full whitespace-no-wrap ">
                         <thead>

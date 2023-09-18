@@ -11,6 +11,7 @@ use App\Models\Phase3;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProjectGradingController extends Controller
 {
@@ -87,9 +88,57 @@ class ProjectGradingController extends Controller
 
             if ($project) {
                 if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
+                    try {
+                        DB::beginTransaction();
+                        foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
+                            $phase1 = Phase1::create([
+                                'project_id' => $project->id,
+                                'user_id' => $request->user_id[$key],
+                                'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                                'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                                'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                                'examiner_average' => $validated_marks['examiner_average'][$key],
+                                'attendance' => $validated_marks['attendance'][$key],
+                                'project_development' => $validated_marks['project_development'][$key],
+                                'report_preparation' => $validated_marks['report_preparation'][$key],
+                                'total' => $validated_marks['total'][$key],
+                            ]);
+                        }
 
-                    foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
-                        $phase1 = Phase1::create([
+                        $project->update(['phase' => 'phase2']);
+                        DB::commit();
+                    } catch (\Throwable $th) {
+                        DB::rollBack();
+                        return redirect()->back()->with('error', $th->getMessage());
+                    }
+                    return redirect()->back()->with('message', "Marks Added Successfully");
+                } else {
+
+                    return redirect()->back()->with('error', "You Can't Evaluate This Group");
+                }
+            } else {
+                return redirect()->back()->with('error', "Project Not Found");
+            }
+        }
+
+        // Update
+        if ($project) {
+            if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
+                foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
+                    $phase1 = Phase1::where('project_id', $project->id)
+                        ->where('user_id', $request->user_id[$key])
+                        ->update([
+                            'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                            'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                            'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                            'examiner_average' => $validated_marks['examiner_average'][$key],
+                            'attendance' => $validated_marks['attendance'][$key],
+                            'project_development' => $validated_marks['project_development'][$key],
+                            'report_preparation' => $validated_marks['report_preparation'][$key],
+                            'total' => $validated_marks['total'][$key],
+                        ]);
+                    if (!$phase1) {
+                        Phase1::create([
                             'project_id' => $project->id,
                             'user_id' => $request->user_id[$key],
                             'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
@@ -102,68 +151,14 @@ class ProjectGradingController extends Controller
                             'total' => $validated_marks['total'][$key],
                         ]);
                     }
-                    return redirect()->back()->with('message', "Marks Added Successfully");
-                } else {
-
-                    return redirect()->back()->with('error', "You Can't Evaluate This Group");
                 }
+                return redirect()->back()->with('message', "Marks Updated Successfully");
             } else {
-                return redirect()->back()->with('error', "Project Not Found");
-            }
-        }
-        //Update
-        if (!$phase1_marks->isEmpty()) {
-            $can_mark = Phase3::where('project_id', $project->id)->doesntExist();
-            //phase 3 mark is not given and given marks count and group members count are not equal 
-            // means someones mark is not given yet
-            if ($can_mark || $members_count != $marks_count) {
-                $can_mark = true;
-            } else {
-                $can_mark = false;
-            }
 
-            if ($can_mark) {
-                if ($project) {
-                    if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
-                        foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
-                            $phase1 = Phase1::where('project_id', $project->id)
-                                ->where('user_id', $request->user_id[$key])
-                                ->update([
-                                    'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
-                                    'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
-                                    'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
-                                    'examiner_average' => $validated_marks['examiner_average'][$key],
-                                    'attendance' => $validated_marks['attendance'][$key],
-                                    'project_development' => $validated_marks['project_development'][$key],
-                                    'report_preparation' => $validated_marks['report_preparation'][$key],
-                                    'total' => $validated_marks['total'][$key],
-                                ]);
-                            if (!$phase1) {
-                                Phase1::create([
-                                    'project_id' => $project->id,
-                                    'user_id' => $request->user_id[$key],
-                                    'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
-                                    'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
-                                    'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
-                                    'examiner_average' => $validated_marks['examiner_average'][$key],
-                                    'attendance' => $validated_marks['attendance'][$key],
-                                    'project_development' => $validated_marks['project_development'][$key],
-                                    'report_preparation' => $validated_marks['report_preparation'][$key],
-                                    'total' => $validated_marks['total'][$key],
-                                ]);
-                            }
-                        }
-                        return redirect()->back()->with('message', "Marks Updated Successfully");
-                    } else {
-
-                        return redirect()->back()->with('error', "You Can't Evaluate This Group");
-                    }
-                } else {
-                    return redirect()->back()->with('error', "Project Not Found");
-                }
-            } else {
-                return redirect()->back()->with('error', "Marks Already Given For The Project You Selected.");
+                return redirect()->back()->with('error', "You Can't Evaluate This Group");
             }
+        } else {
+            return redirect()->back()->with('error', "Project Not Found");
         }
     }
     public function phase2Store(Request $request)
@@ -196,8 +191,57 @@ class ProjectGradingController extends Controller
         if ($phase2_marks->isEmpty()) {
             if ($project) {
                 if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
-                    foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
-                        $phase2 = Phase2::create([
+                    try {
+                        DB::beginTransaction();
+                        foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
+                            $phase2 = Phase2::create([
+                                'project_id' => $project->id,
+                                'user_id' => $request->user_id[$key],
+                                'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                                'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                                'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                                'examiner_average' => $validated_marks['examiner_average'][$key],
+                                'attendance' => $validated_marks['attendance'][$key],
+                                'project_development' => $validated_marks['project_development'][$key],
+                                'report_preparation' => $validated_marks['report_preparation'][$key],
+                                'total' => $validated_marks['total'][$key],
+                            ]);
+                        }
+
+                        $project->update(['phase' => 'phase3']);
+                        DB::commit();
+                    } catch (\Throwable $th) {
+                        DB::rollBack();
+                        return redirect()->back()->with('error', $th->getMessage());
+                    }
+                    return redirect()->back()->with('message', "Marks Added Successfully");
+                } else {
+
+                    return redirect()->back()->with('error', "You Can't Evaluate This Group");
+                }
+            } else {
+                return redirect()->back()->with('error', "Project Not Found");
+            }
+        }
+        //Update
+        if ($project) {
+            if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
+
+                foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
+                    $phase2 = Phase2::where('project_id', $project->id)
+                        ->where('user_id', $request->user_id[$key])
+                        ->update([
+                            'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                            'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                            'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                            'examiner_average' => $validated_marks['examiner_average'][$key],
+                            'attendance' => $validated_marks['attendance'][$key],
+                            'project_development' => $validated_marks['project_development'][$key],
+                            'report_preparation' => $validated_marks['report_preparation'][$key],
+                            'total' => $validated_marks['total'][$key],
+                        ]);
+                    if (!$phase2) {
+                        Phase2::create([
                             'project_id' => $project->id,
                             'user_id' => $request->user_id[$key],
                             'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
@@ -210,69 +254,14 @@ class ProjectGradingController extends Controller
                             'total' => $validated_marks['total'][$key],
                         ]);
                     }
-                    return redirect()->back()->with('message', "Marks Added Successfully");
-                } else {
-
-                    return redirect()->back()->with('error', "You Can't Evaluate This Group");
                 }
+                return redirect()->back()->with('message', "Marks Updated Successfully");
             } else {
-                return redirect()->back()->with('error', "Project Not Found");
-            }
-        }
-        ////Update
-        if (!$phase2_marks->isEmpty()) {
-            $can_mark = Phase3::where('project_id', $project->id)->doesntExist();
-            //phase 3 mark is not given and given marks count and group members count are not equal 
-            // means someones mark is not given yet
-            if ($can_mark || $members_count != $marks_count) {
-                $can_mark = true;
-            } else {
-                $can_mark = false;
-            }
 
-            if ($can_mark) {
-                if ($project) {
-                    if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
-
-                        foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
-                            $phase2 = Phase2::where('project_id', $project->id)
-                                ->where('user_id', $request->user_id[$key])
-                                ->update([
-                                    'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
-                                    'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
-                                    'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
-                                    'examiner_average' => $validated_marks['examiner_average'][$key],
-                                    'attendance' => $validated_marks['attendance'][$key],
-                                    'project_development' => $validated_marks['project_development'][$key],
-                                    'report_preparation' => $validated_marks['report_preparation'][$key],
-                                    'total' => $validated_marks['total'][$key],
-                                ]);
-                            if (!$phase2) {
-                                Phase2::create([
-                                    'project_id' => $project->id,
-                                    'user_id' => $request->user_id[$key],
-                                    'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
-                                    'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
-                                    'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
-                                    'examiner_average' => $validated_marks['examiner_average'][$key],
-                                    'attendance' => $validated_marks['attendance'][$key],
-                                    'project_development' => $validated_marks['project_development'][$key],
-                                    'report_preparation' => $validated_marks['report_preparation'][$key],
-                                    'total' => $validated_marks['total'][$key],
-                                ]);
-                            }
-                        }
-                        return redirect()->back()->with('message', "Marks Updated Successfully");
-                    } else {
-
-                        return redirect()->back()->with('error', "You Can't Evaluate This Group");
-                    }
-                } else {
-                    return redirect()->back()->with('error', "Project Not Found");
-                }
-            } else {
-                return redirect()->back()->with('error', "Marks Already Given For The Project You Selected.");
+                return redirect()->back()->with('error', "You Can't Evaluate This Group");
             }
+        } else {
+            return redirect()->back()->with('error', "Project Not Found");
         }
     }
     public function phase3Store(Request $request)
@@ -330,59 +319,68 @@ class ProjectGradingController extends Controller
             }
         }
         //// Update
-        if (!$phase3_marks->isEmpty()) {
-            $can_mark = Phase3::where('project_id', $project->id)->doesntExist();
-            //phase 3 mark is not given and given marks count and group members count are not equal 
-            // means someones mark is not given yet
-            if ($can_mark || $members_count != $marks_count) {
-                $can_mark = true;
-            } else {
-                $can_mark = false;
-            }
 
-            if ($can_mark) {
-                if ($project) {
-                    if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
+        if ($project) {
+            if ($project->supervisor_id == auth()->guard('supervisor')->user()->id) {
 
-                        foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
-                            $phase3 = Phase3::where('project_id', $project->id)
-                                ->where('user_id', $request->user_id[$key])
-                                ->update([
-                                    'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
-                                    'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
-                                    'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
-                                    'examiner_average' => $validated_marks['examiner_average'][$key],
-                                    'attendance' => $validated_marks['attendance'][$key],
-                                    'project_development' => $validated_marks['project_development'][$key],
-                                    'report_preparation' => $validated_marks['report_preparation'][$key],
-                                    'total' => $validated_marks['total'][$key],
-                                ]);
-                            if (!$phase3) {
-                                Phase3::create([
-                                    'project_id' => $project->id,
-                                    'user_id' => $request->user_id[$key],
-                                    'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
-                                    'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
-                                    'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
-                                    'examiner_average' => $validated_marks['examiner_average'][$key],
-                                    'attendance' => $validated_marks['attendance'][$key],
-                                    'project_development' => $validated_marks['project_development'][$key],
-                                    'report_preparation' => $validated_marks['report_preparation'][$key],
-                                    'total' => $validated_marks['total'][$key],
-                                ]);
-                            }
-                        }
-                        return redirect()->back()->with('message', "Marks Updated Successfully");
-                    } else {
-
-                        return redirect()->back()->with('error', "You Can't Evaluate This Group");
+                foreach ($validated_marks['examiner_1_mark'] as $key => $value) {
+                    $phase3 = Phase3::where('project_id', $project->id)
+                        ->where('user_id', $request->user_id[$key])
+                        ->update([
+                            'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                            'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                            'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                            'examiner_average' => $validated_marks['examiner_average'][$key],
+                            'attendance' => $validated_marks['attendance'][$key],
+                            'project_development' => $validated_marks['project_development'][$key],
+                            'report_preparation' => $validated_marks['report_preparation'][$key],
+                            'total' => $validated_marks['total'][$key],
+                        ]);
+                    if (!$phase3) {
+                        Phase3::create([
+                            'project_id' => $project->id,
+                            'user_id' => $request->user_id[$key],
+                            'examiner_1_mark' => $validated_marks['examiner_1_mark'][$key],
+                            'examiner_2_mark' => $validated_marks['examiner_2_mark'][$key],
+                            'examiner_3_mark' => $validated_marks['examiner_3_mark'][$key],
+                            'examiner_average' => $validated_marks['examiner_average'][$key],
+                            'attendance' => $validated_marks['attendance'][$key],
+                            'project_development' => $validated_marks['project_development'][$key],
+                            'report_preparation' => $validated_marks['report_preparation'][$key],
+                            'total' => $validated_marks['total'][$key],
+                        ]);
                     }
-                } else {
-                    return redirect()->back()->with('error', "Project Not Found");
                 }
+                return redirect()->back()->with('message', "Marks Updated Successfully");
             } else {
-                return redirect()->back()->with('error', "Marks Already Given For The Project You Selected.");
+
+                return redirect()->back()->with('error', "You Can't Evaluate This Group");
             }
+        } else {
+            return redirect()->back()->with('error', "Project Not Found");
+        }
+    }
+
+    // final result publish
+    public function publishResult(Project $project)
+    {
+        $group_member_count = GroupMember::where('group_id', $project->group_id)->count();
+
+        $phase1_marks = Phase1::where('project_id', $project->id)->count();
+        $phase2_marks = Phase2::where('project_id', $project->id)->count();
+        $phase3_marks = Phase3::where('project_id', $project->id)->count();
+        
+        if ($project) {
+            if ($phase1_marks == $group_member_count && $phase2_marks == $group_member_count && $phase3_marks == $group_member_count) {
+                
+                $project->update(['result_published' => true, 'phase' => 'completed']);
+
+                return redirect()->back()->with('message', "Final Mark Submitted");
+            } else {
+                return redirect()->back()->with('error', "Please enter marks for all phases before submitting.");
+            }
+        } else {
+            return redirect()->back()->with('error', "Project Not Found");
         }
     }
 }

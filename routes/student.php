@@ -56,6 +56,9 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
     Route::get('/student/notices', [NoticeController::class, 'noticeList'])->name('student.noticeList');
     Route::get('/student/notice/{notice_id}', [NoticeController::class, 'notice'])->name('student.notice');
 
+    Route::get('/student/getStarted', [StudentController::class, 'getStarted'])->name('student.getStarted');
+
+    
 
 ////////////////////////////////////////////////
     // *
@@ -77,6 +80,11 @@ Route::middleware(['StudentAuth', 'SetStudentSessionData'])->group(function () {
     Route::post('/student/requestToCoordinatorForm', [StudentController::class, 'requestToCoordinatorForm'])->name('student.requestToCoordinatorForm');
 
     Route::get('/student/myProject', [StudentController::class, 'myProject'])->name('student.myProject');
+
+    // Report Submission
+    Route::get('/student/submitReport/', [StudentController::class, 'reportSubmission'])->name('student.reportSubmission');
+    Route::post('/student/reportStore/{project}', [StudentController::class, 'reportStore'])->name('student.reportStore');
+
 
     //notify 
     Route::get('/student/notifications', function () {

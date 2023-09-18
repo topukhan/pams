@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('notice_id');
+            $table->unsignedBigInteger('notice_id')->nullable();
+            $table->unsignedBigInteger('project_report_id')->nullable();
             $table->string('filename');
             $table->timestamps();
 
             $table->foreign('notice_id')->references('id')->on('notices')->onDelete('cascade');
+            $table->foreign('project_report_id')->references('id')->on('project_reports')->onDelete('cascade');
         });
     }
 

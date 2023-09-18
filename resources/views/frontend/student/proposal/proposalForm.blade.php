@@ -15,10 +15,10 @@
             </ol>
         </div>
         @if (session('error'))
-            {{session('error')}}
+            {{ session('error') }}
         @endif
         @if ($proposalSubmitted)
-            <div class="relative top-1/4  w-full bg-yellow-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
+            <div class="relative top-1/4  w-full bg-red-200 text-red-700 px-4 py-4 rounded-lg shadow" id="alert">
                 Proposal already submitted for your group!
                 <button type="button" class="absolute ml-2 right-6 text-red-700 hover:text-red-900 focus:outline-none"
                     onclick="this.parentElement.style.display ='none'">
@@ -148,7 +148,7 @@
                                 <x-input-error :messages="$errors->get('supervisor')" class="mt-2" />
                             </div>
                         </div>
-                        
+
                         {{-- Domain --}}
                         <div class="md:flex mb-6">
                             <div class="md:w-1/4">
@@ -214,24 +214,22 @@
                             </div>
                         </div>
                         {{-- submit button --}}
-                        <div class="md:flex md:items-center">
-                            <div class="md:w-1/4"></div>
-                            <div class="md:w-3/4">
-                                <button
-                                    class="shadow bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
-                                    type="submit"{{ $proposalSubmitted ? 'disabled' : '' }}
-                                    {{ $group->can_propose == 0 ? 'disabled' : '' }}
-                                    {{ $in_project ? 'disabled' : '' }}>
-                                    Submit
-                                </button>
-                                @if (false)
-                                    <a class="md:ml-5 shadow bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
-                                        href=" {{ route('student.proposalChangeForm') }}">
-                                        Change topic
-                                    </a>
-                                @endif
+                        @if (!$in_project)
+                            <div class="md:flex md:items-center">
+                                <div class="md:w-1/4"></div>
+                                <div class="md:w-3/4">
+                                    <button
+                                        class="shadow bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple text-white font-semibold py-2 px-4 mt-4 rounded"
+                                        type="submit"{{ $proposalSubmitted ? 'disabled' : '' }}
+                                        {{ $group->can_propose == 0 ? 'disabled' : '' }}
+                                        {{ $in_project ? 'disabled' : '' }}>
+                                        Submit
+                                    </button>
+
+                                </div>
                             </div>
-                        </div>
+                        @endif
+
                     </form>
                 </div>
             </div>

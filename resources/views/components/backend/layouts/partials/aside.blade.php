@@ -45,26 +45,28 @@
                         class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
                         aria-label="submenu">
                         <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('admin.addCoordinatorForm') }}">Add Coordinator</a>
+                            class="px-3 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="{{ route('admin.addStudent') }}"> Student</a>
                         </li>
                         <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('admin.addSupervisorForm') }}">Add Supervisor</a>
+                            class="px-3 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="{{ route('admin.addSupervisorForm') }}"> Supervisor</a>
                         </li>
                         <li
-                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('admin.addStudent') }}">Add Student</a>
+                            class="px-3 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="{{ route('admin.addCoordinatorForm') }}"> Coordinator</a>
                         </li>
+
+
                     </ul>
                 </template>
             </li>
-            
+
             {{-- Domains --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('domains.index') }}">
-                    <i class='bx bx-spreadsheet text-2xl'></i>
+                    <i class='bx bx-layer text-2xl'></i>
                     <span class="ml-4">Domain</span>
                 </a>
             </li>
@@ -72,7 +74,7 @@
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('projectTypes.index') }}">
-                    <i class='bx bx-spreadsheet text-2xl'></i>
+                    <i class='bx bx-detail text-2xl'></i>
                     <span class="ml-4">Project Type</span>
                 </a>
             </li>
@@ -80,15 +82,15 @@
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('designations.index') }}">
-                    <i class='bx bx-spreadsheet text-2xl'></i>
+                    <i class='bx bx-chart text-2xl'></i>
                     <span class="ml-4">Designation </span>
                 </a>
             </li>
             {{-- analytics --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="{{ route('student.proposalForm') }}">
-                    <i class='bx bx-spreadsheet text-2xl'></i>
+                    href="#">
+                    <i class='bx bx-analyse text-2xl'></i>
                     <span class="ml-4">Analytics</span>
                 </a>
             </li>
@@ -96,15 +98,15 @@
             {{-- Assistance --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="#">
                     <i class='bx bx-support text-2xl'></i>
-                    <span class="ml-4">Assistance</span>
+                    <span class="ml-4">Support</span>
                 </a>
             </li>
             {{-- Change Password --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="#">
                     <i class='bx bx-lock-open text-2xl'></i>
                     <span class="ml-4">Change Password</span>
                 </a>
@@ -147,7 +149,7 @@
         <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
             PAMS
         </a>
-        {{-- Dashboard --}}
+        {{--    ard --}}
         <ul class="mt-6">
             <li class="relative px-6 py-3">
                 <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
@@ -196,13 +198,13 @@
                             <a class="w-full" href="{{ route('admin.addSupervisorForm') }}">Add Supervisor</a>
                         </li>
                         <li
-                        class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                        <a class="w-full" href="{{ route('admin.addStudentForm') }}">Add Student</a>
-                    </li>
+                            class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="{{ route('admin.addStudentForm') }}">Add Student</a>
+                        </li>
                     </ul>
                 </template>
             </li>
-        
+
             {{-- Project/Thesis Proposals --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -211,16 +213,16 @@
                     <span class="ml-4">Domain</span>
                 </a>
             </li>
-             {{-- Project Type --}}
-             <li class="relative px-6 py-3">
+            {{-- Project Type --}}
+            <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('projectTypes.index') }}">
                     <i class='bx bx-support text-2xl'></i>
                     <span class="ml-4">Project Type</span>
                 </a>
             </li>
-             {{-- Designation --}}
-             <li class="relative px-6 py-3">
+            {{-- Designation --}}
+            <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('designations.index') }}">
                     <i class='bx bx-support text-2xl'></i>

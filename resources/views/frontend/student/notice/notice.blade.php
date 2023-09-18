@@ -18,12 +18,21 @@
                 </li>
             </ol>
         </div>
+
         <div class="px-2 py-2">
             <div class="max-w-3xl mx-auto p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800 mt-8">
                 <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                     From : <span>{{ $notice->user->first_name . ' ' . $notice->user->last_name }} </span>
                 </label>
                 <div class="mb-3">
+
+
+                    @if ($notice->title)
+                        <label class=" text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
+                            Title:
+                        </label>
+                        <span class="text-gray-700 dark:text-gray-300">{{ $notice->title }}</span>
+                    @endif
                     <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                         Notice:
                     </label>
@@ -38,21 +47,37 @@
                     <p class="text-gray-700 dark:text-gray-300"> @php
                         echo $safeContent;
                     @endphp </p>
-                    
+
+                    @if ($notice->date)
+                        <label class=" text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
+                            Date:
+                        </label> {{ $notice->date }} <br>
+                    @endif
+                    @if ($notice->time)
+                        <label class=" text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
+                            Time:
+                        </label> {{ $notice->time }} <br>
+                    @endif
+
                 </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Attached Files:</label>
-                    <ul>
-                        @foreach ($notice->files as $file)
-                            <a href="{{ asset('storage/notices/' . $file->filename) }}"
-                                class="text-blue-800 hover:underline" download>
-                                <li class="px-4 py-2 bg-blue-200 rounded-md mb-2">
-                                    {{ $file->filename }}
-                                </li>
-                            </a>
-                        @endforeach
-                    </ul>
-                </div>
+
+                @if ($notice->files->count() > 0)
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">Attached
+                            Files:</label>
+                        <ul>
+                            @foreach ($notice->files as $file)
+                                <a href="{{ asset('storage/notices/' . $file->filename) }}"
+                                    class="text-blue-800 hover:underline" download>
+                                    <li class="px-4 py-2 bg-blue-200 rounded-md mb-2">
+                                        {{ $file->filename }}
+                                    </li>
+                                </a>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
             </div>
         </div>
 </x-frontend.student.layouts.master>

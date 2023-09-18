@@ -54,7 +54,7 @@
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
                             <a class="w-full" href="{{ route('supervisor.evaluateGroups') }}">
-                                Evaluate
+                                Evaluate Groups
                             </a>
                         </li>
                         <li
@@ -72,30 +72,35 @@
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('supervisor.noticeCreate') }}">
-                    <i class='bx bx-task text-2xl'></i>
+                    <i class='bx bx-clipboard text-2xl'></i>
                     <span class="ml-4">Post Notice</span>
                 </a>
             </li>
             {{-- Assign Task --}}
-            <li class="relative px-6 py-3">
+            {{-- <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="{{ route('supervisor.assignTask') }}">
                     <i class='bx bx-task text-2xl'></i>
                     <span class="ml-4">Assign Task</span>
                 </a>
-            </li>
-              {{-- Evaluation --}}
-             {{-- <li class="relative px-6 py-3">
+            </li> --}}
+            {{-- Evaluation --}}
+            <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="">
-                    <i class='bx bx-task text-2xl'></i>
-                    <span class="ml-4">Evaluation</span>
+                    href="{{ route('supervisor.projectReportList')}}">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z">
+                        </path>
+                    </svg>
+                    <span class="ml-4">Project Report</span>
                 </a>
-            </li> --}} 
+            </li>
 
 
             {{-- Follow ups --}}
-            <li class="relative px-6 py-3">
+            {{-- <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="forms.html">
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
@@ -106,11 +111,11 @@
                     </svg>
                     <span class="ml-4">Follow Ups</span>
                 </a>
-            </li>
+            </li> --}}
             {{-- Assistance --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{ route('supervisor.assistance') }}">
                     <i class='bx bx-support text-2xl'></i>
                     <span class="ml-4">Assistance</span>
                 </a>
@@ -118,7 +123,7 @@
             {{-- Change Password --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{ route('supervisor.changePassword') }}">
                     <i class='bx bx-lock-open text-2xl'></i>
                     <span class="ml-4">Change Password</span>
                 </a>
@@ -128,18 +133,19 @@
         <div class=" my-6 px-6 py-3">
             <form method="POST" action="{{ route('supervisor.logout') }}">
                 @csrf
-                    <button
-                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple" type="submit">
+                <button
+                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-900 focus:outline-none focus:shadow-outline-purple"
+                    type="submit">
                     Log Out
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                             d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
                         </path>
                     </svg>
                 </button>
             </form>
-                
+
         </div>
     </div>
 </aside>
@@ -161,8 +167,8 @@
         <a class="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
             PAMS
         </a>
-         {{-- Dashboard --}}
-         <ul class="mt-6">
+        {{-- Dashboard --}}
+        <ul class="mt-6">
             <li class="relative px-6 py-3">
                 <span class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
                     aria-hidden="true"></span>
@@ -266,19 +272,20 @@
         </ul>
         {{-- Log Out --}}
         <div class="my-6 px-6 py-3">
-            
+
             <form method="POST" action="{{ route('supervisor.logout') }}">
                 @csrf
-                    <button
-                        class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">
-                        Log Out
-                        <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                            <path
-                                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
-                            </path>
-                        </svg>
-                    </button>
+                <button
+                    class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                    type="submit">
+                    Log Out
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path
+                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                        </path>
+                    </svg>
+                </button>
             </form>
         </div>
     </div>

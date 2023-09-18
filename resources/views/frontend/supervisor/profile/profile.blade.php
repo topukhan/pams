@@ -105,12 +105,40 @@
                     </div>
                 </div>
             </div>
-            <div class="container overflow-hidden mx-auto p-4 mt-4 bg-white shadow-md rounded-lg  dark:text-gray-300 dark:bg-gray-800 ">
+            <div
+                class="container overflow-hidden mx-auto p-4 mt-4 bg-white shadow-md rounded-lg  dark:text-gray-300 dark:bg-gray-800 ">
                 <h1 class="text-2xl font-semibold mb-4">Publications/Research</h1>
                 <div class="border-t border-gray-300 px-3 pt-6 space-y-8">
-                    @foreach($citations as $citation)
-                    <p class="font-semibold">{{ $citation->citation }}</p>
-                    <hr class="my-4 border-gray-300">
+                    @php
+                        $citations = $citations->reverse();
+                    @endphp
+                    @foreach ($citations as $citation)
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="font-semibold">{{ $citation->citation }}</p>
+                                <hr class="my-4 border-gray-300">
+                            </div>
+                            <div>
+                                @php
+                                    // Use regular expression to find HTTP/HTTPS links in the citation text
+                                    $text = $citation->citation;
+                                    $pattern = '/(https?:\/\/\S+)/';
+                                    preg_match($pattern, $text, $matches);
+                                    
+                                    if (isset($matches[0])) {
+                                        // If a link is found, print it
+                                        $link = $matches[0];
+                                    } else {
+                                        // If no link is found, generate a Google search link
+                                        $link = 'https://www.google.com/search?q=' . urlencode($text);
+                                    }
+                                @endphp
+                                <a href="{{ $link }}" target="_blank">
+                                    <button
+                                        class="bg-violet-500 text-sm font-bold py-1 px-3 rounded text-white">view</button>
+                                </a>
+                            </div>
+                        </div>
                     @endforeach
                 </div>
             </div>

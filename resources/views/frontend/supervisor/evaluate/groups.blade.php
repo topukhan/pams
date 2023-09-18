@@ -18,7 +18,7 @@
 
         {{-- table --}}
         <div class="px-2 py-2 ">
-            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
+            <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
                 <div class="w-full overflow-x-auto shadow-lg">
                     <table class="w-full whitespace-no-wrap ">
                         <thead>
@@ -31,9 +31,9 @@
                             </tr>
                         </thead>
                        
-                        <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        <tbody class="bg-white  divide-y dark:divide-gray-700 dark:bg-gray-800">
                             @foreach ($projects as $project)
-                            <tr class="text-gray-700 dark:text-gray-400">
+                            <tr class="text-gray-700 dark:bg-gray-800 dark:text-gray-400 even:bg-gray-200 odd:bg-gray-50">
                                 <td class="px-4 py-3 text-sm font-semibold">
                                     {{ $loop->iteration }}   
                                 </td>
@@ -49,12 +49,13 @@
                                     {{-- @dd($project) --}}
                                     <a href="{{route('supervisor.evaluation', ['project' => $project->id, 'group' => $project->group_id])}} ">
                                         <button
-                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 hover:bg-green-300 rounded-full dark:bg-green-700 dark:text-green-100">
                                             Evaluate
                                         </button></a>
                                 </td>
                             </tr>
                             @endforeach
+                            
                         </tbody>
                     </table>
                 </div>

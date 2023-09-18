@@ -60,7 +60,7 @@
                     </div>
                 </div>
             @endif
-            <div class="max-w-3xl mx-auto  p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+            <div class="max-w-3xl mx-auto mb-8 p-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
                 <form action="{{ route('coordinator.noticeStore') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
@@ -72,17 +72,17 @@
                             <!-- Phase 1 Checkbox -->
                             <input name="phase[]" id="phase1" value="1" type="checkbox">
                             <label for="phase1"
-                                class="inline-block text-lg text-gray-700 mr-1 font-semibold font-mono dark:text-gray-300">Phase
+                                class="inline-block text-lg text-gray-700 mr-1 font-semibold  dark:text-gray-300">Phase
                                 I</label>
                             <!-- Phase 2 Checkbox -->
                             <input name="phase[]" id="phase2" value="2" type="checkbox">
                             <label for="phase2"
-                                class="inline-block text-lg text-gray-700 mr-1 font-semibold font-mono dark:text-gray-300">Phase
+                                class="inline-block text-lg text-gray-700 mr-1 font-semibold  dark:text-gray-300">Phase
                                 II</label>
                             <!-- Phase 3 Checkbox -->
                             <input name="phase[]" id="phase3" value="3" type="checkbox">
                             <label for="phase3"
-                                class="inline-block text-lg text-gray-700 mr-1 font-semibold font-mono dark:text-gray-300">Phase
+                                class="inline-block text-lg text-gray-700 mr-1 font-semibold  dark:text-gray-300">Phase
                                 III</label>
 
                             <div
@@ -104,7 +104,7 @@
                                 Choose Date
                             </label>
                             <input name="date" type="date" id="presentation-date" min="<?php echo date('Y-m-d'); ?>"
-                                class="border px-2 py-1 rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                                class="border-gray-300 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 shadow-md rounded-md focus:outline-none focus:ring focus:border-blue-300">
                             <input name="formatted_date" type="hidden" id="hidden-presentation-date"
                                 name="hidden-presentation-date">
                             <x-input-error :messages="$errors->get('date')" class="mt-2 text-red-400" />
@@ -115,7 +115,7 @@
                                 Choose Time
                             </label>
                             <input name="time" type="time" id="presentation-time"
-                                class="border px-2 py-1 rounded-md focus:outline-none focus:ring focus:border-blue-300">
+                                class="border-gray-300 bg-gray-50 dark:bg-gray-700 dark:text-gray-300 px-2 py-1 shadow-md rounded-md focus:outline-none focus:ring focus:border-blue-300">
                             <input type="hidden" id="hidden-presentation-time" name="formatted_time">
                             <x-input-error :messages="$errors->get('time')" class="mt-2 text-red-400" />
                         </div>
@@ -127,7 +127,7 @@
                         </label>
 
                         <input name="title" id="title"
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
+                            class="w-full px-4 py-2 border-gray-300 shadow-md bg-gray-50 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200">
                         <x-input-error :messages="$errors->get('title')" class="mt-2 text-red-400" />
                         <div
                             class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -142,29 +142,31 @@
                         <label for="notice" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Notice: <span class="text-red-500">*</span>
                         </label>
+                        
                         <textarea id="notice" name="notice" rows="3"
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
+                            class="w-full px-4 py-2 bg-gray-50 border-gray-300 shadow-lg border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea>
                         <x-input-error :messages="$errors->get('notice')" class="mt-2 " />
                     </div>
                     <div class="mb-4 flex flex-wrap">
                         <div id="fileInputs" class="w-full md:w-1/2 mb-2 md:mb-0">
+                            <span class="mx-2 text-gray-600 dark:text-gray-300 text-xs">file of type: pdf, doc, docx, txt, png, jpg</span>
                             <input type="file" name="file[]" multiple
-                                class="mb-2 p-2 bg-gray-100 rounded-md block">
+                                class="mb-4 p-2  shadow-lg bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-md block">
                         </div>
                         @error('file.*')
                             <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
                         @enderror
                         <div class="w-full md:w-1/2">
                             <button type="button" id="addFileInputBtn"
-                                class="mb-2 flex items-center px-3 py-2 rounded-md border dark:border-gray-600 dark:text-gray-200 bg-gray-500 hover:bg-gray-600 text-white focus:outline-none focus:ring focus:border-blue-600">
+                                class="mb-2 flex shadow-lg items-center px-3 py-2 rounded-md border dark:border-gray-600 dark:text-gray-200 bg-gray-500 hover:bg-gray-600 text-white focus:outline-none focus:ring focus:border-blue-600">
                                 <i class='bx bx-plus-circle text-2xl mr-2'></i>
                                 <span>Add More</span>
                             </button>
                         </div>
                     </div>
-                    <div class="mb-6">
+                    <div class="mb-6 flex justify-end">
                         <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                            class="px-8 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                             Post
                         </button>
                     </div>
@@ -183,7 +185,7 @@
             const newFileInput = document.createElement('input');
             newFileInput.type = 'file';
             newFileInput.name = 'file[]';
-            newFileInput.classList.add('mb-2', 'p-2', 'bg-gray-100', 'rounded-md', 'block');
+            newFileInput.classList.add('mb-2', 'p-2', 'bg-gray-100', 'rounded-md', 'block', 'shadow-lg', 'dark:text-gray-300', 'dark:bg-gray-700');
             newFileInput.setAttribute('multiple', 'multiple');
 
             const removeButton = document.createElement('button');

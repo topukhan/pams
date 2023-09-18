@@ -40,6 +40,9 @@ Route::middleware(['CoordinatorAuth'])->group(function () {
     //coordinator notice create
     Route::post('/coordinator/noticeStore', [CoordinatorController::class, 'noticeStore'])->name('coordinator.noticeStore');
 
+    // assistance and change password
+    Route::get('/coordinator/assistance', [CoordinatorController::class, 'assistance'])->name('coordinator.assistance');
+    Route::get('/coordinator/changePassword', [CoordinatorController::class, 'changePassword'])->name('coordinator.changePassword');
 
     //notify 
     Route::get('/coordinator/notifications', function () {

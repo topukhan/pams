@@ -65,7 +65,7 @@
                                     Create Your Group
                                 </p>
                                 <a href="{{ route('student.createGroup') }}"><button
-                                        class="px-2 py-1 font-mono bg-orange-300 hover:bg-orange-500 hover:text-white transition-all rounded shadow-xl  text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-orange-500">
+                                        class="px-2 py-1  bg-orange-300 hover:bg-orange-500 hover:text-white transition-all rounded shadow-xl  text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-orange-500">
                                         Create
                                     </button></a>
                             </div>
@@ -83,7 +83,7 @@
                                 Genre and Supervisor Availability
                             </p>
                             <a href="{{ route('student.supervisor.availability') }}"
-                                class="px-4 py-1 font-mono bg-green-300 rounded hover:bg-green-500 hover:text-white transition-all shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-green-500">
+                                class="px-4 py-1  bg-green-300 rounded hover:bg-green-500 hover:text-white transition-all shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-green-500">
                                 Info
                             </a>
                         </div>
@@ -101,7 +101,7 @@
                                 Previous works
                             </p>
                             <a href="{{ route('student.previousProjects') }}"
-                                class="px-4 py-1 font-mono bg-blue-300 hover:bg-blue-500 hover:text-white transition-all rounded shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500">
+                                class="px-4 py-1  bg-blue-300 hover:bg-blue-500 hover:text-white transition-all rounded shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-blue-500">
                                 Info
                             </a>
                         </div>
@@ -120,7 +120,7 @@
                                 Proposal Form
                             </p>
                             <a href="{{ route('student.proposalForm') }}"><button
-                                    class="px-3 py-1  font-mono bg-teal-200 hover:bg-teal-500 hover:text-white transition-all rounded shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
+                                    class="px-3 py-1   bg-teal-200 hover:bg-teal-500 hover:text-white transition-all rounded shadow-xl text-md font-semibold text-gray-700 dark:text-gray-200  dark:bg-teal-500">
                                     View
                                 </button></a>
                         </div>
@@ -141,7 +141,7 @@
                                     My Project
                                 </p>
                                 <a href="{{ route('student.myProject') }}"
-                                    class="px-4 py-1 font-mono bg-blue-300 rounded shadow-lg hover:bg-blue-500 hover:text-white transition-all  text-md font-semibold text-gray-700 dark:text-gray-500 dark:bg-blue-500">
+                                    class="px-4 py-1  bg-blue-300 rounded shadow-lg hover:bg-blue-500 hover:text-white transition-all  text-md font-semibold text-gray-700 dark:text-gray-500 dark:bg-blue-500">
                                     View
                                 </a>
                             </div>
@@ -159,7 +159,7 @@
                                 </p>
                                 <a href="{{ route('student.proposalChangeForm', $project) }}">
                                     <button
-                                        class="bg-green-400 font-mono hover:bg-green-600 shadow-lg transition duration-200 ease-in-out text-gray-700 px-4 py-1 text-md font-semibold dark:text-gray-600 rounded">Form</button>
+                                        class="bg-green-400  hover:bg-green-600 shadow-lg transition duration-200 ease-in-out text-gray-700 px-4 py-1 text-md font-semibold dark:text-gray-600 rounded">Form</button>
                                 </a>
                             </div>
                         </div>
@@ -176,7 +176,7 @@
                                 </p>
                                 <!-- Add a chat interface for project communication -->
                                 <a href="#"
-                                    class="px-4 py-1 font-mono bg-purple-300 rounded hover:bg-purple-500 shadow-lg hover:text-white transition-all  text-md font-semibold text-gray-700 dark:text-gray-500 dark:bg-purple-500">
+                                    class="px-4 py-1  bg-purple-300 rounded hover:bg-purple-500 shadow-lg hover:text-white transition-all  text-md font-semibold text-gray-700 dark:text-gray-500 dark:bg-purple-500">
                                     Open Chat
                                 </a>
                             </div>
@@ -231,7 +231,7 @@
                                 </p>
                                 <!-- Add a section for students to write and document their project journey -->
                                 <a href="#"
-                                    class="px-4 py-1 font-mono bg-blue-300 rounded hover:bg-blue-500 hover:text-white transition-all shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500">
+                                    class="px-4 py-1  bg-blue-300 rounded hover:bg-blue-500 hover:text-white transition-all shadow text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500">
                                     Write Journal
                                 </a>
                             </div>
@@ -239,32 +239,63 @@
                     </div>
                 @endif
             </div>
-            {{-- Notice --}}
-            <div
-                class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow-xl float-right dark:bg-gray-800">
-                <h2 class="mb-2 font-medium text-gray-700 dark:text-gray-400">
-                    Notice
-                </h2>
+            <div>
+                <div class="px-6 py-8 ">
+                    <p>
+                        Here is some text with a <span data-tippy-content="Full Form of ABC - This is the detailed explanation of what ABC stands for.">ABC</span> abbreviation.
+                    </p>
+                </div>
+                {{-- Notice --}}
+                <div
+                    class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow-xl float-right dark:bg-gray-800">
+                    <h2 class="mb-2 font-medium text-gray-700 dark:text-gray-400">
+                        Notice
+                    </h2>
 
-                {{-- Notice Card --}}
-                @if ($filtered_notices->count() > 0)
+                    {{-- Notice Card --}}
+                    @if ($filtered_notices->count() > 0)
+                        @php
+                            $filtered_notices = $filtered_notices->reverse(); // Reverse the order of the notices array
+                        @endphp
+                        @foreach ($filtered_notices as $notice)
+                            <div
+                                class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
+                                <span class="font-bold text-red-500">Important! </span><br>
+                                <span class="font-semibold dark:text-gray-300">From: Coordinator</span>
+
+                                <div>
+                                    <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                        @php
+                                            $shortenedNotice = substr($notice->title, 0, 30);
+                                            echo $shortenedNotice;
+                                        @endphp
+                                    </p>
+                                    <a class="my-2"
+                                        href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
+                                        <button
+                                            class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
+                                            View
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
                     @php
-                        $filtered_notices = $filtered_notices->reverse(); // Reverse the order of the notices array
+                        $notices = $notices->reverse(); // Reverse the order of the notices array
                     @endphp
-                    @foreach ($filtered_notices as $notice)
+                    @foreach ($notices as $notice)
                         <div
                             class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
-                            <span class="font-bold text-red-500">Important! </span><br>
-                            <span class="font-semibold">From: Coordinator</span>
-
+                            <span class="font-semibold dark:text-gray-300">From: Supervisor</span>
                             <div>
-                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-300 hidden">
                                     @php
-                                        $shortenedNotice = substr($notice->title, 0, 30);
-                                        echo $shortenedNotice;
+                                        $shortenedNotice = substr($notice->notice, 0, 32);
+                                        echo $shortenedNotice . '...';
                                     @endphp
                                 </p>
-                                <a class="my-2" href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
+                                <a href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
                                     <button
                                         class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
                                         View
@@ -273,39 +304,17 @@
                             </div>
                         </div>
                     @endforeach
-                @endif
-                @php
-                    $notices = $notices->reverse(); // Reverse the order of the notices array
-                @endphp
-                @foreach ($notices as $notice)
-                    <div
-                        class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
-                        <span class="font-semibold">From: Supervisor</span>
-                        <div>
-                            <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                @php
-                                    $shortenedNotice = substr($notice->notice, 0, 32);
-                                    echo $shortenedNotice . '...';
-                                @endphp
-                            </p>
-                            <a href="{{ route('student.notice', ['notice_id' => $notice->id]) }}">
-                                <button
-                                    class="px-2 py-1 text-sm bg-blue-200 rounded shadow-lg text-md font-semibold text-gray-700 dark:text-gray-200 dark:bg-blue-500 flex ">
-                                    View
-                                </button>
-                            </a>
+                    @if (count($notices) == 0 and count($filtered_notices) == 0)
+                        <div
+                            class="mb-4 p-4  hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out flex items-center justify-center">
+                            <p class="text-xl p-2 font-medium  text-gray-700 dark:text-gray-400 text-center  ">NO
+                                NOTICES AT THIS MOMENT</p>
                         </div>
-                    </div>
-                @endforeach
-                @if (count($notices) == 0 and count($filtered_notices) == 0)
-                    <div
-                        class="mb-4 p-4  hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out flex items-center justify-center">
-                        <p class="text-xl p-2 font-medium  text-gray-700 dark:text-gray-400 text-center font-mono ">NO
-                            NOTICES AT THIS MOMENT</p>
-                    </div>
-                @endif
+                    @endif
 
+                </div>
             </div>
+
         </div>
     </div>
     <script>
@@ -313,5 +322,9 @@
             var alert = document.getElementById('alert');
             alert.style.display = 'none';
         }
+    </script>
+    <script>
+        // Initialize Tippy
+        tippy('[data-tippy-content]');
     </script>
 </x-frontend.student.layouts.master>

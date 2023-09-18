@@ -1,4 +1,4 @@
-<x-frontend.student.layouts.master>
+<x-frontend.coordinator.layouts.master>
     <div class="container px-6 mx-auto grid">
         <h2 class="mt-6 px-4 text-2xl font-semibold text-gray-700 dark:text-gray-200">
             Change Password </h2>
@@ -6,11 +6,12 @@
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('student.changePassword') }}" class="text-gray-900 dark:text-white"> Change Password
+                    <a href="{{ route('coordinator.changePassword') }}" class="text-gray-900 dark:text-white"> Change
+                        Password
                     </a>
                 </li>
             </ol>
@@ -82,4 +83,4 @@
 
 
 
-</x-frontend.student.layouts.master>
+</x-frontend.coordinator.layouts.master>

@@ -1,7 +1,7 @@
 <x-frontend.student.layouts.master>
 
     <div class="container px-6 mx-auto grid">
-        <h2 class="mt-6 px-8 text-2xl font-semibold font-mono text-gray-700 dark:text-gray-200">
+        <h2 class="mt-6 px-8 text-2xl font-semibold  text-gray-700 dark:text-gray-200">
             My Group </h2>
 
         {{-- breadcrumb --}}

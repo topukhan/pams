@@ -109,7 +109,7 @@
             @else
                 <div class="flex justify-center h-screen ">
                     <div class="text-center">
-                        <h3 class="my-6">No Proposal</h3>
+                        <h3 class="my-6 dark:text-gray-300">No Proposal</h3>
                     </div>
                 </div>
             @endif

@@ -24,8 +24,8 @@
                         <div class="mb-2 ">
                             <img src="https://shorturl.at/yHORW"
                                 alt="Profile Image" class=" w-36 h-36 rounded-full shadow-md mb-2">
-                            <div class="justify-center flex font-mono font-semibold text-gray-800  dark:text-gray-300">{{ $user->supervisor->designation }}</div>
-                            <div class="justify-center flex font-mono font-semibold text-gray-800  dark:text-gray-300">{{ $user->department }}</div>
+                            <div class="justify-center flex  font-semibold text-gray-800  dark:text-gray-300">{{ $user->supervisor->designation }}</div>
+                            <div class="justify-center flex  font-semibold text-gray-800  dark:text-gray-300">{{ $user->department }}</div>
                         </div>
                     </div>
                     <div class="col-start-2 col-span-2 mt-1">

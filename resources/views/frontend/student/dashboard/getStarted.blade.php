@@ -12,21 +12,20 @@
                         <div class="z-20 flex items-center order-1 bg-gray-800 shadow-2xl w-8 h-8 rounded-full">
                             <h1 class="mx-auto font-semibold text-lg text-white">1</h1>
                         </div>
-                        <div class="relative order-1 bg-gray-400 rounded-lg shadow-inner shadow-xl w-5/12 px-6 py-4">
+                        <div class="relative order-1 bg-gray-400 rounded-lg shadow-xl w-5/12 px-6 py-4">
                             <div class="tooltip-container">
                                 <h3 class="mb-3 font-bold text-gray-800 text-2xl">Profile Setup</h3>
                                 <p class="text-md leading-snug tracking-wide text-gray-900 text-opacity-100">
                                     Log in to the system, update your profile, and set your project preferences.
                                 </p>
                                 <!-- Tooltip -->
-                                <div class="tooltip bg-gray-800 text-white text-sm p-2 rounded absolute bottom-0 left-1/2 transform -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-300">
+                                <div
+                                    class="tooltip bg-gray-800 text-white text-sm p-2 rounded absolute bottom-0 left-1/2 transform -translate-x-1/2 opacity-0 pointer-events-none transition-opacity duration-300">
                                     To match with students with similar preferences, set your domain and project type.
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        
+
                     </div>
                     <!-- left timeline -->
                     <div class="mb-8 flex justify-between flex-row-reverse items-center w-full left-timeline">
@@ -36,10 +35,55 @@
                         </div>
                         <div class="order-1 bg-red-400 rounded-lg shadow-xl w-5/12 px-6 py-4">
                             <h3 class="mb-3 font-bold text-white text-2xl">Group Formation</h3>
-                            <p class="text-md font-medium leading-snug tracking-wide text-white text-opacity-100">Lorem
-                                Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                                been the industry's standard dummy text ever since the 1500s, when an unknown printer
-                                took a galley of type and scrambled it to make a type specimen book.</p>
+                            <ul>
+                                <li
+                                    class="text-md font-medium leading-snug tracking-wide text-white text-opacity-100 mb-3">
+                                    <h2 class="text-lg text-center font-semibold bg-red-300 px-2 rounded-md mb-4">
+                                        Visit the 'Create Group' page.
+                                    </h2>
+                                    <div class="mb-2">
+                                        <div>
+                                            <span class="font-bold bg-red-300 rounded-sm px-1">Scenario I:</span>
+                                            <span class="font-semibold">Send Group Request</span>
+                                        </div>
+                                        <div class="px-3 text-justify">
+                                            Select a domain and project type. Choose four
+                                            group members. Send a request to form the group. Accepting/Rejecting Group
+                                            Requests.
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="text-md font-medium leading-snug tracking-wide text-white text-opacity-100">
+                                    <div class="mb-2">
+                                        <div>
+                                            <span class="font-bold bg-red-300 rounded-sm px-1">Scenario II:</span>
+                                            <span class="font-semibold">Group Request Received</span>
+                                        </div>
+
+                                        <div class="px-3 text-justify">
+                                            If you receive a group request, decide to:
+                                            Accept and form the group.
+                                            Reject if you don't want to be part of that group.
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="text-sm font-medium leading-snug tracking-wide text-white text-opacity-100">
+                                    <div class="mb-2">
+                                        <div>
+                                            <span class="font-bold bg-red-300 rounded-sm px-1">Scenario III:</span>
+                                            <span class="font-semibold  ">Requesting Coordinator's Assistance</span>
+                                        </div>
+
+                                        <div class="px-3 text-justify">
+                                            If the required number of group members is not available: Request the
+                                            coordinator to allocate you in a group.
+                                        </div>
+                                    </div>
+
+                                </li>
+                            </ul>
+
                         </div>
                     </div>
                     <!-- right timeline -->
@@ -179,13 +223,18 @@
     <script>
         const tooltipContainer = document.querySelector('.tooltip-container');
         const tooltip = tooltipContainer.querySelector('.tooltip');
-    
+
         tooltipContainer.addEventListener('mouseenter', () => {
             tooltip.style.opacity = '1';
         });
-    
+
         tooltipContainer.addEventListener('mouseleave', () => {
             tooltip.style.opacity = '0';
         });
+    </script>
+
+    <script>
+        // Initialize Tippy
+        tippy('[data-tippy-content]');
     </script>
 </x-frontend.student.layouts.master>

@@ -108,21 +108,21 @@
             <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
                 <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer"
                     id="phase1Section">
-                    <span class="px-2 text-lg font-bold font-mono">PHASE-I</span>
+                    <span class="px-2 text-lg font-bold ">PHASE-I</span>
                 </div>
             </div>
             {{-- PHASE II --}}
             <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
                 <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer "
                     id="phase2Section">
-                    <span class="px-2 text-lg font-bold font-mono">PHASE-II</span>
+                    <span class="px-2 text-lg font-bold ">PHASE-II</span>
                 </div>
             </div>
             {{-- PHASE III --}}
             <div class="w-full overflow-hidden rounded-lg shadow-xs  mb-6">
                 <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer"
                     id="phase3Section">
-                    <span class="px-2 text-lg font-bold font-mono">PHASE-III</span>
+                    <span class="px-2 text-lg font-bold ">PHASE-III</span>
                 </div>
             </div>
         </div>
@@ -137,7 +137,7 @@
                     <div class="bg-gray-100 rounded-md text-center shadow-sm">
                         <div class="shadow-xs overflow-x-auto w-[159vh]">
                             <table class="whitespace-no-wrap table-auto">
-                                <thead> <span class="text-xl font-semibold font-mono">Phase-I Marks</span>
+                                <thead> <span class="text-xl font-semibold ">Phase-I Marks</span>
                                     <tr
                                         class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                         <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
@@ -276,7 +276,7 @@
                     <div class="bg-gray-100 rounded-md text-center shadow-sm">
                         <div class="shadow-xs overflow-x-auto w-[159vh]">
                             <table class="whitespace-no-wrap table-auto">
-                                <thead> <span class="text-xl font-semibold font-mono">Phase-II Marks</span>
+                                <thead> <span class="text-xl font-semibold ">Phase-II Marks</span>
                                     <tr
                                         class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                         <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
@@ -416,7 +416,7 @@
                     <div class="bg-gray-100 rounded-md text-center shadow-sm">
                         <div class="shadow-xs overflow-x-auto w-[159vh]">
                             <table class="whitespace-no-wrap table-auto">
-                                <thead> <span class="text-xl font-semibold font-mono">Phase-III Marks</span>
+                                <thead> <span class="text-xl font-semibold ">Phase-III Marks</span>
                                     <tr
                                         class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                         <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
@@ -570,14 +570,14 @@
                 <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
                     <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer"
                         id="project1Section">
-                        <span class="px-2 text-lg font-bold font-mono">PROJECT-I</span>
+                        <span class="px-2 text-lg font-bold ">PROJECT-I</span>
                     </div>
                 </div>
                 {{-- Project II toggle --}}
                 <div class="w-full overflow-hidden rounded-lg shadow-xs mb-6">
                     <div class="bg-lime-200 hover:bg-lime-300 rounded-md text-center py-2 text-gray-800 shadow-sm cursor-pointer "
                         id="project2Section">
-                        <span class="px-2 text-lg font-bold font-mono">PROJECT-II</span>
+                        <span class="px-2 text-lg font-bold ">PROJECT-II</span>
                     </div>
                 </div>
             </div>
@@ -589,7 +589,7 @@
                         <div class="bg-gray-100 rounded-md text-center shadow-sm pb-3">
                             <div class="shadow-xs  w-full">
                                 <table class=" table-auto">
-                                    <thead> <span class="text-xl font-semibold font-mono">PROJECT-I Results</span>
+                                    <thead> <span class="text-xl font-semibold ">PROJECT-I Results</span>
                                         <tr
                                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                             <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>
@@ -656,7 +656,7 @@
                         <div class="bg-gray-100 rounded-md text-center shadow-sm pb-3">
                             <div class="shadow-xs  w-full">
                                 <table class=" table-auto">
-                                    <thead> <span class="text-xl font-semibold font-mono">PROJECT-II Results</span>
+                                    <thead> <span class="text-xl font-semibold ">PROJECT-II Results</span>
                                         <tr
                                             class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                                             <th class="px-3 py-3 whitespace-normal text-center">Student ID</th>

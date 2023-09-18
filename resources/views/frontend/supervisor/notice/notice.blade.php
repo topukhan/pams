@@ -7,7 +7,7 @@
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('supervisor.dashboard')}}" class="hover:text-gray-900 hover:dark:text-white">Dashboard</a>
                 </li>
                 <li class="mr-3">/</li>
                 <li>
@@ -60,9 +60,7 @@
                     </div>
                 </div>
             @endif
-            <div class="max-w-3xl mx-auto  p-8 bg-white rounded-lg shadow-lg dark:bg-gray-800">
-
-
+            <div class="max-w-3xl mx-auto  p-8 mb-8 bg-white rounded-lg shadow-xl dark:bg-gray-800">
                 <form action="{{ route('supervisor.noticeStore') }}" method="POST" enctype="multipart/form-data">
 
                     @csrf
@@ -70,9 +68,9 @@
                         <label for="title" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Project Title:
                         </label>
-                        <div class="relative ">
+                        <div class="relative shadow-md">
                             <select required name="title" id="title"
-                                class="block appearance-none w-full bg-white dark:bg-gray-700 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:bg-white focus:border-blue-500">
+                                class="dark:text-gray-400 block appearance-none w-full bg-white dark:bg-gray-700 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:bg-white focus:border-blue-500">
                                 <option value="" hidden>select</option>
                                 @foreach ($projects as $project)
                                     <option value="{{ $project->group_id }}">{{ $project->title }}</option>
@@ -93,32 +91,34 @@
                         <label for="notice" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Notice:
                         </label>
-                        {{-- <textarea id="notice" name="notice" rows="3" 
-                            class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"></textarea> --}}
 
-                        <textarea id="myTextarea" name="notice" class="w-full h-40 border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></textarea>
+                        <div class="shadow-lg">
+                            <textarea id="myTextarea" name="notice"
+                                class="w-full h-40 border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></textarea>
+
+                        </div>
                         <x-input-error :messages="$errors->get('notice')" class="mt-2 " />
                     </div>
                     <div class="mb-4 flex flex-wrap">
                         <div id="fileInputs" class="w-full md:w-1/2 mb-2 md:mb-0">
-                            <span class="mx-2 text-gray-600 text-xs">file of type: pdf, doc, docx</span>
-                            <input type="file" name="file[]" multiple class="mb-2 p-2 bg-gray-100 rounded-md block">
-                            
+                            <span class="mx-2 text-gray-600 dark:text-gray-300 text-xs">file of type: pdf, doc, docx</span>
+                            <input type="file" name="file[]" multiple class="mb-3 p-2 bg-gray-100 rounded-md block shadow-lg">
+
                         </div>
                         @error('file.*')
                             <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
                         @enderror
-                        <div class="w-full md:w-1/2">
+                        <div class="w-full md:w-1/2 ">
                             <button type="button" id="addFileInputBtn"
-                                class="mb-2 flex items-center px-3 py-2 rounded-md border dark:border-gray-600 dark:text-gray-200 bg-gray-500 hover:bg-gray-600 text-white focus:outline-none focus:ring focus:border-blue-600">
+                                class="shadow-lg mb-2 flex items-center px-3 py-2 rounded-md border dark:border-gray-600 dark:text-gray-200 bg-gray-500 hover:bg-gray-600 text-white focus:outline-none focus:ring focus:border-blue-600">
                                 <i class='bx bx-plus-circle text-2xl mr-2'></i>
                                 <span>Add More</span>
                             </button>
                         </div>
                     </div>
-                    <div class="mb-6">
+                    <div class="mb-6 flex justify-end">
                         <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                            class="px-8 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                             Post
                         </button>
                     </div>
@@ -138,7 +138,7 @@
             const newFileInput = document.createElement('input');
             newFileInput.type = 'file';
             newFileInput.name = 'file[]';
-            newFileInput.classList.add('mb-2', 'p-2', 'bg-gray-100', 'rounded-md', 'block');
+            newFileInput.classList.add('mb-2', 'p-2', 'bg-gray-100', 'rounded-md', 'block', 'shadow-lg');
             newFileInput.setAttribute('multiple', 'multiple');
 
             const removeButton = document.createElement('button');

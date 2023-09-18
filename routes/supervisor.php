@@ -32,6 +32,9 @@ Route::middleware(['SupervisorAuth'])->group(function () {
     // Project Report 
     Route::get('/supervisor/projectReports', [SupervisorController::class, 'projectReportList'])->name('supervisor.projectReportList');
     Route::get('/supervisor/projectReportDetail/{project_report}', [SupervisorController::class, 'projectReportDetails'])->name('supervisor.projectReportDetails');
+    // Assistance and change password
+    Route::get('/supervisor/assistance', [SupervisorController::class, 'assistance'])->name('supervisor.assistance');
+    Route::get('/supervisor/changePassword', [SupervisorController::class, 'changePassword'])->name('supervisor.changePassword');
     // Notice
     Route::get('/supervisor/notice', [NoticeController::class, 'create'])->name('supervisor.noticeCreate');
     Route::post('/supervisor/noticeStore', [NoticeController::class, 'store'])->name('supervisor.noticeStore');

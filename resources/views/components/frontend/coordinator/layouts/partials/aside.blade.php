@@ -48,46 +48,32 @@
 
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('coordinator.requests')}}">
+                            <a class="w-full" href="{{ route('coordinator.requests') }}">
                                 Group Requests
                             </a>
                         </li>
                         <li
                             class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                            <a class="w-full" href="{{ route('coordinator.proposalList')}}">
+                            <a class="w-full" href="{{ route('coordinator.proposalList') }}">
                                 Project Proposals
                             </a>
                         </li>
                     </ul>
                 </template>
             </li>
-                                    
-            {{-- Requests Task --}}
+
+            {{-- Notice --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="{{ route('coordinator.requests')}}">
-                    <i class='bx bx-task text-2xl'></i>
-                    <span class="ml-4">Requests</span>
-                </a>
-            </li>
-            {{-- Notice--}}
-            <li class="relative px-6 py-3">
-                <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="{{ route('coordinator.noticeCreate')}}">
+                    href="{{ route('coordinator.noticeCreate') }}">
                     <i class='bx bx-task text-2xl'></i>
                     <span class="ml-4">Post a Notice</span>
                 </a>
             </li>
-            <li class="relative px-6 py-3">
-                <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="">
-                    <i class='bx bx-task text-2xl'></i>
-                    <span class="ml-4">Assign Task</span>
-                </a>
-            </li>
+            
 
             {{-- Follow ups --}}
-            <li class="relative px-6 py-3">
+            {{-- <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                     href="forms.html">
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
@@ -98,11 +84,11 @@
                     </svg>
                     <span class="ml-4">Follow Ups</span>
                 </a>
-            </li>
+            </li> --}}
             {{-- Assistance --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{ route('coordinator.assistance') }}">
                     <i class='bx bx-support text-2xl'></i>
                     <span class="ml-4">Assistance</span>
                 </a>
@@ -110,7 +96,7 @@
             {{-- Change Password --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                    href="forms.html">
+                    href="{{ route('coordinator.changePassword') }}">
                     <i class='bx bx-lock-open text-2xl'></i>
                     <span class="ml-4">Change Password</span>
                 </a>
@@ -173,7 +159,7 @@
         </ul>
         <ul>
             {{-- Groups  --}}
-            
+
             {{-- Assign Task --}}
             <li class="relative px-6 py-3">
                 <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"

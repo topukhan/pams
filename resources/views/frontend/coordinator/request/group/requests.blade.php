@@ -135,7 +135,7 @@
 
             </div>
         @else
-            <h1 style='text-align:center'>No Requests Yet!</h1>
+            <h1 class="dark:text-gray-300 text-center">No Requests Yet!</h1>
         @endif
     </div>
 </x-frontend.coordinator.layouts.master>

@@ -16,7 +16,7 @@
             <form method="POST" action="{{ route('supervisor.authenticate') }}" class="space-y-6">
                 @csrf
                 <div>
-                    <label for="email" class="block text-left text-md font-medium leading-6 font-mono text-gray-900">Email
+                    <label for="email" class="block text-left text-md font-medium leading-6  text-gray-900">Email
                         address</label>
                     <div class="mt-2">
                         <input id="email" name="email" placeholder="Enter email" type="email" :value="old('email')" autofocus
@@ -28,7 +28,7 @@
 
                 <div>
                     <div class="flex items-center justify-between">
-                        <label for="password" class="block text-left text-md font-medium leading-6 font-mono text-gray-900">Password</label>
+                        <label for="password" class="block text-left text-md font-medium leading-6  text-gray-900">Password</label>
                         <div class="text-sm">
                             <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot
                                 password?</a>

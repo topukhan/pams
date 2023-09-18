@@ -1,4 +1,4 @@
-<x-frontend.student.layouts.master>
+<x-frontend.supervisor.layouts.master>
 
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
@@ -8,11 +8,11 @@
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{ route('student.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                    <a href="{{ route('supervisor.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
                 <li>
-                    <a href="{{ route('student.assistance') }}" class="text-gray-900 dark:text-white"> Assistance </a>
+                    <a href="{{ route('supervisor.assistance') }}" class="text-gray-900 dark:text-white"> Assistance </a>
                 </li>
             </ol>
         </div>
@@ -44,4 +44,4 @@
         </div>
     </div>
 
-</x-frontend.student.layouts.master>
+</x-frontend.supervisor.layouts.master>

@@ -14,7 +14,6 @@ class CoordinatorController extends Controller
 
     public function noticeStore(Request $request)
     {
-        // dd($request->all());
         $id = Auth::guard('coordinator')->user()->id;
         $request->validate([
             'notice' => 'required',
@@ -33,17 +32,17 @@ class CoordinatorController extends Controller
             }
         }
         try {
-        DB::beginTransaction();
-        $notice = Notice::create([
-            'title' => $request->title,
-            'user_id' => $id,
-            'notice' => $request->notice,
-            'phase1' => $phases['phase1'],
-            'phase2' => $phases['phase2'],
-            'phase3' => $phases['phase3'],
-            'date' => $request->formatted_date,
-            'time' => $request->formatted_time,
-        ]);
+            DB::beginTransaction();
+            $notice = Notice::create([
+                'title' => $request->title,
+                'user_id' => $id,
+                'notice' => $request->notice,
+                'phase1' => $phases['phase1'],
+                'phase2' => $phases['phase2'],
+                'phase3' => $phases['phase3'],
+                'date' => $request->formatted_date,
+                'time' => $request->formatted_time,
+            ]);
             if ($request->hasFile('file')) {
                 foreach ($request->file('file') as $file) {
                     $filename = uniqid() . '_' . $file->getClientOriginalName();
@@ -55,12 +54,23 @@ class CoordinatorController extends Controller
                 }
             }
             DB::commit();
-            
+
             return redirect()->back()->withMessage('Notice created successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Error creating notice: ' . $e->getMessage());
         }
+    }
 
+    // Assistance
+    public function assistance()
+    {
+        return view('frontend.coordinator.aside.assistance');
+    }
+
+    // Change Password
+    public function changePassword()
+    {
+        return view('frontend.coordinator.aside.changePassword');
     }
 }

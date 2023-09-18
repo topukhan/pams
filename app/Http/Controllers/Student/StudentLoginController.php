@@ -40,7 +40,6 @@ class StudentLoginController extends Controller
 
         if (Auth::guard('student')->attempt($credentials, $request->remember)) {
             // Authentication passed...
-            // Auth::shouldUse('student');
             return redirect()->intended(route('student.dashboard'));
         }
 

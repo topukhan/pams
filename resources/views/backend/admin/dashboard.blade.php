@@ -64,7 +64,7 @@
                 <!-- Card -->
                 <div class="p-4 bg-white rounded-lg shadow-xl  dark:bg-gray-800">
                     <div
-                        class="p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
+                        class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
                         <i class='bx bxs-cog text-2xl'></i>
                     </div>
 
@@ -82,7 +82,7 @@
                 <!-- Card -->
                 <div class="p-4 bg-white rounded-lg shadow-xl  dark:bg-gray-800">
                     <div
-                        class="p-3 mb-4 w-12 mx-auto text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
+                        class="flex items-center justify-center p-3 mb-4 w-12 mx-auto text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
                         <i class='bx bxs-help-circle text-2xl'></i>
 
                     </div>

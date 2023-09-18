@@ -197,4 +197,16 @@ class SupervisorController extends Controller
     {
         return view('frontend.supervisor.project.projectReportDetails', compact('project_report'));
     }
+
+    // Assistance
+    public function assistance()
+    {
+        return view('frontend.supervisor.aside.assistance');
+    }
+
+    // Change Password
+    public function changePassword()
+    {
+        return view('frontend.supervisor.aside.changePassword');
+    }
 }

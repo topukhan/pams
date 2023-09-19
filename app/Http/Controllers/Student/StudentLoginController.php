@@ -67,16 +67,19 @@ class StudentLoginController extends Controller
         $notices = Notice::where('group_id', $group_id)->get();
         ////////////////////////////////////////
         $coordinator_id = User::where('role', 'coordinator')->value('id');
-        $phase = $project->phase;
         $filtered_notices_ids = [];
-        $coordinator_notices = Notice::where('user_id', $coordinator_id)->get();
-        foreach ($coordinator_notices as $notice) {
-            if ($phase != 'completed') {
-                if ($notice->$phase == 1) {
-                    $filtered_notices_ids[] = $notice->id;
+        if ($project) {
+            $phase = $project->phase;
+            $coordinator_notices = Notice::where('user_id', $coordinator_id)->get();
+            foreach ($coordinator_notices as $notice) {
+                if ($phase != 'completed') {
+                    if ($notice->$phase == 1) {
+                        $filtered_notices_ids[] = $notice->id;
+                    }
                 }
             }
         }
+
         $filtered_notices = Notice::whereIn('id', $filtered_notices_ids)->get();
 
         ///////////////////////////////////

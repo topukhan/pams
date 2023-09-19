@@ -240,11 +240,7 @@
                 @endif
             </div>
             <div>
-                <div class="px-6 py-8 ">
-                    <p>
-                        Here is some text with a <span data-tippy-content="Full Form of ABC - This is the detailed explanation of what ABC stands for.">ABC</span> abbreviation.
-                    </p>
-                </div>
+                
                 {{-- Notice --}}
                 <div
                     class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow-xl float-right dark:bg-gray-800">
@@ -307,7 +303,7 @@
                     @if (count($notices) == 0 and count($filtered_notices) == 0)
                         <div
                             class="mb-4 p-4  hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out flex items-center justify-center">
-                            <p class="text-xl p-2 font-medium  text-gray-700 dark:text-gray-400 text-center  ">NO
+                            <p class="text-sm p-2 font-medium  text-gray-700 dark:text-gray-400 text-center  ">NO
                                 NOTICES AT THIS MOMENT</p>
                         </div>
                     @endif

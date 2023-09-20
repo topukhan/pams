@@ -282,7 +282,7 @@ class CoordinatorRequestController extends Controller
         $group = Group::find($request->group_id);
         $proposal = ProjectProposal::find($request->proposal_id);
         $supervisor = User::find($proposal->supervisor_id);
-        $propose_again = OldTitle::where('group_id', $proposal->group_id)->exists();
+        $propose_again = OldTitle::where('group_id', $proposal->group_id)->first();
         $same_supervisor = OldTitle::where('group_id', $proposal->group_id)
         ->where('supervisor_id', $supervisor->id)
         ->exists();

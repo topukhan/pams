@@ -91,7 +91,7 @@ class AdminController extends Controller
         return redirect()->route('admin.addStudentForm')->withMessage("Student Added!");
     }
     //
-    // Add Student to Database table
+    // Add Supervisor to Database table
     public function addSupervisor(Request $request)
     {
         $request->validate([
@@ -101,7 +101,6 @@ class AdminController extends Controller
             'phone_number' => 'required',
             'faculty_id' => 'required',
             'designation' => 'required',
-            'availability' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ]);
@@ -122,8 +121,7 @@ class AdminController extends Controller
                 'user_id' => $user->id,
                 'faculty_id' => $request->faculty_id,
                 'designation' => $request->designation,
-                'availability' => $request->availability,
-                // 'domain' => $request->domain,
+                'availability' => false,
             ]);
             DB::commit();
         } catch (QueryException $e) {

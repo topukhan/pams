@@ -20,11 +20,11 @@
         <h2
             class="p-3 leading-tight text-blue-700 bg-blue-100  dark:bg-blue-700 dark:text-blue-100 font-bold text-center ">
             Project Proposal</h2>
-        @if ($propose_again)
+        @if (!$propose_again->isEmpty())
             <div class="bg-violet-100 container mx-auto mt-4 p-4 shadow-md  rounded-md ">
                 <div class="grid grid-cols-3 gap-4 mb-2">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Old Title:</span>
-                    <span class="col-span-2"> old title Lorem ipsum dolor sit amet</span>
+                    <span class="col-span-2"> {{ $propose_again->old_title }}</span>
                 </div>
                 @if (!$same_supervisor)
                     <div class="grid grid-cols-3 gap-4  mb-2">

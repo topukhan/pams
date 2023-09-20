@@ -235,52 +235,7 @@
                         </div>
                     </div>
 
-                    {{-- Expertise Area --}}
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/4">
-                            <label
-                                class="block text-gray-600 dark:text-gray-300 font-semibold md:text-left mb-3 md:mb-0 pr-4"
-                                for="domain">
-                                Expertise Area
-                            </label>
-                        </div>
-                        <div class="md:w-3/4">
-                            <select name="domain"
-                                class="form-select block w-full focus:bg-white bg-gray-100 rounded-md border-none text-gray-500 dark:bg-gray-700 dark:text-gray-600"
-                                id="domain">
-                                <option value="0" selected disabled>select Area</option>
-                                @foreach ($domains as $domain)
-                                    <option value="{{ $domain->name }}">{{ $domain->name }}</option>
-                                @endforeach
-
-                            </select>
-                            <x-input-error :messages="$errors->get('domain')" class="mt-2" />
-                        </div>
-                    </div>
-
-                    {{-- Availability --}}
-                    <div class="md:flex mb-6">
-                        <div class="md:w-1/4">
-                            <span class="text-gray-700 font-semibold dark:text-gray-300">
-                                Availability :
-                            </span>
-                        </div>
-                        <div class="md:w-3/4 pl-5">
-                            <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-                                <input type="radio"
-                                    class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray dark:bg-gray-700 border-separate"
-                                    name="availability" value="1" />
-                                <span class="ml-2 ">Yes</span>
-                            </label>
-                            <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                                <input type="radio"
-                                    class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray dark:bg-gray-700 border-separate"
-                                    name="availability" value="0" />
-                                <span class="ml-2 ">No</span>
-                            </label>
-                            <x-input-error :messages="$errors->get('availability')" class="mt-2" />
-                        </div>
-                    </div>
+                    
 
                     {{-- Email  --}}
                     <div class="md:flex mb-6">

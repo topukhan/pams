@@ -50,7 +50,7 @@
 
 
                 {{-- profile Edit form  --}}
-                <form action="{{route('supervisor.profileUpdate', ['id' => session('supervisorUser')->id])}}"
+                <form action="{{ route('supervisor.profileUpdate', ['id' => session('supervisorUser')->id]) }}"
                     method="post">
                     @csrf
                     @method('patch')
@@ -60,31 +60,36 @@
                         </label>
                         <div class="col-span-2 space-y-2 space-x-4">
                             <label class="inline-flex items-center">
-                                <input {{$user->supervisor->availability == 1 ? 'checked' : ''}}  type="radio" name="availability" value="1" class="form-radio">
+                                <input {{ $user->supervisor->availability == 1 ? 'checked' : '' }} type="radio"
+                                    name="availability" value="1" class="form-radio">
                                 <span class="ml-2">Yes</span>
                             </label>
                             <label class="inline-flex items-center">
-                                <input {{$user->supervisor->availability == 0 ? 'checked' : ''}} type="radio" name="availability" value="0" class="form-radio">
+                                <input {{ $user->supervisor->availability == 0 ? 'checked' : '' }} type="radio"
+                                    name="availability" value="0" class="form-radio">
                                 <span class="ml-2">No</span>
                             </label>
                             <x-input-error :messages="$errors->get('availability')" class="mt-2" />
                         </div>
                     </div>
-                    
 
-                    
+
+
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <label class="text-gray-700 font-bold mb-2 col-span-1 self-center">Domain:</label>
                         <div class="col-span-2">
                             @foreach ($domains as $domain)
                                 <label class="inline-flex items-center">
-                                    <input type="checkbox" name="domain[]" value="{{ $domain->id }}" class="form-checkbox domain-checkbox"
+                                    <input type="checkbox" name="domain[]" value="{{ $domain->id }}"
+                                        class="form-checkbox domain-checkbox"
                                         @if (in_array($domain->name, $selectedDomains->toArray())) checked @endif>
-                                    <span class="ml-2 @if (in_array($domain->name, $selectedDomains->toArray())) font-semibold @else opacity-70 @endif">{{ $domain->name }}</span>
+                                    <span
+                                        class="ml-2 @if (in_array($domain->name, $selectedDomains->toArray())) font-semibold @else opacity-90 @endif">{{ $domain->name }}</span>
                                 </label>
                                 <br>
                             @endforeach
-                            <div class="text-sm mb-4 text-red-600 " style="display: none" id="maxDomainMessage">You can select up
+                            <div class="text-sm mb-4 text-red-600 " style="display: none" id="maxDomainMessage">You can
+                                select up
                                 to 3 domains.</div>
                             <x-input-error :messages="$errors->get('domain')" class="mt-2" />
                         </div>
@@ -95,7 +100,7 @@
                         </button>
                         <button type="submit"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-bold mt-4 py-2 px-4 rounded">
-                            <a href="{{route('supervisor.profile')}}">Cancel</a>
+                            <a href="{{ route('supervisor.profile') }}">Cancel</a>
                         </button>
                     </div>
                 </form>
@@ -108,7 +113,7 @@
                 <div class="px-5">
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <span class="text-gray-700 font-bold mb-2 col-span-1">Faculty ID:</span>
-                        <span class="col-span-2">{{  session('supervisorUser')->supervisor->faculty_id }}</span>
+                        <span class="col-span-2">{{ session('supervisorUser')->supervisor->faculty_id }}</span>
 
                     </div>
                     <div class="grid grid-cols-3 gap-4 mb-4">
@@ -117,7 +122,7 @@
                     </div>
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <span class="text-gray-700 font-bold mb-2 col-span-1">Last Name:</span>
-                        <span class="col-span-2">{{session('supervisorUser')->last_name }}</span>
+                        <span class="col-span-2">{{ session('supervisorUser')->last_name }}</span>
                     </div>
                     <div class="grid grid-cols-3 gap-4 mb-4">
                         <span class="text-gray-700 font-bold mb-2 col-span-1">Email:</span>
@@ -136,10 +141,10 @@
                         <span class="col-span-2">{{ session('supervisorUser')->supervisor->designation }}</span>
                     </div>
 
+                </div>
             </div>
-        </div>
 
-         <script>
+            {{-- <script>
             const checkboxes = document.querySelectorAll('.domain-checkbox');
             const maxSelection = 3;
             const maxDomainMessage = document.getElementById('maxDomainMessage');
@@ -177,14 +182,14 @@
 
             // Call the function initially to update styles and message on page load
             updateLabelStyles();
-        </script>
+        </script> --}}
 
-        <script>
-            function dismissAlert() {
-                var alert = document.getElementById('alert');
-                alert.style.display = 'none';
-            }
-        </script> 
+            <script>
+                function dismissAlert() {
+                    var alert = document.getElementById('alert');
+                    alert.style.display = 'none';
+                }
+            </script>
 
 
 

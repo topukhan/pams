@@ -7,7 +7,8 @@
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
                 <li class="flex mr-3">
-                    <a href="{{ route('supervisor.dashboard')}}" class="hover:text-gray-900 hover:dark:text-white">Dashboard</a>
+                    <a href="{{ route('supervisor.dashboard') }}"
+                        class="hover:text-gray-900 hover:dark:text-white">Dashboard</a>
                 </li>
                 <li class="mr-3">/</li>
                 <li>
@@ -64,7 +65,7 @@
                 <form action="{{ route('supervisor.noticeStore') }}" method="POST" enctype="multipart/form-data">
 
                     @csrf
-                    <div class="mb-3">
+                    <div>
                         <label for="title" class="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300">
                             Project Title:
                         </label>
@@ -94,15 +95,17 @@
 
                         <div class="shadow-lg">
                             <textarea id="myTextarea" name="notice"
-                                class="w-full h-40 border rounded-lg p-2 focus:ring-2 focus:ring-blue-500"></textarea>
+                                class="w-full h-40 border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500" placeholder="notice content..."></textarea>
 
                         </div>
                         <x-input-error :messages="$errors->get('notice')" class="mt-2 " />
                     </div>
                     <div class="mb-4 flex flex-wrap">
                         <div id="fileInputs" class="w-full md:w-1/2 mb-2 md:mb-0">
-                            <span class="mx-2 text-gray-600 dark:text-gray-300 text-xs">file of type: pdf, doc, docx</span>
-                            <input type="file" name="file[]" multiple class="mb-3 p-2 bg-gray-100 rounded-md block shadow-lg">
+                            <span class="mx-2 text-gray-600 dark:text-gray-300 text-xs">file of type: pdf, doc, docx,
+                                txt, jpg, png</span>
+                            <input type="file" name="file[]" multiple
+                                class="mb-3 p-2 bg-gray-100 rounded-md block shadow-lg">
 
                         </div>
                         @error('file.*')
@@ -110,7 +113,7 @@
                         @enderror
                         <div class="w-full md:w-1/2 ">
                             <button type="button" id="addFileInputBtn"
-                                class="shadow-lg mb-2 flex items-center px-3 py-2 rounded-md border dark:border-gray-600 dark:text-gray-200 bg-gray-500 hover:bg-gray-600 text-white focus:outline-none focus:ring focus:border-blue-600">
+                                class="shadow-lg my-5 flex items-center px-3 py-2 rounded-md border dark:border-gray-600 dark:text-gray-200 bg-gray-500 hover:bg-gray-600 text-white focus:outline-none focus:ring focus:border-blue-600">
                                 <i class='bx bx-plus-circle text-2xl mr-2'></i>
                                 <span>Add More</span>
                             </button>
@@ -161,7 +164,7 @@
 
 
     <!-- Initialize TinyMCE -->
-    <script>
+    {{-- <script>
         tinymce.init({
             selector: '#myTextarea',
             plugins: 'autolink lists link image charmap print preview',
@@ -176,7 +179,7 @@
             toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image',
             skin: 'oxide',
         });
-    </script>
+    </script> --}}
 
 
 

@@ -45,12 +45,12 @@
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">03 August 2023</p>
+                                        <p class="font-semibold">25 September 2023</p>
                                     </div>
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center text-sm">
-                                        <p class="font-semibold">09.00 AM - 10:00 AM </p>
+                                        <p class="font-semibold">03.00 AM - 05:00 PM </p>
                                     </div>
                                 </td>
 
@@ -62,34 +62,7 @@
                                         </button></a>
                                 </td>
                             </tr>
-                            <tr class="text-gray-700 dark:text-gray-400">
-                                <td class="px-4 py-3 text-sm">
-                                    2
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center text-sm">
-                                        <p class="font-semibold">Offense </p>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center text-sm">
-                                        <p class="font-semibold">05 August 2033</p>
-                                    </div>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center text-sm">
-                                        <p class="font-semibold">09.00 AM - 10:00 AM </p>
-                                    </div>
-                                </td>
-
-                                <td class="px-4 py-3 text-xs">
-                                    <a href="{{route('student.upcomingEventDetails')}}">
-                                        <button 
-                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                            view
-                                        </button></a>
-                                </td>
-                            </tr>
+                           
 
                         </tbody>
                     </table>

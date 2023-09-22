@@ -9,7 +9,7 @@
                     <a href="{{ route('coordinator.dashboard') }}" class="hover:text-gray-900">Dashboard</a>
                 </li>
                 <li class="mr-3">/ </li>
-                <li class="flex mr-3">Proposal List</li>
+                <li class="flex mr-3">Proposals </li>
                 <li class="mr-3">/ </li>
                 <li>
                     <a href="#" class="text-gray-900 dark:text-white">Details</a>
@@ -20,7 +20,7 @@
         <h2
             class="p-3 leading-tight text-blue-700 bg-blue-100  dark:bg-blue-700 dark:text-blue-100 font-bold text-center ">
             Project Proposal</h2>
-        @if (!$propose_again->isEmpty())
+        @if ($propose_again and !$propose_again->isEmpty())
             <div class="bg-violet-100 container mx-auto mt-4 p-4 shadow-md  rounded-md ">
                 <div class="grid grid-cols-3 gap-4 mb-2">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Old Title:</span>
@@ -72,8 +72,11 @@
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Group Name:</span>
                     <span class="col-span-2">{{ $group->name }}</span>
                 </div>
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="mb-4 flex justify-between">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Members:</span>
+                    <span class="col-span-2 text-gray-400">
+                        Requested at: {{ \Carbon\Carbon::parse($proposal->created_at)->addHours(6)->format('d-M-Y h:i A') }}
+                    </span>
                 </div>
                 <div class="w-full mt-2 overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto shadow-md">

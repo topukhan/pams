@@ -16,8 +16,7 @@
         </div>
 
         <div class="px-2 py-2 ">
-
-            @if (count($notices) > 0 or count($filtered_notices) > 0)
+            @if (($notices and !$notices->isEmpty()) or ($filtered_notices and !$filtered_notices->isEmpty()))
                 <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xl">
                     <div class="w-full overflow-x-auto shadow-lg">
                         <table class="w-full whitespace-no-wrap ">
@@ -30,7 +29,7 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                                @if ($filtered_notices->count() > 0)
+                                @if ($filtered_notices)
                                     @php
                                         $filtered_notices = $filtered_notices->reverse(); // Reverse the order of the notices array
                                     @endphp
@@ -102,12 +101,14 @@
                         </table>
 
                     </div>
-                @else
-                    <div class="flex justify-center h-screen ">
-                        <div class="text-center">
-                            <h3 class="my-6 text-gray-600">No Notice</h3>
-                        </div>
+                </div>
+            @else
+                <div class="flex justify-center h-screen ">
+                    <div class="text-center">
+                        <h3 class="my-6 text-gray-600">No Notice</h3>
                     </div>
                 </div>
             @endif
+        </div>
+    </div>
 </x-frontend.student.layouts.master>

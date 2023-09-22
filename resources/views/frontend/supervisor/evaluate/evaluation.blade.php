@@ -144,7 +144,7 @@
                                         <th class="px-3 py-3 whitespace-normal text-center">Name</th>
                                         <th class="px-3 py-3 whitespace-normal text-center">Email</th>
                                         <th class="px-3 py-3 whitespace-normal text-center">Project Title</th>
-                                        {{-- <th class="px-3 py-3 whitespace-normal text-center">Supervisor</th> --}}
+                                        <th class="px-3 py-3 whitespace-normal text-center">Supervisor</th>
                                         <th class="px-3 py-3 whitespace-normal text-center">Examiner 1 Mark (100)</th>
                                         <th class="px-3 py-3 whitespace-normal text-center">Examiner 2 Mark (100)</th>
                                         <th class="px-3 py-3 whitespace-normal text-center">Examiner 3 Mark (100)</th>
@@ -175,10 +175,10 @@
                                             @if ($index === 0)
                                                 <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold "
                                                     rowspan="{{ count($members) }}">{{ $project->title }}</td>
-                                                {{-- <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold"
-                                            rowspan="{{ count($members) }}">
-                                            {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
-                                        </td> --}}
+                                                <td class="px-4 py-3 text-sm whitespace-normal text-center font-semibold"
+                                                    rowspan="{{ count($members) }}">
+                                                    {{ $supervisor->first_name . ' ' . $supervisor->last_name }}
+                                                </td>
                                             @endif
                                             <td>
                                                 @php

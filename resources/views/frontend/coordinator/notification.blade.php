@@ -13,6 +13,11 @@
                             <p class="text-gray-600 dark:text-gray-300">Topic: "{{ $notification->data['title'] }}"</p>
                             <p class="text-gray-600 dark:text-gray-300">Supervisor:
                                 "{{ $notification->data['supervisor_name'] }}"</p>
+                            <div class="flex justify-between">
+                                <p class="text-gray-600 dark:text-gray-300"></p>
+                                <span
+                                    class="text-gray-500">{{ \Carbon\Carbon::parse($notification->created_at)->addHours(6)->format('d-M-Y h:i A') }}</span>
+                            </div>
                         </a>
                         {{ $notification->markAsRead() }}
                     </div>
@@ -20,8 +25,8 @@
                     <div class="bg-white dark:bg-gray-800 rounded-lg p-4 mb-2 shadow-md">
                         <a
                             href="{{ route('coordinator.requestGroupMembersDetails', ['group' => $notification->data['group_id'], 'request' => $notification->data['request_id']]) }}">
-                            
-                                <h3 class="text-lg font-semibold dark:text-gray-300">A Group Requested To you</h3>
+
+                            <h3 class="text-lg font-semibold dark:text-gray-300">A Group Requested To you</h3>
                             <div class="flex justify-between">
                                 <p class="text-gray-600 dark:text-gray-300">View details</p>
                                 <span class="text-gray-500">{{ $notification->created_at }}</span>

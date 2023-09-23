@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             SupervisorSeeder::class,
             CoordinatorSeeder::class,
             DomainSeeder::class,
+            ProjectTypeSeeder::class,
+            AdminSeeder::class,
         ]);
     }
 }

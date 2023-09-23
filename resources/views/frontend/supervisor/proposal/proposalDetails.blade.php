@@ -67,8 +67,11 @@
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Group Name:</span>
                     <span class="col-span-2">{{ $group->name }}</span>
                 </div>
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="mb-4 flex justify-between">
                     <span class="text-gray-700 font-bold mb-2 col-span-1">Members:</span>
+                    <span class="col-span-2 text-gray-400">
+                        Requested at: {{ \Carbon\Carbon::parse($proposal->created_at)->addHours(6)->format('d-M-Y h:i A') }}
+                    </span>
                 </div>
                 <div class="w-full mt-2 overflow-hidden rounded-lg shadow-xs">
                     <div class="w-full overflow-x-auto shadow-md">

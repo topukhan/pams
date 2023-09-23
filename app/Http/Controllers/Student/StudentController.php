@@ -103,7 +103,6 @@ class StudentController extends Controller
     //Proposal Store in db
     public function storeProposalForm(Request $request)
     {
-           dd($request->all());
         $request->validate([
             'title' => 'required',
             'course' => 'required',

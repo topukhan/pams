@@ -30,7 +30,7 @@ class NoticeController extends Controller
         $request->validate([
             'notice' => 'required',
             'title' => 'required',
-            'file.*' => 'nullable|file|mimes:pdf,doc,docx',
+            'file.*' => 'nullable|file|mimes:pdf,doc,docx,txt,jpg,jpeg,png',
         ]);
         try {
             DB::beginTransaction();
@@ -75,17 +75,21 @@ class NoticeController extends Controller
                 $group_id = GroupMember::where('user_id', $user->id)->value('group_id');
                 $project = Project::where('group_id', $group_id)->first();
                 $coordinator_id = User::where('role', 'coordinator')->value('id');
-                $phase = $project->phase;
+                $filtered_notices = null;
                 $filtered_notices_ids = [];
-                $coordinator_notices = Notice::where('user_id', $coordinator_id)->get();
-                foreach ($coordinator_notices as $notice) {
-                    if ($phase != 'completed') {
-                        if ($notice->$phase == 1) {
-                            $filtered_notices_ids[] = $notice->id;
+                if ($project) {
+                    $phase = $project->phase;
+                    $coordinator_notices = Notice::where('user_id', $coordinator_id)->get();
+                    foreach ($coordinator_notices as $notice) {
+                        if ($phase != 'completed') {
+                            if ($notice->$phase == 1) {
+                                $filtered_notices_ids[] = $notice->id;
+                            }
                         }
                     }
+                    $filtered_notices = Notice::whereIn('id', $filtered_notices_ids)->get();
                 }
-                $filtered_notices = Notice::whereIn('id', $filtered_notices_ids)->get();
+
 
                 $notices = Notice::where('group_id', $groupMember->group_id)->get();
                 return view('frontend.student.notice.noticeList', compact('notices', 'filtered_notices'));

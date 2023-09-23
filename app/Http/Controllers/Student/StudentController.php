@@ -423,14 +423,12 @@ class StudentController extends Controller
 
     public function reportStore(Request $request, Project $project)
     {
-
         $id = Auth::guard('student')->user()->id;
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'file.*' => 'nullable|file|mimes:pdf,doc,docx,txt,png,jpg,jpeg',
+            'file.*' => 'required|file|mimes:pdf,doc,docx,txt,png,jpg,jpeg',
         ]);
-
 
         try {
             DB::beginTransaction();

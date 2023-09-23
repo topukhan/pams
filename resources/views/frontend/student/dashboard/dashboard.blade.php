@@ -240,10 +240,9 @@
                 @endif
             </div>
             <div>
-                
                 {{-- Notice --}}
                 <div
-                    class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow-xl float-right dark:bg-gray-800">
+                    class="mb-8 py-4 px-6 h-[60vh] overflow-y-auto bg-white rounded shadow-xl float-right dark:bg-gray-800 w-full">
                     <h2 class="mb-2 font-medium text-gray-700 dark:text-gray-400">
                         Notice
                     </h2>
@@ -253,6 +252,7 @@
                         @php
                             $filtered_notices = $filtered_notices->reverse(); // Reverse the order of the notices array
                         @endphp
+                        {{-- coordinator notices --}}
                         @foreach ($filtered_notices as $notice)
                             <div
                                 class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">
@@ -280,6 +280,7 @@
                     @php
                         $notices = $notices->reverse(); // Reverse the order of the notices array
                     @endphp
+                    {{-- supervisor notices --}}
                     @foreach ($notices as $notice)
                         <div
                             class="mb-4 p-4 hover:bg-gray-100 bg-gray-50 rounded shadow-xl dark:bg-gray-700 dark:hover:bg-gray-800 transition duration-200 ease-in-out">

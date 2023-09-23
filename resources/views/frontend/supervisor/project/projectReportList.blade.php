@@ -1,7 +1,7 @@
 <x-frontend.supervisor.layouts.master>
     <div class="container px-6 mx-auto grid">
         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-            Groups </h2>
+            Project Reports </h2>
         {{-- breadcrumb --}}
         <div class="px-4 mb-4">
             <ol class="flex text-sm justify-end text-gray-500">
@@ -17,7 +17,7 @@
 
 
         {{-- table --}}
-        <div class="px-2 py-2 ">
+        <div class="px-2 py-2 overflow-x-auto">
             <div class="w-full mb-8 overflow-hidden rounded-lg shadow-xs">
                 <div class="w-full overflow-x-auto shadow-lg">
                     @if ($project_reports->count() != 0)
@@ -48,7 +48,8 @@
                                                 </td>
                                                 <td class="px-4 py-3">
                                                     <div class="flex items-center text-sm font-semibold">
-                                                        {{ strtoupper($project->title) }}</p>
+                                                       
+                                                        {{ strtoupper(substr($project->title, 0, 31)) }}...</p>
                                                     </div>
                                                 </td>
                                                 <td class="px-4 py-3">

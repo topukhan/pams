@@ -90,7 +90,7 @@
                     </div>
                     <div class="mb-4 flex flex-wrap">
                         <div id="fileInputs" class="w-full md:w-1/2 mb-2 md:mb-0">
-                            <input type="file" name="file[]" multiple class="mb-2 p-2 bg-gray-100 rounded-md block">
+                            <input type="file" name="file[]" multiple class="mb-2 p-2 bg-gray-100 rounded-md block" required>
                         </div>
                         @error('file.*')
                             <p class="text-red-600 text-sm mt-2">{{ $message }}</p>
@@ -126,6 +126,7 @@
                 newFileInput.name = 'file[]';
                 newFileInput.classList.add('mb-2', 'p-2', 'bg-gray-100', 'rounded-md', 'block');
                 newFileInput.setAttribute('multiple', 'multiple');
+                newFileInput.setAttribute('required', 'required');
 
                 const removeButton = document.createElement('button');
                 removeButton.type = 'button';

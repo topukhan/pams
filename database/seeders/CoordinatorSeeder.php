@@ -24,8 +24,8 @@ class CoordinatorSeeder extends Seeder
                 'department' => 'CSE',
                 'phone_number' => '01234567895',
                 'role' => 'coordinator',
-                'email' => '2191081040@uttarauniversity.edu.bd',
-                'password' => Hash::make('12341234')
+                'email' => 'coordinator@gmail.com',
+                'password' => Hash::make('12345678')
             ]);
 
             Coordinator::create([

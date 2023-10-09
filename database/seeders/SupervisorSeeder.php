@@ -22,51 +22,50 @@ class SupervisorSeeder extends Seeder
         try {
             $supervisors = [
                 [
-                    'first_name' => 'Tanjilla',
-                    'last_name' => 'Wahid',
-                    'department' => 'CSE',
-                    'role' => 'supervisor',
-                    'email' => '2192081040@uttarauniversity.edu.bd',
-                    'phone_number' => '01234567890',
-                    'password' => Hash::make('12341234'),
-                ],
-                [
                     'first_name' => 'Samia',
                     'last_name' => 'Yasmin',
                     'department' => 'CSE',
                     'role' => 'supervisor',
-                    'email' => '2192081041@uttarauniversity.edu.bd',
+                    'email' => 'supervisor1@gmail.com',
                     'phone_number' => '01234567891',
-                    'password' => Hash::make('12341234'),
+                    'password' => Hash::make('12345678'),
                 ],
                 [
                     'first_name' => 'Nasrin',
                     'last_name' => 'Tumpa',
                     'department' => 'CSE',
                     'role' => 'supervisor',
-                    'email' => '2192081042@uttarauniversity.edu.bd',
+                    'email' => 'supervisor2@gmail.com',
                     'phone_number' => '01234567892',
-                    'password' => Hash::make('12341234'),
+                    'password' => Hash::make('12345678'),
                 ],
                 [
                     'first_name' => 'Shahrukh',
                     'last_name' => 'Omar',
                     'department' => 'CSE',
                     'role' => 'supervisor',
-                    'email' => '2192081043@uttarauniversity.edu.bd',
+                    'email' => 'supervisor3@gmail.com',
                     'phone_number' => '01234567893',
-                    'password' => Hash::make('12341234'),
+                    'password' => Hash::make('12345678'),
                 ],
                 [
                     'first_name' => 'Naznin Hossain',
                     'last_name' => 'Esha',
                     'department' => 'CSE',
                     'role' => 'supervisor',
-                    'email' => '2192081044@uttarauniversity.edu.bd',
+                    'email' => 'supervisor4@gmail.com',
                     'phone_number' => '01234567894',
-                    'password' => Hash::make('12341234'),
+                    'password' => Hash::make('12345678'),
                 ],
-
+                [
+                    'first_name' => 'Tanjilla',
+                    'last_name' => 'Wahid',
+                    'department' => 'CSE',
+                    'role' => 'supervisor',
+                    'email' => 'supervisor5@gmail.com',
+                    'phone_number' => '01234567890',
+                    'password' => Hash::make('12345678'),
+                ],
                 // Add more supervisor data here
             ];
 

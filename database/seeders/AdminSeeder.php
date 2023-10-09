@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
                 'first_name' => "Mr",
                 'last_name' => 'Admin',
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('12341234'),
+                'password' => Hash::make('12345678'),
                 'phone_number' => '01234567895',
             ]);
         } catch (\Exception $e) {

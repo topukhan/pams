@@ -22,6 +22,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/guest', function () {
+    return view('welcome');
+})->name('guest');
+
 //Student login
 Route::get('/student/login', [StudentLoginController::class, 'showLoginForm'])->name('student.login');
 Route::post('/student/auth', [StudentLoginController::class, 'authenticate'])->name('student.authenticate');

@@ -45,25 +45,25 @@
                     </template>
                 </button>
             </li>
-           <!-- Notifications menu -->
-           <li class="relative  ">
-            <a class=" items-center  px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md "
-                href="{{ route('student.notifications') }}">
-                <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
-                    @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu"
-                    aria-label="Notifications" aria-haspopup="true">
-                    <span
-                        class="absolute bottom-auto left-auto -right-0.5 -top-0.5 z-10 inline-block -translate-y-1/2 translate-x-2/4 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 whitespace-nowrap rounded-full bg-red-600 px-1.5 py-0.5 text-center align-baseline text-xs font-bold leading-none text-white">
-                        {{ count(auth()->guard('student')->user()->unreadNotifications)}}
-                    </span>
-                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
-                        </path>
-                    </svg>
-                </button>
-            </a>
-        </li>
+            <!-- Notifications menu -->
+            <li class="relative  ">
+                <a class=" items-center  px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md "
+                    href="{{ route('student.notifications') }}">
+                    <button class="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
+                        @click="toggleNotificationsMenu" @keydown.escape="closeNotificationsMenu"
+                        aria-label="Notifications" aria-haspopup="true">
+                        <span
+                            class="absolute bottom-auto left-auto -right-0.5 -top-0.5 z-10 inline-block -translate-y-1/2 translate-x-2/4 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 whitespace-nowrap rounded-full bg-red-600 px-1.5 py-0.5 text-center align-baseline text-xs font-bold leading-none text-white">
+                            {{ count(auth()->guard('student')->user()->unreadNotifications) }}
+                        </span>
+                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+                            </path>
+                        </svg>
+                    </button>
+                </a>
+            </li>
 
             <!-- Profile menu -->
             <li class="relative">
@@ -72,13 +72,17 @@
                     <button class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
                         @click="toggleProfileMenu" @keydown.escape="closeProfileMenu" aria-label="Account"
                         aria-haspopup="true">
-                        
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" ><path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z" class=""></path></svg>
+
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"
+                                class=""></path>
+                        </svg>
                     </button>
                     <div class="p-3">
                         <p class="font-semibold">{{ ucfirst(session('studentUser')->role) }} </p>
                         <p class="text-xs text-gray-600 dark:text-gray-400">
-                            {{ session('studentUser')->first_name . ' ' . session('studentUser')->last_name }} 
+                            {{ session('studentUser')->first_name . ' ' . session('studentUser')->last_name }}
                         </p>
                     </div>
                 </div>
@@ -92,8 +96,7 @@
                             <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="{{ route('student.profile') }}">
                                 <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                    stroke="currentColor">
+                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                                     </path>
                                 </svg>
@@ -104,8 +107,7 @@
                             <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                    stroke="currentColor">
+                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                     <path
                                         d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
                                     </path>
@@ -114,7 +116,25 @@
                                 <span>Settings</span>
                             </a>
                         </li>
-                        
+                        <form method="POST" action="{{ route('student.logout') }}">
+                            @csrf
+                            <li class="flex" onclick="event.preventDefault();
+                            this.closest('form').submit();">
+                                <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                    href="#">
+                                    <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                                        </path>
+                                    </svg>
+                                    <span>Log out</span>
+                                </a>
+                            </li>
+                        </form>
+
+
                     </ul>
                 </template>
             </li>

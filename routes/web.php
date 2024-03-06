@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Coordinator\CoordinatorLoginController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\GuestLoginController;
 use App\Http\Controllers\Supervisor\SupervisorLoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Student\StudentLoginController;
@@ -22,9 +23,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
-Route::get('/guest', function () {
-    return view('welcome');
-})->name('guest');
+Route::post('/guest/student', [GuestLoginController::class, 'guestStudent'])->name('guest.student');
+Route::post('/guest/supervisor', [GuestLoginController::class, 'guestSupervisor'])->name('guest.supervisor');
+Route::post('/guest/coordinator', [GuestLoginController::class, 'guestCoordinator'])->name('guest.coordinator');
 
 //Student login
 Route::get('/student/login', [StudentLoginController::class, 'showLoginForm'])->name('student.login');

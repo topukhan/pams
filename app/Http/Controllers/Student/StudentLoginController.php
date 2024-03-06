@@ -37,7 +37,6 @@ class StudentLoginController extends Controller
         }
 
         $credentials = $request->only('email', 'password');
-
         if (Auth::guard('student')->attempt($credentials, $request->remember)) {
             // Authentication passed...
             return redirect()->intended(route('student.dashboard'));

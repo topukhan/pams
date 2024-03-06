@@ -38,9 +38,34 @@
                 Coordinator
             </a>
         </div>
+        <div class="flex sm:flex-row mt-4">
+            <div class="flex items-center space-x-1">
+                <div class="bg-emerald-700 text-white px-4 py-2 rounded">Login as Guest</div>
+                <form id="guestForm" method="POST" action="">
+                    @csrf
+                    <select name="guest" class="border border-gray-300 p-2 rounded" onchange="submitForm(this)">
+                        <option value="choose" class="text-gray-800">Choose</option>
+                        <option value="{{ route('guest.student') }}" class="text-gray-800">Student</option>
+                        <option value="{{ route('guest.supervisor') }}" class="text-gray-800">Supervisor</option>
+                        <option value="{{ route('guest.coordinator') }}" class="text-gray-800">Coordinator</option>
+                    </select>
+                </form>
+            </div>
+
+
+
+
+        </div>
     </div>
 
-
+    <script>
+        function submitForm(selectElement) {
+            const selectedValue = selectElement.value;
+            
+            document.getElementById('guestForm').action = selectedValue;
+            document.getElementById('guestForm').submit();
+        }
+    </script>
 </body>
 
 </html>

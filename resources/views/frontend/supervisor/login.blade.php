@@ -1,14 +1,14 @@
 <x-frontend.supervisor.layouts.partials.head />
 <div class="flex min-h-screen items-center justify-center px-6 py-12 bg-gray-100 lg:px-8">
-    <div class="bg-opacity-10 bg-white text-center backdrop-blur-md h-auto rounded-2xl p-6 w-4/12 shadow-2xl">
+    <div class="bg-opacity-10 bg-white text-center backdrop-blur-md h-auto rounded-2xl p-6 w-full md:w-4/5 lg:w-2/3 xl:w-1/2 shadow-2xl">
         <div class="mx-auto w-full max-mw-s">
             <a href="/">
-                <img class="mx-auto h-28 w-auto" src="{{ asset('ui/frontend/images/uu-logo-clear.png') }}"
+                <img class="mx-auto h-16 w-auto" src="{{ asset('ui/frontend/images/uu-logo-clear.png') }}"
                     alt="uttara university logo">
             </a>
-            <h2 class="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 whitespace-normal"> Project Allocation &
+            <h2 class="mt-4 text-center text-lg md:text-2xl font-bold leading-6 md:leading-9 tracking-tight whitespace-normal text-gray-900"> Project Allocation &
                 Management System (PAMS)</h2>
-            <h3 class="mt-4 text-center text-xl font-semibold leading-9 tracking-tight text-gray-900">Supervisor Account
+            <h3 class="mt-2 md:mt-4 text-center text-md md:text-xl font-semibold leading-6 md:leading-9 tracking-tight text-gray-900">Supervisor Account
                 Information</h3>
         </div>
 

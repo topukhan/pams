@@ -51,12 +51,22 @@
                     </select>
                 </form>
             </div>
-
-
-
-
         </div>
     </div>
+    <footer class="bg-gray-800 text-white py-4 text-center">
+        <div class="container mx-auto">
+            <p class="text-sm">
+                Developed by 
+                <a href="https://github.com/topukhan" target="_blank" class="text-indigo-400 hover:text-indigo-300 mx-1">
+                    Topu Khan
+                </a>
+                and 
+                <a href="https://github.com/rezwanakarim" target="_blank" class="text-indigo-400 hover:text-indigo-300 mx-1">
+                    Rezwana Karim
+                </a>
+            </p>
+        </div>
+    </footer>
 
     <script>
         function submitForm(selectElement) {

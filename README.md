@@ -50,4 +50,8 @@ This project is licensed under the [MIT license](https://opensource.org/licenses
 
 This readme provides a brief overview of the Project Allocation and Management System (PAMS). For more detailed instructions and information, refer to the project's documentation or contact the project owner.
 
+site url: https://uupams.com
+
 For casual discussions or questions, feel free to reach out!
+
+Knock me for a ride in the pams. [LinkedIn](https://www.linkedin.com/in/topukhan)

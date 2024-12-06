@@ -129,6 +129,15 @@ class StudentSeeder extends Seeder
                     'phone_number' => '01234567890',
                     'password' => Hash::make('12345678'),
                 ],
+                [
+                    'first_name' => 'Guest',
+                    'last_name' => 'Student',
+                    'department' => 'CSE',
+                    'role' => 'student',
+                    'email' => 'guest.student@gmail.com',
+                    'phone_number' => '01234567890',
+                    'password' => Hash::make('12345678'),
+                ],
                 // Add more user data here
             ];
 
@@ -201,6 +210,12 @@ class StudentSeeder extends Seeder
                 ],
                 [
                     'student_id' => '2193081051',
+                    'batch' => '49',
+                    'section' => 'B',
+                    'shift' => 'Day',
+                ],
+                [
+                    'student_id' => '2193081064',
                     'batch' => '49',
                     'section' => 'B',
                     'shift' => 'Day',

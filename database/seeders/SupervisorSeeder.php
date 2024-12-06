@@ -66,6 +66,15 @@ class SupervisorSeeder extends Seeder
                     'phone_number' => '01234567890',
                     'password' => Hash::make('12345678'),
                 ],
+                [
+                    'first_name' => 'Guest',
+                    'last_name' => 'Supervisor',
+                    'department' => 'CSE',
+                    'role' => 'supervisor',
+                    'email' => 'guest.supervisor@gmail.com',
+                    'phone_number' => '01234567890',
+                    'password' => Hash::make('12345678'),
+                ],
                 // Add more supervisor data here
             ];
 
@@ -87,11 +96,16 @@ class SupervisorSeeder extends Seeder
                 ],
                 [
                     'faculty_id' => '2192081043',
-                    'designation' => 'Associate Professo',
+                    'designation' => 'Associate Professor',
                     'availability' => false,
                 ],
                 [
                     'faculty_id' => '2192081044',
+                    'designation' => 'Instructor',
+                    'availability' => false,
+                ],
+                [
+                    'faculty_id' => '2192081045',
                     'designation' => 'Instructor',
                     'availability' => false,
                 ],

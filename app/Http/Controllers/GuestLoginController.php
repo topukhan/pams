@@ -65,7 +65,7 @@ class GuestLoginController extends Controller
         ]);
     }
     public function guestCoordinator(Request $request){
-        $coordinatorMail = 'guest.coordinator@gmail.com';
+        $coordinatorMail = 'coordinator@gmail.com';
         $password = '12345678';
 
         // Check if user has the role of "coordinator"
